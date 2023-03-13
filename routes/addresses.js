@@ -15,7 +15,8 @@ router.get('/', (req, res)=>{
             else{
                 console.log("get addresses successfull");
                 let rows = [];
-                for(let row of result[0]){
+                console.log( result);
+                for(let row of result){
                     rows.push(JSON.parse(JSON.stringify(row)))
                 }
                 res.status(200);

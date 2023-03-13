@@ -15,7 +15,7 @@ router.get('/', (req, res)=>{
             else{
                 console.log("get measurement_types successfull");
                 let rows = [];
-                for(let row of result[0]){
+                for(let row of result){
                     rows.push(JSON.parse(JSON.stringify(row)))
                 }
                 res.status(200);
