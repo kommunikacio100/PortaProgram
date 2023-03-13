@@ -1,4 +1,4 @@
--- Active: 1678652479984@@127.0.0.1@3306@weighing_db
+-- Active: 1677906231590@@127.0.0.1@3306@weighing_db
 USE WEIGHING_DB;
 SET autocommit = 1;
 
