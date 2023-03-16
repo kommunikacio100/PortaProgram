@@ -5,7 +5,8 @@ var con = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "",
-    database: "WEIGHING_DB"
+    database: "WEIGHING_DB",
+    multipleStatements: true
   });
   
   con.connect(function(err) {

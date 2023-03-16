@@ -65,32 +65,55 @@ router.get('/:user_id', (req, res)=>{
 // use: POST command http://127.0.0.1:3001/users 
 // a body egy json, ami tartalmazza a szükséges mezőket.
 router.post('/', (req, res)=>{
-    var sql = `CALL add_user( ?,?,?,?,?,?,?,?,?) `;
+    var sql = `SET @new_user_id = -1; SET @text_message = "";\n `+
+              `CALL add_user( ?,?,?,?,?,?,?,@new_user_id, @text_message); \n`+
+              `select @new_user_id, @text_message; `;
     let user_name = req.body.user_name;
     let user_password = req.body.user_password;
+    if (user_password == null) {
+        user_password =  req.body.user_pwd_hash;
+        sql = sql.replace("add_user(", "add_user_hash(" );
+    }
     let user_can_look_data = req.body.user_can_look_data;
     let user_can_edit_data = req.body.user_can_edit_data;
     let user_can_weighing = req.body.user_can_weighing;
     let user_can_edit_users = req.body.user_can_edit_users;
     let user_can_settings = req.body.user_can_settings;
     let user_created_by = req.body.user_created_by;
-    //var new_user_id;
-    //var error_text;
     try{
         con.query(sql, [user_name, user_password, user_can_look_data, user_can_edit_data, 
-                user_can_weighing, user_can_edit_users, user_can_settings, 
-                new_user_id, error_text], function (err, result) {
+                user_can_weighing, user_can_edit_users, user_can_settings], function (err, result) {
             if (err){
-                res.status(500)
-                res.json({error: "Cannot post new user"})
+                res.status(500);
+                res.json({error: "Cannot post new user"});
                 throw err;
             }
             else{
                 if (result.length>0){
-                    console.log("post new user successfull. user_id: " + result.new_user_id );
-                    console.log( result);
                     res.status(200);
-                    res.json(result[0]);
+                    for (let row of result) {
+                        if (row.length>0){
+                            for (let in_row of row) {
+                                console.log( 'in_row');
+                                if ( in_row["@new_user_id"] >0 ){
+                                    console.log("post new user successfull. user_id: " + in_row["@new_user_id"]);
+                                    in_row["status"]= "OK";
+                                    res.json(in_row);
+                                }else{
+                                    console.log(  'no id in in_row: ', JSON.stringify(in_row))
+                                }
+                            }
+                        }else{
+                            console.log( 'row');
+                            if ( row['@new_user_id'] >0 ){
+                                console.log("post new user successfull. user_id: " + row['@new_user_id']);
+                                row["status"]= "OK";
+                                res.json(row);
+                            }else{
+                                console.log(  'no id in row: ', JSON.stringify(row))
+                            }
+                        }
+                    }
                 }else{
                     res.status(200);
                     res.json({"status":"error", "text": "Can't create new user.", 
@@ -111,41 +134,68 @@ router.post('/', (req, res)=>{
     }
 });
 
-// use: POST command http://127.0.0.1:3001/users 
+// use: PUT command http://127.0.0.1:3001/users 
 // a body egy json, ami tartalmazza a szükséges mezőket.
 router.put('/', (req, res)=>{
-    var sql = `CALL update_user( ?,?,?,?,?,?,?,?,?,?) `;
+    var sql = `SET @text_message= "";\nSET @edit_user_id = -1;\n`+
+            `CALL update_user( ?,?,?,?,?,?,?,?,@edit_user_id, @text_message);\n`+
+            `Select @edit_user_id, @text_message;\n`;
     let user_id = req.body.user_id;
     let user_name = req.body.user_name;
     let user_password = req.body.user_password;
+    if (user_password == null) {
+        user_password =  req.body.user_pwd_hash;
+        sql = sql.replace("update_user(", "update_user_hash(" );
+    }
     let user_can_look_data = req.body.user_can_look_data;
     let user_can_edit_data = req.body.user_can_edit_data;
     let user_can_weighing = req.body.user_can_weighing;
     let user_can_edit_users = req.body.user_can_edit_users;
     let user_can_settings = req.body.user_can_settings;
     let user_created_by = req.body.user_created_by;
-    var new_user_id;
-    var error_text;
     try{
-        con.query(sql, [user_id, user_name, user_password, user_can_look_data, user_can_edit_data, 
-                user_can_weighing, user_can_edit_users, user_can_settings, 
-                new_user_id, error_text], function (err, result) {
+        con.query( sql, [user_id, user_name, user_password, user_can_look_data, user_can_edit_data, 
+                user_can_weighing, user_can_edit_users, user_can_settings], 
+                function (err, result) {
             if (err){
-                res.status(500)
-                res.json({error: "Cannot post new user"})
+                res.status(500);
+                res.json({error: "Cannot put user. user_id: "+ user_id});
                 throw err;
             }
             else{
                 if (result.length>0){
-                    console.log("post new user successfull. user_id: " + result.new_user_id );
-                    console.log( result);
                     res.status(200);
-                    res.json(result[0]);
+                    for (let row of result) {
+                        if (row.length>0){
+                            for (let in_row of row) {
+                                console.log( 'in_row');
+                                if ( in_row["@edit_user_id"] >0 ){
+                                    console.log("user update successfull. user_id: " + in_row["@edit_user_id"]);
+                                    in_row["status"]= "OK";
+                                    res.json(in_row);
+                                }else{
+                                    console.log(  'no id in in_row: ', JSON.stringify(in_row))
+                                }
+                            }
+                        }else{
+                            console.log( 'row');
+                            if ( row['@edit_user_id'] >0 ){
+                                console.log("user update successfull. user_id: " + row['@edit_user_id']);
+                                row["status"]= "OK";
+                                res.json(row);
+                            }else{
+                                console.log(  'no id in row: ', JSON.stringify(row))
+                            }
+                        }
+                    }
                 }else{
                     res.status(200);
-                    res.json({"status":"error", "text": "Can't create new user.", 
-                    "user_name": user_name, 
-                    "length": 0});
+                    res.json({
+                        "status":"error", 
+                        "text": "Can't update user.", 
+                        "user_id": user_id, 
+                        "length": 0
+                    });
                 }
             }
         });
@@ -165,7 +215,7 @@ router.delete('/:user_id', (req, res) => {
     var sql = `delete from users where user_id = ?`;
     let user_id = req.params.user_id;
     try{
-        con.query(sql, user_id, function (err, result) {
+        con.query(sql, [user_id], function (err, result) {
             if (err){
                 res.status(500)
                 res.json({ status: "error", error_text: "Cannot delete user_id = "+ user_id,
@@ -173,14 +223,14 @@ router.delete('/:user_id', (req, res) => {
                 throw err;
             }
             else{
-                if (result.length>0){
+                if (result != null){
                     console.log("delete user_id = "+ user_id +" successfull");
-
                     res.status(200);
+                    result["user_id"] = user_id;
                     res.json(result);
                 }else{
                     res.status(200);
-                    res.json({"status":"No user", "text": "There is no user with this id = "+ user_id, "length":0});
+                    res.json({"status":"error", "text": "There is no user with this id = "+ user_id, "length":0});
                 }
                 
             }
