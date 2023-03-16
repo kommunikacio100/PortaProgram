@@ -223,7 +223,7 @@ router.post('/', (req, res)=>{
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
-    var sql = `insert into addresses (address_id, address_to_table, and address_to_id, default_address, country_code, `+
+    var sql = `replace into addresses (address_id, address_to_table, and address_to_id, default_address, country_code, `+
         `zip_code, city, street_name, street_type, street_number, lot_number, dps_latitude, gps_longitude,`+
         ` address_created_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
