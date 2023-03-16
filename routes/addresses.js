@@ -229,7 +229,7 @@ router.put('/', (req, res)=>{
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     let address_id = req.body.address_id;
     let address_to_table = req.body.address_to_table;
-     let address_to_id = req.body.address_to_id;
+    let address_to_id = req.body.address_to_id;
     let default_address = req.body.default_address;
     let country_code = req.body.country_code;
     let zip_code = req.body.zip_code;
@@ -246,12 +246,12 @@ router.put('/', (req, res)=>{
                 street_type, street_number, lot_number, dps_latitude, gps_longitude, address_created_by], function (err, result) {
             if (err){
                 res.status(500)
-                res.json({error: "Cannot post new address"})
+                res.json({error: "Cannot put the address"})
                 throw err;
             }
             else{
                 if (result.length>0){
-                    console.log("post new address successfull. address_id: " + result.insertId );
+                    console.log("put address successfull. address_id: " + result.insertId );
                     console.log( result);
                     for(let row of result){
                         rows.push(JSON.parse(JSON.stringify(row)))
@@ -260,9 +260,8 @@ router.put('/', (req, res)=>{
                     res.json(rows);
                 }else{
                     res.status(200);
-                    res.json({"status":"No address", "text": "There is no address with this parameters", 
-                    "address_to_table": address_to_table, 
-                    "addres_to_id:": address_to_id, 
+                    res.json({"status":"No address", "text": "There is no address with this address_id", 
+                    "address_id": address_id, 
                     "length":0});
                 }
             }
@@ -271,8 +270,7 @@ router.put('/', (req, res)=>{
     }catch(e){
         console.error(e);
         res.status(500);
-        res.json({error: "Cannot get addresses with this parameters", "address_to_table": address_to_table, 
-        "addres_to_id:": address_to_id, "length":0});
+        res.json({error: "Cannot put address with id", "address_id": address_id });
     }
 })
 
