@@ -71,7 +71,7 @@ router.post('/', (req, res)=>{
     let user_name = req.body.user_name;
     let user_password = req.body.user_password;
     if (user_password == null) {
-        user_password =  req.body.user_pwd_hash;
+        user_password =  req.body.user_password_hash;
         sql = sql.replace("add_user(", "add_user_hash(" );
     }
     let user_can_look_data = req.body.user_can_look_data;
@@ -94,23 +94,23 @@ router.post('/', (req, res)=>{
                     for (let row of result) {
                         if (row.length>0){
                             for (let in_row of row) {
-                                console.log( 'in_row');
+                                //console.log( 'in_row');
                                 if ( in_row["@new_user_id"] >0 ){
                                     console.log("post new user successfull. user_id: " + in_row["@new_user_id"]);
                                     in_row["status"]= "OK";
                                     res.json(in_row);
                                 }else{
-                                    console.log(  'no id in in_row: ', JSON.stringify(in_row))
+                                    //console.log(  'no id in in_row: ', JSON.stringify(in_row))
                                 }
                             }
                         }else{
-                            console.log( 'row');
+                            //console.log( 'row');
                             if ( row['@new_user_id'] >0 ){
                                 console.log("post new user successfull. user_id: " + row['@new_user_id']);
                                 row["status"]= "OK";
                                 res.json(row);
                             }else{
-                                console.log(  'no id in row: ', JSON.stringify(row))
+                                //console.log(  'no id in row: ', JSON.stringify(row))
                             }
                         }
                     }
@@ -144,7 +144,7 @@ router.put('/', (req, res)=>{
     let user_name = req.body.user_name;
     let user_password = req.body.user_password;
     if (user_password == null) {
-        user_password =  req.body.user_pwd_hash;
+        user_password =  req.body.user_password_hash;
         sql = sql.replace("update_user(", "update_user_hash(" );
     }
     let user_can_look_data = req.body.user_can_look_data;
@@ -168,23 +168,23 @@ router.put('/', (req, res)=>{
                     for (let row of result) {
                         if (row.length>0){
                             for (let in_row of row) {
-                                console.log( 'in_row');
+                                //console.log( 'in_row');
                                 if ( in_row["@edit_user_id"] >0 ){
                                     console.log("user update successfull. user_id: " + in_row["@edit_user_id"]);
                                     in_row["status"]= "OK";
                                     res.json(in_row);
                                 }else{
-                                    console.log(  'no id in in_row: ', JSON.stringify(in_row))
+                                    //console.log(  'no id in in_row: ', JSON.stringify(in_row))
                                 }
                             }
                         }else{
-                            console.log( 'row');
+                            //console.log( 'row');
                             if ( row['@edit_user_id'] >0 ){
                                 console.log("user update successfull. user_id: " + row['@edit_user_id']);
                                 row["status"]= "OK";
                                 res.json(row);
                             }else{
-                                console.log(  'no id in row: ', JSON.stringify(row))
+                                //console.log(  'no id in row: ', JSON.stringify(row))
                             }
                         }
                     }

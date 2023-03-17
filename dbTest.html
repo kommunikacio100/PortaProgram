@@ -16,28 +16,44 @@
 </head>
 <body>
     <div class="container">
+        <h3>GET all users</h3>
         http://localhost:port/users/ 
         <div id="users"></div>
     </div>
     <div class="container">
-        http://localhost:port/users/1 
+        <h3>GET user with user_id</h3>
+        http://localhost:port/users/:user_id 
         <div id="users_1"></div>
     </div>
     <div class="container">
-        http://localhost:port/users/ POST
+        <h3>POST new user with a password</h3>
+        http://localhost:port/users/
         <div id="users_post"></div>
     </div>
     <div class="container">
-        http://localhost:port/users/ PUT
+        <h3>PUT user data with a password</h3>
+        http://localhost:port/users/
         <div id="users_put"></div>
     </div>
     <div class="container">
-        http://localhost:port/users/ DELETE
+        <h3>DELETE user with id, after PUT with a password</h3>
+        http://localhost:port/users/:user_id 
         <div id="users_delete"></div>
     </div>
     <div class="container">
-        http://localhost:port/users/ POST
+        <h3>POST new user with a password hash</h3>
+        http://localhost:port/users/ 
         <div id="users_post_hash"></div>
+    </div>
+    <div class="container">
+        <h3>PUT user data with a password hash</h3>
+        http://localhost:port/users/ 
+        <div id="users_put_hash"></div>
+    </div>
+    <div class="container">
+        <h3>DELETE user with id, after PUT with a password hash</h3>
+        http://localhost:port/users/:user_id  
+        <div id="users_delete_hash"></div>
     </div>
     <script src="dbTest.js"></script>
 </body>
