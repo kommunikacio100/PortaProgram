@@ -631,3 +631,5 @@ Insert into nationality_marks ( nationality_mark, nationality_mark_name) VALUES 
 Insert into nationality_marks ( nationality_mark, nationality_mark_name) VALUES ('Z','Zambia');
 Insert into nationality_marks ( nationality_mark, nationality_mark_name) VALUES ('ZA','Dél-afrikai Köztársaság');
 Insert into nationality_marks ( nationality_mark, nationality_mark_name) VALUES ('ZW','Zimbabwe');
+
+

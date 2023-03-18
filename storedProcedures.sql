@@ -1,4 +1,4 @@
--- Active: 1677906231590@@127.0.0.1@3306@weighing_db
+-- Active: 1679018847898@@127.0.0.1@3306@weighing_db
 use weighing_DB;
 
 DROP PROCEDURE IF EXISTS add_user;
@@ -43,7 +43,24 @@ call add_user( 'Kálmán', '!!ALLman1234', 1, 1, 1, 0, 0, @ID, @Err);
 call add_user( 'Administrator', 'ADmin123@$!', 1, 1, 1, 1, 1, @ID, @Err);
 call add_user( 'User', 'User123!', 1, 1, 1, 0, 0, @ID, @Err);
 call add_user( 'Eszter', 'User123!', 1, 1, 1, 0, 0, @ID, @Err);
+call add_user( 'Angyal Róbert', 'Admin123!', 1, 1, 1, 1, 1, @ID, @Err);
 select @ID, @Err;
+Insert into addresses ( address_to_table, address_to_id, default_address, 
+            country_code, zip_code, city, street_name, 
+            street_type, street_number, lot_number, 
+            gps_latitude, gps_longitude, address_created_by) VALUES 
+            ( 'U', @ID, true, 
+              'HU', '7300', 'Komló', 'Diófa', 'utca', '4/1', 
+              null, null, null, @ID);
+call add_user( 'John Rambo', 'Rambo123?', 1, 1, 1, 1, 1, @ID, @Err);
+Insert into addresses ( address_to_table, address_to_id, default_address, 
+            country_code, zip_code, city, street_name, 
+            street_type, street_number, lot_number, 
+            gps_latitude, gps_longitude, address_created_by) VALUES 
+            ( 'U', @ID, true, 
+              'HU', '1201', 'Budapest XX.', 'Márton', 'utca', '1', 
+              null, null, null, @ID);
+
 
 
 DROP PROCEDURE IF EXISTS add_user_hash;

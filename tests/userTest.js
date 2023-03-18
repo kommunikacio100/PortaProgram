@@ -1,6 +1,5 @@
 
 let url = "http://localhost:3001/";
-let url_adresses = url+ "adresses/";
 let url_users = url + "users/";
 
 // GET users

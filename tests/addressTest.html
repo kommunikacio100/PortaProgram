@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weighingServer teszt</title>
+    <style>
+        .container{
+            border: 1px solid gray;
+            padding: 3px;
+            margin: 3px;
+            background-color: blanchedalmond;
+        }
+        .functionResult{
+            background-color: beige;
+            word-break: break-word;
+            /* word-wrap: break-word; */
+            padding: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>GET all addresses</h3>
+        http://localhost:port/addresses/ 
+        <div class="functionResult" id="address_list"></div>
+    </div>
+    <div class="container">
+        <h3>GET address with address_id</h3>
+        http://localhost:port/addresses/:address_id 
+        <div class="functionResult" id="address_by_id"></div>
+    </div>
+    <div class="container">
+        <h3>GET address with to_table and to_id</h3>
+        http://localhost:port/addresses/:address_to_table&/:address_to_id
+        <div class="functionResult" id="address_by_to_table_and_to_id"></div>
+    </div>
+    <div class="container">
+        <h3>GET default address to_table and to_id</h3>
+        http://localhost:port/addresses/:address_to_table&/:address_to_id&/:default_address
+        <div class="functionResult" id="address_by_to_table_and_to_id_and_default"></div>
+    </div>
+    <div class="container">
+        <h3>POST new address</h3>
+        http://localhost:port/address/
+        <div class="functionResult" id="address_post"></div>
+    </div>
+    <div class="container">
+        <h3>PUT address data</h3>
+        http://localhost:port/addresses/
+        <div class="functionResult" id="address_put"></div>
+    </div>
+    <div class="container">
+        <h3>DELETE address with address_id</h3>
+        http://localhost:port/addresses/:address_id 
+        <div class="functionResult" id="address_delete"></div>
+    </div>
+    <div class="container">
+        <h3>DELETE addresses with address_to_table + address_to_id</h3>
+        http://localhost:port/addresses/:address_to_table&/:address_to_id
+        <div class="functionResult" id="addresses_delete"></div>
+    </div>
+    <script src="addressTest.js"></script>
+</body>
+</html>

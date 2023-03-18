@@ -47,7 +47,7 @@ router.get('/:address_id', (req, res)=>{
             }
             else{
                 if (result.length>0){
-                    console.log("get address_id = "+ id +" successfull");
+                    console.log("get address_id = "+ address_id +" successfull");
 
                     let rows = [];
                     console.log( result);
@@ -166,10 +166,11 @@ router.get('/:address_to_table&/:address_to_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into addresses (address_to_table, and address_to_id, default_address, country_code, `+
-        `zip_code, city, street_name, street_type, street_number, lot_number, dps_latitude, gps_longitude,`+
+    var sql = `insert into addresses (address_to_table, address_to_id, default_address, `+
+        `country_code, zip_code, city, street_name, street_type, street_number, `+
+        `lot_number, gps_latitude, gps_longitude,`+
         ` address_created_by) `+
-        ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let address_to_table = req.body.address_to_table;
     let address_to_id = req.body.address_to_id;
     let default_address = req.body.default_address;
@@ -180,35 +181,35 @@ router.post('/', (req, res)=>{
     let street_type = req.body.street_type;
     let street_number = req.body.street_number;
     let lot_number = req.body.lot_number;
-    let dps_latitude = req.body.dps_latitude;
+    let gps_latitude = req.body.dps_latitude;
     let gps_longitude = req.body.gps_longitude;
     let address_created_by = req.body.address_created_by;
     try{
-        con.query(sql, [address_to_table, address_to_id, default_address, country_code, zip_code, city, street_name, 
-                street_type, street_number, lot_number, dps_latitude, gps_longitude, address_created_by], function (err, result) {
-            if (err){
-                res.status(500)
-                res.json({error: "Cannot post new address"})
-                throw err;
-            }
-            else{
-                if (result.length>0){
-                    console.log("post new address successfull. address_id: " + result.insertId );
-                    console.log( result);
-                    for(let row of result){
-                        rows.push(JSON.parse(JSON.stringify(row)))
+        con.query(sql, [address_to_table, address_to_id, default_address, 
+            country_code, zip_code, city, street_name, street_type, street_number, 
+            lot_number, gps_latitude, gps_longitude, address_created_by], 
+            function (err, result) {
+                if (err){
+                    res.status(500)
+                    res.json({error: "Cannot post the new address"})
+                    throw err;
+                }
+                else{
+                    res.status(200);
+                    console.log( "POST RESULT: ", result);
+                    if (result.insertId>0){
+                        console.log("post new address successfull. address_id: " + result.insertId );
+                        res.json(result);
+                    }else{
+                        res.status(200);
+                        res.json({"status":"error", "text": "The POST address is unsuccessfully", 
+                        "address_to_table": address_to_table, 
+                        "addres_to_id:": address_to_id, 
+                        "insertId": result.insertId});
                     }
-                    res.status(200);
-                    res.json(rows);
-                }else{
-                    res.status(200);
-                    res.json({"status":"No address", "text": "There is no address with this parameters", 
-                    "address_to_table": address_to_table, 
-                    "addres_to_id:": address_to_id, 
-                    "length":0});
                 }
             }
-        });
+        );
         
     }catch(e){
         console.error(e);
@@ -223,10 +224,11 @@ router.post('/', (req, res)=>{
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
-    var sql = `replace into addresses (address_id, address_to_table, and address_to_id, default_address, country_code, `+
-        `zip_code, city, street_name, street_type, street_number, lot_number, dps_latitude, gps_longitude,`+
-        ` address_created_by) `+
-        ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    var sql = `replace into addresses (address_id, address_to_table, address_to_id, default_address, `+
+        `country_code, zip_code, city, street_name, street_type, street_number, `+
+        `lot_number, gps_latitude, gps_longitude,`+
+        ` address_modified, address_modified_by) `+
+        ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let address_id = req.body.address_id;
     let address_to_table = req.body.address_to_table;
     let address_to_id = req.body.address_to_id;
@@ -238,35 +240,36 @@ router.put('/', (req, res)=>{
     let street_type = req.body.street_type;
     let street_number = req.body.street_number;
     let lot_number = req.body.lot_number;
-    let dps_latitude = req.body.dps_latitude;
+    let gps_latitude = req.body.dps_latitude;
     let gps_longitude = req.body.gps_longitude;
-    let address_created_by = req.body.address_created_by;
+    let address_modified_by = req.body.address_modified_by;
+    let address_modified = new Date().toISOString();
     try{
-        con.query(sql, [address_id, address_to_table, address_to_id, default_address, country_code, zip_code, city, street_name, 
-                street_type, street_number, lot_number, dps_latitude, gps_longitude, address_created_by], function (err, result) {
+        con.query(sql, [address_id, address_to_table, address_to_id, default_address, 
+            country_code, zip_code, city, street_name, street_type, street_number, 
+            lot_number, gps_latitude, gps_longitude, address_modified, address_modified_by], 
+            function (err, result) {
             if (err){
                 res.status(500)
                 res.json({error: "Cannot put the address"})
                 throw err;
             }
             else{
-                if (result.length>0){
+                console.log( 'PUT RESULT', result);
+                if (result.insertId>0){
                     console.log("put address successfull. address_id: " + result.insertId );
-                    console.log( result);
-                    for(let row of result){
-                        rows.push(JSON.parse(JSON.stringify(row)))
-                    }
                     res.status(200);
-                    res.json(rows);
+                    result.status= "OK";
+                    res.json( result);
                 }else{
                     res.status(200);
-                    res.json({"status":"No address", "text": "There is no address with this address_id", 
-                    "address_id": address_id, 
-                    "length":0});
+                    result.status= "error";
+                    result.errorText = "PUT insertId not found in result.";
+                    result.address_id = address_id;
+                    res.json(result);
                 }
             }
         });
-        
     }catch(e){
         console.error(e);
         res.status(500);
@@ -276,7 +279,7 @@ router.put('/', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/addresses/2 ahol a 2-es address_id-jű címet akarjuk törölni.
 router.delete('/:address_id', (req, res)=>{
-    var sql = `delete * from addresses where address_id = ?`;
+    var sql = `delete from addresses where address_id = ?`;
     let address_id = req.params.address_id;
     try{
         con.query( sql, address_id, function (err, result) {
@@ -286,16 +289,18 @@ router.delete('/:address_id', (req, res)=>{
                 throw err;
             }
             else{
-                if (result.length>0){
-                    console.log("address_id = "+ id +" successfull deleted");
-
+                res.status(200);
+                if ( result.affectedRows>0){
+                    console.log( "address_id = "+ address_id +" successfull deleted");
                     res.status(200);
-                    res.json({"status":"OK", "text": "address deleted. id = "+ address_id});
+                    result.status= "OK";
+                    result.text_message = "address deleted.";
+                    res.json(result);
                 }else{
-                    res.status(200);
-                    res.json({"status":"No address", "text": "There is no address with this id = "+ address_id, "length":0});
+                    result.status= "error";
+                    result.text_message = "address not deleted. affectedRows<1 in result.";
+                    res.json(result);
                 }
-                
             }
         });
         
@@ -306,9 +311,10 @@ router.delete('/:address_id', (req, res)=>{
     }
 })
 
+
 // use: DELETE command with this link http://127.0.0.1:3001/addresses/P&/2 ahol a 2-es partner_id-hez tartozó összes címet akarjuk törölni.
 router.delete('/:address_to_table&/:address_to_id', (req, res)=>{
-    var sql = `delete * from addresses where address_to_table = ? and address_to_id = ?`;
+    var sql = `delete from addresses where address_to_table = ? and address_to_id = ?`;
     let address_to_table = req.params.address_to_table;
     let address_to_id = req.params.address_to_id;
     try{
@@ -319,14 +325,17 @@ router.delete('/:address_to_table&/:address_to_id', (req, res)=>{
                 throw err;
             }
             else{
-                if (result.length>0){
-                    console.log("address_to_table: "+ address_to_table+ "  address_to_id: "+ id +" successfull deleted");
-
+                res.status(200);
+                if (result.affectedRows>0){
+                    console.log( "Addresses successfull deleted for address_to_table = "+ address_to_table+ ' address_to_id = '+ address_to_id );
                     res.status(200);
-                    res.json({"status":"OK", "text": "address deleted", "address_to_table": address_to_table, "address_to_id": address_to_id });
+                    result.status= "OK";
+                    result.text_message = result.affectedRows+ " addresses deleted.";
+                    res.json(result);
                 }else{
-                    res.status(200);
-                    res.json({"status":"ERROR", "text": "A törlés nem sikerült.", "address_to_table": address_to_table, "address_to_id": address_to_id});
+                    result.status= "error";
+                    result.text_message = "delete unsuccessfully. affectedRows not found in the DELETE result.";
+                    res.json(result);
                 }
                 
             }
