@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weighingServer teszt</title>
+    <style>
+        .container{
+            border: 1px solid gray;
+            padding: 3px;
+            margin: 3px;
+            background-color: blanchedalmond;
+        }
+        .functionResult{
+            background-color: beige;
+            word-break: break-word;
+            /* word-wrap: break-word; */
+            padding: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>GET all emails</h3>
+        http://localhost:port/emails/ 
+        <div class="functionResult" id="email_list"></div>
+    </div>
+    <div class="container">
+        <h3>GET email with email_id</h3>
+        http://localhost:port/emails/:email_id 
+        <div class="functionResult" id="email_by_id"></div>
+    </div>
+    <div class="container">
+        <h3>GET email with to_table and to_id</h3>
+        http://localhost:port/emails/:email_to_table&/:email_to_id
+        <div class="functionResult" id="email_by_to_table_and_to_id"></div>
+    </div>
+    <div class="container">
+        <h3>GET default email to_table and to_id</h3>
+        http://localhost:port/emails/:email_to_table&/:email_to_id&/:default_email
+        <div class="functionResult" id="email_by_to_table_and_to_id_and_default"></div>
+    </div>
+    <div class="container">
+        <h3>POST new email</h3>
+        http://localhost:port/email/
+        <div class="functionResult" id="email_post"></div>
+    </div>
+    <div class="container">
+        <h3>PUT email data</h3>
+        http://localhost:port/emails/
+        <div class="functionResult" id="email_put"></div>
+    </div>
+    <div class="container">
+        <h3>DELETE email with email_id</h3>
+        http://localhost:port/emails/:email_id 
+        <div class="functionResult" id="email_delete"></div>
+    </div>
+    <div class="container">
+        <h3>DELETE emails with email_to_table + email_to_id</h3>
+        http://localhost:port/emails/:email_to_table&/:email_to_id
+        <div class="functionResult" id="emails_delete"></div>
+    </div>
+    <script src="emailTest.js"></script>
+</body>
+</html>

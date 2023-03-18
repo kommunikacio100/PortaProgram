@@ -215,7 +215,7 @@ router.post('/', (req, res)=>{
         console.error(e);
         res.status(500);
         res.json({error: "Cannot get addresses with this parameters", "address_to_table": address_to_table, 
-        "addres_to_id:": address_to_id, "length":0});
+        "address_to_id:": address_to_id, "length":0});
     }
 })
 
