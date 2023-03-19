@@ -165,7 +165,7 @@ router.get('/:email_to_table&/:email_to_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into emails (email_to_table, email_to_id, `
+    var sql = `insert into emails (email_to_table, email_to_id, `+
         ` email, email_memo, email_default, `+
         ` email_created_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?);`;

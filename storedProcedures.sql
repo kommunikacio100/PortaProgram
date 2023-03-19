@@ -1,4 +1,4 @@
--- Active: 1678652479984@@127.0.0.1@3306@weighing_db
+-- Active: 1679018847898@@127.0.0.1@3306@weighing_db
 use weighing_DB;
 
 DROP PROCEDURE IF EXISTS add_user;
@@ -55,6 +55,9 @@ Insert into addresses ( address_to_table, address_to_id, default_address,
 Insert into emails 
     ( email_to_table, email_to_id, email, email_memo, email_default, email_created_by) Values
     ( 'U', @ID, 'angyal.r@gmail.com', 'email memo nothing', true, @ID);
+Insert into phones 
+    ( phone_to_table, phone_to_id, phone, phone_memo, phone_default, phone_created_by) Values
+    ( 'U', @ID, '+36703300869', 'phone memo is very good', true, @ID);
 call add_user( 'John Rambo', 'Rambo123?', 1, 1, 1, 1, 1, @ID, @Err);
 Insert into addresses ( address_to_table, address_to_id, default_address, 
             country_code, zip_code, city, street_name, 
@@ -66,6 +69,9 @@ Insert into addresses ( address_to_table, address_to_id, default_address,
 Insert into emails 
     ( email_to_table, email_to_id, email, email_memo, email_default, email_created_by) Values
     ( 'U', @ID, 'angyal.r@gmail.com', 'email memo nothing', true, @ID);
+Insert into phones 
+    ( phone_to_table, phone_to_id, phone, phone_memo, phone_default, phone_created_by) Values
+    ( 'U', @ID, '+36703300860', 'phone memo nothing', true, @ID);
 
 
 
@@ -166,3 +172,5 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
+
+
