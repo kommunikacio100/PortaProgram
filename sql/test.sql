@@ -16,6 +16,7 @@ select * from carriers;
 select * from owners;
 select * from partners;
 select * from products;
+select * from delivery_notes;
 
 
 insert into carriers (carrier_ekaerid, carrier_name, carrier_memo, carrier_created_by) VALUES
@@ -41,7 +42,29 @@ insert into products (product_item_number, product_name, product_units,
     ( "SH1", "Sárgahomok", "tonna", 0, 1000, 8000, "11221122", "27", "", "", "", 1),    
     ( "SZH1", "Szürkehomok", "tonna", 0, 1000, 8000, "11221122", "27", "", "", "", 1);
 
-
+  insert into 
+    delivery_notes (
+      delivery_note_serial_no, delivery_note_owner_id, delivery_note_owner_address_id, 
+      delivery_note_loadlocation_address_id, delivery_note_partner_id, 
+      delivery_note_partner_address_id, delivery_note_unloadlocation_address_id, 
+      delivery_note_carrier_id, delivery_note_carrier_address_id, 
+      delivery_note_movement_id, delivery_note_status, 
+      delivery_note_created_by ) values
+    ( "SNO-2023-000001", 5,  
+      $delivery_note_owner_address_id, 
+      $delivery_note_loadlocation_address_id, 
+      $delivery_note_partner_id, 
+      $delivery_note_partner_address_id, 
+      $delivery_note_unloadlocation_address_id, 
+      $delivery_note_carrier_id, 
+      $delivery_note_carrier_address_id, 
+      $delivery_note_movement_id, 
+      $delivery_note_status, 
+      $delivery_note_created_at, 
+      $delivery_note_created_by, 
+      $delivery_note_modified, 
+      $delivery_note_modified_by
+    );
 
 // DELETE 
 delete from users WHERE user_id>4;
