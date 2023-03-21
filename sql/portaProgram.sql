@@ -1,4 +1,4 @@
--- Active: 1677723883291@@127.0.0.1@3306@webshop
+-- Active: 1679420639513@@127.0.0.1@3306@phpmyadmin
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;

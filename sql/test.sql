@@ -1,4 +1,4 @@
--- Active: 1677906231590@@127.0.0.1@3306@weighing_db
+-- Active: 1679420639513@@127.0.0.1@3306@weighing_db
 --delete from users;
 
 --select 'ADmin123@' REGEXP '^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z]).{8}$';
@@ -66,7 +66,7 @@ insert into products (product_item_number, product_name, product_units,
       $delivery_note_modified_by
     );
 
-// DELETE 
+--DELETE 
 delete from users WHERE user_id>4;
 delete from emails;
 delete from phones;
