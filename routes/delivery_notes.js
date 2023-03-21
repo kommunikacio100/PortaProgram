@@ -201,7 +201,7 @@ router.put('/', (req, res) => {
 // use: DELETE command with this link http://127.0.0.1:3001/delivery_notes/2 ahol a 2-es delivery_note_id-jű delivery_notet akarjuk törölni.
 router.delete('/:delivery_note_id', (req, res) => {
     return ({"status":"error", "error_text":"A szállítólevelek nem törölhetők."});
-    var sql = `delete from delivery_notes where delivery_note_id = ?`;
+/*    var sql = `delete from delivery_notes where delivery_note_id = ?`;
     let delivery_note_id = req.params.delivery_note_id;
     try {
         con.query(sql, delivery_note_id, function (err, result) {
@@ -230,7 +230,7 @@ router.delete('/:delivery_note_id', (req, res) => {
         console.error(e);
         res.status(500);
         res.json({ error: "Cannot get delivery_note_id = " + delivery_note_id });
-    }
+    }*/
 })
 
 module.exports = router;
