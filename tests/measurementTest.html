@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weighingServer teszt</title>
+    <style>
+        .container{
+            border: 1px solid gray;
+            padding: 3px;
+            margin: 3px;
+            background-color: blanchedalmond;
+        }
+        .functionResult{
+            background-color: beige;
+            word-break: break-word;
+            /* word-wrap: break-word; */
+            padding: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>GET all measurements</h3>
+        http://localhost:port/measurements/ 
+        <div class="functionResult" id="measurement_list"></div>
+    </div>
+    <div class="container">
+        <h3>GET measurement with measurement_id</h3>
+        http://localhost:port/measurements/:measurement_id 
+        <div class="functionResult" id="measurement_by_id"></div>
+    </div>
+    <div class="container">
+        <h3>POST new measurement</h3>
+        http://localhost:port/measurement/
+        <div class="functionResult" id="measurement_post"></div>
+    </div>
+    <div class="container">
+        <h3>PUT measurement data</h3>
+        http://localhost:port/measurements/
+        <div class="functionResult" id="measurement_put"></div>
+    </div>
+    <div class="container">
+        <h3>DELETE measurement with measurement_id</h3>
+        http://localhost:port/measurements/:measurement_id 
+        <div class="functionResult" id="measurement_delete"></div>
+    </div>
+    <script src="measurementTest.js"></script>
+</body>
+</html>
