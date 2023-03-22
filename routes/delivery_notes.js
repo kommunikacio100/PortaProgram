@@ -83,8 +83,8 @@ router.post('/', (req, res) => {
     `delivery_note_loadlocation_address_id, delivery_note_partner_id, `+
     `delivery_note_partner_address_id, delivery_note_unloadlocation_address_id, `+
     `delivery_note_carrier_id, delivery_note_carrier_address_id, delivery_note_movement_id, `+
-    `delivery_note_status, delivery_note_created_by, `+
-    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    `delivery_note_status, delivery_note_created_by) `+
+    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let delivery_note_serial_no = req.body.delivery_note_serial_no;
     let delivery_note_owner_id = req.body.delivery_note_owner_id;
     let delivery_note_owner_address_id = req.body.delivery_note_owner_address_id;
@@ -146,7 +146,7 @@ router.put('/', (req, res) => {
         `delivery_note_partner_address_id, delivery_note_unloadlocation_address_id, `+
         `delivery_note_carrier_id, delivery_note_carrier_address_id, delivery_note_movement_id, `+
         `delivery_note_status, delivery_note_modified, delivery_note_modified_by) ` +
-        ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+        ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let delivery_note_id = req.body.delivery_note_id;
     let delivery_note_serial_no = req.body.delivery_note_serial_no;
     let delivery_note_owner_id = req.body.delivery_note_owner_id;
