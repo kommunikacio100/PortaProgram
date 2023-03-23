@@ -22,11 +22,11 @@ then( (json) => {
 
 
 // GET measurements for a delivery_note ID:1
-fetch( url_measurements+ "1").then( (response)=>{
+fetch( url_measurements+ "D&/1").then( (response)=>{
     return response.json();
 }).
 then( (json) => {
-    let testDiv = document.getElementById("measurement_by_id");
+    let testDiv = document.getElementById("measurements_for_delivery_note_id");
     testDiv.innerHTML = JSON.stringify( json);
 });
 

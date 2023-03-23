@@ -74,7 +74,7 @@ router.get('/:measurement_id', (req, res)=>{
 // A D egy konstans érték és nincs vizsgálva hogy D van e ott, a lényeg hogy két paramétere legyen, ami által meg van különböztetve
 // attól a gettől, amikor egy mérlegelés adatait kérjük le.
 router.get('/:select_delivery_note&/:delivery_note_id', (req, res)=>{
-    var sql = `select * from measurements where delivery_note_id = ?`;
+    var sql = `select * from measurements where measurement_delivery_note_id = ?`;
     let delivery_note_id = req.params.delivery_note_id;
     try{
         con.query(sql, delivery_note_id, function (err, result) {
@@ -201,7 +201,7 @@ router.put('/', (req, res)=>{
             measurement_second_type, 
             measurement_modified, 
             measurement_modified_by) 
-            VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+            VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let measurement_id = req.body.measurement_id;
     let measurement_delivery_note_id = req.body.measurement_delivery_note_id;
     let delivery_note_vehicle_id = req.body.delivery_note_vehicle_id;
