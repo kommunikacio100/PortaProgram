@@ -1,4 +1,4 @@
--- Active: 1677723883291@@127.0.0.1@3306@webshop
+-- Active: 1678652479984@@127.0.0.1@3306@weighing_db
 
 USE WEIGHING_DB;
 SET autocommit = 1;
@@ -10,18 +10,18 @@ SET autocommit = 1;
 -- REPLACE INTO `PERMISSIONS` SET permission_id = 'B', `permission` = 'Beállítás kezelés';
 
 DELETE FROM measurement_types;
-REPLACE INTO `measurement_types` SET measurement_type_id = 'M', `measurement_type_name` = 'Mérlegelt adat' ;
-REPLACE INTO `measurement_types` SET measurement_type_id = 'K', `measurement_type_name` = 'Kézzel megadott';
-REPLACE INTO `measurement_types` SET measurement_type_id = 'G', `measurement_type_name` = 'Gépjármű tárolt súlya';
+REPLACE INTO `measurement_types` SET id = 'M', `name` = 'Mérlegelt adat' ;
+REPLACE INTO `measurement_types` SET id = 'K', `name` = 'Kézzel megadott';
+REPLACE INTO `measurement_types` SET id = 'G', `name` = 'Gépjármű tárolt súlya';
 
 DELETE FROM movements;
-REPLACE INTO `movements` SET `movement_name` = 'Beszállítás', `movement_stock_relation`= '+', `movement_head` = 'MÉRLEGJEGY', `movement_left_side` = 'átvevő', `movement_right_side` = 'átadó', `movement_form_file_name` = 'merlegjegy.html';
-REPLACE INTO `movements` SET `movement_name` = 'Kiszállítás', `movement_stock_relation`= '-', `movement_head` = 'SZÁLLÍTÓLEVÉL', `movement_left_side` = 'átadó', `movement_right_side` = 'átvevő', `movement_form_file_name` = 'szallito.html';
-REPLACE INTO `movements` SET `movement_name` = 'Csak mérés', `movement_stock_relation`= ' ', `movement_head` = 'MÉRLEGELÉS', `movement_left_side` = '', `movement_right_side` = '', `movement_form_file_name` = 'merlegeles.html';
-REPLACE INTO `movements` SET `movement_name` = 'Induló készlet', `movement_stock_relation`= '+', `movement_head` = 'INDULÓ KÉSZLET', `movement_left_side` = 'átvevő', `movement_right_side` = 'átadó', `movement_form_file_name` = 'merlegjegy.html';
-REPLACE INTO `movements` SET `movement_name` = 'Selejtezés', `movement_stock_relation`= '-', `movement_head` = 'SELEJTEZÉS MÉRLEGJEGY', `movement_left_side` = 'átvevő', `movement_right_side` = 'átadó', `movement_form_file_name` = 'merlegjegy.html';
-REPLACE INTO `movements` SET `movement_name` = 'Többlet készlet', `movement_stock_relation`= '+', `movement_head` = 'TÖBBLET LELTÁR KÉSZLET', `movement_left_side` = 'átvevő', `movement_right_side` = 'átadó', `movement_form_file_name` = 'merlegjegy.html';
-REPLACE INTO `movements` SET `movement_name` = 'Leltár hiány', `movement_stock_relation`= '-', `movement_head` = 'LELTÁR HIÁNY MÉRLEGJEGY', `movement_left_side` = 'átvevő', `movement_right_side` = 'átadó', `movement_form_file_name` = 'merlegjegy.html';
+REPLACE INTO `movements` SET `name` = 'Beszállítás', `stock_relation`= '+', `head` = 'MÉRLEGJEGY', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
+REPLACE INTO `movements` SET `name` = 'Kiszállítás', `stock_relation`= '-', `head` = 'SZÁLLÍTÓLEVÉL', `left_side` = 'átadó', `right_side` = 'átvevő', `form_file_name` = 'szallito.html';
+REPLACE INTO `movements` SET `name` = 'Csak mérés', `stock_relation`= ' ', `head` = 'MÉRLEGELÉS', `left_side` = '', `right_side` = '', `form_file_name` = 'merlegeles.html';
+REPLACE INTO `movements` SET `name` = 'Induló készlet', `stock_relation`= '+', `head` = 'INDULÓ KÉSZLET', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
+REPLACE INTO `movements` SET `name` = 'Selejtezés', `stock_relation`= '-', `head` = 'SELEJTEZÉS MÉRLEGJEGY', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
+REPLACE INTO `movements` SET `name` = 'Többlet készlet', `stock_relation`= '+', `head` = 'TÖBBLET LELTÁR KÉSZLET', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
+REPLACE INTO `movements` SET `name` = 'Leltár hiány', `stock_relation`= '-', `head` = 'LELTÁR HIÁNY MÉRLEGJEGY', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
 
 DELETE FROM countries;
 REPLACE INTO `countries` SET country_code = 'HU', country_name = 'Magyarország';
