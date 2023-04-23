@@ -186,22 +186,22 @@ CREATE TABLE IF NOT EXISTS `movements` (
 -- Egy egy szállítólevélhez több measurement tartozhat.
 -- Sorszám, Tulajdonos, Partner, Szállító, Mozgásirány  
 CREATE TABLE IF NOT EXISTS `delivery_notes` (
-  `delivery_note_id` bigint PRIMARY KEY AUTO_INCREMENT,
-  `delivery_note_serial_no` varchar(20) not null,
-  `delivery_note_owner_id` bigint,
-  `delivery_note_owner_address_id` bigint,
-  `delivery_note_loadlocation_address_id` bigint,
-  `delivery_note_partner_id` bigint,
-  `delivery_note_partner_address_id` bigint,
-  `delivery_note_unloadlocation_address_id` bigint,
-  `delivery_note_carrier_id` bigint,
-  `delivery_note_carrier_address_id` bigint,
-  `delivery_note_movement_id` bigint,
-  `delivery_note_status` varchar(20),
-  `delivery_note_created_at` timestamp,
-  `delivery_note_created_by` bigint,
-  `delivery_note_modified` datetime,
-  `delivery_note_modified_by` bigint
+  `id` bigint PRIMARY KEY AUTO_INCREMENT,
+  `serial_no` varchar(20) not null,
+  `owner_id` bigint,
+  `owner_address_id` bigint,
+  `loadlocation_address_id` bigint,
+  `partner_id` bigint,
+  `partner_address_id` bigint,
+  `unloadlocation_address_id` bigint,
+  `carrier_id` bigint,
+  `carrier_address_id` bigint,
+  `movement_id` bigint,
+  `status` varchar(20),
+  `created_at` timestamp,
+  `created_by` bigint,
+  `modified` datetime,
+  `modified_by` bigint
 );
 
 -- Termék adatok
@@ -255,14 +255,14 @@ CREATE TABLE IF NOT EXISTS `measurements` (
 
 -- országkódok az ekaer bejelentéshez Magyarország HU 
 CREATE TABLE IF NOT EXISTS `countries` (
-  `country_code` varchar(2) PRIMARY KEY,
-  `country_name` varchar(40) not null
+  `code` varchar(2) PRIMARY KEY,
+  `name` varchar(40) not null
 );
 
 -- gépkocsi jelzések országkódok az ekaerhez. Magyarország H
 CREATE TABLE IF NOT EXISTS `nationality_marks` (
-  `nationality_mark` varchar(5) PRIMARY KEY,
-  `nationality_mark_name` varchar(40) not null
+  `mark` varchar(5) PRIMARY KEY,
+  `name` varchar(40) not null
 );
 
 CREATE TABLE IF NOT EXISTS `measurement_types` (
