@@ -197,6 +197,7 @@ CREATE TABLE IF NOT EXISTS `delivery_notes` (
   `delivery_note_carrier_id` bigint,
   `delivery_note_carrier_address_id` bigint,
   `delivery_note_movement_id` bigint,
+  `delivery_note_status` varchar(20),
   `delivery_note_created_at` timestamp,
   `delivery_note_created_by` bigint,
   `delivery_note_modified` datetime,
