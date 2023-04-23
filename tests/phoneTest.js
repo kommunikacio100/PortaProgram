@@ -1,56 +1,56 @@
 
 let url = "http://localhost:3001/";
-let url_emails = url+ "emails/";
+let url_phones = url+ "phones/";
 
 // GET users
-fetch( url_emails).then( (response)=>{
+fetch( url_phones).then( (response)=>{
     return response.json();
 }).
 then( (json) => {
-    let testDiv = document.getElementById("email_list");
+    let testDiv = document.getElementById("phone_list");
     testDiv.innerText = JSON.stringify( json);
 });
 
 // GET user ID:1
-fetch( url_emails+ "5").then( (response)=>{
+fetch( url_phones+ "7").then( (response)=>{
     return response.json();
 }).
 then( (json) => {
-    let testDiv = document.getElementById("email_by_id");
+    let testDiv = document.getElementById("phone_by_id");
     testDiv.innerHTML = JSON.stringify( json);
 });
 
-// GET emails to_table and to_ID
-fetch( url_emails+ "U&/21").then( (response)=>{
+// GET user to_table and to_ID
+fetch( url_phones+ "U&/7").then( (response)=>{
     return response.json();
 }).
 then( (json) => {
-    let testDiv = document.getElementById("email_by_to_table_and_to_id");
+    let testDiv = document.getElementById("phone_by_to_table_and_to_id");
     testDiv.innerHTML = JSON.stringify( json);
 });
 
 // GET user to_table and to_ID and default
-fetch( url_emails+ "U&/5&/true").then( (response)=>{
+fetch( url_phones+ "U&/7&/true").then( (response)=>{
     return response.json();
 }).
 then( (json) => {
-    let testDiv = document.getElementById("email_by_to_table_and_to_id_and_default");
+    let testDiv = document.getElementById("phone_by_to_table_and_to_id_and_default");
     testDiv.innerHTML = JSON.stringify( json);
 });
 
-const new_email_data = {
-    "email_to_table": "P", 
-    "email_to_id": 1, 
-    "email_default": true, 
-    "email": "angyal.r@gmail.com", 
-    "email_memo": "", 
-    "email_created_by": 1
+const new_phone_data = {
+    "phone_to_table": "P", 
+    "phone_to_id": 1, 
+    "phone": '+3672525183',
+    "phone_memo": "no contract to memo.",
+    "phone_default": true, 
+    "phone_created_by": 1
 };
 // POST new user, update the user, delete user
 // létrehozunk egy felhasználót. Ha sikerült, módosítjuk. Ha sikerült a módosítás, akkor töröljük.
-fetch( url_emails, {
+fetch( url_phones, {
     method: 'POST',
-    body: JSON.stringify(new_email_data),
+    body: JSON.stringify(new_phone_data),
     headers: {
         "Content-type": "application/json; charset = UTF-8",
         "Access-Control-Allow-Origin":"*"
@@ -59,29 +59,29 @@ fetch( url_emails, {
 .then( json => {
     json["status"] = "OK";
     console.log("POST", json);
-    let testDiv = document.getElementById("email_post");
+    let testDiv = document.getElementById("phone_post");
     testDiv.innerHTML = JSON.stringify( json);
     if (json["insertId"]>0){
         // ha létrejött a cím, teszteli a módosítását.
-        update_email( json["insertId"]);
+        update_phone( json["insertId"]);
     }
 });
 
-const update_email_data = {
-    "email_id": 1,
-    "email_to_table": "P", 
-    "email_to_id": 1, 
-    "email_default": true, 
-    "email": "angyal.r@gmail.com", 
-    "email_memo": "", 
-    "email_created_by": 1
+const update_phone_data = {
+    "phone_id": 1,
+    "phone_to_table": "P", 
+    "phone_to_id": 1, 
+    "phone": '+3672525189',
+    "phone_memo": "no contract to append.",
+    "phone_default": true, 
+    "phone_created_by": 1
 };
-function update_email( email_id){
-    // PUT update the email
-    update_email_data["email_id"] = email_id;
-    fetch( url_emails, {
+function update_phone( phone_id){
+    // PUT update the phone
+    update_phone_data["phone_id"] = phone_id;
+    fetch( url_phones, {
         method: 'PUT',
-        body: JSON.stringify( update_email_data),
+        body: JSON.stringify( update_phone_data),
         headers: {
             "Content-type": "application/json; charset = UTF-8",
             "Access-Control-Allow-Origin":"*"
@@ -90,21 +90,21 @@ function update_email( email_id){
     .then( json => {
         json["status"] = "OK";
         console.log("PUT", json);
-        let testDiv = document.getElementById("email_put");
+        let testDiv = document.getElementById("phone_put");
         testDiv.innerHTML = JSON.stringify( json);
 
         if (json["insertId"]>0){
             // ha sikerült a módosítás, teszteli a törlést.
-            delete_email( json["insertId"]);
+            delete_phone( json["insertId"]);
         }
         return json;
     });
 }
 
-// DELETE the email
-// Az update_email-ből van meghívva. 
-function delete_email( email_id){
-    fetch( url_emails+"/"+ email_id, {
+// DELETE the phone
+// Az update_phone-ből van meghívva. 
+function delete_phone( phone_id){
+    fetch( url_phones+"/"+ phone_id, {
         method: 'DELETE',
         headers: {
             "Content-type": "application/json; charset = UTF-8",
@@ -114,7 +114,7 @@ function delete_email( email_id){
     .then( json => {
         json["status"] = "OK";
         console.log( "DELETE", json);
-        let testDiv = document.getElementById( "email_delete");
+        let testDiv = document.getElementById( "phone_delete");
         testDiv.innerHTML = JSON.stringify( json);
         return json;
     });
@@ -123,51 +123,51 @@ function delete_email( email_id){
 
 // A következő teszt postol három címet, ugyanahhoz a felhasználóhoz.
 // Ezután pedig törli a hozzá tartozó összes címet.
-const three_new_email_data = [{
-    "email_to_table": "U", 
-    "email_to_id": 99999999, 
-    "email_default": true, 
-    "email": "angyal.r@gmail.com", 
-    "email_memo": "bkcx", 
-    "email_created_by": 1
+const three_new_phone_data = [{
+    "phone_to_table": "U", 
+    "phone_to_id": 99999999, 
+    "phone": '+3672525181',
+    "phone_memo": "no contract to memo.",
+    "phone_default": true, 
+    "phone_created_by": 1
 },{
-    "email_to_table": "U", 
-    "email_to_id": 99999999, 
-    "email_default": true, 
-    "email": "angyal1.r@gmail.com", 
-    "email_memo": "b o a", 
-    "email_created_by": 1
+    "phone_to_table": "U", 
+    "phone_to_id": 99999999, 
+    "phone": '+3672525182',
+    "phone_memo": "no contract to memo.",
+    "phone_default": true, 
+    "phone_created_by": 1
 },{
-    "email_to_table": "U", 
-    "email_to_id": 99999999, 
-    "email_default": true, 
-    "email": "angyal2.r@gmail.com", 
-    "email_memo": "bo c", 
-    "email_created_by": 1
+    "phone_to_table": "U", 
+    "phone_to_id": 99999999, 
+    "phone": '+3672525183',
+    "phone_memo": "no contract to memo.",
+    "phone_default": true, 
+    "phone_created_by": 1
 }];
 
-async function post_email( email_data){
-    return  fetch( url_emails, {
+async function post_phone( phone_data){
+    return  fetch( url_phones, {
                     method: 'POST',
-                    body: JSON.stringify(email_data),
+                    body: JSON.stringify(phone_data),
                     headers: {
                         "Content-type": "application/json; charset = UTF-8",
                         "Access-Control-Allow-Origin":"*"
                     }
                 })
             .then( response => response.json())
-            //.catch( error => {console.log("Az url betöltése nem sikerült. ("+ url_emails+")", error)})
+            .catch( error => {console.log("Az url betöltése nem sikerült. ("+ url_phones+")", error)})
             .then( json => {
                     json["status"] = "OK";
                     console.log("POST", json);
                     return( json);
                 })
-            //.catch( error => {console.log("A json konverzió nem sikerült. ("+ url_emails+")", error)});
+            .catch( error => {console.log("A json konverzió nem sikerült. ("+ url_phones+")", error)});
 }
 
-// DELETE emails with to_table and to_id
-function delete_emails( email_to_table, addres_to_id){
-    fetch( url_emails+"/"+ email_to_table+ "&/"+ addres_to_id, {
+// DELETE phones with to_table and to_id
+function delete_phones( phone_to_table, addres_to_id){
+    fetch( url_phones+"/"+ phone_to_table+ "&/"+ addres_to_id, {
         method: 'DELETE',
         headers: {
             "Content-type": "application/json; charset = UTF-8",
@@ -177,18 +177,18 @@ function delete_emails( email_to_table, addres_to_id){
     .then( json => {
         json["status"] = "OK";
         console.log( "DELETE", json);
-        let testDiv = document.getElementById( "emails_delete");
+        let testDiv = document.getElementById( "phones_delete");
         testDiv.innerText = JSON.stringify( json);
         return json;
     });
 }
 
-const post1 = post_email( three_new_email_data[ 0]);
-const post2 = post_email( three_new_email_data[ 1]);
-const post3 = post_email( three_new_email_data[ 2]);
+const post1 = post_phone( three_new_phone_data[ 0]);
+const post2 = post_phone( three_new_phone_data[ 1]);
+const post3 = post_phone( three_new_phone_data[ 2]);
 
 if (Promise.all( post1, post2, post3)){
-    delete_emails( three_new_email_data[0].email_to_table, three_new_email_data[0].email_to_id);
+    delete_phones( three_new_phone_data[0].phone_to_table, three_new_phone_data[0].phone_to_id);
 };
 
 

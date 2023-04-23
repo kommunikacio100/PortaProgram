@@ -1,4 +1,4 @@
--- Active: 1678652479984@@127.0.0.1@3306@weighing_db
+-- Active: 1677723883291@@127.0.0.1@3306@webshop
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -186,21 +186,21 @@ CREATE TABLE IF NOT EXISTS `movements` (
 -- Egy egy szállítólevélhez több measurement tartozhat.
 -- Sorszám, Tulajdonos, Partner, Szállító, Mozgásirány  
 CREATE TABLE IF NOT EXISTS `delivery_notes` (
-  `id` bigint PRIMARY KEY AUTO_INCREMENT,
-  `serial_no` varchar(20) not null,
-  `owner_id` bigint,
-  `owner_address_id` bigint,
-  `loadlocation_address_id` bigint,
-  `partner_id` bigint,
-  `partner_address_id` bigint,
-  `unloadlocation_address_id` bigint,
-  `carrier_id` bigint,
-  `carrier_address_id` bigint,
-  `movement_id` bigint,
-  `created_at` timestamp,
-  `created_by` bigint,
-  `modified` datetime,
-  `modified_by` bigint
+  `delivery_note_id` bigint PRIMARY KEY AUTO_INCREMENT,
+  `delivery_note_serial_no` varchar(20) not null,
+  `delivery_note_owner_id` bigint,
+  `delivery_note_owner_address_id` bigint,
+  `delivery_note_loadlocation_address_id` bigint,
+  `delivery_note_partner_id` bigint,
+  `delivery_note_partner_address_id` bigint,
+  `delivery_note_unloadlocation_address_id` bigint,
+  `delivery_note_carrier_id` bigint,
+  `delivery_note_carrier_address_id` bigint,
+  `delivery_note_movement_id` bigint,
+  `delivery_note_created_at` timestamp,
+  `delivery_note_created_by` bigint,
+  `delivery_note_modified` datetime,
+  `delivery_note_modified_by` bigint
 );
 
 -- Termék adatok
