@@ -1,4 +1,4 @@
--- Active: 1677723883291@@127.0.0.1@3306@webshop
+-- Active: 1678652479984@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `addresses` (
   `id` bigint PRIMARY KEY AUTO_INCREMENT,
   `to_table` char(1)  not null,
   `to_id` bigint  not null,
-  `default` boolean,
+  `defaulted` boolean,
   `country_code` varchar(2),
   `zip_code` varchar(10),
   `city` varchar(50),
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `emails` (
   `to_id` bigint not null,
   `email` varchar(128) not null,
   `memo` text,
-  `default` boolean,
+  `defaulted` boolean,
   `created_at` timestamp,
   `created_by` bigint,
   `modified` datetime,
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `phones` (
   `to_id` bigint not null,
   `phone` varchar(15) not null,
   `memo` text,
-  `default` boolean,
+  `defaulted` boolean,
   `created_at` timestamp,
   `created_by` bigint,
   `modified` datetime,
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `partners` (
   `id` bigint PRIMARY KEY AUTO_INCREMENT,
   `vat_number` varchar(15) ,
   `name` varchar(200) not null,
-  `note` text,
+  `memo` text,
   `bank_account` varchar(26),
   `created_at` timestamp,
   `created_by` bigint,
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `partners` (
 -- Lehet hozzájuk címeket, email címeket, telefonszámokat rendelni.
 CREATE TABLE IF NOT EXISTS `owners` (
   `id` bigint PRIMARY KEY AUTO_INCREMENT,
-  `vatNumber` varchar(15),
+  `vat_number` varchar(15),
   `name` varchar(200) not null,
   `bank_account` varchar(26),
   `memo` text,
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `kg_per_unit` float,
   `unit_price` float,
   `vtsz` varchar(10),
-  `vatKey` varchar(10),
+  `vat_key` varchar(10),
   `vat_exemption_case` varchar(10),
   `vat_exemption_reason` varchar(100),
   `adr_number` varchar(200),

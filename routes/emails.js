@@ -35,7 +35,7 @@ router.get('/', (req, res)=>{
 
 // use: GET command with this link http://127.0.0.1:3001/emails/2 ahol a 2-es email_id-jű címet akarjuk visszakapni.
 router.get('/:email_id', (req, res)=>{
-    var sql = `select * from emails where email_id = ?`;
+    var sql = `select * from emails where id = ?`;
     let email_id = req.params.email_id;
     try{
         con.query(sql, email_id, function (err, result) {
@@ -75,11 +75,11 @@ router.get('/:email_id', (req, res)=>{
 // ahol P a Partner táblát választja ki, és a 2-es partner_id-jű partnert, és csak a default címeket.
 // Egy partnerhez több cím is tartozhat.
 router.get('/:email_to_table&/:email_to_id&/:email_default', (req, res)=>{
-    var sql = `select * from emails where email_to_table = ? and email_to_id = ?`;
+    var sql = `select * from emails where to_table = ? and to_id = ?`;
     let email_to_table = req.params.email_to_table;
     let email_to_id = req.params.email_to_id;
     let email_default = req.params.email_default;
-    if (email_default!=null) sql+= ` and email_default = ` + email_default;
+    if (email_default!=null) sql+= ` and defaulted = ` + email_default;
     try{
         con.query(sql, [email_to_table, email_to_id, email_default], function (err, result) {
             if (err){
@@ -122,7 +122,7 @@ router.get('/:email_to_table&/:email_to_id&/:email_default', (req, res)=>{
 // ahol P a Partner táblát választja ki, és a 2-es partner_id-jű partnert, mindegy hogy default vagy nem.
 // Egy partnerhez több cím is tartozhat.
 router.get('/:email_to_table&/:email_to_id', (req, res)=>{
-    var sql = `select * from emails where email_to_table = ? and email_to_id = ?`;
+    var sql = `select * from emails where to_table = ? and to_id = ?`;
     let email_to_table = req.params.email_to_table;
     let email_to_id = req.params.email_to_id;
     try{
@@ -165,9 +165,9 @@ router.get('/:email_to_table&/:email_to_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into emails (email_to_table, email_to_id, `+
-        ` email, email_memo, email_default, `+
-        ` email_created_by) `+
+    var sql = `insert into emails (to_table, to_id, `+
+        ` email, memo, defaulted, `+
+        ` created_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?);`;
     let email_to_table = req.body.email_to_table;
     let email_to_id = req.body.email_to_id;
@@ -214,9 +214,9 @@ router.post('/', (req, res)=>{
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
-    var sql = `replace into emails (email_id, email_to_table, email_to_id, `+
-        ` email, email_memo, email_default, `+
-        ` email_modified, email_modified_by) `+
+    var sql = `replace into emails (id, to_table, to_id, `+
+        ` email, memo, defaulted, `+
+        ` modified, modified_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);`;
     let email_id = req.body.email_id;
     let email_to_table = req.body.email_to_table;
@@ -261,7 +261,7 @@ router.put('/', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/emails/2 ahol a 2-es email_id-jű címet akarjuk törölni.
 router.delete('/:email_id', (req, res)=>{
-    var sql = `delete from emails where email_id = ?`;
+    var sql = `delete from emails where id = ?`;
     let email_id = req.params.email_id;
     try{
         con.query( sql, email_id, function (err, result) {
@@ -296,7 +296,7 @@ router.delete('/:email_id', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/emails/P&/2 ahol a 2-es partner_id-hez tartozó összes címet akarjuk törölni.
 router.delete('/:email_to_table&/:email_to_id', (req, res)=>{
-    var sql = `delete from emails where email_to_table = ? and email_to_id = ?`;
+    var sql = `delete from emails where to_table = ? and to_id = ?`;
     let email_to_table = req.params.email_to_table;
     let email_to_id = req.params.email_to_id;
     try{
@@ -328,6 +328,7 @@ router.delete('/:email_to_table&/:email_to_id', (req, res)=>{
         res.status(500);
         res.json({error: "Cannot get email_id = "+ email_id});
     }
+    
 })
 
 

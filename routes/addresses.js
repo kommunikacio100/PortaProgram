@@ -36,23 +36,23 @@ router.get('/', (req, res)=>{
 
 // use: GET command with this link http://127.0.0.1:3001/addresses/2 ahol a 2-es address_id-jű címet akarjuk visszakapni.
 router.get('/:address_id', (req, res)=>{
-    var sql = `select * from addresses where address_id = ?`;
+    var sql = `select * from addresses where id = ?`;
     let address_id = req.params.address_id;
     try{
         con.query(sql, address_id, function (err, result) {
             if (err){
                 res.status(500)
-                res.json({error: "Cannot get address_id = "+ address_id})
+                res.json({error: "Cannot get address id = "+ address_id})
                 throw err;
             }
             else{
                 if (result.length>0){
-                    console.log("get address_id = "+ address_id +" successfull");
+                    console.log("get address id = "+ address_id +" successfull");
 
                     let rows = [];
                     console.log( result);
                     for(let row of result){
-                        rows.push(JSON.parse(JSON.stringify(row)))
+                        rows.push( JSON.parse( JSON.stringify(row)))
                     }
                     res.status(200);
                     res.json(rows);
@@ -76,11 +76,11 @@ router.get('/:address_id', (req, res)=>{
 // ahol P a Partner táblát választja ki, és a 2-es partner_id-jű partnert, és csak a default címeket.
 // Egy partnerhez több cím is tartozhat.
 router.get('/:address_to_table&/:address_to_id&/:default_address', (req, res)=>{
-    var sql = `select * from addresses where address_to_table = ? and address_to_id = ?`;
+    var sql = `select * from addresses where to_table = ? and to_id = ?`;
     let address_to_table = req.params.address_to_table;
     let address_to_id = req.params.address_to_id;
     let default_address = req.params.default_address;
-    if (default_address!=null) sql+= ` and default_address = ` + default_address;
+    if (default_address!=null) sql+= ` and defaulted = ` + default_address;
     try{
         con.query(sql, [address_to_table, address_to_id, default_address], function (err, result) {
             if (err){
@@ -123,7 +123,7 @@ router.get('/:address_to_table&/:address_to_id&/:default_address', (req, res)=>{
 // ahol P a Partner táblát választja ki, és a 2-es partner_id-jű partnert, mindegy hogy default vagy nem.
 // Egy partnerhez több cím is tartozhat.
 router.get('/:address_to_table&/:address_to_id', (req, res)=>{
-    var sql = `select * from addresses where address_to_table = ? and address_to_id = ?`;
+    var sql = `select * from addresses where to_table = ? and to_id = ?`;
     let address_to_table = req.params.address_to_table;
     let address_to_id = req.params.address_to_id;
     try{
@@ -166,10 +166,10 @@ router.get('/:address_to_table&/:address_to_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into addresses (address_to_table, address_to_id, default_address, `+
+    var sql = `insert into addresses (to_table, to_id, defaulted, `+
         `country_code, zip_code, city, street_name, street_type, street_number, `+
         `lot_number, gps_latitude, gps_longitude,`+
-        ` address_created_by) `+
+        ` created_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let address_to_table = req.body.address_to_table;
     let address_to_id = req.body.address_to_id;
@@ -224,10 +224,10 @@ router.post('/', (req, res)=>{
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
-    var sql = `replace into addresses (address_id, address_to_table, address_to_id, default_address, `+
+    var sql = `replace into addresses (id, to_table, to_id, defaulted, `+
         `country_code, zip_code, city, street_name, street_type, street_number, `+
         `lot_number, gps_latitude, gps_longitude,`+
-        ` address_modified, address_modified_by) `+
+        ` modified, modified_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let address_id = req.body.address_id;
     let address_to_table = req.body.address_to_table;
@@ -279,7 +279,7 @@ router.put('/', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/addresses/2 ahol a 2-es address_id-jű címet akarjuk törölni.
 router.delete('/:address_id', (req, res)=>{
-    var sql = `delete from addresses where address_id = ?`;
+    var sql = `delete from addresses where id = ?`;
     let address_id = req.params.address_id;
     try{
         con.query( sql, address_id, function (err, result) {
@@ -314,7 +314,7 @@ router.delete('/:address_id', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/addresses/P&/2 ahol a 2-es partner_id-hez tartozó összes címet akarjuk törölni.
 router.delete('/:address_to_table&/:address_to_id', (req, res)=>{
-    var sql = `delete from addresses where address_to_table = ? and address_to_id = ?`;
+    var sql = `delete from addresses where to_table = ? and to_id = ?`;
     let address_to_table = req.params.address_to_table;
     let address_to_id = req.params.address_to_id;
     try{
@@ -347,6 +347,5 @@ router.delete('/:address_to_table&/:address_to_id', (req, res)=>{
         res.json({error: "Cannot get address_id = "+ address_id});
     }
 })
-
 
 module.exports = router;

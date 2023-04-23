@@ -21,7 +21,7 @@ then( (json) => {
 });
 
 // GET user to_table and to_ID
-fetch( url_addresses+ "U&/19").then( (response)=>{
+fetch( url_addresses+ "U&/2").then( (response)=>{
     return response.json();
 }).
 then( (json) => {
@@ -30,7 +30,7 @@ then( (json) => {
 });
 
 // GET user to_table and to_ID and default
-fetch( url_addresses+ "U&/19&/true").then( (response)=>{
+fetch( url_addresses+ "U&/2&/true").then( (response)=>{
     return response.json();
 }).
 then( (json) => {
