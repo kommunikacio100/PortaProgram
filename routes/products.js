@@ -35,7 +35,7 @@ router.get('/', (req, res)=>{
 
 // use: GET command with this link http://127.0.0.1:3001/products/2 ahol a 2-es product_id-jű címet akarjuk visszakapni.
 router.get('/:product_id', (req, res)=>{
-    var sql = `select * from products where product_id = ?`;
+    var sql = `select * from products where id = ?`;
     let product_id = req.params.product_id;
     try{
         con.query(sql, product_id, function (err, result) {
@@ -78,10 +78,10 @@ router.get('/:product_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into products (product_item_number, product_name, product_units, `+
-    `product_stock, product_kg_per_unit, product_unit_price, product_vtsz, product_vatKey,`+
-    `product_vat_exemption_case, product_vat_exemption_reason, product_adr_number, `+
-    ` product_created_by) `+
+    var sql = `insert into products (item_number, name, units, `+
+    `stock, kg_per_unit, unit_price, vtsz, vatKey,`+
+    `vat_exemption_case, vat_exemption_reason, adr_number, `+
+    ` created_by) `+
     ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let product_item_number = req.body.product_item_number;
     let product_name = req.body.product_name;
@@ -135,10 +135,10 @@ router.post('/', (req, res)=>{
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
-    var sql = `replace into products ( product_id, product_item_number, product_name, product_units, `+
-    `product_stock, product_kg_per_unit, product_unit_price, product_vtsz, product_vatKey,`+
-    `product_vat_exemption_case, product_vat_exemption_reason, product_adr_number, `+
-    ` product_modified, product_modified_by) `+
+    var sql = `replace into products ( id, item_number, name, units, `+
+    `stock, kg_per_unit, unit_price, vtsz, vatKey,`+
+    `vat_exemption_case, vat_exemption_reason, adr_number, `+
+    ` modified, modified_by) `+
     ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let product_id = req.body.product_id;
     let product_item_number = req.body.product_item_number;
@@ -191,7 +191,7 @@ router.put('/', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/products/2 ahol a 2-es product_id-jű címet akarjuk törölni.
 router.delete('/:product_id', (req, res)=>{
-    var sql = `delete from products where product_id = ?`;
+    var sql = `delete from products where id = ?`;
     let product_id = req.params.product_id;
     try{
         con.query( sql, product_id, function (err, result) {

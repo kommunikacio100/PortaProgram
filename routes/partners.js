@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
 
 // use: GET command with this link http://127.0.0.1:3001/partners/2 ahol a 2-es partner_id-jű címet akarjuk visszakapni.
 router.get('/:partner_id', (req, res) => {
-    var sql = `select * from partners where partner_id = ?`;
+    var sql = `select * from partners where id = ?`;
     let partner_id = req.params.partner_id;
     try {
         con.query(sql, partner_id, function (err, result) {
@@ -78,16 +78,16 @@ router.get('/:partner_id', (req, res) => {
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res) => {
-    var sql = `insert into partners (partner_vatNumber, partner_name, partner_note, ` +
-        ` partner_bankAccountNumber, partner_created_by) ` +
+    var sql = `insert into partners (vat_number, name, memo, ` +
+        ` bank_account, created_by) ` +
         ` VALUES ( ?, ?, ?, ?, ?);`;
-    let partner_vatNumber = req.body.partner_vatNumber;
+    let partner_vat_number = req.body.partner_vat_number;
     let partner_name = req.body.partner_name;
-    let partner_note = req.body.partner_note;
-    let partner_bankAccountNumber = req.body.partner_bankAccountNumber;
+    let partner_memo = req.body.partner_memo;
+    let partner_bank_account = req.body.partner_bank_account;
     let partner_created_by = req.body.partner_created_by;
     try {
-        con.query(sql, [partner_vatNumber, partner_name, partner_note, partner_bankAccountNumber,
+        con.query(sql, [partner_vat_number, partner_name, partner_memo, partner_bank_account,
             partner_created_by],
             function (err, result) {
                 if (err) {
@@ -125,20 +125,20 @@ router.post('/', (req, res) => {
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res) => {
-    var sql = `replace into partners ( partner_id, ` +
-        ` partner_vatNumber, partner_name, partner_note, ` +
-        ` partner_bankAccountNumber, partner_modified, partner_modified_by) ` +
+    var sql = `replace into partners ( id, ` +
+        ` vat_number, name, memo, ` +
+        ` bank_account, modified, modified_by) ` +
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?);`;
     let partner_id = req.body.partner_id;
-    let partner_vatNumber = req.body.partner_vatNumber;
+    let partner_vat_number = req.body.partner_vat_number;
     let partner_name = req.body.partner_name;
-    let partner_note = req.body.partner_note;
-    let partner_bankAccountNumber = req.body.partner_bankAccountNumber;
+    let partner_memo = req.body.partner_memo;
+    let partner_bank_account = req.body.partner_bank_account;
     let partner_modified = new Date().toISOString();
     let partner_modified_by = req.body.partner_modified_by;
     try {
-        con.query(sql, [partner_id, partner_vatNumber, partner_name,
-            partner_note, partner_bankAccountNumber, partner_modified, partner_modified_by],
+        con.query(sql, [partner_id, partner_vat_number, partner_name,
+            partner_memo, partner_bank_account, partner_modified, partner_modified_by],
             function (err, result) {
                 if (err) {
                     res.status(500)
@@ -170,7 +170,7 @@ router.put('/', (req, res) => {
 
 // use: DELETE command with this link http://127.0.0.1:3001/partners/2 ahol a 2-es partner_id-jű partnert akarjuk törölni.
 router.delete('/:partner_id', (req, res) => {
-    var sql = `delete from partners where partner_id = ?`;
+    var sql = `delete from partners where id = ?`;
     let partner_id = req.params.partner_id;
     try {
         con.query(sql, partner_id, function (err, result) {
@@ -194,6 +194,7 @@ router.delete('/:partner_id', (req, res) => {
                 }
             }
         });
+        
 
     } catch (e) {
         console.error(e);

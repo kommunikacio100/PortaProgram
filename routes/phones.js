@@ -35,7 +35,7 @@ router.get('/', (req, res)=>{
 
 // use: GET command with this link http://127.0.0.1:3001/phones/2 ahol a 2-es phone_id-jű címet akarjuk visszakapni.
 router.get('/:phone_id', (req, res)=>{
-    var sql = `select * from phones where phone_id = ?`;
+    var sql = `select * from phones where id = ?`;
     let phone_id = req.params.phone_id;
     try{
         con.query(sql, phone_id, function (err, result) {
@@ -75,11 +75,11 @@ router.get('/:phone_id', (req, res)=>{
 // ahol P a Partner táblát választja ki, és a 2-es partner_id-jű partnert, és csak a default címeket.
 // Egy partnerhez több cím is tartozhat.
 router.get('/:phone_to_table&/:phone_to_id&/:phone_default', (req, res)=>{
-    var sql = `select * from phones where phone_to_table = ? and phone_to_id = ?`;
+    var sql = `select * from phones where to_table = ? and to_id = ?`;
     let phone_to_table = req.params.phone_to_table;
     let phone_to_id = req.params.phone_to_id;
     let phone_default = req.params.phone_default;
-    if (phone_default!=null) sql+= ` and phone_default = ` + phone_default;
+    if (phone_default!=null) sql+= ` and defaulted = ` + phone_default;
     try{
         con.query(sql, [phone_to_table, phone_to_id, phone_default], function (err, result) {
             if (err){
@@ -122,7 +122,7 @@ router.get('/:phone_to_table&/:phone_to_id&/:phone_default', (req, res)=>{
 // ahol P a Partner táblát választja ki, és a 2-es partner_id-jű partnert, mindegy hogy default vagy nem.
 // Egy partnerhez több cím is tartozhat.
 router.get('/:phone_to_table&/:phone_to_id', (req, res)=>{
-    var sql = `select * from phones where phone_to_table = ? and phone_to_id = ?`;
+    var sql = `select * from phones where to_table = ? and to_id = ?`;
     let phone_to_table = req.params.phone_to_table;
     let phone_to_id = req.params.phone_to_id;
     try{
@@ -165,9 +165,9 @@ router.get('/:phone_to_table&/:phone_to_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into phones (phone_to_table, phone_to_id, `+
-        ` phone, phone_memo, phone_default, `+
-        ` phone_created_by) `+
+    var sql = `insert into phones (to_table, to_id, `+
+        ` phone, memo, defaulted, `+
+        ` created_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?);`;
     let phone_to_table = req.body.phone_to_table;
     let phone_to_id = req.body.phone_to_id;
@@ -214,9 +214,9 @@ router.post('/', (req, res)=>{
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
-    var sql = `replace into phones (phone_id, phone_to_table, phone_to_id, `+
-    ` phone, phone_memo, phone_default, `+
-    ` phone_modified, phone_modified_by) `+
+    var sql = `replace into phones (id, to_table, to_id, `+
+    ` phone, memo, defaulted, `+
+    ` modified, modified_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);`;
     let phone_id = req.body.phone_id;
     let phone_to_table = req.body.phone_to_table;
@@ -260,7 +260,7 @@ router.put('/', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/phones/2 ahol a 2-es phone_id-jű címet akarjuk törölni.
 router.delete('/:phone_id', (req, res)=>{
-    var sql = `delete from phones where phone_id = ?`;
+    var sql = `delete from phones where id = ?`;
     let phone_id = req.params.phone_id;
     try{
         con.query( sql, phone_id, function (err, result) {
@@ -295,7 +295,7 @@ router.delete('/:phone_id', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/phones/P&/2 ahol a 2-es partner_id-hez tartozó összes címet akarjuk törölni.
 router.delete('/:phone_to_table&/:phone_to_id', (req, res)=>{
-    var sql = `delete from phones where phone_to_table = ? and phone_to_id = ?`;
+    var sql = `delete from phones where to_table = ? and to_id = ?`;
     let phone_to_table = req.params.phone_to_table;
     let phone_to_id = req.params.phone_to_id;
     try{

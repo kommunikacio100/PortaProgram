@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
 
 // use: GET command with this link http://127.0.0.1:3001/delivery_notes/2 ahol a 2-es delivery_note_id-jű címet akarjuk visszakapni.
 router.get('/:delivery_note_id', (req, res) => {
-    var sql = `select * from delivery_notes where delivery_note_id = ?`;
+    var sql = `select * from delivery_notes where id = ?`;
     let delivery_note_id = req.params.delivery_note_id;
     try {
         con.query(sql, delivery_note_id, function (err, result) {
@@ -79,12 +79,12 @@ router.get('/:delivery_note_id', (req, res) => {
 // Egy delivery_notehez több cím is tartozhat.
 router.post('/', (req, res) => {
     var sql = `insert into delivery_notes ( `+
-    `delivery_note_serial_no, delivery_note_owner_id, delivery_note_owner_address_id, `+
-    `delivery_note_loadlocation_address_id, delivery_note_partner_id, `+
-    `delivery_note_partner_address_id, delivery_note_unloadlocation_address_id, `+
-    `delivery_note_carrier_id, delivery_note_carrier_address_id, delivery_note_movement_id, `+
-    `delivery_note_status, delivery_note_created_by, `+
-    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    `serial_no, owner_id, owner_address_id, `+
+    `loadlocation_address_id, partner_id, `+
+    `partner_address_id, unloadlocation_address_id, `+
+    `carrier_id, carrier_address_id, movement_id, `+
+    `status, created_by) `+
+    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let delivery_note_serial_no = req.body.delivery_note_serial_no;
     let delivery_note_owner_id = req.body.delivery_note_owner_id;
     let delivery_note_owner_address_id = req.body.delivery_note_owner_address_id;
@@ -140,13 +140,13 @@ router.post('/', (req, res) => {
 // Egy delivery_notehez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res) => {
-    var sql = `replace into delivery_notes ( delivery_note_id, ` +
-        `delivery_note_serial_no, delivery_note_owner_id, delivery_note_owner_address_id, `+
-        `delivery_note_loadlocation_address_id, delivery_note_partner_id, `+
-        `delivery_note_partner_address_id, delivery_note_unloadlocation_address_id, `+
-        `delivery_note_carrier_id, delivery_note_carrier_address_id, delivery_note_movement_id, `+
-        `delivery_note_status, delivery_note_modified, delivery_note_modified_by) ` +
-        ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    var sql = `replace into delivery_notes ( id, ` +
+        `serial_no, owner_id, owner_address_id, `+
+        `loadlocation_address_id, partner_id, `+
+        `partner_address_id, unloadlocation_address_id, `+
+        `carrier_id, carrier_address_id, movement_id, `+
+        `status, modified, modified_by) ` +
+        ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let delivery_note_id = req.body.delivery_note_id;
     let delivery_note_serial_no = req.body.delivery_note_serial_no;
     let delivery_note_owner_id = req.body.delivery_note_owner_id;

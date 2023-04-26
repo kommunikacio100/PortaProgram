@@ -35,7 +35,7 @@ router.get('/', (req, res)=>{
 
 // use: GET command with this link http://127.0.0.1:3001/carriers/2 ahol a 2-es carrier_id-jű címet akarjuk visszakapni.
 router.get('/:carrier_id', (req, res)=>{
-    var sql = `select * from carriers where carrier_id = ?`;
+    var sql = `select * from carriers where id = ?`;
     let carrier_id = req.params.carrier_id;
     try{
         con.query(sql, carrier_id, function (err, result) {
@@ -75,8 +75,8 @@ router.get('/:carrier_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into carriers (carrier_ekaerid, carrier_name, carrier_memo, `+
-        ` carrier_created_by) `+
+    var sql = `insert into carriers (ekaer_id, name, memo, `+
+        ` created_by) `+
         ` VALUES ( ?, ?, ?, ?);`;
     let carrier_ekaerid = req.body.carrier_ekaerid;
     let carrier_name = req.body.carrier_name;
@@ -119,9 +119,9 @@ router.post('/', (req, res)=>{
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
-    var sql = `replace into carriers ( carrier_id, `+
-    ` carrier_ekaerid, carrier_name, carrier_memo, `+
-    ` carrier_modified, carrier_modified_by) `+
+    var sql = `replace into carriers ( id, `+
+    ` ekaer_id, name, memo, `+
+    ` modified, modified_by) `+
     ` VALUES ( ?, ?, ?, ?, ?, ?);`;
     let carrier_id = req.body.carrier_id;
     let carrier_ekaerid = req.body.carrier_ekaerid;
@@ -163,7 +163,7 @@ router.put('/', (req, res)=>{
 
 // use: DELETE command with this link http://127.0.0.1:3001/carriers/2 ahol a 2-es carrier_id-jű címet akarjuk törölni.
 router.delete('/:carrier_id', (req, res)=>{
-    var sql = `delete from carriers where carrier_id = ?`;
+    var sql = `delete from carriers where id = ?`;
     let carrier_id = req.params.carrier_id;
     try{
         con.query( sql, carrier_id, function (err, result) {
@@ -194,7 +194,5 @@ router.delete('/:carrier_id', (req, res)=>{
         res.json({error: "Cannot get carrier_id = "+ carrier_id});
     }
 })
-
-
 
 module.exports = router;
