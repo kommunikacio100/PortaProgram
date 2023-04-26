@@ -19,3 +19,21 @@ Létrehozandó HTML-ek:
 
 
     Bejelentkezés után kell egy menü, a megfelelő jogosultságok alapján aktivált menüpontokkal.
+
+2023-04-26 - Lacza
+A mai megbeszélés alapján:
+
+Login ---> Irányító oldal (Törzsadat kezelés ÉS Mérlegés)
+
+Törzsadat: 
+	Partnerek (Adószám, név, megjegyzés, bankszámlaszám, Id)
+	Szállítmányozók (Név, megjegyzés, Id) 
+	Tulajdonosok (Eladók) (Adószám, név, bankszámlaszám, megjegyzés, Id)
+	Termékek (Item number, név, mennyiségi egység, egységár, raktáron lévő mennyiség, kg/unit, ÁFA kulcs, Id)
+	Járművek (Rendszám, emty weight, empty time, Id)
+	Users (Név, e-mail cím, Jogosultságok, Id)
+
+Mérlegelés:
+	Delivery notes (Owner, Partner, Product)
+		(befejezetlenek felsorolása)
+		(Mérések felvétele)
