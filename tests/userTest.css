@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+}
+header {
+    background: rgb(17, 140, 79);
+}
+.container-fluid {
+    border-bottom: white solid 2px;
+    background: rgb(17, 140, 79);
+    height: 100px;
+}
+.d-inline-block {
+    margin-left: 10px;
+    color: white;
+}
+.navbar-nav {
+    background: rgb(146, 197, 154);
+    padding: 0px;
+    margin-left: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-size: 1em;
+    font-weight: bold;
+}
+.nav-item:hover {
+    background: rgb(17, 140, 79);
+    color: white;
+}
+.nav-link:hover {
+    background:  rgb(17, 140, 79);
+    color: white;
+    border-bottom: white solid 3px;
+}
+
+.navbar-toggler {
+    background: rgb(146, 197, 154);
+}
+.dropdown-item {
+    background: rgb(146, 197, 154);
+    padding: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-size: 1.3em;
+    font-weight: bold;
+    border-bottom: black 1px;
+}
+.dropdown-item:hover {
+    background:  rgb(17, 140, 79);
+    color: white;
+    border-bottom: white solid 2px;
+}

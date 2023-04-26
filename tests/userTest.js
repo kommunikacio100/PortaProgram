@@ -51,7 +51,7 @@ const update_user_data = {
     "user_can_look_data":1, "user_can_edit_data":1, "user_can_weighing":1, 
     "user_can_edit_users":1, "user_can_settings":1 };
 function update_user( user_id){
-    // PUT update the user
+// PUT update the user
     update_user_data["user_id"] = user_id;
     fetch( url_users, {
         method: 'PUT',
@@ -99,7 +99,7 @@ const new_user_data_hash = {
     "user_can_look_data":1, "user_can_edit_data":1, "user_can_weighing":1, 
     "user_can_edit_users":1, "user_can_settings":1 };
     // POST new user, update the user, delete user
-// létrehozunk egy felhasználót. Ha sikerült, módosítjuk. Ha sikerült a módosítás, akkor töröljük.
+    // létrehozunk egy felhasználót. Ha sikerült, módosítjuk. Ha sikerült a módosítás, akkor töröljük.
 fetch( url_users, {
     method: 'POST',
     body: JSON.stringify(new_user_data_hash),
