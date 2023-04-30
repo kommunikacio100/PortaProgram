@@ -69,32 +69,34 @@
 <body>
     <div class="container-fluid mt-5">
         <h1 class="text-center oldalcim">Felhasználók kezelése</h1>
-        <table class="table mt-5">
-            <thead>
-                <tr>
-                    <th>NÉV</th>
-                    <th>E-MAIL CÍM</th>
-                    <th>ADATOK MEGTEKINTÉSE</th>
-                    <th>ADATOK MÓDOSÍTÁSA</th>
-                    <th>MÉRÉS</th>
-                    <th>FELHASZNÁLÓK MÓDOSÍTÁSA</th>
-                    <th>BEÁLLÍTÁSOK MÓDOSÍTÁSA</th>
-                    <th>ID</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                <tr>
-                    <td class="user_name" style="font-weight: bold; font-style: italic;">Kecske Béka</td>
-                    <td class="user_email" style="font-weight: bold; font-style: italic;">kecske.beka@pajtamail.hu</td>
-                    <td class="user_can_look_data" style="font-style: italic;">IGEN</td>
-                    <td class="user_can_edit_data" style="font-style: italic;">IGEN</td>
-                    <td class="user_can_weighing" style="font-style: italic;">IGEN</td>
-                    <td class="user_can_edit_users" style="font-style: italic;">IGEN</td>
-                    <td class="user_can_settings" style="font-style: italic;">IGEN</td>
-                    <td class="user_id" style="font-style: italic;">1</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table mt-5">
+                <thead>
+                    <tr>
+                        <th>NÉV</th>
+                        <th>E-MAIL CÍM</th>
+                        <th>ADATOK MEGTEKINTÉSE</th>
+                        <th>ADATOK MÓDOSÍTÁSA</th>
+                        <th>MÉRÉS</th>
+                        <th>FELHASZNÁLÓK MÓDOSÍTÁSA</th>
+                        <th>BEÁLLÍTÁSOK MÓDOSÍTÁSA</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr>
+                        <td class="user_name" style="font-weight: bold; font-style: italic;"></td>
+                        <td class="user_email" style="font-style: italic;"></td>
+                        <td class="user_can_look_data" style="font-style: italic;"></td>
+                        <td class="user_can_edit_data" style="font-style: italic;"></td>
+                        <td class="user_can_weighing" style="font-style: italic;"></td>
+                        <td class="user_can_edit_users" style="font-style: italic;"></td>
+                        <td class="user_can_settings" style="font-style: italic;"></td>
+                        <td class="user_id" style="font-style: italic;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>    
     </div>
     <div class="container-fluid mt-5">
         <form class="w-75 m-auto d-flex flex-column">
@@ -149,8 +151,8 @@
         <!-- Copyright, ha akaruk... -->
         <div class="text-white mb-3 mb-md-0">Copyright © 2023. All rights reserved.</div>
     </div>
-    <script src="user.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="user.js"></script>
 </body>
 </html>
 

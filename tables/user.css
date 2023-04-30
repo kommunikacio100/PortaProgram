@@ -2,6 +2,28 @@
     box-sizing: border-box;
     margin: 0px;
 }
+/* @media only screen and (max-width:800px) {
+    #table tbody, 
+    #table tr, 
+    #table td {
+        display: block;
+    }
+    #table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    #table td {
+        position: relative;
+        padding-left: 50%;
+    }
+    #table td:before {
+        content: attr(data-title);
+        position: absolute;
+        left: 5px;
+        font-weight: bold;
+    }
+} */
 header {
     background: rgb(17, 140, 79);
 }
@@ -12,7 +34,6 @@ header {
 } */
 .d-inline-block {
     margin-left: 10px;
-    /* color: white; */
 }
 .oldalcim {
     color: rgb(17, 140, 79);
