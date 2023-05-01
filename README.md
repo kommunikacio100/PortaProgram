@@ -37,3 +37,48 @@ Mérlegelés:
 	Delivery notes (Owner, Partner, Product)
 		(befejezetlenek felsorolása)
 		(Mérések felvétele)
+
+2023-05-01 - Lacza
+
+Weighings.html:
+---------
+DeliveryNotes tömbben szereplő, le nem zárt szállítólevelek listája.
+gomb_uj_szallitolevel, gomb_modosit, gomb_sztorno
+---> deliveryNotes.html
+
+Delivery Note.html (Nyitott):
+------------------
+Egyetlen delivery note
+
+Owner --- Vásárló
+Szállítmányozó
+
+Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
+
+gomb_bemereshez (---> meauserents.html)
+// gomb_meres_javitasa (---> meauserent_1.html - visszamérés nélküli, vagy ---> measurement_2.html - visszamért) //
+// gomb_visszameres (---> measurment_2.html) //
+
+Measurement_1.html:
+-----------------
+Új bemérés oldala
+
+Rendszám
+Termék
+1. mérés
+Mérések (Rendszám, Termék, Mért tömeg) --> Modal (Mérlegelés, megadás kézzel, gépkocsi táblából) ---> gomb_mentés
+gomb_torles
+
+Meaurement_2.html:
+---------------
+Visszamérés, melyen már szerepel a bemérés
+
+Rendszám
+Termék
+1. mérés (bemérés)
+2. mérés
+Mérések (Rendszám, Termék, első mérés, Mért tömeg) --> Modal (Mérlegelés, megadás kézzel, gépkocsi táblából) --->
+gomb_mentés
+gomb_torles
+
+A KETTŐ MÉRÉS AD KI EGYETLEN 'MEASUREMENT'-ET, AMI A DELIVERY NOTES-on SZEREPEL.

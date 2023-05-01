@@ -1,4 +1,4 @@
--- Active: 1679018847898@@127.0.0.1@3306@weighing_db
+-- Active: 1679420639513@@127.0.0.1@3306@weighing_db
 use weighing_DB;
 
 DROP PROCEDURE IF EXISTS add_user;
