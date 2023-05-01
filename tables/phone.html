@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="./merleg.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="./responsive-text-resize/font-size.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="carrierTest.css">
+    <link rel="stylesheet" href="phone.css">
 </head>
 <header>
     <nav class="navbar navbar-expand-xl">
@@ -22,31 +22,31 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="./partnerTest.html">Partnerek</a>
+                        <a class="nav-link" href="./partner.html">Partnerek</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./carrierTest.html">Szállítmányozók</a>
+                        <a class="nav-link" href="./carrier.html">Szállítmányozók</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./ownerTest.html">Tulajdonosok</a>
+                        <a class="nav-link" href="./owner.html">Tulajdonosok</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./productTest.html">Termékek</a>
+                        <a class="nav-link" href="./product.html">Termékek</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./vehicleTest.html">Járművek</a>
+                        <a class="nav-link" href="./vehicle.html">Járművek</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="userTest.html">Felhasználók</a>
+                        <a class="nav-link" href="./user.html">Felhasználók</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./addressTest.html">Címek</a>
+                        <a class="nav-link" href="./address.html">Címek</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./emailTest.html">E-mail</a>
+                        <a class="nav-link" href="./email.html">E-mail</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./phoneTest.html">Telefonszámok</a>
+                        <a class="nav-link" href="./phone.html">Telefonszámok</a>
                     </li>
                 </ul>
             </div>
@@ -55,31 +55,46 @@
 </header>
 <body>
     <div class="container">
-        <h3>GET all carriers</h3>
-        http://localhost:port/carriers/ 
-        <div class="functionResult" id="carrier_list"></div>
+        <h3>GET all phones</h3>
+        http://localhost:port/phones/ 
+        <div class="functionResult" id="phone_list"></div>
     </div>
     <div class="container">
-        <h3>GET carrier with carrier_id</h3>
-        http://localhost:port/carriers/:carrier_id 
-        <div class="functionResult" id="carrier_by_id"></div>
+        <h3>GET phone with phone_id</h3>
+        http://localhost:port/phones/:phone_id 
+        <div class="functionResult" id="phone_by_id"></div>
     </div>
     <div class="container">
-        <h3>POST new carrier</h3>
-        http://localhost:port/carrier/
-        <div class="functionResult" id="carrier_post"></div>
+        <h3>GET phone with to_table and to_id</h3>
+        http://localhost:port/phones/:phone_to_table&/:phone_to_id
+        <div class="functionResult" id="phone_by_to_table_and_to_id"></div>
     </div>
     <div class="container">
-        <h3>PUT carrier data</h3>
-        http://localhost:port/carriers/
-        <div class="functionResult" id="carrier_put"></div>
+        <h3>GET default phone to_table and to_id</h3>
+        http://localhost:port/phones/:phone_to_table&/:phone_to_id&/:default_phone
+        <div class="functionResult" id="phone_by_to_table_and_to_id_and_default"></div>
     </div>
     <div class="container">
-        <h3>DELETE carrier with carrier_id</h3>
-        http://localhost:port/carriers/:carrier_id 
-        <div class="functionResult" id="carrier_delete"></div>
+        <h3>POST new phone</h3>
+        http://localhost:port/phone/
+        <div class="functionResult" id="phone_post"></div>
     </div>
-    <script src="carrierTest.js"></script>
+    <div class="container">
+        <h3>PUT phone data</h3>
+        http://localhost:port/phones/
+        <div class="functionResult" id="phone_put"></div>
+    </div>
+    <div class="container">
+        <h3>DELETE phone with phone_id</h3>
+        http://localhost:port/phones/:phone_id 
+        <div class="functionResult" id="phone_delete"></div>
+    </div>
+    <div class="container">
+        <h3>DELETE phones with phone_to_table + phone_to_id</h3>
+        http://localhost:port/phones/:phone_to_table&/:phone_to_id
+        <div class="functionResult" id="phones_delete"></div>
+    </div>
+    <script src="phone.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>

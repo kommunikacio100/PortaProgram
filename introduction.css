@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+}
+body {
+    background-color: rgb(17, 140, 79);
+    padding: 15px;
+    margin: 20px;
+}
+div {
+    /* border: 1px solid blue; */
+    border-radius: 10px;
+    background-color: aliceblue;
+    padding: 15px;
+    margin: 20px;
+}
+.container, .d-flex {
+    border-color: white;
+}
+.h1 {
+    font-weight: bold;
+}
+.card {
+    width: auto;
+    height: auto;
+    padding: 0px;
+    margin-left: 0px;
+    border: 2px solid;
+    border-color: rgb(17, 140, 79);
+    border-radius: 10px;
+    background-color: white;
+}
+.card-header {
+    /* font-weight: bold; */
+    border-bottom: 2px solid;
+    border-color: rgb(17, 140, 79);
+    background-color: white;
+}
+.card-body {
+    /* font-size: 1.8vh; */
+    /* font-weight: bold; */
+    text-align: left;
+    border: white;
+    background-color: white;
+}
+.gomb_bejelentkezeshez {
+    background-color: rgb(17, 140, 79);
+    height: 50px;
+    width: 220px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+.gomb_bejelentkezeshez:hover {
+    background-color: rgb(17, 140, 79);
+    height: 50px;
+    width: 220px;
+    border-radius: 10px;
+    border: 2px solid black;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}

@@ -1,0 +1,44 @@
+{
+  "user": [
+    {
+      "user_name": "Kecske Béka",
+      "user_email": "kecske.beka@pajtamail.hu",
+      "user_can_look_data": "IGEN",
+      "user_can_edit_data": "IGEN",
+      "user_can_weighing": "IGEN",
+      "user_can_edit_users": "IGEN",
+      "user_can_settings": "IGEN",
+      "user_id": 1
+    },
+    {
+      "user_name": "Kalim Pál",
+      "user_email": "kalim.pal@pajtamail.hu",
+      "user_can_look_data": "IGEN",
+      "user_can_edit_data": "IGEN",
+      "user_can_weighing": "IGEN",
+      "user_can_edit_users": "NEM",
+      "user_can_settings": "NEM",
+      "user_id": 2
+    },
+    {
+      "user_name": "Remek Elek",
+      "user_email": "remek.elek@pajtamail.hu",
+      "user_can_look_data": "NEM",
+      "user_can_edit_data": "NEM",
+      "user_can_weighing": "IGEN",
+      "user_can_edit_users": "NEM",
+      "user_can_settings": "NEM",
+      "user_id": 3
+    },
+    {
+      "user_name": "Vég Béla",
+      "user_email": "veg.bela@pajtamail.hu",
+      "user_can_look_data": "NEM",
+      "user_can_edit_data": "NEM",
+      "user_can_weighing": "IGEN",
+      "user_can_edit_users": "NEM",
+      "user_can_settings": "NEM",
+      "user_id": 4
+    }
+  ]
+}

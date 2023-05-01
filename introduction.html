@@ -4,49 +4,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>portaProgram szerver</title>
-    <style>
-        body{
-            background-color: beige;
-            padding: 15px;
-            margin: 20px;
-        }
-        div{
-            border: 1px solid blue;
-            border-radius: 10px;
-            background-color: aliceblue;
-            padding: 15px;
-            margin: 20px;
-        }
-    </style>
+    <title>Portaprogram szerver</title>
+    <link rel="icon" type="image/png" href="./merleg.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="./responsive-text-resize/font-size.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="introduction.css">
 </head>
 <body>
-    <caption>
-        <h1>Radnóti portaProgram 1.0 express.js webserver</h1>
-    </caption> 
-    <div>
-        nodes:
-        <ul>
-            <li>/carriers</li>
-            <li>/owners</li>
-            <li>/partners</li>
-            <li>/users</li>
-            <li>/addresses</li>
-            <li>/phones</li>
-            <li>/emails</li>
-            <li>/movements</li>
-            <li>/delivery_notes</li>
-            <li>/measurements</li>
-        </ul>
-    </div>
-    <div>
-        Rest API functions:
-        <ul>
-            <li>GET</li>
-            <li>PUT</li>
-            <li>POST</li>
-            <li>DELETE</li>
-        </ul>
-    </div>
+    <div class="container mt-5">
+        <h1 class="text-center">Radnóti Portaprogram 1.0 express.js webserver</h1>
+        <div class="row justify-content-sm-center justify-content-md-evenly">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Nodes:</h3>
+                    <div class="card-body">
+                        <ul>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/carriers</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/owners</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/partners</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/users</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/addresses</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/phones</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/emails</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/movements</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/delivery_notes</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">/measurements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Rest API functions:</h3>
+                    <div class="card-body">
+                        <ul>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">GET</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">POST</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">PUT</li>
+                            <li class="fs-14px fs-sm-14px fs-md-17px fs-lg-21px fs-xl-23px fs-xxl-25px">DELETE</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <a href="login.html" class="btn gomb_bejelentkezeshez">Bejelentkezéshez</a>
+        </div>
+    </div>    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
