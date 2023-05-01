@@ -37,8 +37,12 @@ header {
     background: rgb(146, 197, 154);
     margin-right: 10px;
 }
-.dropdown-item:hover {
-    background:  rgb(17, 140, 79);
-    color: white;
-    border-bottom: white solid 2px;
+.oldalcim {
+    color: rgb(17, 140, 79);
+}
+.footer {
+    height: 80px;
+    font-size: 18px;
+    text-align: center;
+    background-color: rgb(17, 140, 79);
 }

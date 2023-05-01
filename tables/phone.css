@@ -42,3 +42,9 @@ header {
     color: white;
     border-bottom: white solid 2px;
 }
+.footer {
+    height: 80px;
+    font-size: 18px;
+    text-align: center;
+    background-color: rgb(17, 140, 79);
+}
