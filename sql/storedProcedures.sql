@@ -1,4 +1,4 @@
--- Active: 1678652479984@@127.0.0.1@3306@weighing_db
+-- Active: 1679018847898@@127.0.0.1@3306@weighing_db
 use weighing_DB;
 
 DROP PROCEDURE IF EXISTS add_user;
@@ -45,7 +45,7 @@ call add_user( 'User', 'User123!', 1, 1, 1, 0, 0, @ID, @Err);
 call add_user( 'Eszter', 'User123!', 1, 1, 1, 0, 0, @ID, @Err);
 call add_user( 'Angyal Róbert', 'Admin123!', 1, 1, 1, 1, 1, @ID, @Err);
 select @ID, @Err;
-Insert into addresses ( to_table, to_id, `default`, 
+Insert into addresses ( to_table, to_id, `defaulted`, 
             country_code, zip_code, city, street_name, 
             street_type, street_number, lot_number, 
             gps_latitude, gps_longitude, created_by) VALUES 
@@ -53,13 +53,13 @@ Insert into addresses ( to_table, to_id, `default`,
               'HU', '7300', 'Komló', 'Diófa', 'utca', '4/1', 
               null, null, null, @ID);
 Insert into emails 
-    ( to_table, to_id, email, memo, `default`, created_by) Values
+    ( to_table, to_id, email, memo, `defaulted`, created_by) Values
     ( 'U', @ID, 'angyal.r@gmail.com', 'email memo nothing', true, @ID);
 Insert into phones 
-    ( to_table, to_id, phone, memo, `default`, created_by) Values
+    ( to_table, to_id, phone, memo, `defaulted`, created_by) Values
     ( 'U', @ID, '+36703300869', 'phone memo is very good', true, @ID);
 call add_user( 'John Rambo', 'Rambo123?', 1, 1, 1, 1, 1, @ID, @Err);
-Insert into addresses ( to_table, to_id, `default`, 
+Insert into addresses ( to_table, to_id, `defaulted`, 
             country_code, zip_code, city, street_name, 
             street_type, street_number, lot_number, 
             gps_latitude, gps_longitude, created_by) VALUES 
@@ -67,12 +67,11 @@ Insert into addresses ( to_table, to_id, `default`,
               'HU', '1201', 'Budapest XX.', 'Márton', 'utca', '1', 
               null, null, null, @ID);
 Insert into emails 
-    ( to_table, to_id, email, memo, `default`, created_by) Values
+    ( to_table, to_id, email, memo, `defaulted`, created_by) Values
     ( 'U', @ID, 'angyal.r@gmail.com', 'email memo nothing', true, @ID);
 Insert into phones 
-    ( to_table, to_id, phone, memo, `default`, created_by) Values
-    ( 'U', @ID, '+367033
-    00860', 'phone memo nothing', true, @ID);
+    ( to_table, to_id, phone, memo, `defaulted`, created_by) Values
+    ( 'U', @ID, '+36703300860', 'phone memo nothing', true, @ID);
 
 
 
@@ -87,8 +86,7 @@ CREATE PROCEDURE add_user_hash(
     in _user_can_weighing INT, 
     in _user_can_edit_users INT, 
     in _user_can_settings INT, 
-    out the_user_id BIGI
-    NT,
+    out the_user_id BIGINT,
     out error_text varchar(128))
 BEGIN
     SET error_text = 'START';
