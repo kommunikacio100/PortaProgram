@@ -13,7 +13,7 @@
 .felirat_feladatvalasztas {
     color:rgb(17, 140, 79)
 }
-.gomb_torzsadatok, .gomb_meres {
+.gomb_torzsadatok, .gomb_bemeres, .gomb_visszameres {
     background-color: rgb(17, 140, 79);
     height: 50px;
     width: 220px;
