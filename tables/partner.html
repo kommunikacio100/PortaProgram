@@ -54,31 +54,63 @@
     </nav>    
 </header>
 <body>
-    <div class="container">
-        <h3>GET all partners</h3>
-        http://localhost:port/partners/ 
-        <div class="functionResult" id="partner_list"></div>
+    <div class="container-fluid mt-5">
+        <h1 class="text-center oldalcim">Partnerek kezelése</h1>
+        <div class="table-responsive">
+            <table class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th>NÉV</th>
+                        <th>ADÓSZÁM</th>
+                        <th>BANKSZÁMLASZÁM</th>
+                        <th>MEGJEGYZÉS</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr>
+                        <td class="partner_name" style="font-weight: bold; font-style: italic;"></td>
+                        <td class="partner_tax_number" style="font-style: italic;"></td>
+                        <td class="partner_bankAccount_number" style="font-style: italic;"></td>
+                        <td class="partner_memo" style="font-style: italic;"></td>
+                        <td class="partner_id" style="font-style: italic;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>    
     </div>
-    <div class="container">
-        <h3>GET partner with partner_id</h3>
-        http://localhost:port/partners/:partner_id 
-        <div class="functionResult" id="partner_by_id"></div>
+    <div class="container-fluid mt-5">
+        <form class="w-75 m-auto d-flex flex-column">
+            <div class="form-group mb-2">
+                <label for="input_partner_name" style="font-weight: bold;">Név</label>
+                <input type="text" class="form-control" id="input_partner_name" placeholder="Partner neve">
+            </div>
+            <div class="form-group mb-2">
+                <label for="input_partner_tax_number" style="font-weight: bold;">Adószám</label>
+                <input type="text" class="form-control" id="input_partner_tax_number" placeholder="Partner adószáma">
+            </div>
+            <div class="form-group mb-2">
+                <label for="input_partner_bankAccount_number" style="font-weight: bold;">Bankszámlaszám</label>
+                <input type="text" class="form-control" id="input_partner_bankAccount_number" placeholder="Partner bankszámlaszáma">
+            </div>
+            <div class="form-group mb-2">
+                <label for="input_partner_memo" style="font-weight: bold;">Megjegyzés</label>
+                <input type="text" class="form-control" id="input_partner_memo" placeholder="Megjegyzés">
+            </div>
+            <div class="form-group mb-2">
+                <label for="input_partner_id" style="font-weight: bold;">ID</label>
+                <input type="number" class="form-control" id="input_partner_id" placeholder="Partner azonosítója (ID)">
+            </div>
+        </form>
+        <div class="btns text-center">
+            <button type="submit" class="btn gomb_elfogad" id="submit_button">LÉTREHOZ/MÓDOSÍT</button>
+            <button type="submit" class="btn gomb_torol" id="delete_button">TÖRÖL</button>
+        </div>
+        <div class="text-center">
+            <a href="../login.html" class="btn gomb_kilepes">Kilépés</a>
+        </div>
     </div>
-    <div class="container">
-        <h3>POST new partner</h3>
-        http://localhost:port/partner/
-        <div class="functionResult" id="partner_post"></div>
-    </div>
-    <div class="container">
-        <h3>PUT partner data</h3>
-        http://localhost:port/partners/
-        <div class="functionResult" id="partner_put"></div>
-    </div>
-    <div class="container">
-        <h3>DELETE partner with partner_id</h3>
-        http://localhost:port/partners/:partner_id 
-        <div class="functionResult" id="partner_delete"></div>
-    </div>
+    <br>
     <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 footer">
         <!-- Copyright, ha akaruk... -->
         <div class="text-white mb-3 mb-md-0">Copyright © 2023. All rights reserved.</div>

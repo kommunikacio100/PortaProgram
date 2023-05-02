@@ -26,12 +26,12 @@ A mai megbeszélés alapján:
 Login ---> Irányító oldal (Törzsadat kezelés ÉS Mérlegés)
 
 Törzsadat: 
-	Partnerek (Adószám - text, név, megjegyzés, bankszámlaszám - text, Id)
+	OK - Partnerek (név, adószám - text, bankszámlaszám - text, megjegyzés, Id)
 	Szállítmányozók (Név, megjegyzés, Id) 
 	Tulajdonosok (Eladók) (Adószám - text, név, bankszámlaszám - text, megjegyzés, Id)
-	Termékek (Item number - text, név, mennyiségi egység, egységár, raktáron lévő mennyiség, kg/unit, ÁFA kulcs - text, Id)
-	Járművek (Rendszám, empty weight, empty time, Id)
-	Users (Név, e-mail cím, Jogosultságok, Id)
+	OK - Termékek (Item number - text, név, mennyiségi egység, egységár, raktáron lévő mennyiség, kg/unit, ÁFA kulcs - text, Id)
+	OK - Járművek (Rendszám, empty weight, empty time, Id)
+	OK - Users (Név, e-mail cím, Jogosultságok, Id)
 
 Mérlegelés:
 	Delivery notes (Owner, Partner, Product)

@@ -8,8 +8,16 @@ header {
 .d-inline-block {
     margin-left: 10px;
 }
-.h1 {
-    color:  white;
+/* .h-custom {
+    height: calc(100% + 75px);
+}
+@media (max-width: 100%) {
+    .h-custom {
+        height: 100% + 75px;
+    }
+} */
+.oldalcim {
+    color: rgb(17, 140, 79);
 }
 .navbar-nav {
     background: rgb(146, 197, 154);
@@ -37,10 +45,74 @@ header {
     background: rgb(146, 197, 154);
     margin-right: 10px;
 }
-.dropdown-item:hover {
-    background:  rgb(17, 140, 79);
+.gomb_elfogad {
+    background-color: rgb(17, 140, 79);
+    height: 50px;
+    width: 240px;
+    border-radius: 10px;
     color: white;
-    border-bottom: white solid 2px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.gomb_elfogad:hover {
+    background-color: rgb(17, 140, 79);
+    height: 50px;
+    width: 240px;
+    border-radius: 10px;
+    border: 2px solid black;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.gomb_torol {
+    background-color: red;
+    height: 50px;
+    width: 240px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.gomb_torol:hover {
+    background-color: red;
+    height: 50px;
+    width: 240px;
+    border-radius: 10px;
+    border: 2px solid black;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.gomb_kilepes {
+    background-color: red;
+    height: 50px;
+    width: 220px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.gomb_kilepes:hover {
+    background-color: red;
+    height: 50px;
+    width: 220px;
+    border-radius: 10px;
+    border: 2px solid black;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
 }
 .footer {
     height: 80px;
