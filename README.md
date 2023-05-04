@@ -82,3 +82,16 @@ gomb_mentés
 gomb_torles
 
 A KETTŐ MÉRÉS AD KI EGYETLEN 'MEASUREMENT'-ET, AMI A DELIVERY NOTES-on SZEREPEL.
+
+2023-05-02 - Lacza
+
+ÁTRENDEZÉS:
+
+1. Menüből eltűnik:
+- Cím
+- E-mail
+- Telefonszám
+
+2. Minden oldalból kell egy-egy:
+xxx_table.html (csak a táblázat)
+xxx_edit.html (szerkesztéshez)

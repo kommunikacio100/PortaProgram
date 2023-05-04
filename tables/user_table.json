@@ -39,6 +39,16 @@
       "user_can_edit_users": "NEM",
       "user_can_settings": "NEM",
       "user_id": 4
+    },
+    {
+      "user_name": "Kis Virág",
+      "user_email": "kis.viraga@pajtamail.hu",
+      "user_can_look_data": "IGEN",
+      "user_can_edit_data": "IGEN",
+      "user_can_weighing": "NEM",
+      "user_can_edit_users": "IGEN",
+      "user_can_settings": "NEM",
+      "user_id": 5
     }
   ]
 }

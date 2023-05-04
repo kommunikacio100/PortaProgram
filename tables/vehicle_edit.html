@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <title>weighingServer teszt</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./merleg.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="./responsive-text-resize/font-size.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="vehicle_edit.css">
+</head>
+<header>
+    <nav class="navbar navbar-expand-xl">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../selector.html">
+                <img class="d-inline-block align-top" src = "../merleg.png" width="80" height="80" alt="Mérleg"></img>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./partner_table.html">Partnerek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./carrier_table.html">Szállítmányozók</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./owner_table.html">Tulajdonosok</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./product_table.html">Termékek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./vehicle_table.html">Járművek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./user_table.html">Felhasználók</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>    
+</header>
+<body class="vh-100">
+    <div class="container-fluid mt-5 h-custom">
+        <h1 class="text-center oldalcim">Járművek kezelése</h1>
+        <br> 
+        <form class="w-75 m-auto d-flex flex-column">
+            <div class="form-group mb-2">
+                <label for="input_vehicle_regplate" style="font-weight: bold;">Rendszám</label>
+                <input type="text" class="form-control" id="input_vehicle_regplate" placeholder="Rendszám">
+            </div>
+            <div class="form-group mb-2">
+                <label for="input_vehicle_empty_weight" style="font-weight: bold;">Üresen mért tömeg (Kg)</label>
+                <input type="number" class="form-control" id="input_vehicle_empty_weight" placeholder="Jármű üresen mért tömege (Kg)">
+            </div>
+            <div class="form-group mb-2">
+                <label for="input_vehicle_empty_weight_date" style="font-weight: bold;">Üresen mérés dátuma</label>
+                <input type="date" class="form-control" id="input_vehicle_empty_weight_date" placeholder="Üresen mérés dátuma">
+            </div>
+            <div class="form-group mb-2">
+                <label for="input_vehicle_empty_weight_time" style="font-weight: bold;">Üresen mérés időpontja</label>
+                <input type="time" class="form-control" id="input_vehicle_empty_weight_time" placeholder="Üresen mérés időpontja">
+            </div>
+            <div class="form-group mb-2">
+                <label for="input_vehicle_id" style="font-weight: bold;">ID</label>
+                <input type="number" class="form-control" id="input_vehicle_id" placeholder="Jármű azonosítója (ID)">
+            </div>
+        </form>
+        <div class="btns text-center">
+            <button type="submit" class="btn gomb_elfogad" id="submit_button">MENTÉS</button>
+            <button type="submit" class="btn gomb_torol" id="delete_button">TÖRÖL</button>
+        </div>
+        <div class="text-center">
+            <a href="../login.html" class="btn gomb_kilepes">Kilépés</a>
+        </div>   
+    </div>
+    <br>
+    <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 footer">
+        <div class="text-white mb-3 mb-md-0">Copyright © 2023. All rights reserved.</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="vehicle_edit.js"></script>
+</body>
+</html>
