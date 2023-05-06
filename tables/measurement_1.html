@@ -49,17 +49,20 @@
         <h1 class="text-center oldalcim">BEMÉRÉS</h1>
         <br>
         <form class="w-75 m-auto d-flex flex-column">
-            <div class="form-group mb-2">
-                <label for="input_user_name" style="font-weight: bold;">Rendszám</label>
-                <input type="text" class="form-control" id="input_user_name" placeholder="Jármű rendszáma">
+            <div class="form-group mb-3">
+                <label for="input_plate_number" style="font-weight: bold;">Rendszám</label>
+                <input type="text" class="form-control" id="input_plate_number" placeholder="Jármű rendszáma">
             </div>
-            <div class="form-group mb-2">
-                <label for="input_user_email" style="font-weight: bold;">Termék</label>
-                <input type="text" class="form-control" id="input_user_email" placeholder="Termék megadása">
+            <div>
+                <label for="input_input_product" style="font-weight: bold;">Termék</label>
+                <select id="input_input_product" class="form-select mb-3">
+                    <option style="font-weight: bold;">Termék</option>
+                    <option>Példatermék</option>
+                </select>
             </div>
-            <div class="form-group mb-2">
-                <label for="input_user_id" style="font-weight: bold;">Bemérés</label>
-                <input type="number" class="form-control" id="input_user_id" placeholder="Bemért tömeg">
+            <div class="form-group mb-3">
+                <label for="input_weight_inbound" style="font-weight: bold;">Bemérés</label>
+                <input type="number" class="form-control" id="input_weight_inbound" placeholder="Bemért tömeg">
             </div>
         </form>
         <br>
@@ -67,7 +70,7 @@
         <br>
         <div class="btns text-center">
             <button type="submit" class="btn gomb_merlegeles" id="submit_button">Tömeg mérlegről</button>
-            <button type="submit" class="btn gomb_tomeg_adatbazisbol" id="delete_button">Tömeg adatbázisból</button>
+            <button type="submit" class="btn gomb_tomeg_adatbazisbol" id="delete_button">Tárolt járműtömeg</button>
         </div>
         <br>
         <div class="btns text-center">

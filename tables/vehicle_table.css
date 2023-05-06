@@ -37,6 +37,9 @@ header {
     background: rgb(146, 197, 154);
     margin-right: 10px;
 }
+.keretezett {
+    border-bottom: solid 5px rgb(17, 140, 79);
+}
 .gomb_uj_letrehozasa {
     background-color: rgb(17, 140, 79);
     height: 50px;

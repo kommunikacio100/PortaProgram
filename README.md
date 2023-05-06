@@ -38,26 +38,59 @@ Mérlegelés:
 		(befejezetlenek felsorolása)
 		(Mérések felvétele)
 
-2023-05-01 - Lacza
+2023-05-01 és 2023-05-06 - Lacza
+--------------------------------
+--------------------------------
 
-Weighings.html:
----------
-DeliveryNotes tömbben szereplő, le nem zárt szállítólevelek listája.
-gomb_uj_szallitolevel, gomb_modosit, gomb_sztorno
----> deliveryNotes.html
 
-Delivery Note.html (Nyitott):
-------------------
-Egyetlen delivery note
+opened_deliveryNotes_table.html:
+--------------------------------
 
-Owner --- Vásárló
-Szállítmányozó
+Le nem zárt szállítólevelek listája.
+gomb_uj_szallitolevel
+---> deliveryNote_edit.html
+
+
+deliveryNote_edit.html:
+-----------------------
+
+serial_no (csak olvasható, a backend adja ---> text), owner_id, owner_address_id, loadlocation_address_id, partner_id, partner_address_id, unloadlocation_address_id, carrier_id, carrier_address_id, movement_id, status
 
 Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
 
-gomb_bemereshez (---> meauserents.html)
-// gomb_meres_javitasa (---> meauserent_1.html - visszamérés nélküli, vagy ---> measurement_2.html - visszamért) //
-// gomb_visszameres (---> measurment_2.html) //
+MINDEGYIK select!!!
+
+GOMB (Szállítólevél megtekintése) ---> deliveryNote_view.html
+
+* deliveryNote_view.html:
+-------------------------
+
+Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
+
+Lehessen itt is nyomtatni!
+
+closed_deliveryNotes_table.html:
+--------------------------------
+
+Zárt szállítólevelek listája.
+
+Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
+
+Kezdő és záródátum közötti szállítólevelek listázása
+Kezdő és záródátum (date)
+
+Dupla kattintásra megnyitja a rekordot... --->  deliveryNote_print.html
+
+* deliveryNote_print.html:
+------------------------
+
+Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
+
+CSAK A TÁBLÁZAT HTML OLDAL ÉS NYOMTATÁS GOMB
+
+/NYOMTATÁS/ ---> CSAK A TÁBLÁZAT HTML OLDAL ÉS NYOMTATÁS GOMB
+
+
 
 Measurement_1.html:
 -----------------
@@ -68,6 +101,8 @@ Termék
 1. mérés
 Mérések (Rendszám, Termék, Mért tömeg) --> Modal (Mérlegelés, megadás kézzel, gépkocsi táblából) ---> gomb_mentés
 gomb_torles
+
+A TERMÉKEKNÉL ---> select!!!
 
 Meaurement_2.html:
 ---------------
@@ -80,6 +115,8 @@ Termék
 Mérések (Rendszám, Termék, első mérés, Mért tömeg) --> Modal (Mérlegelés, megadás kézzel, gépkocsi táblából) --->
 gomb_mentés
 gomb_torles
+
+A TERMÉKEKNÉL ---> select!!!
 
 A KETTŐ MÉRÉS AD KI EGYETLEN 'MEASUREMENT'-ET, AMI A DELIVERY NOTES-on SZEREPEL.
 
