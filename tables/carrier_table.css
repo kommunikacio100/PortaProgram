@@ -1,0 +1,97 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+}
+header {
+    background: rgb(17, 140, 79);
+}
+.d-inline-block {
+    margin-left: 10px;
+}
+.oldalcim {
+    color: rgb(17, 140, 79);
+}
+.navbar-nav {
+    background: rgb(146, 197, 154);
+    padding: 0px;
+    margin-left: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-size: 1em;
+    font-weight: bold;
+}
+.nav-item {
+    font-size: 17px;
+}
+.nav-item:hover {
+    background: rgb(17, 140, 79);
+    color: white;
+}
+.nav-link:hover {
+    background:  rgb(17, 140, 79);
+    color: white;
+    border-bottom: white solid 3px;
+}
+
+.navbar-toggler {
+    background: rgb(146, 197, 154);
+    margin-right: 10px;
+}
+.keretezett {
+    border-bottom: solid 5px rgb(17, 140, 79);
+}
+.fa-solid {
+    margin-right: 25px;
+}
+.gomb_uj_letrehozasa {
+    background-color: rgb(17, 140, 79);
+    height: 50px;
+    width: 240px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.gomb_uj_letrehozasa:hover {
+    background-color: rgb(17, 140, 79);
+    height: 50px;
+    width: 240px;
+    border-radius: 10px;
+    border: 2px solid black;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.gomb_kilepes {
+    background-color: red;
+    height: 50px;
+    width: 220px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.gomb_kilepes:hover {
+    background-color: red;
+    height: 50px;
+    width: 220px;
+    border-radius: 10px;
+    border: 2px solid black;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.footer {
+    height: 80px;
+    font-size: 18px;
+    text-align: center;
+    background-color: rgb(17, 140, 79);
+}
