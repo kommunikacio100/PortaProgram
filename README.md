@@ -28,7 +28,7 @@ Login ---> Irányító oldal (Törzsadat kezelés ÉS Mérlegés)
 Törzsadat: 
 	OK - Partnerek (név, adószám - text, bankszámlaszám - text, megjegyzés, Id)
 	Szállítmányozók (Név, megjegyzés, Id) 
-	Tulajdonosok (Eladók) (Adószám - text, név, bankszámlaszám - text, megjegyzés, Id)
+	OK - Tulajdonosok (Eladók) (Adószám - text, név, bankszámlaszám - text, megjegyzés, Id)
 	OK - Termékek (Item number - text, név, mennyiségi egység, egységár, raktáron lévő mennyiség, kg/unit, ÁFA kulcs - text, Id)
 	OK - Járművek (Rendszám, empty weight, empty time, Id)
 	OK - Users (Név, e-mail cím, Jogosultságok, Id)

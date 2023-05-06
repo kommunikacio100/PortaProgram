@@ -13,6 +13,9 @@
 .felirat_feladatvalasztas {
     color:rgb(17, 140, 79)
 }
+.fa-solid {
+    margin-right: 25px;
+}
 .gomb_torzsadatok, .gomb_bemeres, .gomb_visszameres {
     background-color: rgb(17, 140, 79);
     height: 50px;

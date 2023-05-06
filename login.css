@@ -13,6 +13,9 @@
 .felirat_bejelentkezik {
     color:rgb(17, 140, 79)
 }
+.fa-solid {
+    margin-right: 25px;
+}
 .gomb_bejelentkezik {
     background-color: rgb(17, 140, 79);
     height: 50px;

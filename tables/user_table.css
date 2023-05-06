@@ -40,6 +40,9 @@ header {
 .keretezett {
     border-bottom: solid 5px rgb(17, 140, 79);
 }
+.fa-solid {
+    margin-right: 25px;
+}
 .gomb_uj_letrehozasa {
     background-color: rgb(17, 140, 79);
     height: 50px;

@@ -37,10 +37,16 @@ header {
     background: rgb(146, 197, 154);
     margin-right: 10px;
 }
+.keretezett {
+    border-bottom: solid 5px rgb(17, 140, 79);
+}
+.fa-solid {
+    margin-right: 25px;
+}
 .gomb_merlegeles {
     background-color: rgb(17, 140, 79);
     height: 50px;
-    width: 240px;
+    width: 260px;
     border-radius: 10px;
     color: white;
     font-size: 20px;
@@ -51,7 +57,7 @@ header {
 .gomb_merlegeles:hover {
     background-color: rgb(17, 140, 79);
     height: 50px;
-    width: 240px;
+    width: 260px;
     border-radius: 10px;
     border: 2px solid black;
     color: black;
@@ -63,7 +69,7 @@ header {
 .gomb_tomeg_adatbazisbol {
     background-color: rgb(17, 140, 79);
     height: 50px;
-    width: 240px;
+    width: 260px;
     border-radius: 10px;
     color: white;
     font-size: 20px;
@@ -74,7 +80,7 @@ header {
 .gomb_tomeg_adatbazisbol:hover {
     background-color: rgb(17, 140, 79);
     height: 50px;
-    width: 240px;
+    width: 260px;
     border-radius: 10px;
     border: 2px solid black;
     color: black;
