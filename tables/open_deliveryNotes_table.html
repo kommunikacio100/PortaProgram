@@ -55,29 +55,44 @@
                 <thead>
                     <tr>
                         <th>SORSZÁM</th>
-                        <th>TULAJDONOS</th>
                         <th>PARTNER</th>
-                        <th>JÁRMŰ 1</th>
-                        <th>TERMÉK</th>
+                        <th>TULAJDONOS</th>
+                        <th>SZÁLLÍTMÁNYOZÓ</th>
+                        <th>LÉTREHOZÁS DÁTUMA</th>
+                        <th>STÁTUSZ</th>
                         <th>ID</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
                     <tr>
                         <td class="serial_no" style="font-weight: bold; font-style: italic;"></td>
-                        <td class="vehicle_regplate" style="font-style: italic;"></td>
-                        <td class="user_can_look_data" style="font-style: italic;"></td>
-                        <td class="user_can_edit_data" style="font-style: italic;"></td>
-                        <td class="user_can_weighing" style="font-style: italic;"></td>
-                        <td class="user_can_edit_users" style="font-style: italic;"></td>
-                        <td class="user_can_settings" style="font-style: italic;"></td>
-                        <td class="user_id" style="font-style: italic;"></td>
+                        <td class="partner_name" style="font-style: italic;"></td>
+                        <td class="owner_name" style="font-style: italic;"></td>
+                        <td class="carrier_name" style="font-style: italic;"></td>
+                        <td class="creation_date" style="font-style: italic;"></td>
+                        <td class="status" style="font-style: italic;"></td>
+                        <td class="deliveryNotes_id" style="font-style: italic;"></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <br>
+        <form class="w-75 m-auto d-flex flex-column keretezett">
+            <h3 class="text-center oldalcim">Dátum szerinti keresés</h3>
+            <br>
+            <div class="input-group mb-3">
+                <span class="input-group-text" for="input_begin_date" style="font-weight: bold;">Ettől a dátumtól:</span>
+                <input type="date" class="form-control" id="input_begin_date" placeholder="Ettől a dátumtól">
+                <span class="input-group-text" for="input_end_date" style="font-weight: bold;">Eddig a dátumig:</span>
+                <input type="date" class="form-control" id="input_end_date" placeholder="Eddig a dátumig">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn mx-2 gomb_kereses" id="submit_button"><i class="fa-sharp fa-solid fa-magnifying-glass"></i>Keresés</button>
+            </div>
+            <br>
+        </form>
         <div class="text-center">
-            <a href="user_edit.html" class="btn gomb_uj_letrehozasa"><i class="fa-solid fa-pen"></i>Új hozzáadása</a>
+            <a href="open_deliveryNote_edit.html" class="btn gomb_uj_letrehozasa"><i class="fa-solid fa-pen"></i>Új hozzáadása</a>
         </div>
         <div class="text-center">
             <a href="../login.html" class="btn gomb_kilepes"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i>Kilépés</a>

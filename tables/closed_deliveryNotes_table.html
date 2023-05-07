@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <title>weighingServer teszt</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./merleg.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="./responsive-text-resize/font-size.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="open_deliveryNotes_table.css">
+    <script src="https://kit.fontawesome.com/7cc6cc927d.js" crossorigin="anonymous"></script>
+</head>
+<header>
+    <nav class="navbar navbar-expand-xl">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../selector.html">
+                <img class="d-inline-block align-top" src = "../merleg.png" width="80" height="80" alt="Mérleg"></img>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./partner_table.html">Partnerek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./carrier_table.html">Szállítmányozók</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./owner_table.html">Tulajdonosok</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./product_table.html">Termékek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./vehicle_table.html">Járművek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./user_table.html">Felhasználók</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>    
+</header>
+<body>
+    <div class="container-fluid mt-5">
+        <h1 class="text-center oldalcim">Lezárt szállítólevelek listája</h1>
+        <br>
+        <h3 class="text-center oldalcim">(Szállítólevél megtekintéséhez és/vagy nyomtatásához kattintson duplán a rekordra!)</h3>
+        <div class="table-responsive keretezett">
+            <table class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th>SORSZÁM</th>
+                        <th>PARTNER</th>
+                        <th>TULAJDONOS</th>
+                        <th>SZÁLLÍTMÁNYOZÓ</th>
+                        <th>LÉTREHOZÁS DÁTUMA</th>
+                        <th>STÁTUSZ</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr>
+                        <td class="serial_no" style="font-weight: bold; font-style: italic;"></td>
+                        <td class="partner_name" style="font-style: italic;"></td>
+                        <td class="owner_name" style="font-style: italic;"></td>
+                        <td class="carrier_name" style="font-style: italic;"></td>
+                        <td class="creation_date" style="font-style: italic;"></td>
+                        <td class="status" style="font-style: italic;"></td>
+                        <td class="deliveryNotes_id" style="font-style: italic;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <form class="w-75 m-auto d-flex flex-column keretezett">
+            <h3 class="text-center oldalcim">Dátum szerinti keresés</h3>
+            <br>
+            <div class="input-group mb-3">
+                <span class="input-group-text" for="input_begin_date" style="font-weight: bold;">Ettől a dátumtól:</span>
+                <input type="date" class="form-control" id="input_begin_date" placeholder="Ettől a dátumtól">
+                <span class="input-group-text" for="input_end_date" style="font-weight: bold;">Eddig a dátumig:</span>
+                <input type="date" class="form-control" id="input_end_date" placeholder="Eddig a dátumig">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn mx-2 gomb_kereses" id="submit_button"><i class="fa-sharp fa-solid fa-magnifying-glass"></i>Keresés</button>
+            </div>
+            <br>
+        </form>
+        <div class="text-center">
+            <a href="deliveryNote_view.html" class="btn gomb_uj_letrehozasa"><i class="fa-solid fa-eye"></i>Megtekintés</a>
+        </div>
+        <div class="text-center">
+            <a href="../login.html" class="btn gomb_kilepes"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i>Kilépés</a>
+        </div>  
+    </div>
+    <br>
+    <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 footer">
+        <div class="text-white mb-3 mb-md-0">Copyright © 2023. All rights reserved.</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="user_table.js"></script>
+</body>
+</html>

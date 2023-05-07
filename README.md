@@ -1,8 +1,10 @@
 # PortaProgram
+
 Radnóti vizsgaremek
 Mérleges rendszer. 
 
-Létrehozandó HTML-ek:
+# Létrehozandó HTML-ek:
+-----------------------
     OK - 1. Introduction (csak megtekintésre)
     OK - 2. Bejelentkező (LogIn)
     OK - 3. Users (csak adminnak)
@@ -20,12 +22,19 @@ Létrehozandó HTML-ek:
 
     OK - Bejelentkezés után kell egy menü, a megfelelő jogosultságok alapján aktivált menüpontokkal.
 
-# 2023-04-26 - Lacza
+
+>>> 2023-04-26 - Lacza
+----------------------
+----------------------
+
 A mai megbeszélés alapján:
 
-Login ---> Irányító oldal (Törzsadat kezelés ÉS Mérlegés)
+OK - Login:
+--------
+Irányító oldal (Törzsadat kezelés ÉS Mérlegés)
 
-# Törzsadat: 
+OK - Törzsadat:
+------------
 	OK - Partnerek (név, adószám - text, bankszámlaszám - text, megjegyzés, Id)
 	OK - Szállítmányozók (Név, megjegyzés, Id) 
 	OK - Tulajdonosok (Eladók) (Adószám - text, név, bankszámlaszám - text, megjegyzés, Id)
@@ -33,23 +42,25 @@ Login ---> Irányító oldal (Törzsadat kezelés ÉS Mérlegés)
 	OK - Járművek (Rendszám, empty weight, empty time, Id)
 	OK - Users (Név, e-mail cím, Jogosultságok, Id)
 
-# Mérlegelés:
-	Delivery notes (Owner, Partner, Product)
-		(befejezetlenek felsorolása)
-		(Mérések felvétele)
 
-# 2023-05-01 és 2023-05-06 - Lacza
---------------------------------
---------------------------------
+>>> 2023-05-01 és 2023-05-06 - Lacza
+------------------------------------
+------------------------------------
 
 
-# open_deliveryNotes_table.html:
+OK - open_deliveryNotes_table.html:
 --------------------------------
 
 Le nem zárt szállítólevelek listája.
+sorszám, partner, owner, carrier, dátum
 gomb_uj_szallitolevel
 ---> deliveryNote_edit.html
 
+# closed_deliveryNotes_table.html:
+--------------------------------
+
+Zárt szállítólevelek listája.
+---> deliveryNote_view.html
 
 # deliveryNote_edit.html:
 -----------------------
@@ -62,31 +73,32 @@ MINDEGYIK select!!!
 
 GOMB (Szállítólevél megtekintése) ---> deliveryNote_view.html
 
-* deliveryNote_view.html:
+# deliveryNote_view.html:
 -------------------------
 
 Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
 
 /NYOMTATÁS/ ---> CSAK A TÁBLÁZAT HTML OLDAL ÉS NYOMTATÁS GOMB
 
-closed_deliveryNotes_table.html:
---------------------------------
-
-Zárt szállítólevelek listája.
-
-Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
-
-Kezdő és záródátum közötti szállítólevelek listázása
-Kezdő és záródátum (date)
-
-Dupla kattintásra megnyitja a rekordot... --->  deliveryNote_print.html
-
-deliveryNote_print.html:
+# deliveryNote_print.html:
 ------------------------
 
 Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
 
 /NYOMTATÁS/ ---> CSAK A TÁBLÁZAT HTML OLDAL ÉS NYOMTATÁS GOMB
+
+# measurements.html
+-------------------
+
+Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)
+
+OK - Keresés:
+----------
+
+OK - Kezdő és záródátum közötti szállítólevelek listázása
+OK - Kezdő és záródátum (date)
+
+Dupla kattintásra megnyitja a rekordot... --->  deliveryNote_print.html
 
 OK - Measurement_1.html:
 -----------------
@@ -116,9 +128,13 @@ A TERMÉKEKNÉL ---> select!!!
 
 A KETTŐ MÉRÉS AD KI EGYETLEN 'MEASUREMENT'-ET, AMI A DELIVERY NOTES-on SZEREPEL.
 
-2023-05-02 - Lacza
 
-OK - ÁTRENDEZÉS:
+>>> 2023-05-02 - Lacza:
+-----------------------
+-----------------------
+
+OK ÁTRENDEZÉS:
+-------------
 
 1. Menüből eltűnik:
 - Cím
