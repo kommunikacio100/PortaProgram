@@ -65,15 +65,14 @@ router.get('/:user_id', (req, res)=>{
 // use: POST command http://127.0.0.1:3001/users 
 // a body egy json, ami tartalmazza a szükséges mezőket.
 router.post('/', (req, res)=>{
+    console.log( 'POST USERS START...');
     var sql = `SET @new_user_id = -1; SET @text_message = "";\n `+
-              `CALL add_user( ?,?,?,?,?,?,?,@new_user_id, @text_message); \n`+
+              `CALL add_user( ?,?,?,?,?,?,?,?,@new_user_id, @text_message); \n`+
               `select @new_user_id, @text_message; `;
+            
     let user_name = req.body.user_name;
+    let user_email = req.body.user_email;
     let user_password = req.body.user_password;
-    if (user_password == null) {
-        user_password =  req.body.user_password_hash;
-        sql = sql.replace("add_user(", "add_user_hash(" );
-    }
     let user_can_look_data = req.body.user_can_look_data;
     let user_can_edit_data = req.body.user_can_edit_data;
     let user_can_weighing = req.body.user_can_weighing;
@@ -81,7 +80,8 @@ router.post('/', (req, res)=>{
     let user_can_settings = req.body.user_can_settings;
     let user_created_by = req.body.user_created_by;
     try{
-        con.query(sql, [user_name, user_password, user_can_look_data, user_can_edit_data, 
+        console.log( 'POST USERS SQL START...');
+        con.query(sql, [user_name, user_email, user_password, user_can_look_data, user_can_edit_data, 
                 user_can_weighing, user_can_edit_users, user_can_settings], function (err, result) {
             if (err){
                 res.status(500);
@@ -132,16 +132,19 @@ router.post('/', (req, res)=>{
             "user_name": user_name, 
             "length": -1});
     }
+    console.log( 'POST USERS END...');
+
 });
 
 // use: PUT command http://127.0.0.1:3001/users 
 // a body egy json, ami tartalmazza a szükséges mezőket.
 router.put('/', (req, res)=>{
     var sql = `SET @text_message= "";\nSET @edit_user_id = -1;\n`+
-            `CALL update_user( ?,?,?,?,?,?,?,?,@edit_user_id, @text_message);\n`+
+            `CALL update_user( ?,?,?,?,?,?,?,?,?,@edit_user_id, @text_message);\n`+
             `Select @edit_user_id, @text_message;\n`;
     let user_id = req.body.user_id;
     let user_name = req.body.user_name;
+    let user_email = req.body.user_email;
     let user_password = req.body.user_password;
     if (user_password == null) {
         user_password =  req.body.user_password_hash;
@@ -154,7 +157,7 @@ router.put('/', (req, res)=>{
     let user_can_settings = req.body.user_can_settings;
     let user_created_by = req.body.user_created_by;
     try{
-        con.query( sql, [user_id, user_name, user_password, user_can_look_data, user_can_edit_data, 
+        con.query( sql, [user_id, user_name, user_email, user_password, user_can_look_data, user_can_edit_data, 
                 user_can_weighing, user_can_edit_users, user_can_settings], 
                 function (err, result) {
             if (err){
