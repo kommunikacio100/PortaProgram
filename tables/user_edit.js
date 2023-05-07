@@ -19,3 +19,68 @@ if (cachedData) {
 
 }
 
+const submit_button = document.getElementById("submit_button");
+
+submit_button.addEventListener("click", (event) => {
+    event.preventDefault();
+   
+
+    create_and_update_user();
+})
+
+
+function create_and_update_user() {
+    var input_user_name = document.getElementById('input_user_name').value;
+    var input_user_email = document.getElementById('input_user_email').value;
+    var input_user_can_look_data = document.getElementById('input_user_can_look_data').value;
+    var input_user_can_edit_data = document.getElementById('input_user_can_edit_data').value;
+    var input_user_can_weighing = document.getElementById('input_user_can_weighing').value;
+    var input_user_can_edit_users = document.getElementById('input_user_can_edit_users').value;
+    var input_user_can_settings = document.getElementById('input_user_can_settings').value;
+    var input_user_id = document.getElementById('input_user_id').value;
+
+    input_user_can_look_data == "IGEN" ? input_user_can_look_data = 1 :  input_user_can_look_data = 0;
+    input_user_can_edit_data == "IGEN" ? input_user_can_edit_data = 1 :  input_user_can_edit_data = 0;
+    input_user_can_weighing == "IGEN" ? input_user_can_weighing = 1 :  input_user_can_weighing = 0;
+    input_user_can_edit_users == "IGEN" ? input_user_can_edit_users = 1 :  input_user_can_edit_users = 0;
+    input_user_can_settings == "IGEN" ? input_user_can_settings = 1 :  input_user_can_settings = 0;
+    
+
+
+
+
+
+    let data_to_send = {
+        "user_name": input_user_name,
+        "user_email": input_user_email,
+        "user_can_look_data": input_user_can_look_data,
+        "user_can_edit_data": input_user_can_edit_data,
+        "user_can_weighing": input_user_can_weighing,
+        "user_can_edit_users": input_user_can_edit_users,
+        "user_can_settings": input_user_can_settings,
+        "user_id": input_user_id
+    }
+
+    if (input_user_id === '') {
+        fetch("http://localhost:3001/users", {
+            method: "POST",
+            body: JSON.stringify(data_to_send),
+            headers: {
+                "Content-type": "application/json; charset = UTF-8",
+                "Access-Control-Allow-Origin":"*"
+            }
+        })
+        
+    } else {
+        fetch("http://127.0.0.1:3001/users", {
+            method: "PUT",
+            body: JSON.stringify(data_to_send),
+            headers: {
+                "Content-type": "application/json; charset = UTF-8",
+                "Access-Control-Allow-Origin":"*"
+            }
+        })
+    }
+}
+
+
