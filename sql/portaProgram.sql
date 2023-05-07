@@ -1,4 +1,4 @@
--- Active: 1678652479984@@127.0.0.1@3306@weighing_db
+-- Active: 1679018847898@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -4648,21 +4648,27 @@ CREATE PROCEDURE update_user(
     out error_text varchar(128))
 BEGIN
     SET error_text = 'START';
-    SET @SAME_EMAIL = (SELECT Count( id) from users WHERE email= _user_email);
+    SET @SAME_EMAIL = (SELECT Count( id) from users WHERE email= _user_email and id<>_user_id);
     IF LENGTH( _user_email)>0 and 
        @SAME_EMAIL = 0 and 
        _user_email REGEXP "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\.[a-zA-Z]{2,63}$"
     THEN
-      IF LENGTH( _user_name)>0 
-        and _user_password REGEXP '^(?=.*([A-Z]){1,})(?=.*[!-@]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$'
+      IF (LENGTH( _user_name)>0) and
+         ((LENGTH( _user_password)>0 and _user_password REGEXP '^(?=.*([A-Z]){1,})(?=.*[!-@]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$') OR
+         (LENGTH(_user_password)=0))
       THEN 
+          if (LENGTH(_user_password)=0) THEN
+            SET @password = SHA2( _user_password, 512);
+          ELSE
+            SET @password = (SELECT password_hash from users where id = _user_id);
+          END IF;
           SET error_text = 'start sql';
           REPLACE into users 
-              ( id,  name,  password_hash,         can_look_data,  can_edit_data,  can_weighing,  can_edit_users,  can_settings)
+              ( id,  name, email,  password_hash,         can_look_data,  can_edit_data,  can_weighing,  can_edit_users,  can_settings)
           VALUES 
-              ( _user_id, _user_name, SHA2( _user_password, 512), _user_can_look_data, _user_can_edit_data, _user_can_weighing, _user_can_edit_users, _user_can_settings);
+              ( _user_id, _user_name, _user_email, @password, _user_can_look_data, _user_can_edit_data, _user_can_weighing, _user_can_edit_users, _user_can_settings);
           SET the_user_id = _user_id;
-          SET error_text = 'A felhasználó módosítva.';
+          SET error_text = CONCAT( 'A felhasználó módosítva. ' , _user_email);
       ELSE
           SET error_text = 'A jelszó nem megfelelő. Kisbetű+Nagybetű+Szám+Írásjel(!-@)';
       END IF;

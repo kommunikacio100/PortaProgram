@@ -6,11 +6,13 @@ fetch('http://localhost:3001/users')
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            tbody.append(trFunction(data.name, data.user_email, data.can_look_data, data.can_edit_data, data.can_weighing, data.can_edit_users, data.can_settings, data.id))
+            tbody.append(trFunction(data.name, data.email, data.can_look_data, 
+                data.can_edit_data, data.can_weighing, data.can_edit_users, data.can_settings, data.id))
         })
     })
 
-function trFunction(user_name, user_email, user_can_look_data, user_can_edit_data, user_can_weighing, user_can_edit_users, user_can_settings, user_id) {
+function trFunction(user_name, user_email, user_can_look_data, 
+        user_can_edit_data, user_can_weighing, user_can_edit_users, user_can_settings, user_id) {
     
     user_can_look_data == 1 ? user_can_look_data = "IGEN" : user_can_look_data = "NEM";
     user_can_edit_data == 1 ? user_can_edit_data = "IGEN" : user_can_edit_data = "NEM";
@@ -68,7 +70,7 @@ function create_and_update_user() {
             headers: {
                 "Content-type": "application/json"
             }
-        })
+        }).then( res => console.log( res))
     } else {
         fetch(`http://localhost:3000/user/${input_user_id}`, {
             method: "PUT",
@@ -76,7 +78,7 @@ function create_and_update_user() {
             headers: {
                 "Content-type": "application/json"
             }
-        })
+        }).then( res => console.log( res))
     }
 }
 
