@@ -4550,6 +4550,7 @@ DROP PROCEDURE IF EXISTS add_user;
 DELIMITER //
 CREATE PROCEDURE add_user( 
     in _user_name varchar(128), 
+    in _user_email varchar(128), 
     in _user_password varchar(128), 
     in _user_can_look_data INT, 
     in _user_can_edit_data INT, 
@@ -4560,35 +4561,40 @@ CREATE PROCEDURE add_user(
     out error_text varchar(128))
 BEGIN
     SET error_text = 'START';
-    IF LENGTH( _user_name)>0 
-        and _user_password REGEXP '^(?=.*([A-Z]){1,})(?=.*[!-@]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$'
-    THEN 
-        SET error_text = 'start';
-        
+    IF LENGTH( _email)>0 and _email REGEXP '^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+    THEN
+      IF LENGTH( _user_name)>0 
+          and _user_password REGEXP '^(?=.*([A-Z]){1,})(?=.*[!-@]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$'
+      THEN 
+          SET error_text = 'start';
+          
 
-        SET @SAMEUSER = (SELECT Count( id) from users WHERE name= _user_name);
-        IF @SAMEUSER = 0 THEN
-            SET error_text = 'Hibás Insert utasítás az add_user stored procedure-ban';
-            INSERT into users 
-                ( name,  password_hash,         can_look_data,  can_edit_data,  can_weighing,  can_edit_users,  can_settings)
-            VALUES 
-                ( _user_name, SHA2( _user_password, 512), _user_can_look_data, _user_can_edit_data, _user_can_weighing, _user_can_edit_users, _user_can_settings);
-            SET the_user_id = LAST_INSERT_ID();
-            SET error_text = 'Az új felhasználó létrehozva.';
-        ELSE
-            SET error_text = 'A felhasználó már létezik.';
-        END IF;
+          SET @SAMEUSER = (SELECT Count( id) from users WHERE name= _user_name);
+          IF @SAMEUSER = 0 THEN
+              SET error_text = 'Hibás Insert utasítás az add_user stored procedure-ban';
+              INSERT into users 
+                  ( name,  password_hash,         can_look_data,  can_edit_data,  can_weighing,  can_edit_users,  can_settings)
+              VALUES 
+                  ( _user_name, SHA2( _user_password, 512), _user_can_look_data, _user_can_edit_data, _user_can_weighing, _user_can_edit_users, _user_can_settings);
+              SET the_user_id = LAST_INSERT_ID();
+              SET error_text = 'Az új felhasználó létrehozva.';
+          ELSE
+              SET error_text = 'A felhasználó már létezik.';
+          END IF;
+      ELSE
+          SET error_text = 'A jelszó nem megfelelő. Legyen benne Kisbetű+Nagybetű+Szám+Írásjel(!-@)';
+      END IF;
     ELSE
-        SET error_text = 'A jelszó nem megfelelő. Legyen benne Kisbetű+Nagybetű+Szám+Írásjel(!-@)';
-    END IF;
+        SET error_text = 'Az email cím nem megfelelő.';
+    END IF
 END//
 DELIMITER ;
 
-call add_user( 'Kálmán', '!!ALLman1234', 1, 1, 1, 0, 0, @ID, @Err);
-call add_user( 'Administrator', 'ADmin123@$!', 1, 1, 1, 1, 1, @ID, @Err);
-call add_user( 'User', 'User123!', 1, 1, 1, 0, 0, @ID, @Err);
-call add_user( 'Eszter', 'User123!', 1, 1, 1, 0, 0, @ID, @Err);
-call add_user( 'Angyal Róbert', 'Admin123!', 1, 1, 1, 1, 1, @ID, @Err);
+call add_user( 'Kálmán', 'kall@man.hu', '!!ALLman1234', 1, 1, 1, 0, 0, @ID, @Err);
+call add_user( 'Administrator', 'admin@admin.hu', 'ADmin123@$!', 1, 1, 1, 1, 1, @ID, @Err);
+call add_user( 'User', 'user@user.com', 'User123!', 1, 1, 1, 0, 0, @ID, @Err);
+call add_user( 'Eszter', 'eszter@user.com', 'User123!', 1, 1, 1, 0, 0, @ID, @Err);
+call add_user( 'Angyal Róbert', 'angyal.r@gmail.com', 'Admin123!', 1, 1, 1, 1, 1, @ID, @Err);
 select @ID, @Err;
 Insert into addresses ( to_table, to_id, `defaulted`, 
             country_code, zip_code, city, street_name, 
@@ -4695,6 +4701,7 @@ DELIMITER //
 CREATE PROCEDURE update_user_hash( 
     in _user_id BIGINT,
     in _user_name varchar(128), 
+    in _user_email varchar(128), 
     in _user_password_hash varchar(128), 
     in _user_can_look_data INT, 
     in _user_can_edit_data INT, 
