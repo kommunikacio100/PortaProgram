@@ -51,14 +51,14 @@ function create_and_update_user() {
 
 
     let data_to_send = {
-        "user_name": input_user_name,
-        "user_email": input_user_email,
-        "user_can_look_data": input_user_can_look_data,
-        "user_can_edit_data": input_user_can_edit_data,
-        "user_can_weighing": input_user_can_weighing,
-        "user_can_edit_users": input_user_can_edit_users,
-        "user_can_settings": input_user_can_settings,
-        "user_id": input_user_id
+        "name": input_user_name,
+        "email": input_user_email,
+        "can_look_data": input_user_can_look_data,
+        "can_edit_data": input_user_can_edit_data,
+        "can_weighing": input_user_can_weighing,
+        "can_edit_users": input_user_can_edit_users,
+        "can_settings": input_user_can_settings,
+        "id": input_user_id
     }
 
     if (input_user_id === '') {
