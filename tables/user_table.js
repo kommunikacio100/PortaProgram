@@ -1,20 +1,28 @@
 let tbody = document.getElementById('tbody');
 
-fetch('http://localhost:3000/user')
-    .then (response => response.json())
-    .then (datas => {
+fetch('http://localhost:3001/users')
+    .then(response => response.json())
+    .then(datas => {
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            tbody.append(trFunction(data.user_name, data.user_email, data.user_can_look_data, data.user_can_edit_data, data.user_can_weighing, data.user_can_edit_users, data.user_can_settings, data.user_id))
+            tbody.append(trFunction(data.name, data.user_email, data.can_look_data, data.can_edit_data, data.can_weighing, data.can_edit_users, data.can_settings, data.id))
         })
     })
 
 function trFunction(user_name, user_email, user_can_look_data, user_can_edit_data, user_can_weighing, user_can_edit_users, user_can_settings, user_id) {
+    
+    user_can_look_data == 1 ? user_can_look_data = "IGEN" : user_can_look_data = "NEM";
+    user_can_edit_data == 1 ? user_can_edit_data = "IGEN" : user_can_edit_data = "NEM";
+    user_can_weighing == 1 ? user_can_weighing = "IGEN" : user_can_weighing = "NEM";
+    user_can_edit_users == 1 ? user_can_edit_users = "IGEN" : user_can_edit_users = "NEM";
+    user_can_settings == 1 ? user_can_settings = "IGEN" : user_can_settings = "NEM";
+
+
     let tr = document.createElement('tr');
-    tr.innerHTML = 
-    `
-    <td class="user_name" style="font-weight: bold;">${user_name}</td>
+    tr.innerHTML =
+        `
+    <td  class="user_name" style="font-weight: bold;">${user_name}</td>
     <td class="user_email">${user_email}</td>
     <td class="user_can_look_data">${user_can_look_data}</td>
     <td class="user_can_edit_data">${user_can_edit_data}</td>
@@ -23,6 +31,12 @@ function trFunction(user_name, user_email, user_can_look_data, user_can_edit_dat
     <td class="user_can_settings">${user_can_settings}</td>
     <td class="user_id">${user_id}</td>
     `
+
+    tr.ondblclick = function (event) {
+        
+        myEditFunction(event);
+
+    }
     return tr;
 }
 
@@ -37,14 +51,14 @@ function create_and_update_user() {
     var input_user_id = document.getElementById('input_user_id').value;
 
     let data_to_send = {
-        "user_name" : input_user_name,
-        "user_email" : input_user_email,
-        "user_can_look_data" : input_user_can_look_data,
-        "user_can_edit_data" : input_user_can_edit_data,
-        "user_can_weighing" : input_user_can_weighing,
-        "user_can_edit_users" : input_user_can_edit_users,
-        "user_can_settings" : input_user_can_settings,
-        "user_id" : input_user_id
+        "user_name": input_user_name,
+        "user_email": input_user_email,
+        "user_can_look_data": input_user_can_look_data,
+        "user_can_edit_data": input_user_can_edit_data,
+        "user_can_weighing": input_user_can_weighing,
+        "user_can_edit_users": input_user_can_edit_users,
+        "user_can_settings": input_user_can_settings,
+        "user_id": input_user_id
     }
 
     if (input_user_id === '') {
@@ -52,7 +66,7 @@ function create_and_update_user() {
             method: "POST",
             body: JSON.stringify(data_to_send),
             headers: {
-                "Content-type" : "application/json"
+                "Content-type": "application/json"
             }
         })
     } else {
@@ -60,7 +74,7 @@ function create_and_update_user() {
             method: "PUT",
             body: JSON.stringify(data_to_send),
             headers: {
-                "Content-type" : "application/json"
+                "Content-type": "application/json"
             }
         })
     }
@@ -74,14 +88,35 @@ function delete_user() {
     })
 }
 
-const submit_button = document.getElementById("submit_button");
-const delete_button = document.getElementById("delete_button");
-
+//const submit_button = document.getElementById("gomb_uj_letrehozasa");
+//const delete_button = document.getElementById("delete_button");
+/*
 submit_button.addEventListener("click", (event) => {
     event.preventDefault();
-    create_and_update_user();
+   
+
+   // create_and_update_user();
 })
+
+*/
+
+/*
 delete_button.addEventListener("click", (event) => {
     event.preventDefault();
     delete_user();
 })
+*/
+
+
+
+function myEditFunction(event) {
+
+    let td = event.target;
+
+    let tr = td.parentNode;
+
+    let adatok = tr.outerText.split("\t");
+
+    localStorage.setItem('data', adatok);
+    window.location.href = `user_edit.html`;
+}
