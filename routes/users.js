@@ -71,17 +71,17 @@ router.post('/', (req, res)=>{
               `CALL add_user( ?,?,?,?,?,?,?,?, @new_user_id, @text_message);\n`+
               `select @new_user_id, @error_text;\n `;
             
-    let user_name = req.body.user_name;
-    let user_email = req.body.user_email;
-    let user_password = req.body.user_password;
-    let user_can_look_data = req.body.user_can_look_data;
-    let user_can_edit_data = req.body.user_can_edit_data;
-    let user_can_weighing = req.body.user_can_weighing;
-    let user_can_edit_users = req.body.user_can_edit_users;
-    let user_can_settings = req.body.user_can_settings;
-    let user_created_by = req.body.user_created_by;
+    let user_name = req.body.name;
+    let user_email = req.body.email;
+    let user_password = req.body.password;
+    let user_can_look_data = req.body.can_look_data;
+    let user_can_edit_data = req.body.can_edit_data;
+    let user_can_weighing = req.body.can_weighing;
+    let user_can_edit_users = req.body.can_edit_users;
+    let user_can_settings = req.body.can_settings;
+    let user_created_by = req.body.created_by;
     try{
-        console.log( 'POST USERS SQL START...');
+        console.log( 'POST USERS SQL START...', req.body);
         con.query(sql, [user_name, user_email, user_password, user_can_look_data, user_can_edit_data, 
                 user_can_weighing, user_can_edit_users, user_can_settings], function (err, result) {
             if (err){
@@ -221,13 +221,13 @@ router.put('/', (req, res)=>{
 });
 
 router.delete('/:user_id', (req, res) => {
-    var sql = `delete from users where user_id = ?`;
+    var sql = `delete from users where id = ?`;
     let user_id = req.params.user_id;
     try{
         con.query(sql, [user_id], function (err, result) {
             if (err){
                 res.status(500)
-                res.json({ status: "error", error_text: "Cannot delete user_id = "+ user_id,
+                res.json({ status: "error", error_text: "Cannot delete user id = "+ user_id,
                     "err": err});
                 throw err;
             }
