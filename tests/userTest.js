@@ -21,7 +21,7 @@ then( (json) => {
 });
 
 const new_user_data = {
-    "name": "Test User X", "password":"TestPwd12!", 
+    "name": "Test User X", "email": "test@user.hu", "password":"TestPwd12!", 
     "can_look_data":1, "can_edit_data":1, "user_can_weighing":1, 
     "can_edit_users":1, "can_settings":1 };
 // POST new user, update the user, delete user

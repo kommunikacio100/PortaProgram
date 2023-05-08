@@ -4567,15 +4567,14 @@ BEGIN
        @SAME_EMAIL = 0 and 
        _user_email REGEXP "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\.[a-zA-Z]{2,63}$"
     THEN
-      IF LENGTH( _user_name)>0 
-        and _user_password REGEXP '^(?=.*([A-Z]){1,})(?=.*[!-@]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$'
+      IF LENGTH( _user_name)>0 and _user_password REGEXP '^(?=.*([A-Z]){1,})(?=.*[!-@]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$'
       THEN 
           SET error_text = 'start sql';
-
+          SET @password = SHA2( _user_password, 512);
           INSERT into users 
-              ( name,  email, password_hash,         can_look_data,  can_edit_data,  can_weighing,  can_edit_users,  can_settings)
+              ( name,       email,   password_hash, can_look_data,  can_edit_data,  can_weighing,  can_edit_users,  can_settings)
           VALUES 
-              ( _user_name, _user_email, SHA2( _user_password, 512), _user_can_look_data, _user_can_edit_data, _user_can_weighing, _user_can_edit_users, _user_can_settings);
+              ( _user_name, _user_email, @password, _user_can_look_data, _user_can_edit_data, _user_can_weighing, _user_can_edit_users, _user_can_settings);
           SET the_user_id = LAST_INSERT_ID();
           SET error_text = 'Az új felhasználó létrehozva.';
       ELSE
