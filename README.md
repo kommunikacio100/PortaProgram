@@ -56,7 +56,7 @@ sorszám, partner, owner, carrier, dátum
 gomb_uj_szallitolevel
 ---> deliveryNote_edit.html
 
-# closed_deliveryNotes_table.html:
+OK - closed_deliveryNotes_table.html:
 --------------------------------
 
 Zárt szállítólevelek listája.
@@ -87,7 +87,7 @@ Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék
 
 /NYOMTATÁS/ ---> CSAK A TÁBLÁZAT HTML OLDAL ÉS NYOMTATÁS GOMB
 
-# measurements.html
+OK - measurements.html
 -------------------
 
 Táblázat: szállítólevélhez tartozó mérések listája (Rendszám, termék, 1. mérés (netto súly -> tára), 2. mérés, 3. kiszámított tömeg)

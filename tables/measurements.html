@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="./merleg.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="./responsive-text-resize/font-size.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="measurement_1.css">
+    <link rel="stylesheet" href="user_table.css">
     <script src="https://kit.fontawesome.com/7cc6cc927d.js" crossorigin="anonymous"></script>
 </head>
 <header>
@@ -59,53 +59,44 @@
 </header>
 <body>
     <div class="container-fluid mt-5">
-        <h1 class="text-center oldalcim">VISSZAMÉRÉS</h1>
+        <h1 class="text-center oldalcim">Mérések listája</h1>
         <br>
-        <form class="w-75 m-auto d-flex flex-column">
-            <div class="form-group mb-3">
-                <label for="input_plate_number" style="font-weight: bold;">Rendszám</label>
-                <input type="text" class="form-control" id="input_plate_number" placeholder="Jármű rendszáma">
-            </div>
-            <div>
-                <label for="input_input_product" style="font-weight: bold;">Termék</label>
-                <select id="input_input_product" class="form-select mb-3">
-                    <option style="font-weight: bold;">Termék</option>
-                    <option>Példatermék</option>
-                </select>
-            </div>
-            <div class="form-group mb-3">
-                <label for="input_weight_inbound" style="font-weight: bold;">Bemérés</label>
-                <input type="number" class="form-control" id="input_weight_inbound" placeholder="Bemért tömeg">
-            </div>
-            <div class="form-group mb-3">
-                <label for="input_weight_outbound" style="font-weight: bold;">Visszamérés</label>
-                <input type="number" class="form-control" id="input_weight_outbound" placeholder="Visszamért tömeg">
-            </div>
-        </form>
-        <br>
-        <div class="w-100 m-auto d-flex flex-column keretezett">
-            <h3 class="text-center oldalcim">Bemérés kézzel megadásához, írja be a tömeget, avagy válasszon az alábbiak közül:</h3>
-            <br>
-            <div class="btns text-center">
-                <button type="submit" class="btn mx-4 gomb_merlegeles" id="submit_button"><i class="fa-sharp fa-solid fa-scale-balanced"></i>Tömeg mérlegről</button>
-                <button type="submit" class="btn mx-4 gomb_tomeg_adatbazisbol" id="delete_button"><i class="fa-solid fa-database"></i>Tárolt járműtömeg</button>
-            </div>
-            <br>
+        <div class="table-responsive keretezett">
+            <table class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th>RENDSZÁM</th>
+                        <th>TERMÉK</th>
+                        <th>BEMÉRT TÖMEG - TÁRA (Kg)</th>
+                        <th>VISSZAMÉRT TÖMEG (Kg)</th>
+                        <th>KISZÁMÍTOTT (RAKODOTT) TÖMEG (Kg)</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr>
+                        <td class="plate_number1" style="font-weight: bold; font-style: italic;"></td>
+                        <td class="product_name" style="font-style: italic;"></td>
+                        <td class="weight_inbound" style="font-style: italic;"></td>
+                        <td class="weight_outbound" style="font-style: italic;"></td>
+                        <td class="weight_calculated" style="font-style: italic;"></td>
+                        <td class="measurement_id" style="font-style: italic;"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="btns text-center">
-            <button type="submit" class="btn mx-5 gomb_elfogad" id="submit_button"><i class="fa-sharp fa-solid fa-check"></i>MENTÉS</button>
-            <button type="submit" class="btn mx-5 gomb_torol" id="delete_button"><i class="fa-solid fa-trash-can"></i>TÖRLÉS</button>
+        <div class="text-center">
+            <a href="../selector.html" class="btn gomb_uj_letrehozasa"><i class="fa-sharp fa-solid fa-scale-balanced"></i>Mérlegeléshez</a>
         </div>
-        <div class="btns text-center">
-            <a href="../selector.html" class="btn mx-5 gomb_vissza"><i class="fa-solid fa-arrow-left"></i>Vissza</a>
-            <a href="../login.html" class="btn mx-5 gomb_kilepes"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i>Kilépés</a>
-        </div>
+        <div class="text-center">
+            <a href="../login.html" class="btn gomb_kilepes"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i>Kilépés</a>
+        </div>  
     </div>
     <br>
     <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 footer">
         <div class="text-white mb-3 mb-md-0">Copyright © 2023. All rights reserved.</div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script src="measurement_1.js"></script>
+    <script src="user_table.js"></script>
 </body>
 </html>
