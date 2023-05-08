@@ -76,6 +76,34 @@ function create_and_update_user() {
             }
         }).then( res=> res.json() ).then( json => console.log( json));
     }
+    setTimeout(redirectToUserTable, 300);
 }
+
+const delete_button = document.getElementById("delete_button");
+
+delete_button.addEventListener("click", (event) => {
+    event.preventDefault();
+    delete_user();
+})
+
+
+
+
+function delete_user() {
+    var input_user_id = document.getElementById('input_user_id').value;
+
+    fetch(`http://localhost:3001/users/${input_user_id}`, {
+        method: "DELETE"
+    })
+ 
+      setTimeout(redirectToUserTable, 300);
+
+   
+   
+}
+
+function redirectToUserTable() {
+    window.location.href = "user_table.html";
+  }
 
 
