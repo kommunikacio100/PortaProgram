@@ -21,9 +21,9 @@ then( (json) => {
 });
 
 const new_user_data = {
-    "user_name": "Test User X", "user_password":"TestPwd12!", 
-    "user_can_look_data":1, "user_can_edit_data":1, "user_can_weighing":1, 
-    "user_can_edit_users":1, "user_can_settings":1 };
+    "name": "Test User X", "password":"TestPwd12!", 
+    "can_look_data":1, "can_edit_data":1, "user_can_weighing":1, 
+    "can_edit_users":1, "can_settings":1 };
 // POST new user, update the user, delete user
 // létrehozunk egy felhasználót. Ha sikerült, módosítjuk. Ha sikerült a módosítás, akkor töröljük.
 fetch( url_users, {
@@ -46,13 +46,13 @@ fetch( url_users, {
 });
 
 const update_user_data = {
-    "user_id": 14,
-    "user_name": "Test User Y", "user_password":"TestPwd12!", 
-    "user_can_look_data":1, "user_can_edit_data":1, "user_can_weighing":1, 
-    "user_can_edit_users":1, "user_can_settings":1 };
+    "id": 14,
+    "name": "Test User Y", "password":"TestPwd12!", 
+    "can_look_data":1, "can_edit_data":1, "can_weighing":1, 
+    "can_edit_users":1, "can_settings":1 };
 function update_user( user_id){
 // PUT update the user
-    update_user_data["user_id"] = user_id;
+    update_user_data["id"] = user_id;
     fetch( url_users, {
         method: 'PUT',
         body: JSON.stringify(update_user_data),
@@ -94,76 +94,3 @@ function delete_user( user_id){
     });
 }
 
-const new_user_data_hash = {
-    "user_name": "Test User W", "user_password_hash": "2ef59ea102cfaed847e365526e5c7b0e0ededc8d4e0df45d7e8e959943476477f8ea5719420c4fca9299cebf90e39d2c7568be373aa34e1fc861570dd29b3d5d", 
-    "user_can_look_data":1, "user_can_edit_data":1, "user_can_weighing":1, 
-    "user_can_edit_users":1, "user_can_settings":1 };
-    // POST new user, update the user, delete user
-    // létrehozunk egy felhasználót. Ha sikerült, módosítjuk. Ha sikerült a módosítás, akkor töröljük.
-fetch( url_users, {
-    method: 'POST',
-    body: JSON.stringify(new_user_data_hash),
-    headers: {
-        "Content-type": "application/json; charset = UTF-8",
-        "Access-Control-Allow-Origin":"*"
-    }})
-.then( response => response.json())
-.then( json => {
-    json["status"] = "OK";
-    console.log("POST w HASH", json);
-    let testDiv = document.getElementById("users_post_hash");
-    testDiv.innerHTML = JSON.stringify( json);
-    if (json["@new_user_id"]>0){
-        // ha létrejött a felhasználó, teszteli a módosítását.
-        update_user_hash( json["@new_user_id"]);
-    }
-});
-
-const update_user_data_hash = {
-    "user_id": 14,
-    "user_name": "Test User Z", "user_password_hash":"2ef59ea102cfaed847e365526e5c7b0e0ededc8d4e0df45d7e8e959943476477f8ea5719420c4fca9299cebf90e39d2c7568be373aa34e1fc861570dd29b3d5d", 
-    "user_can_look_data":1, "user_can_edit_data":1, "user_can_weighing":1, 
-    "user_can_edit_users":1, "user_can_settings":1 };
-function update_user_hash( user_id){
-    // PUT update the user
-    update_user_data_hash["user_id"] = user_id;
-    fetch( url_users, {
-        method: 'PUT',
-        body: JSON.stringify(update_user_data_hash),
-        headers: {
-            "Content-type": "application/json; charset = UTF-8",
-            "Access-Control-Allow-Origin":"*"
-        }})
-    .then( response => response.json())
-    .then( json => {
-        json["status"] = "OK";
-        console.log("PUT w HASH", json);
-        let testDiv = document.getElementById("users_put_hash");
-        testDiv.innerHTML = JSON.stringify( json);
-
-        if (json["@edit_user_id"]>0){
-            // ha sikerült a módosítás, teszteli a törlést.
-            delete_user_hash( json["@edit_user_id"]);
-        }
-        return json;
-    });
-}
-
-// DELETE the user
-// Az update_userből van meghívva. 
-function delete_user_hash( user_id){
-    fetch( url_users+"/"+ user_id, {
-        method: 'DELETE',
-        headers: {
-            "Content-type": "application/json; charset = UTF-8",
-            "Access-Control-Allow-Origin":"*"
-        }})
-    .then( response => response.json())
-    .then( json => {
-        json["status"] = "OK";
-        console.log("DELETE", json);
-        let testDiv = document.getElementById("users_delete_hash");
-        testDiv.innerHTML = JSON.stringify( json);
-        return json;
-    });
-}

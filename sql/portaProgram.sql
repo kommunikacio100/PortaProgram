@@ -1,4 +1,4 @@
--- Active: 1679018847898@@127.0.0.1@3306@weighing_db
+-- Active: 1677906231590@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -4546,6 +4546,7 @@ REPLACE INTO `zip_codes` SET zip_code = '9030', city = 'Győr';
 
 
 -- STORED PROCEDURES ---
+
 DROP PROCEDURE IF EXISTS add_user;
 DELIMITER //
 CREATE PROCEDURE add_user( 
@@ -4581,7 +4582,7 @@ BEGIN
           SET error_text = 'A jelszó nem megfelelő. Legyen benne Kisbetű+Nagybetű+Szám+Írásjel(!-@)';
       END IF;
     ELSE
-        SET error_text = 'Az email cím nem megfelelő. '+ _user_email;
+        SET error_text = CONCAT( 'Az email cím nem megfelelő. ', _user_email);
     END IF;
 END//
 DELIMITER ;

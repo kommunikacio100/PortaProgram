@@ -32,7 +32,7 @@ router.get('/', (req, res)=>{
 
 // use: GET command with this link http://127.0.0.1:3001/users/2 ahol a 2-es address_id-jű usert akarjuk visszakapni.
 router.get('/:user_id', (req, res)=>{
-    var sql =`select * from users where user_id = ?`;
+    var sql =`select * from users where id = ?`;
     let user_id = req.params.user_id;
     try{
         con.query(sql, user_id, function (err, result) {
@@ -65,10 +65,11 @@ router.get('/:user_id', (req, res)=>{
 // use: POST command http://127.0.0.1:3001/users 
 // a body egy json, ami tartalmazza a szükséges mezőket.
 router.post('/', (req, res)=>{
-    console.log( 'POST USERS START...');
-    var sql = `SET @new_user_id = -1; SET @text_message = "";\n `+
-              `CALL add_user( ?,?,?,?,?,?,?,?,@new_user_id, @text_message); \n`+
-              `select @new_user_id, @text_message; `;
+    //console.log( 'POST USERS START...');
+    var sql = //`SET @new_user_id = -1; \n`+
+              //`SET @text_message = "START SQL COMMAND";\n `+
+              `CALL add_user( ?,?,?,?,?,?,?,?, @new_user_id, @text_message);\n`+
+              `select @new_user_id, @error_text;\n `;
             
     let user_name = req.body.user_name;
     let user_email = req.body.user_email;
@@ -84,17 +85,21 @@ router.post('/', (req, res)=>{
         con.query(sql, [user_name, user_email, user_password, user_can_look_data, user_can_edit_data, 
                 user_can_weighing, user_can_edit_users, user_can_settings], function (err, result) {
             if (err){
+                console.log( 'POST Query ERROR...');
                 res.status(500);
                 res.json({error: "Cannot post new user"});
                 throw err;
             }
             else{
+                console.log( 'POST Query OK...');
+                console.log( 'RESULT:', result);
                 if (result.length>0){
+                    console.log( 'result length = ', result.length);
                     res.status(200);
                     for (let row of result) {
                         if (row.length>0){
                             for (let in_row of row) {
-                                //console.log( 'in_row');
+                                console.log( in_row);
                                 if ( in_row["@new_user_id"] >0 ){
                                     console.log("post new user successfull. user_id: " + in_row["@new_user_id"]);
                                     in_row["status"]= "OK";
@@ -115,6 +120,7 @@ router.post('/', (req, res)=>{
                         }
                     }
                 }else{
+                    console.log( 'POST Query status length <0...');
                     res.status(200);
                     res.json({"status":"error", "text": "Can't create new user.", 
                     "user_name": user_name, 
