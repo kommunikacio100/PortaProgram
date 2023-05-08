@@ -19,7 +19,7 @@ function trFunction(vehicle_platenumber_1, vehicle_empty_weight, vehicle_empty_t
         let vehicle_empty_weight_date=date[0];
         let vehicle_empty_weight_time=time[0];
 
-        
+
     let tr = document.createElement('tr');
     tr.innerHTML =
         `

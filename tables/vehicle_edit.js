@@ -1,4 +1,16 @@
+const cached_vehicle_Data = localStorage.getItem('data');
 
+if (cached_vehicle_Data) {
+    let felbontva = cached_vehicle_Data.split(",");
+
+    document.getElementById('input_vehicle_platenumber_1').value = felbontva[0];
+    document.getElementById('input_vehicle_empty_weight').value = felbontva[1];
+    document.getElementById('input_vehicle_empty_weight_date').value = felbontva[2];
+    document.getElementById('input_vehicle_empty_weight_time').value = felbontva[3];
+    document.getElementById('input_vehicle_id').value = felbontva[4];
+   
+    localStorage.clear();
+}
 
 const submit_button_vehicle = document.getElementById("submit_button");
 
@@ -44,3 +56,31 @@ function create_and_update_user() {
         }).then( res => console.log( res))
     }
 }
+
+
+const delete_vehicle_button = document.getElementById("delete_button");
+
+delete_vehicle_button.addEventListener("click", (event) => {
+    event.preventDefault();
+    delete_user();
+})
+
+
+
+
+function delete_user() {
+    var input_vehicle_id = document.getElementById('input_vehicle_id').value;
+
+    fetch(`http://localhost:3001/vehicles/${input_vehicle_id}`, {
+        method: "DELETE"
+    })
+ 
+      setTimeout(redirectToUserTable, 300);
+
+   
+   
+}
+
+function redirectToUserTable() {
+    window.location.href = "vehicle_table.html";
+  }
