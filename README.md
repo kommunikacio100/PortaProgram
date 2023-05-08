@@ -3,7 +3,7 @@
 Radnóti vizsgaremek
 Mérleges rendszer. 
 
-# Létrehozandó HTML-ek:
+OK - Létrehozandó HTML-ek:
 -----------------------
     OK - 1. Introduction (csak megtekintésre)
     OK - 2. Bejelentkező (LogIn)
@@ -15,7 +15,7 @@ Mérleges rendszer.
     OK - 8. Vehicles (edit data)
     OK - 9. Change Password
     OK - 10. Mérés oldal / Szállítólevél létrehozása (Sorszám, owners, partners, carriers, movements)
-    11. Kimutatások, tételes listák stb. készítése (készletek, ügyfélstatisztikák)
+    OK - Kimutatások, tételes listák stb. készítése (készletek, ügyfélstatisztikák)
 
     OK - Mindegyiknél kell: új felvétele, törlés, módosítás
 
