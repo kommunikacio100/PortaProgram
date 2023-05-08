@@ -1,43 +1,54 @@
+let tbody = document.getElementById('tbody');
 
+fetch('http://localhost:3001/vehicles')
+    .then(response => response.json())
+    .then(datas => {
+        // console.log(datas);
+        datas.map(data => {
+            // console.log(data);
+            tbody.append(trFunction(data.plate_number1, data.empty_weight, data.empty_time,
+                 data.id))
+        })
+    })
 
+function trFunction(vehicle_platenumber_1, vehicle_empty_weight, vehicle_empty_time,
+    vehicle_id) {
 
+        let date=vehicle_empty_time.split("T");
+        let time=date[1].split("\.")
+        let vehicle_empty_weight_date=date[0];
+        let vehicle_empty_weight_time=time[0];
 
-function create_and_update_user() {
-    var input_user_name = document.getElementById('input_user_name').value;
-    var input_user_email = document.getElementById('input_user_email').value;
-    var input_user_can_look_data = document.getElementById('input_user_can_look_data').value;
-    var input_user_can_edit_data = document.getElementById('input_user_can_edit_data').value;
-    var input_user_can_weighing = document.getElementById('input_user_can_weighing').value;
-    var input_user_can_edit_users = document.getElementById('input_user_can_edit_users').value;
-    var input_user_can_settings = document.getElementById('input_user_can_settings').value;
-    var input_user_id = document.getElementById('input_user_id').value;
+        
+    let tr = document.createElement('tr');
+    tr.innerHTML =
+        `
+    <td  class="vehicle_platenumber_1" style="font-weight: bold;">${vehicle_platenumber_1}</td>
+    <td class="vehicle_empty_weight">${vehicle_empty_weight}</td>
+    <td class="vehicle_empty_weight_date">${vehicle_empty_weight_date}</td>
+    <td class="vehicle_empty_weight_time">${vehicle_empty_weight_time}</td>
+    <td class="vehicle_id">${vehicle_id}</td>
+    `
 
-    let data_to_send = {
-        "user_name": input_user_name,
-        "user_email": input_user_email,
-        "user_can_look_data": input_user_can_look_data,
-        "user_can_edit_data": input_user_can_edit_data,
-        "user_can_weighing": input_user_can_weighing,
-        "user_can_edit_users": input_user_can_edit_users,
-        "user_can_settings": input_user_can_settings,
-        "user_id": input_user_id
+    tr.ondblclick = function (event) {
+        
+        myEditFunction(event);
+
     }
-
-    if (input_user_id === '') {
-        fetch("http://localhost:3001/vehicles", {
-            method: "POST",
-            body: JSON.stringify(data_to_send),
-            headers: {
-                "Content-type": "application/json"
-            }
-        }).then( res => console.log( res))
-    } else {
-        fetch(`http://localhost:3000/user/${input_user_id}`, {
-            method: "PUT",
-            body: JSON.stringify(data_to_send),
-            headers: {
-                "Content-type": "application/json"
-            }
-        }).then( res => console.log( res))
-    }
+    return tr;
 }
+
+function myEditFunction(event) {
+
+    let td = event.target;
+
+    let tr = td.parentNode;
+
+    let adatok = tr.outerText.split("\t");
+
+    localStorage.setItem('data', adatok);
+    window.location.href = `vehicle_edit.html`;
+}
+
+
+
