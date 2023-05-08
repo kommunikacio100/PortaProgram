@@ -1,4 +1,4 @@
--- Active: 1679018847898@@127.0.0.1@3306@weighing_db
+-- Active: 1677906231590@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -4546,6 +4546,7 @@ REPLACE INTO `zip_codes` SET zip_code = '9030', city = 'Győr';
 
 
 -- STORED PROCEDURES ---
+
 DROP PROCEDURE IF EXISTS add_user;
 DELIMITER //
 CREATE PROCEDURE add_user( 
@@ -4566,22 +4567,21 @@ BEGIN
        @SAME_EMAIL = 0 and 
        _user_email REGEXP "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\.[a-zA-Z]{2,63}$"
     THEN
-      IF LENGTH( _user_name)>0 
-        and _user_password REGEXP '^(?=.*([A-Z]){1,})(?=.*[!-@]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$'
+      IF LENGTH( _user_name)>0 and _user_password REGEXP '^(?=.*([A-Z]){1,})(?=.*[!-@]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$'
       THEN 
           SET error_text = 'start sql';
-
+          SET @password = SHA2( _user_password, 512);
           INSERT into users 
-              ( name,  email, password_hash,         can_look_data,  can_edit_data,  can_weighing,  can_edit_users,  can_settings)
+              ( name,       email,   password_hash, can_look_data,  can_edit_data,  can_weighing,  can_edit_users,  can_settings)
           VALUES 
-              ( _user_name, _user_email, SHA2( _user_password, 512), _user_can_look_data, _user_can_edit_data, _user_can_weighing, _user_can_edit_users, _user_can_settings);
+              ( _user_name, _user_email, @password, _user_can_look_data, _user_can_edit_data, _user_can_weighing, _user_can_edit_users, _user_can_settings);
           SET the_user_id = LAST_INSERT_ID();
           SET error_text = 'Az új felhasználó létrehozva.';
       ELSE
           SET error_text = 'A jelszó nem megfelelő. Legyen benne Kisbetű+Nagybetű+Szám+Írásjel(!-@)';
       END IF;
     ELSE
-        SET error_text = 'Az email cím nem megfelelő. '+ _user_email;
+        SET error_text = CONCAT( 'Az email cím nem megfelelő. ', _user_email);
     END IF;
 END//
 DELIMITER ;
