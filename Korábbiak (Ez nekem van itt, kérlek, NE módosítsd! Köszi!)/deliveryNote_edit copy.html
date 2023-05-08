@@ -158,29 +158,76 @@
         </form>
         <br>
         <h3 class="text-center oldalcim">A szállítólevélhez tartozó mérések:</h3>
-        <div class="table-responsive keretezett">
-            <table class="table table-hover mt-5">
-                <thead>
-                    <tr>
-                        <th>RENDSZÁM</th>
-                        <th>TERMÉK</th>
-                        <th>BEMÉRT TÖMEG - TÁRA (Kg)</th>
-                        <th>VISSZAMÉRT TÖMEG (Kg)</th>
-                        <th>KISZÁMÍTOTT (RAKODOTT) TÖMEG (Kg)</th>
-                        <th>ID</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    <tr>
-                        <td class="plate_number1" style="font-weight: bold; font-style: italic;"></td>
-                        <td class="product_name" style="font-style: italic;"></td>
-                        <td class="weight_inbound" style="font-style: italic;"></td>
-                        <td class="weight_outbound" style="font-style: italic;"></td>
-                        <td class="weight_calculated" style="font-style: italic;"></td>
-                        <td class="measurement_id" style="font-style: italic;"></td>
-                    </tr>
-                </tbody>
-            </table>
+        <br>
+        <div class="btns text-center">
+            <a href="./meauserements.html" class="btn gomb_meres_hozzaas"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i>Kilépés</a>
+        </div>
+        <!-- <form class="row col-3 w-75 m-auto d-flex flex-column keretezett">
+            <div class="row ms-1">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
+                    <label for="input_plate_number1" style="font-weight: bold;">Rendszám - 1</label>
+                    <select id="input_plate_number1" class="form-select mb-3">
+                        <option style="font-weight: bold;">Válassza ki a rendszámot!</option>
+                        <option>PÉLDA rendszám</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
+                    <label for="input_measurement_date" style="font-weight: bold;">Mérés dátuma</label>
+                    <input type="date" class="form-control" id="input_measurement_date">
+                </div>
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="input_measurement_time" style="font-weight: bold;">Mérés időpontja ettől</label>
+                    <input type="time" class="form-control" id="input_measurement">
+                </div>
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="input_measurement_time" style="font-weight: bold;">Mérés időpontja eddig</label>
+                    <input type="time" class="form-control" id="input_measurement">
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="input_product_name" style="font-weight: bold;">Termék megnevezése</label>
+                <input type="text" class="form-control" id="input_product_name" placeholder="Termék megnevezése">
+            </div>
+            <div class="row ms-1">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
+                    <label for="input_weight_inbound" style="font-weight: bold;">Bemért tömeg (Kg)</label>
+                    <input type="number" class="form-control" id="input_weight_inbound" placeholder="Bemért tömeg (Kg)">
+                </div>
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
+                    <label for="input_weight_outbound" style="font-weight: bold;">Visszamért tömeg (Kg)</label>
+                    <input type="number" class="form-control" id="input_weight_outbound" placeholder="Visszamért tömeg (Kg)">
+                </div>
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
+                    <label for="input_weight_calculated" style="font-weight: bold;">Rakodott tömeg (Kg)</label>
+                    <input type="number" class="form-control" id="input_weight_calculated" placeholder="Rakodott tömeg (Kg)">
+                </div>
+            </div>
+        </form> -->
+        <div class="container-fluid mt-5">
+            <div class="table-responsive keretezett">
+                <table class="table table-hover mt-5">
+                    <thead>
+                        <tr>
+                            <th>RENDSZÁM</th>
+                            <th>TERMÉK</th>
+                            <th>BEMÉRT TÖMEG - TÁRA (Kg)</th>
+                            <th>VISSZAMÉRT TÖMEG (Kg)</th>
+                            <th>KISZÁMÍTOTT (RAKODOTT) TÖMEG (Kg)</th>
+                            <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr>
+                            <td class="plate_number1" style="font-weight: bold; font-style: italic;"></td>
+                            <td class="product_name" style="font-style: italic;"></td>
+                            <td class="weight_inbound" style="font-style: italic;"></td>
+                            <td class="weight_outbound" style="font-style: italic;"></td>
+                            <td class="weight_calculated" style="font-style: italic;"></td>
+                            <td class="measurement_id" style="font-style: italic;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="btns text-center">
             <button type="submit" class="btn mx-5 gomb_elfogad" id="submit_button"><i class="fa-sharp fa-solid fa-check"></i>MENTÉS</button>
