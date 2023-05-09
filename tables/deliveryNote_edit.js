@@ -5,7 +5,7 @@ fetch('http://localhost:3001/owners')
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            nameFunction(data.name, data.id)
+            OwnerNameFunction(data.name, data.id)
         })
     })
 
@@ -15,7 +15,7 @@ fetch('http://localhost:3001/partners')
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            pnameFunction(data.name, data.id)
+            PartnerNameFunction(data.name, data.id)
         })
     })
 
@@ -25,11 +25,11 @@ fetch('http://localhost:3001/partners')
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            cnameFunction(data.name, data.id)
+            CarrierNameFunction(data.name, data.id)
         })
     })
 
-function nameFunction(name, id) {
+function OwnerNameFunction(name, id) {
 
     var input_owner_name = document.getElementById("input_owner_name");
     var option = document.createElement("option");
@@ -42,13 +42,13 @@ function nameFunction(name, id) {
             // console.log(datas);
             datas.map(data => {
                 // console.log(data);
-                addressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number)
+                OwnerAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number)
             })
         })
 
 }
 
-function addressFunction(zip_code, city, street_name, street_type, street_number) {
+function OwnerAddressFunction(zip_code, city, street_name, street_type, street_number) {
 
     var input_owner_address = document.getElementById("input_owner_address");
     var input_loadlocation_address = document.getElementById("input_loadlocation_address");
@@ -61,7 +61,7 @@ function addressFunction(zip_code, city, street_name, street_type, street_number
 
 }
 
-function pnameFunction(name, id) {
+function PartnerNameFunction(name, id) {
 
     var input_partner = document.getElementById("input_partner");
     var option = document.createElement("option");
@@ -74,13 +74,13 @@ function pnameFunction(name, id) {
             // console.log(datas);
             datas.map(data => {
                 // console.log(data);
-                paddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number)
+                PartnerAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number)
             })
         })
 
 }
 
-function paddressFunction(zip_code, city, street_name, street_type, street_number) {
+function PartnerAddressFunction(zip_code, city, street_name, street_type, street_number) {
 
     var input_partner_address = document.getElementById("input_partner_address");
     var input_unloadlocation_address = document.getElementById("input_unloadlocation_address");
@@ -94,7 +94,7 @@ function paddressFunction(zip_code, city, street_name, street_type, street_numbe
 }
 
 
-function cnameFunction(name, id) {
+function CarrierNameFunction(name, id) {
 
     var input_carrier = document.getElementById("input_carrier");
     var option = document.createElement("option");
@@ -107,14 +107,14 @@ function cnameFunction(name, id) {
             // console.log(datas);
             datas.map(data => {
                 // console.log(data);
-                caddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number)
+                CarrierAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number)
             })
         })
 
 }
 
 
-function caddressFunction(zip_code, city, street_name, street_type, street_number) {
+function CarrierAddressFunction(zip_code, city, street_name, street_type, street_number) {
 
     var input_carrier_address = document.getElementById("input_carrier_address");
     var option = document.createElement("option");
