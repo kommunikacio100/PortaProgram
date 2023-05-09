@@ -63,19 +63,19 @@
         <br>
         <form class="w-75 m-auto d-flex flex-column keretezett">
             <div class="form-group mb-3">
-                <label for="input_product_item_number" style="font-weight: bold;">Cikkszám</label>
-                <input type="text" class="form-control" id="input_product_item_number" placeholder="Termék cikkszáma">
+                <label for="item_number" style="font-weight: bold;">Cikkszám</label>
+                <input type="text" class="form-control" id="item_number" placeholder="Termék cikkszáma">
             </div>
             <div class="form-group mb-3">
-                <label for="input_product_name" style="font-weight: bold;">Megnevezés</label>
-                <input type="text" class="form-control" id="input_product_name" placeholder="Termék megnevezése">
+                <label for="name" style="font-weight: bold;">Megnevezés</label>
+                <input type="text" class="form-control" id="name" placeholder="Termék megnevezése">
             </div>
             <div>
-                <label for="input_product_units" style="font-weight: bold;">Mennyiségi egység</label>
-                <select id="input_product_units" class="form-select mb-3">
-                    <option style="font-weight: bold;">Mennyiségi egység</option>
+                <label for="units" style="font-weight: bold;">Mennyiségi egység</label>
+                <select id="units" class="form-select mb-3">
+                    <option style="font-weight: bold;">válasszon m.egységet!</option>
                     <option>db</option>
-                    <option>Kg</option>
+                    <option>kg</option>
                     <option>q</option>
                     <option>t</option>
                     <option>m</option>
@@ -88,24 +88,24 @@
                 </select>
             </div>
             <div class="form-group mb-3">
-                <label for="input_product_unit_price" style="font-weight: bold;">Egységár</label>
-                <input type="number" class="form-control" id="input_product_unit_price" placeholder="Egységár">
+                <label for="unit_price" style="font-weight: bold;">Egységár</label>
+                <input type="number" class="form-control" id="unit_price" placeholder="Egységár">
             </div>
             <div class="form-group mb-3">
-                <label for="input_product_stock" style="font-weight: bold;">Készlet</label>
-                <input type="number" class="form-control" id="input_product_stock" placeholder="Készleten lévő mennyiség">
+                <label for="stock" style="font-weight: bold;">Készlet</label>
+                <input type="number" class="form-control" id="stock" placeholder="Készleten lévő mennyiség">
             </div>
             <div class="form-group mb-3">
-                <label for="input_product_kg_per_unit" style="font-weight: bold;">Egységnyi tömeg (Kg)</label>
-                <input type="number" class="form-control" id="input_product_kg_per_unit" placeholder="1 egység tömege (Kg)">
+                <label for="kg_per_unit" style="font-weight: bold;">kg/egység</label>
+                <input type="number" class="form-control" id="kg_per_unit" placeholder="1 egység tömege kg-ban">
             </div>
             <div class="form-group mb-3">
-                <label for="input_product_vatKey" style="font-weight: bold;">ÁFA-kulcs</label>
-                <input type="text" class="form-control" id="input_product_vatKey" placeholder="Alkalmazandó ÁFA-kulcs">
+                <label for="vat_key" style="font-weight: bold;">ÁFA-kulcs</label>
+                <input type="text" class="form-control" id="vat_key" placeholder="Alkalmazandó ÁFA-kulcs">
             </div>
             <div class="form-group mb-3">
-                <label for="input_product_id" style="font-weight: bold;">ID</label>
-                <input type="number" class="form-control" id="input_product_id" placeholder="Termék azonosítója (ID)">
+                <label for="id" style="font-weight: bold;">ID</label>
+                <input type="number" class="form-control" id="id" placeholder="Termék azonosítója (ID)" readonly>
             </div>
         </form>
         <div class="btns text-center">
