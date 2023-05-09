@@ -19,7 +19,7 @@ const submit_button_product = document.getElementById("submit_button");
 
 submit_button_product.addEventListener("click", (event) => {
     event.preventDefault();
-    create_and_update_user();
+    create_and_update_product();
 })
 
 function create_and_update_user() {
@@ -53,7 +53,7 @@ function create_and_update_user() {
             }
         }).then( res => console.log( res))
     } else {
-        fetch(`http://localhost:3001/products/${input_product_id}`, {
+        fetch(`http://localhost:3001/products`, {
             method: "PUT",
             body: JSON.stringify(data_to_send),
             headers: {
@@ -63,30 +63,26 @@ function create_and_update_user() {
     }
 }
 
-
 const delete_product_button = document.getElementById("delete_button");
 
 delete_product_button.addEventListener("click", (event) => {
     event.preventDefault();
-    delete_user();
+    delete_product();
 })
 
-
-
-
-function delete_user() {
+function delete_product() {
     var input_product_id = document.getElementById('input_product_id').value;
 
-    fetch(`http://localhost:3001/products/${input_product_id}`, {
-        method: "DELETE"
-    })
- 
-      setTimeout(redirectToUserTable, 300);
-
-   
-   
+    if ( confirm( 'Biztos benne? Töröljük a terméket? '+ document.getElementById('input_product_name').value)) {
+        fetch(`http://localhost:3001/products/${input_product_id}`, {
+            method: "DELETE"
+        }).then( res => {
+            console.log( res);
+            redirectToProductTable();
+        })
+    }
 }
 
-function redirectToUserTable() {
+function redirectToProductTable() {
     window.location.href = "product_table.html";
   }
