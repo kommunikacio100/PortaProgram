@@ -74,10 +74,10 @@ delete_product_button.addEventListener("click", (event) => {
 })
 
 function delete_product() {
-    var input_product_id = document.getElementById('input_product_id').value;
+    var id = document.getElementById('id').value;
 
-    if ( confirm( 'Biztos benne? Töröljük a terméket? '+ document.getElementById('input_product_name').value)) {
-        fetch(`http://localhost:3001/products/${input_product_id}`, {
+    if ( confirm( 'Biztos benne? Töröljük a terméket? '+ document.getElementById('name').value)) {
+        fetch(`http://localhost:3001/products/${id}`, {
             method: "DELETE"
         }).then( res => {
             console.log( res);
