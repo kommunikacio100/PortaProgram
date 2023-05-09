@@ -83,24 +83,24 @@ router.post('/', (req, res)=>{
     `vat_exemption_case, vat_exemption_reason, adr_number, `+
     ` created_by) `+
     ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let product_item_number = req.body.product_item_number;
-    let product_name = req.body.product_name;
-    let product_units = req.body.product_units;
-    let product_stock = req.body.product_stock;
-    let product_kg_per_unit = req.body.product_kg_per_unit;
-    let product_unit_price = req.body.product_unit_price;
-    let product_vtsz = req.body.product_vtsz;
-    let product_vat_key = req.body.product_vat_key;
-    let product_vat_exemption_case = req.body.product_vat_exemption_case;
-    let product_vat_exemption_reason = req.body.product_vat_exemption_reason;
-    let product_adr_number = req.body.product_adr_number;
-    let product_created_by = req.body.product_created_by;
+    let item_number = req.body.item_number;
+    let name = req.body.name;
+    let units = req.body.units;
+    let stock = req.body.stock;
+    let kg_per_unit = req.body.kg_per_unit;
+    let unit_price = req.body.unit_price;
+    let vtsz = req.body.vtsz;
+    let vat_key = req.body.vat_key;
+    let vat_exemption_case = req.body.vat_exemption_case;
+    let vat_exemption_reason = req.body.vat_exemption_reason;
+    let adr_number = req.body.adr_number;
+    let created_by = req.body.created_by;
     try{
-        con.query(sql, [product_item_number, product_name, product_units, 
-            product_stock, product_kg_per_unit, product_unit_price,
-            product_vtsz, product_vat_key, product_vat_exemption_case,
-            product_vat_exemption_reason, product_adr_number,
-            product_created_by], 
+        con.query(sql, [item_number, name, units, 
+            stock, kg_per_unit, unit_price,
+            vtsz, vat_key, vat_exemption_case,
+            vat_exemption_reason, adr_number,
+            created_by], 
             function (err, result) {
                 if (err){
                     res.status(500)
@@ -116,7 +116,7 @@ router.post('/', (req, res)=>{
                     }else{
                         res.status(200);
                         res.json({"status":"error", "text": "The POST product is unsuccessfully", 
-                        "product_name": product_name, 
+                        "product_name": name, 
                         "insertId": result.insertId});
                     }
                 }
@@ -126,7 +126,7 @@ router.post('/', (req, res)=>{
     }catch(e){
         console.error(e);
         res.status(500);
-        res.json({error: "Cannot get products with this parameters", "product_id": product_id, "length":0});
+        res.json({error: "Cannot get products with this parameters", "product_id": id, "length":0});
     }
 })
 
