@@ -5,7 +5,7 @@ const crypto = require('crypto');
 
 // use: GET command with this link http://127.0.0.1:3001/carriers ahol az összes címet akarjuk visszakapni.
 router.get('/', (req, res)=>{
-    var sql = `select * from carriers`;
+    var sql = `select * from carriers order by name`;
     try{
         con.query(sql, function (err, result) {
             if (err){
@@ -75,16 +75,16 @@ router.get('/:carrier_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into carriers (ekaer_id, name, memo, `+
+    var sql = `insert into carriers (name, ekaer_id, memo, `+
         ` created_by) `+
         ` VALUES ( ?, ?, ?, ?);`;
-    let carrier_ekaerid = req.body.carrier_ekaerid;
-    let carrier_name = req.body.carrier_name;
-    let carrier_memo = req.body.carrier_memo;
-    let carrier_created_by = req.body.carrier_created_by;
+    let name = req.body.name;
+    let ekaer_id = req.body.ekaer_id;
+    let memo = req.body.memo;
+    let created_by = req.body.created_by;
     try{
-        con.query(sql, [carrier_ekaerid, carrier_name, carrier_memo, 
-            carrier_created_by], 
+        con.query(sql, [name, ekaer_id, memo, 
+            created_by], 
             function (err, result) {
                 if (err){
                     res.status(500)
@@ -100,7 +100,7 @@ router.post('/', (req, res)=>{
                     }else{
                         res.status(200);
                         res.json({"status":"error", "text": "The POST carrier is unsuccessfully", 
-                        "carrier_name": carrier_name, 
+                        "carrier_name": name, 
                         "insertId": result.insertId});
                     }
                 }
@@ -120,18 +120,18 @@ router.post('/', (req, res)=>{
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
     var sql = `replace into carriers ( id, `+
-    ` ekaer_id, name, memo, `+
+    ` name, ekaer_id, memo, `+
     ` modified, modified_by) `+
     ` VALUES ( ?, ?, ?, ?, ?, ?);`;
-    let carrier_id = req.body.carrier_id;
-    let carrier_ekaerid = req.body.carrier_ekaerid;
-    let carrier_name = req.body.carrier_name;
-    let carrier_memo = req.body.carrier_memo;
-    let carrier_modified = new Date().toISOString();
-    let carrier_modified_by = req.body.carrier_modified_by;
+    let id = req.body.id;
+    let name = req.body.name;
+    let ekaer_id = req.body.ekaer_id;
+    let memo = req.body.memo;
+    let modified = new Date().toISOString();
+    let modified_by = req.body.modified_by;
     try{
-        con.query(sql, [carrier_id, carrier_ekaerid, carrier_name, 
-            carrier_memo, carrier_modified, carrier_modified_by], 
+        con.query(sql, [id, name, ekaer_id, 
+            memo, modified, modified_by], 
             function (err, result) {
             if (err){
                 res.status(500)
@@ -149,7 +149,7 @@ router.put('/', (req, res)=>{
                     res.status(200);
                     result.status= "error";
                     result.errorText = "PUT insertId not found in result.";
-                    result.carrier_id = carrier_id;
+                    result.id = id;
                     res.json(result);
                 }
             }
@@ -162,20 +162,20 @@ router.put('/', (req, res)=>{
 })
 
 // use: DELETE command with this link http://127.0.0.1:3001/carriers/2 ahol a 2-es carrier_id-jű címet akarjuk törölni.
-router.delete('/:carrier_id', (req, res)=>{
+router.delete('/:id', (req, res)=>{
     var sql = `delete from carriers where id = ?`;
-    let carrier_id = req.params.carrier_id;
+    let id = req.params.id;
     try{
-        con.query( sql, carrier_id, function (err, result) {
+        con.query( sql, id, function (err, result) {
             if (err){
                 res.status(500)
-                res.json({error: "Can't delete carrier_id = "+ carrier_id})
+                res.json({error: "Can't delete carrier_id = "+ id})
                 throw err;
             }
             else{
                 res.status(200);
                 if ( result.affectedRows>0){
-                    console.log( "carrier_id = "+ carrier_id +" successfull deleted");
+                    console.log( "carrier_id = "+ id +" successfull deleted");
                     res.status(200);
                     result.status= "OK";
                     result.text_message = "carrier deleted.";
@@ -191,7 +191,7 @@ router.delete('/:carrier_id', (req, res)=>{
     }catch(e){
         console.error(e);
         res.status(500);
-        res.json({error: "Cannot get carrier_id = "+ carrier_id});
+        res.json({error: "Cannot get carrier_id = "+ id});
     }
 })
 

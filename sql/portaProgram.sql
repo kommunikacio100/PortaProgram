@@ -1,4 +1,4 @@
--- Active: 1679420639513@@127.0.0.1@3306@weighing_db
+-- Active: 1678652479984@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -4692,4 +4692,9 @@ VALUES ('ABC123', 'HU', '', '', '', '', 11220, '2023-05-08 12:25:10'),
        ('HJK654', 'HU', '', '', '', '', 10510, '2023-05-06 10:48:43'), 
        ('LKI789', 'HU', '', '', '', '', 1350,  '2023-05-06 16:00:23'), 
        ('RTV111', 'HU', '', '', '', '', 8510,  '2023-05-06 7:20:35');
-  
+
+INSERT INTO carriers ( ekaer_id, name, `memo` )
+VALUES ('EK202304057810', 'Transport kft.', 'Vasárnap is dolgozunk.'),  
+      ('EK202304057812', 'Transit kft.', 'Vasárnap nem dolgozunk.'),  
+      ('EK202304057833', 'TransClass kft.', 'Sohasem nem dolgozunk.'),  
+      ('EK202304057833', 'LeszFuvar kft.', 'Lesz fuvar mindennap.');  
