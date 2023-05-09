@@ -1,44 +1,50 @@
-const cached_vehicle_Data = localStorage.getItem('data');
 
-if (cached_vehicle_Data) {
-    let felbontva = cached_vehicle_Data.split(",");
+const cached_vehicle_id = localStorage.getItem('vehicle_edit_id');
 
-    document.getElementById('input_vehicle_platenumber_1').value = felbontva[0];
-    document.getElementById('input_vehicle_empty_weight').value = felbontva[1];
-    document.getElementById('input_vehicle_empty_weight_date').value = felbontva[2];
-    document.getElementById('input_vehicle_empty_weight_time').value = felbontva[3];
-    document.getElementById('input_vehicle_id').value = felbontva[4];
-   
+console.log( "vehicle_edit_id: ", cached_vehicle_id);
+
+if (cached_vehicle_id == null) {
+    console.log( " null ");
+}else{
     localStorage.clear();
+    fetch('http://localhost:3001/vehicles/'+ cached_vehicle_id)
+    .then(response => response.json())
+    .then( vehicle_data => {
+        console.log( "vehice_data: ", vehicle_data[0]);
+        document.getElementById('plate_number1').value = vehicle_data[0].plate_number1;
+        document.getElementById('plate_number2').value = vehicle_data[0].plate_number2;
+        document.getElementById('empty_weight').value = vehicle_data[0].empty_weight;
+        let time = vehicle_data[0].empty_time;
+        document.getElementById('empty_time').value = time.substr( 0, time.length-2);
+        document.getElementById('id').value = vehicle_data[0].id;
+//        document.getElementById('country_code1').value = vehicle_data[0].country_code1;
+//        document.getElementById('country_code1').value = vehicle_data[0].country_code2;
+    })
 }
 
 const submit_button_vehicle = document.getElementById("submit_button");
 
 submit_button_vehicle.addEventListener("click", (event) => {
     event.preventDefault();
-    create_and_update_user();
+    create_and_update_vehicle();
 })
 
-function create_and_update_user() {
-    var input_vehicle_platenumber_1 = document.getElementById('input_vehicle_platenumber_1').value;
-    var input_vehicle_empty_weight = document.getElementById('input_vehicle_empty_weight').value;
-    var input_vehicle_empty_weight_date = document.getElementById('input_vehicle_empty_weight_date').value;
-    var input_vehicle_empty_weight_time = document.getElementById('input_vehicle_empty_weight_time').value;
-    var input_vehicle_id = document.getElementById('input_vehicle_id').value;
+function create_and_update_vehicle() {
+    var plate_number1 = document.getElementById('plate_number1').value;
+    var plate_number2 = document.getElementById('plate_number2').value;
+    var empty_weight = document.getElementById('empty_weight').value;
+    var empty_time = document.getElementById('empty_time').value;
+    var id = document.getElementById('id').value;
 
-    input_vehicle_empty_weight_date= input_vehicle_empty_weight_date +" "+ input_vehicle_empty_weight_time+":00";
-    console.log(input_vehicle_empty_weight_date);
-    
     let data_to_send = {
-        "vehicle_plate_number1": input_vehicle_platenumber_1,
-        "vehicle_empty_weight": input_vehicle_empty_weight,
-        //"vehicle_empty_time": input_vehicle_empty_weight_date,
-        //"user_can_edit_data": input_vehicle_empty_weight_time,
-        "vehicle_id": input_vehicle_id,
-        
+        "plate_number1": plate_number1,
+        "plate_number2": plate_number2,
+        "empty_weight": empty_weight,
+        "empty_time": empty_time,
+        "id": id,
     }
 
-    if (input_vehicle_id === '') {
+    if (id === '') {
         fetch("http://localhost:3001/vehicles", {
             method: "POST",
             body: JSON.stringify(data_to_send),
@@ -47,7 +53,7 @@ function create_and_update_user() {
             }
         }).then( res => console.log( res))
     } else {
-        fetch(`http://localhost:3001/vehicles/${input_vehicle_id}`, {
+        fetch(`http://localhost:3001/vehicles/`, {
             method: "PUT",
             body: JSON.stringify(data_to_send),
             headers: {
@@ -62,25 +68,22 @@ const delete_vehicle_button = document.getElementById("delete_button");
 
 delete_vehicle_button.addEventListener("click", (event) => {
     event.preventDefault();
-    delete_user();
+    delete_vehicle();
 })
 
+function delete_vehicle() {
+    var id = document.getElementById('id').value;
 
-
-
-function delete_user() {
-    var input_vehicle_id = document.getElementById('input_vehicle_id').value;
-
-    fetch(`http://localhost:3001/vehicles/${input_vehicle_id}`, {
-        method: "DELETE"
-    })
- 
-      setTimeout(redirectToUserTable, 300);
-
-   
-   
+    if (confirm("Biztos benne? Törli a rendszámot? "+ document.getElementById('plate_number1').value)) {
+        fetch(`http://localhost:3001/vehicles/${id}`, {
+            method: "DELETE"
+        }).then( res=> { 
+            console.log( res); 
+            redirectToVehicleTable()
+        });
+    }    
 }
 
-function redirectToUserTable() {
+function redirectToVehicleTable() {
     window.location.href = "vehicle_table.html";
   }

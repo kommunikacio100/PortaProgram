@@ -109,3 +109,6 @@ header {
     text-align: center;
     background-color: rgb(17, 140, 79);
 }
+.hiddenRow{
+  color: white;
+}

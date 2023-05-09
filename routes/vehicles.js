@@ -4,7 +4,7 @@ const con = require("../dbConfig");
 const crypto = require('crypto');
 
 router.get('/', (req, res)=>{
-    var sql = `select * from vehicles`;
+    var sql = `select * from vehicles  order by plate_number1`;
     try{
         con.query(sql, function (err, result) {
             if (err){
@@ -79,16 +79,16 @@ router.post('/', (req, res)=>{
     `plate_number2, country_code2, plate_number3, country_code3,`+
     `empty_weight, empty_time,`+
     ` created_by) `+
-    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let vehicle_plate_number1 = req.body.vehicle_plate_number1;
-    let vehicle_country_code1 = req.body.vehicle_country_code1;
-    let vehicle_plate_number2 = req.body.vehicle_plate_number2;
-    let vehicle_country_code2 = req.body.vehicle_country_code2;
-    let vehicle_plate_number3 = req.body.vehicle_plate_number3;
-    let vehicle_country_code3 = req.body.vehicle_country_code3;
-    let vehicle_empty_weight = req.body.vehicle_empty_weight;
-    let vehicle_empty_time = req.body.vehicle_empty_time;
-    let vehicle_created_by = req.body.vehicle_created_by;
+    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    let vehicle_plate_number1 = req.body.plate_number1;
+    let vehicle_country_code1 = req.body.country_code1;
+    let vehicle_plate_number2 = req.body.plate_number2;
+    let vehicle_country_code2 = req.body.country_code2;
+    let vehicle_plate_number3 = req.body.plate_number3;
+    let vehicle_country_code3 = req.body.country_code3;
+    let vehicle_empty_weight = req.body.empty_weight;
+    let vehicle_empty_time = req.body.empty_time;
+    let vehicle_created_by = req.body.created_by;
     try{
         con.query(sql, [vehicle_plate_number1, vehicle_country_code1, 
             vehicle_plate_number2, vehicle_country_code2, 
@@ -129,29 +129,29 @@ router.post('/', (req, res)=>{
 // Egy partnerhez több cím is tartozhat.
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
-    var sql = `replace into vehicles ( id, item_number, name, units, `+
-    `stock, kg_per_unit, unit_price, vtsz, vatKey,`+
-    `vat_exemption_case, vat_exemption_reason, adr_number, `+
-    ` modified, modified_by) `+
-    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let vehicle_id = req.body.vehicle_id;
-    let vehicle_plate_number1 = req.body.vehicle_plate_number1;
-    let vehicle_country_code1 = req.body.vehicle_country_code1;
-    let vehicle_plate_number2 = req.body.vehicle_plate_number2;
-    let vehicle_country_code2 = req.body.vehicle_country_code2;
-    let vehicle_plate_number3 = req.body.vehicle_plate_number3;
-    let vehicle_country_code3 = req.body.vehicle_country_code3;
-    let vehicle_empty_weight = req.body.vehicle_empty_weight;
-    let vehicle_empty_time = req.body.vehicle_empty_time;
-    let vehicle_modified = new Date().toISOString();
-    let vehicle_modified_by = req.body.vehicle_modified_by;
+    var sql = `replace into vehicles (id, plate_number1, country_code1, `+
+    `plate_number2, country_code2, plate_number3, country_code3,`+
+    `empty_weight, empty_time,`+
+    ` created_by) `+
+    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    let id = req.body.id;
+    let plate_number1 = req.body.plate_number1;
+    let country_code1 = req.body.country_code1;
+    let plate_number2 = req.body.plate_number2;
+    let country_code2 = req.body.country_code2;
+    let plate_number3 = req.body.plate_number3;
+    let country_code3 = req.body.country_code3;
+    let empty_weight = req.body.empty_weight;
+    let empty_time = req.body.empty_time;
+    let modified = new Date().toISOString();
+    let modified_by = req.body.modified_by;
     try{
-        con.query(sql, [vehicle_id,
-            vehicle_plate_number1, vehicle_country_code1, 
-            vehicle_plate_number2, vehicle_country_code2, 
-            vehicle_plate_number3, vehicle_country_code3, 
-            vehicle_empty_weight, vehicle_empty_time,
-            vehicle_modified, vehicle_modified_by], 
+        con.query(sql, [id,
+            plate_number1, country_code1, 
+            plate_number2, country_code2, 
+            plate_number3, country_code3, 
+            empty_weight, empty_time,
+            modified, modified_by], 
             function (err, result) {
             if (err){
                 res.status(500)
@@ -161,7 +161,7 @@ router.put('/', (req, res)=>{
             else{
                 console.log( 'PUT RESULT', result);
                 if (result.insertId>0){
-                    console.log("put vehicle successfull. vehicle_id: " + result.insertId );
+                    console.log("put vehicle successfull. id: " + result.insertId );
                     res.status(200);
                     result.status= "OK";
                     res.json( result);

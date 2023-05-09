@@ -1,4 +1,4 @@
--- Active: 1679420639513@@127.0.0.1@3306
+-- Active: 1677906231590@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -4678,5 +4678,18 @@ BEGIN
 END//
 DELIMITER ;
 
+INSERT INTO products ( item_number, name, units, stock, kg_per_unit, unit_price, vtsz, vat_key) VALUES 
+  ( 'H-1', 'Sárga homok', 'tonna', 0, 1000, 5400, '251710', '27'),
+  ( 'H-2', 'Szürke homok', 'tonna', 0, 1000, 5400, '251710', '27'),
+  ( 'SDR15', 'Sóder', 'tonna', 0, 1000, 5400, '251710', '27'),
+  ( 'L45-78', 'Lignit', 'mázsa', 0, 100, 5400, '585660', '27'),
+  ( 'XCV 25', 'Tört beton', 'tonna', 0, 100, 5400, '585660', '27'),
+  ( 'T654321', 'Barnaszén', 'mázsa', 0, 100, 5400, '585660', '27');
 
-
+INSERT INTO vehicles (plate_number1, country_code1, plate_number2, country_code2, plate_number3, country_code3, empty_weight, empty_time)
+VALUES ('ABC123', 'HU', '', '', '', '', 11220, '2023-05-08 12:25:10'),
+       ('DFG456', 'HU', '', '', '', '', 13510, '2023-05-06 11:28:55'), 
+       ('HJK654', 'HU', '', '', '', '', 10510, '2023-05-06 10:48:43'), 
+       ('LKI789', 'HU', '', '', '', '', 1350,  '2023-05-06 16:00:23'), 
+       ('RTV111', 'HU', '', '', '', '', 8510,  '2023-05-06 7:20:35');
+  
