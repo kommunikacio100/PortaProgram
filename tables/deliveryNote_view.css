@@ -1,0 +1,38 @@
+body {
+    background: rgb(204,204,204); 
+  }
+  page[size="A4"] {
+    background: white;
+    width: 21cm;
+    height: 29.7cm;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0cm;
+    padding: 1cm;
+  }
+  @media print {
+    body, page[size="A4"] {
+      margin: 0;
+    }
+  }
+  .oldalcim {
+    margin-bottom: 0;
+  }
+  .focimke {
+    font-weight: bold;
+    font-size: 11px;
+    border: solid black 2px;
+  }
+  .cimke {
+    font-weight: bold;
+    font-size: 11px;
+  }
+  .form-control {
+    font-size: 11px;
+  }
+  .keretezett {
+    border-bottom: solid black 0.5px;
+  }
+  .table-responsive {
+    font-size: 10px;
+  }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <title>weighingServer teszt</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./merleg.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="./responsive-text-resize/font-size.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="deliveryNote_view.css">
+    <script src="https://kit.fontawesome.com/7cc6cc927d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <page size="A4">
+        <h2 class="text-center oldalcim">Szállítólevél</h2>
+        <div class="container-fluid mt-5 keretezett">
+            <form class="w-90 m-auto d-flex flex-column justify-content-center">
+                <div class="row">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text focimke" id="serial_no">Sorszám:</span>
+                        <input type="text" class="form-control focimke" id="serial_no">
+                        <span class="input-group-text focimke" id="date">Dátum:</span>
+                        <input type="datetime-local" class="form-control focimke" id="date">
+                    </div>
+                </div>
+            </form>
+        <div class="container-fluid mt-3 keretezett">
+            <form class="w-90 m-auto d-flex flex-column justify-content-center">
+                <div class="row">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text cimke" id="input_owner_name">Tulajdonos:</span>
+                        <input type="text" class="form-control" id="input_owner_name">
+                        <span class="input-group-text cimke" id="input_owner_address">Tul. címe:</span>
+                        <input type="text" class="form-control" id="input_owner_address">
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text cimke" id="input_location_address">Rakodási cím:</span>
+                        <input type="text" class="form-control" id="input_location_address">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container-fluid mt-3 keretezett">
+            <form class="w-90 m-auto d-flex flex-column justify-content-center">
+                <div class="row">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text cimke" id="input_partner_name">Partner:</span>
+                        <input type="text" class="form-control" id="input_partner_name">
+                        <span class="input-group-text cimke" id="input_partner_address">Part. címe:</span>
+                        <input type="text" class="form-control" id="input_partner_address">
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text cimke" id="input_unloadlocation_address">Lerakodási cím:</span>
+                        <input type="text" class="form-control" id="input_unloadlocation_address">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container-fluid mt-3 keretezett">
+            <form class="w-90 m-auto d-flex flex-column justify-content-center">
+                <div class="row">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text cimke" id="input_carrier_name">Szállítmányozó:</span>
+                        <input type="text" class="form-control" id="input_carrier_name">
+                        <span class="input-group-text cimke" id="input_carrier_address">Száll. címe:</span>
+                        <input type="text" class="form-control" id="input_carrier_address">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container-fluid mt-3 keretezett">
+            <form class="w-90 m-auto d-flex flex-column justify-content-center">
+                <div class="row">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text cimke" id="input_movement">Művelet:</span>
+                        <input type="text" class="form-control" id="input_movement">
+                        <span class="input-group-text cimke" id="input_status">Státusz:</span>
+                        <input type="text" class="form-control" id="input_status">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br>
+        <h5 class="text-center oldalcim">A szállítólevélhez tartozó mérések:</h5>
+        <div class="table-responsive">
+            <table class="table table-hover mt-2">
+                <thead>
+                    <tr>
+                        <th>RENDSZÁM</th>
+                        <th>TERMÉK</th>
+                        <th>BEMÉRT TÖMEG - TÁRA (Kg)</th>
+                        <th>VISSZAMÉRT TÖMEG (Kg)</th>
+                        <th>KISZÁMÍTOTT (RAKODOTT) TÖMEG (Kg)</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr>
+                        <td class="plate_number1" style="font-weight: bold; font-style: italic;"></td>
+                        <td class="product_name" style="font-style: italic;"></td>
+                        <td class="weight_inbound" style="font-style: italic;"></td>
+                        <td class="weight_outbound" style="font-style: italic;"></td>
+                        <td class="weight_calculated" style="font-style: italic;"></td>
+                        <td class="measurement_id" style="font-style: italic;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </page>
+    <script src="deliveryNote_view.js"></script>
+</body>
