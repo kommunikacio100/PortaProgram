@@ -12,7 +12,7 @@ fetch('http://localhost:3001/products')
                     data.item_number, data.name, data.units,
                     data.unit_price,data.stock,data.kg_per_unit,data.vat_key,
                     data.id))
-        })
+        });
         jumpToRow(); // ha betöltötte a táblázatot, 
                      // odaugrik az esetleg korábban szerkesztett, vagy újonnan felvett tételhez.
                      // az edit_table.js elmenti a szerkesztett tétel id-jét.
@@ -45,7 +45,7 @@ function trFunction(item_number, name, units, unit_price, stock,
 function myEditFunction(event, id) {
     localStorage.setItem('product_id', id);
     window.location.href = `product_edit.html`;
-    console.log('product edit id ', id);
+    // console.log('product edit id ', id);
 }
 
 // ha volt új, vagy szerkesztett sor, odaugrik
