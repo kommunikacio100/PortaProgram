@@ -133,22 +133,14 @@
                     <label for="input_movement" style="font-weight: bold;">Művelet</label>
                     <select id="input_movement" class="form-select mb-3">
                         <option style="font-weight: bold;">Válassza ki a műveletet!</option>
-                        <option>Beszállítás</option>
-                        <option>Kiszállítás</option>
-                        <option>Csak mérés</option>
-                        <option>Induló készlet</option>
-                        <option>Selejtezés</option>
-                        <option>Többlet készlet</option>
-                        <option>Leltár hiány</option>
+                        <option>PÉLDA művelet</option>
                     </select>
                 </div>
                 <div class="col-sm-12 col-lg-6 form-group mb-3">
-                    <label for="input_status" style="font-weight: bold;">Státusz</label>
-                    <select id="input_status" class="form-select mb-3">
-                        <option style="font-weight: bold;">Válassza ki a szállítólevél státuszát!</option>
-                        <option>NYITOTT</option>
-                        <option>LEZÁRT</option>
-                    </select>
+                    <div class="form-group mb-3">
+                        <label for="input_status" style="font-weight: bold;">Státusz</label>
+                        <input type="text" class="form-control" id="input_status" placeholder="Szállítólevél státusza" readonly>
+                    </div>
                 </div>
             </div>
             <div class="form-group mb-3">
