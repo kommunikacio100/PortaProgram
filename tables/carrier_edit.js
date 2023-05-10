@@ -36,7 +36,7 @@ function create_and_update_carrier() {
         "memo": memo,
     }
 
-    console.log( 'data?to?send ', data_to_send);
+    //console.log( 'data?to?send ', data_to_send);
     
     let amethod;
     if (id === '') amethod = "POST"
@@ -70,11 +70,24 @@ function delete_carrier() {
             method: "DELETE"
         }).then( result => {
             console.log( result);
-            redirectToUserTable();
+            redirectToCarrierTable();
         })
     }
 }
 
-function redirectToUserTable() {
+function redirectToCarrierTable() {
     window.location.href = "carrier_table.html";
-  }
+}
+
+// ha volt új, vagy szerkesztett sor, odaugrik
+function jumpToRow(){
+    let back_id = localStorage.getItem('back_id');
+    if (back_id){
+        console.log( 'back_id: ', back_id)
+        let row = document.getElementById( back_id);
+        if (row){
+            row.scrollIntoView( true);
+        }
+        localStorage.clear();
+    }
+}

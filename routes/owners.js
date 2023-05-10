@@ -78,16 +78,17 @@ router.get('/:owner_id', (req, res)=>{
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
 router.post('/', (req, res)=>{
-    var sql = `insert into owners (vat_number, name, memo, `+
+    var sql = `insert into owners (vat_number, name, bank_account, memo, `+
         ` created_by) `+
-        ` VALUES ( ?, ?, ?, ?);`;
-    let owner_vat_number = req.body.owner_vat_number;
-    let owner_name = req.body.owner_name;
-    let owner_memo = req.body.owner_memo;
-    let owner_created_by = req.body.owner_created_by;
+        ` VALUES ( ?, ?, ?, ?, ?);`;
+    let vat_number = req.body.vat_number;
+    let name = req.body.name;
+    let bank_account = req.body.bank_account;
+    let memo = req.body.memo;
+    let created_by = req.body.created_by;
     try{
-        con.query(sql, [owner_vat_number, owner_name, owner_memo, 
-            owner_created_by], 
+        con.query(sql, [vat_number, name, bank_account, memo, 
+            created_by], 
             function (err, result) {
                 if (err){
                     res.status(500)
@@ -103,7 +104,7 @@ router.post('/', (req, res)=>{
                     }else{
                         res.status(200);
                         res.json({"status":"error", "text": "The POST owner is unsuccessfully", 
-                        "owner_name": owner_name, 
+                        "owner_name": name, 
                         "insertId": result.insertId});
                     }
                 }
@@ -123,18 +124,19 @@ router.post('/', (req, res)=>{
 // PUT az adat módosítása
 router.put('/', (req, res)=>{
     var sql = `replace into owners ( id, `+
-    ` vat_number, name, memo, `+
+    ` vat_number, name, bank_account, memo, `+
     ` modified, modified_by) `+
-    ` VALUES ( ?, ?, ?, ?, ?, ?);`;
-    let owner_id = req.body.owner_id;
-    let owner_vat_number = req.body.owner_vat_number;
-    let owner_name = req.body.owner_name;
-    let owner_memo = req.body.owner_memo;
-    let owner_modified = new Date().toISOString();
-    let owner_modified_by = req.body.owner_modified_by;
+    ` VALUES ( ?, ?, ?, ?, ?, ?, ?);`;
+    let id = req.body.id;
+    let vat_number = req.body.vat_number;
+    let name = req.body.name;
+    let bank_account = req.body.bank_account;
+    let memo = req.body.memo;
+    let modified = new Date().toISOString();
+    let modified_by = req.body.modified_by;
     try{
-        con.query(sql, [owner_id, owner_vatNumber, owner_name, 
-            owner_memo, owner_modified, owner_modified_by], 
+        con.query(sql, [id, vat_number, name, bank_account,
+            memo, modified, modified_by], 
             function (err, result) {
             if (err){
                 res.status(500)
@@ -144,7 +146,7 @@ router.put('/', (req, res)=>{
             else{
                 console.log( 'PUT RESULT', result);
                 if (result.insertId>0){
-                    console.log("put owner successfull. owner_id: " + result.insertId );
+                    console.log("put owner successfull. id: " + result.insertId );
                     res.status(200);
                     result.status= "OK";
                     res.json( result);
@@ -152,7 +154,7 @@ router.put('/', (req, res)=>{
                     res.status(200);
                     result.status= "error";
                     result.errorText = "PUT insertId not found in result.";
-                    result.owner_id = owner_id;
+                    result.id = id;
                     res.json(result);
                 }
             }
@@ -160,25 +162,25 @@ router.put('/', (req, res)=>{
     }catch(e){
         console.error(e);
         res.status(500);
-        res.json({error: "Cannot put owner with id", "owner_id": owner_id });
+        res.json({error: "Cannot put owner with id", "id": id });
     }
 });
 
 // use: DELETE command with this link http://127.0.0.1:3001/owners/2 ahol a 2-es owner_id-jű címet akarjuk törölni.
-router.delete('/:owner_id', (req, res)=>{
+router.delete('/:id', (req, res)=>{
     var sql = `delete from owners where id = ?`;
-    let owner_id = req.params.owner_id;
+    let id = req.params.id;
     try{
-        con.query( sql, owner_id, function (err, result) {
+        con.query( sql, id, function (err, result) {
             if (err){
                 res.status(500)
-                res.json({error: "Can't delete owner_id = "+ owner_id})
+                res.json({error: "Can't delete owner id = "+ id})
                 throw err;
             }
             else{
                 res.status(200);
                 if ( result.affectedRows>0){
-                    console.log( "owner_id = "+ owner_id +" successfull deleted");
+                    console.log( "owner id = "+ id +" successfull deleted");
                     res.status(200);
                     result.status= "OK";
                     result.text_message = "owner deleted.";
@@ -194,7 +196,7 @@ router.delete('/:owner_id', (req, res)=>{
     }catch(e){
         console.error(e);
         res.status(500);
-        res.json({error: "Cannot get owner_id = "+ owner_id});
+        res.json({error: "Cannot get owner id = "+ id});
     }
 })
 

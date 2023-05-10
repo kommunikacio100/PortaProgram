@@ -34,19 +34,19 @@ router.get('/', (req, res) => {
 
 
 // use: GET command with this link http://127.0.0.1:3001/partners/2 ahol a 2-es partner_id-jű címet akarjuk visszakapni.
-router.get('/:partner_id', (req, res) => {
+router.get('/:id', (req, res) => {
     var sql = `select * from partners where id = ?`;
-    let partner_id = req.params.partner_id;
+    let id = req.params.id;
     try {
-        con.query(sql, partner_id, function (err, result) {
+        con.query(sql, id, function (err, result) {
             if (err) {
                 res.status(500)
-                res.json({ error: "Cannot get partner_id = " + partner_id })
+                res.json({ error: "Cannot get id = " + id })
                 throw err;
             }
             else {
                 if (result.length > 0) {
-                    console.log("get partner_id = " + partner_id + " successfull");
+                    console.log("get id = " + id + " successfull");
 
                     let rows = [];
                     console.log(result);
@@ -58,7 +58,7 @@ router.get('/:partner_id', (req, res) => {
                 } else {
                     res.status(200);
                     result.status = "partner not found";
-                    result.text = "There is no partner with this id = " + partner_id;
+                    result.text = "There is no partner with this id = " + id;
                     res.json(result);
                     console.log(JSON.stringify(result));
                 }
@@ -69,7 +69,7 @@ router.get('/:partner_id', (req, res) => {
     } catch (e) {
         console.error(e);
         res.status(500);
-        res.json({ error: "Cannot get partner_id = " + partner_id });
+        res.json({ error: "Cannot get id = " + id });
     }
 })
 
@@ -81,14 +81,14 @@ router.post('/', (req, res) => {
     var sql = `insert into partners (vat_number, name, memo, ` +
         ` bank_account, created_by) ` +
         ` VALUES ( ?, ?, ?, ?, ?);`;
-    let partner_vat_number = req.body.partner_vat_number;
-    let partner_name = req.body.partner_name;
-    let partner_memo = req.body.partner_memo;
-    let partner_bank_account = req.body.partner_bank_account;
-    let partner_created_by = req.body.partner_created_by;
+    let vat_number = req.body.vat_number;
+    let name = req.body.name;
+    let memo = req.body.memo;
+    let bank_account = req.body.bank_account;
+    let created_by = req.body.created_by;
     try {
-        con.query(sql, [partner_vat_number, partner_name, partner_memo, partner_bank_account,
-            partner_created_by],
+        con.query(sql, [vat_number, name, memo, bank_account,
+            created_by],
             function (err, result) {
                 if (err) {
                     res.status(500)
@@ -99,13 +99,13 @@ router.post('/', (req, res) => {
                     res.status(200);
                     console.log("POST RESULT: ", result);
                     if (result.insertId > 0) {
-                        console.log("post new partner successfull. partner_id: " + result.insertId);
+                        console.log("post new partner successfull. id: " + result.insertId);
                         res.json(result);
                     } else {
                         res.status(200);
                         res.json({
                             "status": "error", "text": "The POST partner is unsuccessfully",
-                            "partner_name": partner_name,
+                            "name": name,
                             "insertId": result.insertId
                         });
                     }
@@ -129,16 +129,16 @@ router.put('/', (req, res) => {
         ` vat_number, name, memo, ` +
         ` bank_account, modified, modified_by) ` +
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?);`;
-    let partner_id = req.body.partner_id;
-    let partner_vat_number = req.body.partner_vat_number;
-    let partner_name = req.body.partner_name;
-    let partner_memo = req.body.partner_memo;
-    let partner_bank_account = req.body.partner_bank_account;
-    let partner_modified = new Date().toISOString();
-    let partner_modified_by = req.body.partner_modified_by;
+    let id = req.body.id;
+    let vat_number = req.body.vat_number;
+    let name = req.body.name;
+    let memo = req.body.memo;
+    let bank_account = req.body.bank_account;
+    let modified = new Date().toISOString();
+    let modified_by = req.body.modified_by;
     try {
-        con.query(sql, [partner_id, partner_vat_number, partner_name,
-            partner_memo, partner_bank_account, partner_modified, partner_modified_by],
+        con.query(sql, [id, vat_number, name,
+            memo, bank_account, modified, modified_by],
             function (err, result) {
                 if (err) {
                     res.status(500)
@@ -148,7 +148,7 @@ router.put('/', (req, res) => {
                 else {
                     console.log('PUT RESULT', result);
                     if (result.insertId > 0) {
-                        console.log("put partner successfull. partner_id: " + result.insertId);
+                        console.log("put partner successfull. id: " + result.insertId);
                         res.status(200);
                         result.status = "OK";
                         res.json(result);
@@ -156,7 +156,7 @@ router.put('/', (req, res) => {
                         res.status(200);
                         result.status = "error";
                         result.errorText = "PUT insertId not found in result.";
-                        result.partner_id = partner_id;
+                        result.id = id;
                         res.json(result);
                     }
                 }
@@ -169,20 +169,20 @@ router.put('/', (req, res) => {
 });
 
 // use: DELETE command with this link http://127.0.0.1:3001/partners/2 ahol a 2-es partner_id-jű partnert akarjuk törölni.
-router.delete('/:partner_id', (req, res) => {
+router.delete('/:id', (req, res) => {
     var sql = `delete from partners where id = ?`;
-    let partner_id = req.params.partner_id;
+    let id = req.params.id;
     try {
-        con.query(sql, partner_id, function (err, result) {
+        con.query(sql, id, function (err, result) {
             if (err) {
                 res.status(500)
-                res.json({ error: "Can't delete partner_id = " + partner_id })
+                res.json({ error: "Can't delete id = " + id })
                 throw err;
             }
             else {
                 res.status(200);
                 if (result.affectedRows > 0) {
-                    console.log("partner_id = " + partner_id + " successfull deleted");
+                    console.log("id = " + id + " successfull deleted");
                     res.status(200);
                     result.status = "OK";
                     result.text_message = "partner deleted.";
@@ -199,7 +199,7 @@ router.delete('/:partner_id', (req, res) => {
     } catch (e) {
         console.error(e);
         res.status(500);
-        res.json({ error: "Cannot get partner_id = " + partner_id });
+        res.json({ error: "Cannot get id = " + id });
     }
 })
 
