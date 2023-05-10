@@ -296,45 +296,26 @@ CREATE TABLE IF NOT EXISTS `street_types` (
   `street_type` varchar(50) not null
 );
 
--- ALTER TABLE `partners` ADD FOREIGN KEY (`partner_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `partners` ADD FOREIGN KEY (`partner_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `owners` ADD FOREIGN KEY (`owner_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `owners` ADD FOREIGN KEY (`owner_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `carriers` ADD FOREIGN KEY (`carrier_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `carriers` ADD FOREIGN KEY (`carrier_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `vehicles` ADD FOREIGN KEY (`vehicle_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `vehicles` ADD FOREIGN KEY (`vehicle_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `movements` ADD FOREIGN KEY (`movement_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `movements` ADD FOREIGN KEY (`movement_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_vehicle_id`) REFERENCES `vehicles` (`vehicle_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_owner_id`) REFERENCES `owners` (`owner_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_partner_id`) REFERENCES `partners` (`partner_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_carrier_id`) REFERENCES `carriers` (`carrier_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_movement_id`) REFERENCES `movements` (`movement_id`);
-
--- ALTER TABLE `products` ADD FOREIGN KEY (`product_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `products` ADD FOREIGN KEY (`product_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `measurements` ADD FOREIGN KEY (`measurement_product_id`) REFERENCES `products` (`product_id`);
-
--- ALTER TABLE `measurements` ADD FOREIGN KEY (`measurement_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `measurements` ADD FOREIGN KEY (`measurement_modified_by`) REFERENCES `users` (`user_id`);
+ALTER TABLE `partners` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `partners` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `owners` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `owners` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `carriers` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `carriers` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `vehicles` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `vehicles` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `movements` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `movements` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`owner_id`) REFERENCES `owners` (`id`);
+ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`);
+ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`carrier_id`) REFERENCES `carriers` (`id`);
+ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`movement_id`) REFERENCES `movements` (`id`);
+ALTER TABLE `products` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `products` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `measurements` ADD FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE `measurements` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `measurements` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `measurements` ADD FOREIGN KEY (`vehicle_id`) REFERENCES `vehicles` (`id`);
 
 
 
@@ -4693,7 +4674,7 @@ VALUES ('ABC123', 'HU', '', '', '', '', 11220, '2023-05-08 12:25:10'),
        ('LKI789', 'HU', '', '', '', '', 1350,  '2023-05-06 16:00:23'), 
        ('RTV111', 'HU', '', '', '', '', 8510,  '2023-05-06 7:20:35');
 
-INSERT INTO carriers ( ekaer_id, name, `memo` )
+INSERT INTO carriers ( ekaer_id, name, `memo` )0
 VALUES ('EK202304057810', 'Transport kft.', 'Vasárnap is dolgozunk.'),  
       ('EK202304057812', 'Transit kft.', 'Vasárnap nem dolgozunk.'),  
       ('EK202304057833', 'TransClass kft.', 'Sohasem nem dolgozunk.'),  
