@@ -37,31 +37,28 @@ header {
     background: rgb(146, 197, 154);
     margin-right: 10px;
 }
-.gomb_elfogad {
-    background-color: rgb(17, 140, 79);
-    height: 50px;
-    width: 240px;
-    border-radius: 10px;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 30px;
-}
-.gomb_elfogad:hover {
-    background-color: rgb(17, 140, 79);
-    height: 50px;
-    width: 240px;
-    border-radius: 10px;
-    border: 2px solid black;
+.dropdown-item {
+    background: rgb(146, 197, 154);
+    padding: 15px;
+    font-family: Arial, Helvetica, sans-serif;
     color: black;
-    font-size: 20px;
+    font-size: 1rem;
     font-weight: bold;
-    text-align: center;
-    margin-top: 30px;
+    border-bottom: black 1px;
 }
-.gomb_torol {
-    background-color: red;
+.dropdown-item:hover {
+    background:  rgb(17, 140, 79);
+    color: white;
+    border-bottom: white solid 3px;
+}
+.keretezett {
+    border-bottom: solid 5px rgb(17, 140, 79);
+}
+.fa-solid {
+    margin-right: 25px;
+}
+.gomb_uj_letrehozasa {
+    background-color: rgb(17, 140, 79);
     height: 50px;
     width: 240px;
     border-radius: 10px;
@@ -71,8 +68,8 @@ header {
     text-align: center;
     margin-top: 30px;
 }
-.gomb_torol:hover {
-    background-color: red;
+.gomb_uj_letrehozasa:hover {
+    background-color: rgb(17, 140, 79);
     height: 50px;
     width: 240px;
     border-radius: 10px;
@@ -111,4 +108,7 @@ header {
     font-size: 18px;
     text-align: center;
     background-color: rgb(17, 140, 79);
+}
+.hiddenRow{
+  color: white;
 }
