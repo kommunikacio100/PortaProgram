@@ -5,7 +5,7 @@ fetch('http://localhost:3001/carriers')
     .then(datas => {
         // console.log(datas);
         datas.map(data => {
-            console.log(data);
+            // console.log(data);
             tbody.append(trFunction( data.name, data.ekaer_id, data.memo, data.id))
         });
         jumpToRow();

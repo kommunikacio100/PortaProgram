@@ -1,14 +1,16 @@
-const cached_partner_Data = localStorage.getItem('data');
+const cached_partner_id = localStorage.getItem('partner_id');
 
-if (cached_partner_Data) {
-    let felbontva = cached_partner_Data.split(",");
-
-    document.getElementById('input_partner_vat_number').value = felbontva[0];
-    document.getElementById('input_partner_name').value = felbontva[1];
-    document.getElementById('input_partner_bank_account').value = felbontva[2];
-    document.getElementById('input_partner_memo').value = felbontva[3];
-    document.getElementById('input_partner_id').value = felbontva[4];
-   
+if (cached_partner_id) {
+    fetch('http://localhost:3001/partners/'+ cached_partner_id)
+    .then(response => response.json())
+    .then( data => {
+            //console.log(data);
+            document.getElementById('vat_number').value = data[0].vat_number;
+            document.getElementById('name').value = data[0].name;
+            document.getElementById('bank_account').value = data[0].bank_account;
+            document.getElementById('memo').value = data[0].memo;
+            document.getElementById('id').value = data[0].id;
+        });
     localStorage.clear();
 }
 
@@ -16,68 +18,59 @@ const submit_button_partner = document.getElementById("submit_button");
 
 submit_button_partner.addEventListener("click", (event) => {
     event.preventDefault();
-    create_and_update_user();
+    create_and_update_partner();
 })
 
-function create_and_update_user() {
- var input_partner_vat_number = document.getElementById('input_partner_vat_number').value;
- var input_partner_name = document.getElementById('input_partner_name').value;
- var input_partner_bank_account = document.getElementById('input_partner_bank_account').value;
- var input_partner_memo = document.getElementById('input_partner_memo').value;
- var input_partner_id = document.getElementById('input_partner_id').value;
+function create_and_update_partner() {
+ var vat_number = document.getElementById('vat_number').value;
+ var name = document.getElementById('name').value;
+ var bank_account = document.getElementById('bank_account').value;
+ var memo = document.getElementById('memo').value;
+ var id = document.getElementById('id').value;
  
     let data_to_send = {
-        "id":  input_partner_id,
-        "vat_number": input_partner_vat_number,
-        "name": input_partner_name,
-        "memo": input_partner_memo,
-        "bank_account": input_partner_bank_account,
-         
+        "id":  id,
+        "vat_number": vat_number,
+        "name": name,
+        "memo": memo,
+        "bank_account": bank_account,
     }
-
-    if (input_partner_id === '') {
-        fetch("http://localhost:3001/partners", {
-            method: "POST",
-            body: JSON.stringify(data_to_send),
-            headers: {
-                "Content-type": "application/json"
-            }
-        }).then( res => console.log( res))
-    } else {
-        fetch(`http://localhost:3001/partners/${input_partner_id}`, {
-            method: "PUT",
-            body: JSON.stringify(data_to_send),
-            headers: {
-                "Content-type": "application/json"
-            }
-        }).then( res => console.log( res))
-    }
+    let amethod = '';
+    if (id === '') amethod = 'POST'
+    else amethod = 'PUT';
+    fetch("http://localhost:3001/partners", {
+        method: amethod,
+        body: JSON.stringify(data_to_send),
+        headers: {
+            "Content-type": "application/json"
+        }
+    }).then( res => {
+        console.log( res);
+        localStorage.setItem('back_id', id);
+        redirectToPartnerTable();
+    })
 }
-
 
 const delete_partner_button = document.getElementById("delete_button");
 
 delete_partner_button.addEventListener("click", (event) => {
     event.preventDefault();
-    delete_user();
+    delete_partner();
 })
 
+function delete_partner() {
+    var id = document.getElementById('id').value;
 
-
-
-function delete_user() {
-    var input_partner_id = document.getElementById('input_partner_id').value;
-
-    fetch(`http://localhost:3001/partners/${input_partner_id}`, {
-        method: "DELETE"
-    })
- 
-      setTimeout(redirectToUserTable, 300);
-
-   
-   
+    if ( confirm( 'Biztos benne? Töröljük a terméket? '+ document.getElementById('name').value)) {
+        fetch(`http://localhost:3001/partners/${id}`, {
+            method: "DELETE"
+        }).then( result=>{
+            console.log( result);
+            redirectToPartnerTable();
+        })
+    }
 }
 
-function redirectToUserTable() {
+function redirectToPartnerTable() {
     window.location.href = "partner_table.html";
-  }
+}

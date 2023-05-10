@@ -1,4 +1,4 @@
--- Active: 1678652479984@@127.0.0.1@3306@weighing_db
+-- Active: 1677906231590@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -4698,3 +4698,13 @@ VALUES ('EK202304057810', 'Transport kft.', 'Vasárnap is dolgozunk.'),
       ('EK202304057812', 'Transit kft.', 'Vasárnap nem dolgozunk.'),  
       ('EK202304057833', 'TransClass kft.', 'Sohasem nem dolgozunk.'),  
       ('EK202304057833', 'LeszFuvar kft.', 'Lesz fuvar mindennap.');  
+
+INSERT INTO partners ( vat_number, name, bank_account, `memo` )
+VALUES ('23456789-2-23', 'Vasbeton szerelő kft.', '', ''),  
+      ('23456778-2-12', 'Aranykalász Mg. Rt.', '', ''),  
+      ('11111111-1-11', 'Veled vagyunk Nonprofit Kft.', '', ''),  
+      ('23232323-2-23', 'Váraljai Mg. Rt.', '', '');  
+
+INSERT INTO owners ( vat_number, name, bank_account, `memo` )
+VALUES ('13456789-2-23', 'Új remény Kft.', '', ''),  
+       ('23346778-2-12', 'Új világok ZRt.', '', '');  

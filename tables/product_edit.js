@@ -46,9 +46,7 @@ function create_and_update_product() {
         "kg_per_unit": kg_per_unit,
         "vat_key": vat_key,
         "id": id,
-        
     }
-
     let amethod = '';
     if (id === '') {  amethod= 'POST'}
     else {amethod = 'PUT'};
