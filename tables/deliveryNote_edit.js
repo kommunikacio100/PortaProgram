@@ -160,7 +160,7 @@ submit_button_deliverynote_edit.addEventListener("click", (event) => {
     create_and_update_delivery_note();
 });
 
-function create_and_update_delivery_note() {
+function create_and_update_delivery_note(status="Nyitott") {
     var serial_no = document.getElementById('input_serial_no').value;
 
     var owner_id = document.getElementById('input_owner_name');
@@ -199,7 +199,7 @@ function create_and_update_delivery_note() {
         "carrier_id": carrier_id,
         "carrier_address_id": carrier_address_id,
         "movement_id": movement_id,
-        "status": "Nyitott",
+        "status": status,
         "id": id,
 
     }
@@ -221,4 +221,33 @@ function create_and_update_delivery_note() {
     })
 }
 
+//át kell írni a html-ben az id-t h ne submit legyen
+const close_deliverynote_edit = document.getElementById("close_button");
+
+close_deliverynote_edit.addEventListener("click", (event) => {
+    event.preventDefault();
+    create_and_update_delivery_note("Lezárt");
+});
+
+
+
+const delete_deliveryNote_button = document.getElementById("delete_button");
+
+delete_owner_button.addEventListener("click", (event) => {
+    event.preventDefault();
+    delete_delivery_note();
+});
+
+function delete_delivery_note() {
+    var id = document.getElementById('input_deliveryNote_id').value;
+    if ( confirm( 'Biztos benne? Töröljük a sorszámú szállítólevelet? '+ document.getElementById('input_serial_no').value)) {
+        fetch(`http://localhost:3001/delivery_notes/${id}`, {
+            method: "DELETE"
+        }).then(redirectToOwnerTable());
+    }
+}
+
+function redirectToOwnerTable() {
+    window.location.href = "owner_table.html";
+}
 
