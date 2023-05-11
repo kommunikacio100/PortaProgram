@@ -1,6 +1,4 @@
 
-const con = require("../dbConfig");
-
 var scaleWeight = 0;
 
 scaleInput = document.getElementById( 'scaleInput');
@@ -33,19 +31,29 @@ function Random() {
 
 function incWeight( inc){
     scaleWeight = scaleWeight + inc;
-    console.log( 'inc ', inc);
-    scaleInput.value = scaleWeight;
+    if (scaleWeight<-100) scaleWeight=-100;
+    if (scaleWeight> 60100) scaleWeight= 60100;
+    setWeight( scaleWeight);
 }
 
 function setWeight( weight){
     scaleWeight = weight;
     scaleInput.value = scaleWeight;
+    uploladWeight();
 }
 
 function uploladWeight(){
-    let sql = `drop view if exist scaleWeight; create view scaleWeight select ${scaleWeight};`;
-    con.query(sql, function (err, result) {
+    let data_to_send = {
+        "scale": "ScaleSimulator",
+        "weight": scaleWeight,
+    }
 
-    });
+    fetch("http://localhost:3001/scaleWeight", {
+        method: "PUT",
+        body: JSON.stringify(data_to_send),
+        headers: {
+            "Content-type": "application/json"
+        }
+    }).then( res=> console.log(res));
 }
 

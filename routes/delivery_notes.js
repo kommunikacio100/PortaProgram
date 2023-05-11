@@ -85,25 +85,25 @@ router.post('/', (req, res) => {
     `carrier_id, carrier_address_id, movement_id, `+
     `status, created_by) `+
     ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let delivery_note_serial_no = req.body.delivery_note_serial_no;
-    let delivery_note_owner_id = req.body.delivery_note_owner_id;
-    let delivery_note_owner_address_id = req.body.delivery_note_owner_address_id;
-    let delivery_note_loadlocation_address_id = req.body.delivery_note_loadlocation_address_id;
-    let delivery_note_partner_id = req.body.delivery_note_partner_id;
-    let delivery_note_partner_address_id = req.body.delivery_note_partner_address_id;
-    let delivery_note_unloadlocation_address_id = req.body.delivery_note_unloadlocation_address_id;
-    let delivery_note_carrier_id = req.body.delivery_note_carrier_id;
-    let delivery_note_carrier_address_id = req.body.delivery_note_carrier_address_id;
-    let delivery_note_movement_id = req.body.delivery_note_movement_id;
-    let delivery_note_status = req.body.delivery_note_status;
-    let delivery_note_created_by = req.body.delivery_note_created_by;
+    let serial_no = req.body.serial_no;
+    let owner_id = req.body.owner_id;
+    let owner_address_id = req.body.owner_address_id;
+    let loadlocation_address_id = req.body.loadlocation_address_id;
+    let partner_id = req.body.partner_id;
+    let partner_address_id = req.body.partner_address_id;
+    let unloadlocation_address_id = req.body.unloadlocation_address_id;
+    let carrier_id = req.body.carrier_id;
+    let carrier_address_id = req.body.carrier_address_id;
+    let movement_id = req.body.movement_id;
+    let status = req.body.status;
+    let created_by = req.body.created_by;
     try {
-        con.query(sql, [delivery_note_serial_no, delivery_note_owner_id, 
-            delivery_note_owner_address_id, delivery_note_loadlocation_address_id,
-            delivery_note_partner_id, delivery_note_partner_address_id,
-            delivery_note_unloadlocation_address_id, delivery_note_carrier_id,
-            delivery_note_carrier_address_id, delivery_note_movement_id, delivery_note_status,
-            delivery_note_created_by],
+        con.query(sql, [serial_no, owner_id, 
+            owner_address_id, loadlocation_address_id,
+            partner_id, partner_address_id,
+            unloadlocation_address_id, carrier_id,
+            carrier_address_id, movement_id, status,
+            created_by],
             function (err, result) {
                 if (err) {
                     res.status(500)
@@ -120,7 +120,7 @@ router.post('/', (req, res) => {
                         res.status(200);
                         res.json({
                             "status": "error", "text": "The POST delivery_note is unsuccessfully",
-                            "delivery_note_name": delivery_note_name,
+                            "serial_no": serial_no,
                             "insertId": result.insertId
                         });
                     }
@@ -131,7 +131,7 @@ router.post('/', (req, res) => {
     } catch (e) {
         console.error(e);
         res.status(500);
-        res.json({ error: "Cannot get delivery_notes with this parameters", "delivery_note_id": delivery_note_id, "length": 0 });
+        res.json({ error: "Cannot post delivery_note"});
     }
 })
 
@@ -147,28 +147,28 @@ router.put('/', (req, res) => {
         `carrier_id, carrier_address_id, movement_id, `+
         `status, modified, modified_by) ` +
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let delivery_note_id = req.body.delivery_note_id;
-    let delivery_note_serial_no = req.body.delivery_note_serial_no;
-    let delivery_note_owner_id = req.body.delivery_note_owner_id;
-    let delivery_note_owner_address_id = req.body.delivery_note_owner_address_id;
-    let delivery_note_loadlocation_address_id = req.body.delivery_note_loadlocation_address_id;
-    let delivery_note_partner_id = req.body.delivery_note_partner_id;
-    let delivery_note_partner_address_id = req.body.delivery_note_partner_address_id;
-    let delivery_note_unloadlocation_address_id = req.body.delivery_note_unloadlocation_address_id;
-    let delivery_note_carrier_id = req.body.delivery_note_carrier_id;
-    let delivery_note_carrier_address_id = req.body.delivery_note_carrier_address_id;
-    let delivery_note_movement_id = req.body.delivery_note_movement_id;
-    let delivery_note_status = req.body.delivery_note_status;
-    let delivery_note_modified = new Date().toISOString();
-    let delivery_note_modified_by = req.body.delivery_note_modified_by;
+    let id = req.body.id;
+    let serial_no = req.body.serial_no;
+    let owner_id = req.body.owner_id;
+    let owner_address_id = req.body.owner_address_id;
+    let loadlocation_address_id = req.body.loadlocation_address_id;
+    let partner_id = req.body.partner_id;
+    let partner_address_id = req.body.partner_address_id;
+    let unloadlocation_address_id = req.body.unloadlocation_address_id;
+    let carrier_id = req.body.carrier_id;
+    let carrier_address_id = req.body.carrier_address_id;
+    let movement_id = req.body.movement_id;
+    let status = req.body.status;
+    let modified = new Date().toISOString();
+    let modified_by = req.body.modified_by;
     try {
-        con.query(sql, [delivery_note_id, 
-            delivery_note_serial_no, delivery_note_owner_id, 
-            delivery_note_owner_address_id, delivery_note_loadlocation_address_id,
-            delivery_note_partner_id, delivery_note_partner_address_id,
-            delivery_note_unloadlocation_address_id, delivery_note_carrier_id,
-            delivery_note_carrier_address_id, delivery_note_movement_id, delivery_note_status,
-            delivery_note_modified, delivery_note_modified_by],
+        con.query(sql, [id, 
+            serial_no, owner_id, 
+            owner_address_id, loadlocation_address_id,
+            partner_id, partner_address_id,
+            unloadlocation_address_id, carrier_id,
+            carrier_address_id, movement_id, status,
+            modified, modified_by],
             function (err, result) {
                 if (err) {
                     res.status(500)
@@ -178,7 +178,7 @@ router.put('/', (req, res) => {
                 else {
                     console.log('PUT RESULT', result);
                     if (result.insertId > 0) {
-                        console.log("put delivery_note successfull. delivery_note_id: " + result.insertId);
+                        console.log("put delivery_note successfull. id: " + result.insertId);
                         res.status(200);
                         result.status = "OK";
                         res.json(result);
@@ -186,7 +186,7 @@ router.put('/', (req, res) => {
                         res.status(200);
                         result.status = "error";
                         result.errorText = "PUT insertId not found in result.";
-                        result.delivery_note_id = delivery_note_id;
+                        result.id = id;
                         res.json(result);
                     }
                 }
@@ -194,12 +194,12 @@ router.put('/', (req, res) => {
     } catch (e) {
         console.error(e);
         res.status(500);
-        res.json({ error: "Cannot put delivery_note with id", "delivery_note_id": delivery_note_id });
+        res.json({ error: "Cannot put delivery_note with id", "id": id });
     }
 });
 
 // use: DELETE command with this link http://127.0.0.1:3001/delivery_notes/2 ahol a 2-es delivery_note_id-jű delivery_notet akarjuk törölni.
-router.delete('/:delivery_note_id', (req, res) => {
+router.delete('/:id', (req, res) => {
     return ({"status":"error", "error_text":"A szállítólevelek nem törölhetők."});
 /*    var sql = `delete from delivery_notes where delivery_note_id = ?`;
     let delivery_note_id = req.params.delivery_note_id;
