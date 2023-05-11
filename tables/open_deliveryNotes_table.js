@@ -53,7 +53,7 @@ function jumpToRow() {
 
 function  GetOwnerName(serial_no,partner_name,owner_id,carrier_id,created_at,status, id) {
 
-    console.log();
+   
     fetch(`http://localhost:3001/owners/${owner_id}`)
     .then(response => response.json())
     .then(datas => {
@@ -67,7 +67,7 @@ function  GetOwnerName(serial_no,partner_name,owner_id,carrier_id,created_at,sta
 
 function  GetCarrierName(serial_no,partner_name,owner_name,carrier_id,created_at,status, id) {
 
-    console.log();
+   
     fetch(`http://localhost:3001/carriers/${carrier_id}`)
     .then(response => response.json())
     .then(datas => {
@@ -100,6 +100,28 @@ function Table(serial_no,partner_name,owner_name,carrier_name,created_at,status,
     open_delivery_tbody.append(tr);
     
 }
+
+let uj=document.getElementById("gomb_uj_letrehozasa");
+
+uj.addEventListener("click", ()=>{
+
+    
+    /*
+    fetch("http://localhost:3001/delivery_notes", {
+        method: "POST",
+        body: JSON.stringify(data_to_send),
+        headers: {
+            "Content-type": "application/json"
+        }
+    }).then( result => {
+        console.log( result)
+        //localStorage.setItem('back_id', id);
+        //redirectToOwnerTable();
+    });
+
+*/
+    window.location.href = `deliveryNote_edit.html` 
+})
 
 
 
