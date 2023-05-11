@@ -20,15 +20,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-// Felhasználói adatok lekérdezése az adatbázisból
-function getUsers() {
-    connection.query( 'SELECT * FROM users', ( error, rows) =>{
-        if (error) throw error;
-        return JSON.stringify( rows);
-    });
-};
-
 app.get('/introduction.html', (req, res) => { 
     const buffer = fs.readFileSync('introduction.html');
     const content = buffer.toString();
@@ -58,6 +49,7 @@ const street_typesRouter = require('./routes/street_types.js');
 const usersRouter = require('./routes/users.js');
 const vehiclesRouter = require('./routes/vehicles.js');
 const zip_codesRouter = require('./routes/zip_codes.js');
+const scaleRouter = require('./routes/scale.js');
 
 app.use('/addresses', addressesRouter);
 app.use('/carriers', carriersRouter);
@@ -76,10 +68,10 @@ app.use('/street_types', street_typesRouter);
 app.use('/users', usersRouter);
 app.use('/vehicles', vehiclesRouter);
 app.use('/zip_codes', zip_codesRouter);
-
+app.use('/scaleWeight', scaleRouter);
 
 // Szerver indítása
 app.listen( port, () => {
     console.log('A szerver elindult a http://localhost:'+ port+ ' címen.');
-  });
+});
 

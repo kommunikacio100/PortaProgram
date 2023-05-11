@@ -233,7 +233,7 @@ close_deliverynote_edit.addEventListener("click", (event) => {
 
 const delete_deliveryNote_button = document.getElementById("delete_button");
 
-delete_owner_button.addEventListener("click", (event) => {
+delete_deliveryNote_button.addEventListener("click", (event) => {
     event.preventDefault();
     delete_delivery_note();
 });
@@ -243,11 +243,11 @@ function delete_delivery_note() {
     if ( confirm( 'Biztos benne? Töröljük a sorszámú szállítólevelet? '+ document.getElementById('input_serial_no').value)) {
         fetch(`http://localhost:3001/delivery_notes/${id}`, {
             method: "DELETE"
-        }).then(redirectToOwnerTable());
+        }).then(redirectToOpenDeliveryNotesTable());
     }
 }
 
-function redirectToOwnerTable() {
-    window.location.href = "owner_table.html";
+function redirectToOpenDeliveryNotesTable() {
+    window.location.href = "open_deliveryNotes_table.html";
 }
 

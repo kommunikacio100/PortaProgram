@@ -1,4 +1,4 @@
--- Active: 1677906231590@@127.0.0.1@3306@weighing_db
+-- Active: 1678652479984@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -296,4253 +296,4233 @@ CREATE TABLE IF NOT EXISTS `street_types` (
   `street_type` varchar(50) not null
 );
 
--- ALTER TABLE `partners` ADD FOREIGN KEY (`partner_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `partners` ADD FOREIGN KEY (`partner_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `owners` ADD FOREIGN KEY (`owner_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `owners` ADD FOREIGN KEY (`owner_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `carriers` ADD FOREIGN KEY (`carrier_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `carriers` ADD FOREIGN KEY (`carrier_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `vehicles` ADD FOREIGN KEY (`vehicle_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `vehicles` ADD FOREIGN KEY (`vehicle_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `movements` ADD FOREIGN KEY (`movement_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `movements` ADD FOREIGN KEY (`movement_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_vehicle_id`) REFERENCES `vehicles` (`vehicle_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_owner_id`) REFERENCES `owners` (`owner_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_partner_id`) REFERENCES `partners` (`partner_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_carrier_id`) REFERENCES `carriers` (`carrier_id`);
-
--- ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`delivery_note_movement_id`) REFERENCES `movements` (`movement_id`);
-
--- ALTER TABLE `products` ADD FOREIGN KEY (`product_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `products` ADD FOREIGN KEY (`product_modified_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `measurements` ADD FOREIGN KEY (`measurement_product_id`) REFERENCES `products` (`product_id`);
-
--- ALTER TABLE `measurements` ADD FOREIGN KEY (`measurement_created_by`) REFERENCES `users` (`user_id`);
-
--- ALTER TABLE `measurements` ADD FOREIGN KEY (`measurement_modified_by`) REFERENCES `users` (`user_id`);
-
-
+ALTER TABLE `partners` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `partners` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `owners` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `owners` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `carriers` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `carriers` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `vehicles` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `vehicles` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `movements` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `movements` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`owner_id`) REFERENCES `owners` (`id`);
+ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`);
+ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`carrier_id`) REFERENCES `carriers` (`id`);
+ALTER TABLE `delivery_notes` ADD FOREIGN KEY (`movement_id`) REFERENCES `movements` (`id`);
+ALTER TABLE `products` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `products` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `measurements` ADD FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE `measurements` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+ALTER TABLE `measurements` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`);
+ALTER TABLE `measurements` ADD FOREIGN KEY (`vehicle_id`) REFERENCES `vehicles` (`id`);
 
 -- Active: 1679018847898@@127.0.0.1@3306@weighing_db
 DELETE FROM measurement_types;
-REPLACE INTO `measurement_types` SET id = 'M', `name` = 'Mérlegelt adat' ;
-REPLACE INTO `measurement_types` SET id = 'K', `name` = 'Kézzel megadott';
-REPLACE INTO `measurement_types` SET id = 'G', `name` = 'Gépjármű tárolt súlya';
-
+INSERT INTO `measurement_types` ( id, name) 
+VALUES
+ ( 'M', 'Mérlegelt adat'),
+ ( 'K', 'Kézzel megadott'),
+ ( 'G', `name` = 'Gépjármű tárolt súlya');
 
 DELETE FROM movements;
-REPLACE INTO `movements` SET `name` = 'Beszállítás', `stock_relation`= '+', `head` = 'MÉRLEGJEGY', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
-REPLACE INTO `movements` SET `name` = 'Kiszállítás', `stock_relation`= '-', `head` = 'SZÁLLÍTÓLEVÉL', `left_side` = 'átadó', `right_side` = 'átvevő', `form_file_name` = 'szallito.html';
-REPLACE INTO `movements` SET `name` = 'Csak mérés', `stock_relation`= ' ', `head` = 'MÉRLEGELÉS', `left_side` = '', `right_side` = '', `form_file_name` = 'merlegeles.html';
-REPLACE INTO `movements` SET `name` = 'Induló készlet', `stock_relation`= '+', `head` = 'INDULÓ KÉSZLET', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
-REPLACE INTO `movements` SET `name` = 'Selejtezés', `stock_relation`= '-', `head` = 'SELEJTEZÉS MÉRLEGJEGY', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
-REPLACE INTO `movements` SET `name` = 'Többlet készlet', `stock_relation`= '+', `head` = 'TÖBBLET LELTÁR KÉSZLET', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
-REPLACE INTO `movements` SET `name` = 'Leltár hiány', `stock_relation`= '-', `head` = 'LELTÁR HIÁNY MÉRLEGJEGY', `left_side` = 'átvevő', `right_side` = 'átadó', `form_file_name` = 'merlegjegy.html';
+INSERT INTO `movements` ( `name`, `stock_relation`, `head`, `left_side`, `right_side`, `form_file_name`)
+VALUES
+( 'Beszállítás',     '+',  'MÉRLEGJEGY', 'átvevő',  'átadó', 'merlegjegy.html'),
+( 'Kiszállítás',     '-', 'SZÁLLÍTÓLEVÉL', 'átadó', 'átvevő', 'szallito.html'),
+( 'Csak mérés',      ' ', 'MÉRLEGELÉS',     '', '', 'merlegeles.html'),
+( 'Induló készlet',  '+', 'INDULÓ KÉSZLET', 'átvevő', 'átadó', 'merlegjegy.html'),
+( 'Selejtezés',      '-', 'SELEJTEZÉS MÉRLEGJEGY', 'átvevő', 'átadó', 'merlegjegy.html'),
+( 'Többlet készlet', '+', 'TÖBBLET LELTÁR KÉSZLET', 'átvevő', 'átadó', 'merlegjegy.html'),
+( 'Leltár hiány',    '-', 'LELTÁR HIÁNY MÉRLEGJEGY', 'átvevő', 'átadó', 'merlegjegy.html');
 
 DELETE FROM countries;
-REPLACE INTO `countries` SET code = 'HU', name = 'Magyarország';
-REPLACE INTO `countries` SET code = 'AT', name = 'Ausztria';
-REPLACE INTO `countries` SET code = 'BA', name = 'Bosznia-Hercegovina';
-REPLACE INTO `countries` SET code = 'BE', name = 'Belgium';
-REPLACE INTO `countries` SET code = 'BG', name = 'Bulgária';
-REPLACE INTO `countries` SET code = 'CY', name = 'Ciprus';
-REPLACE INTO `countries` SET code = 'CZ', name = 'Cseh Köztársaság';
-REPLACE INTO `countries` SET code = 'DK', name = 'Dánia';
-REPLACE INTO `countries` SET code = 'US', name = 'Egyesült Államok';
-REPLACE INTO `countries` SET code = 'GB', name = 'Egyesült Királyság';
-REPLACE INTO `countries` SET code = 'EE', name = 'Észtország';
-REPLACE INTO `countries` SET code = 'FI', name = 'Finnország';
-REPLACE INTO `countries` SET code = 'FR', name = 'Franciaország';
-REPLACE INTO `countries` SET code = 'GR', name = 'Görögország';
-REPLACE INTO `countries` SET code = 'NL', name = 'Hollandia';
-REPLACE INTO `countries` SET code = 'HR', name = 'Horvátország';
-REPLACE INTO `countries` SET code = 'IE', name = 'Írország';
-REPLACE INTO `countries` SET code = 'PL', name = 'Lengyelország';
-REPLACE INTO `countries` SET code = 'LV', name = 'Lettország';
-REPLACE INTO `countries` SET code = 'LT', name = 'Litvánia';
-REPLACE INTO `countries` SET code = 'LU', name = 'Luxemburg';
-REPLACE INTO `countries` SET code = 'MT', name = 'Málta';
-REPLACE INTO `countries` SET code = 'DE', name = 'Németország';
-REPLACE INTO `countries` SET code = 'IT', name = 'Olaszország';
-REPLACE INTO `countries` SET code = 'PT', name = 'Portugália';
-REPLACE INTO `countries` SET code = 'RO', name = 'Románia';
-REPLACE INTO `countries` SET code = 'ES', name = 'Spanyolország';
-REPLACE INTO `countries` SET code = 'CH', name = 'Svájc';
-REPLACE INTO `countries` SET code = 'SE', name = 'Svédor;szág';
-REPLACE INTO `countries` SET code = 'XS', name = 'Szerbia';
-REPLACE INTO `countries` SET code = 'SK', name = 'Szlovákia';
-REPLACE INTO `countries` SET code = 'SI', name = 'Szlovénia';
-REPLACE INTO `countries` SET code = 'UK', name = 'Ukrajna';
+INSERT INTO `countries` (code, name)
+VALUES 
+('HU', 'Magyarország'),
+('AT', 'Ausztria'),
+('BA', 'Bosznia-Hercegovina'),
+('BE', 'Belgium'),
+('BG', 'Bulgária'),
+('CY', 'Ciprus'),
+('CZ', 'Cseh Köztársaság'),
+('DK', 'Dánia'),
+('US', 'Egyesült Államok'),
+('GB', 'Egyesült Királyság'),
+('EE', 'Észtország'),
+('FI', 'Finnország'),
+('FR', 'Franciaország'),
+('GR', 'Görögország'),
+('NL', 'Hollandia'),
+('HR', 'Horvátország'),
+('IE', 'Írország'),
+('PL', 'Lengyelország'),
+('LV', 'Lettország'),
+('LT', 'Litvánia'),
+('LU', 'Luxemburg'),
+('MT', 'Málta'),
+('DE', 'Németország'),
+('IT', 'Olaszország'),
+('PT', 'Portugália'),
+('RO', 'Románia'),
+('ES', 'Spanyolország'),
+('CH', 'Svájc'),
+('SE', 'Svédor),szág'),
+('XS', 'Szerbia'),
+('SK', 'Szlovákia'),
+('SI', 'Szlovénia'),
+('UK', 'Ukrajna');
 
 DELETE FROM street_types;
-REPLACE INTO `street_types` SET `street_type` = 'út';
-REPLACE INTO `street_types` SET `street_type` = 'utca';
-REPLACE INTO `street_types` SET `street_type` = 'tér';
-REPLACE INTO `street_types` SET `street_type` = 'köz';
-REPLACE INTO `street_types` SET `street_type` = 'akna';
-REPLACE INTO `street_types` SET `street_type` = 'akna-alsó';
-REPLACE INTO `street_types` SET `street_type` = 'akna-felső';
-REPLACE INTO `street_types` SET `street_type` = 'alagút';
-REPLACE INTO `street_types` SET `street_type` = 'alsórakpart';
-REPLACE INTO `street_types` SET `street_type` = 'arborétum';
-REPLACE INTO `street_types` SET `street_type` = 'autóút';
-REPLACE INTO `street_types` SET `street_type` = 'állat és növ.kert';
-REPLACE INTO `street_types` SET `street_type` = 'állomás';
-REPLACE INTO `street_types` SET `street_type` = 'árnyék';
-REPLACE INTO `street_types` SET `street_type` = 'árok';
-REPLACE INTO `street_types` SET `street_type` = 'átjáró';
-REPLACE INTO `street_types` SET `street_type` = 'barakképület';
-REPLACE INTO `street_types` SET `street_type` = 'barlang';
-REPLACE INTO `street_types` SET `street_type` = 'bánya';
-REPLACE INTO `street_types` SET `street_type` = 'bányatelep';
-REPLACE INTO `street_types` SET `street_type` = 'bástya';
-REPLACE INTO `street_types` SET `street_type` = 'bástyája';
-REPLACE INTO `street_types` SET `street_type` = 'bejáró';
-REPLACE INTO `street_types` SET `street_type` = 'bekötőút';
-REPLACE INTO `street_types` SET `street_type` = 'csárda';
-REPLACE INTO `street_types` SET `street_type` = 'csónakházak';
-REPLACE INTO `street_types` SET `street_type` = 'domb';
-REPLACE INTO `street_types` SET `street_type` = 'dűlő';
-REPLACE INTO `street_types` SET `street_type` = 'dűlősor';
-REPLACE INTO `street_types` SET `street_type` = 'dűlőterület';
-REPLACE INTO `street_types` SET `street_type` = 'dűlőút';
-REPLACE INTO `street_types` SET `street_type` = 'egyetemváros';
-REPLACE INTO `street_types` SET `street_type` = 'egyéb';
-REPLACE INTO `street_types` SET `street_type` = 'elágazás';
-REPLACE INTO `street_types` SET `street_type` = 'emlékút';
-REPLACE INTO `street_types` SET `street_type` = 'erdészház';
-REPLACE INTO `street_types` SET `street_type` = 'erdészlak';
-REPLACE INTO `street_types` SET `street_type` = 'erdő';
-REPLACE INTO `street_types` SET `street_type` = 'erdősor';
-REPLACE INTO `street_types` SET `street_type` = 'fasor';
-REPLACE INTO `street_types` SET `street_type` = 'fasora';
-REPLACE INTO `street_types` SET `street_type` = 'felső';
-REPLACE INTO `street_types` SET `street_type` = 'forduló';
-REPLACE INTO `street_types` SET `street_type` = 'föld';
-REPLACE INTO `street_types` SET `street_type` = 'főmérnökség';
-REPLACE INTO `street_types` SET `street_type` = 'főtér';
-REPLACE INTO `street_types` SET `street_type` = 'főút';
-REPLACE INTO `street_types` SET `street_type` = 'gát';
-REPLACE INTO `street_types` SET `street_type` = 'gátőrház';
-REPLACE INTO `street_types` SET `street_type` = 'gátsor';
-REPLACE INTO `street_types` SET `street_type` = 'gyár';
-REPLACE INTO `street_types` SET `street_type` = 'gyártelep';
-REPLACE INTO `street_types` SET `street_type` = 'gyárváros';
-REPLACE INTO `street_types` SET `street_type` = 'gyümölcsös';
-REPLACE INTO `street_types` SET `street_type` = 'határsor';
-REPLACE INTO `street_types` SET `street_type` = 'határút';
-REPLACE INTO `street_types` SET `street_type` = 'ház';
-REPLACE INTO `street_types` SET `street_type` = 'hegy';
-REPLACE INTO `street_types` SET `street_type` = 'hegyhát';
-REPLACE INTO `street_types` SET `street_type` = 'hegyhát dűlő';
-REPLACE INTO `street_types` SET `street_type` = 'hegyhát köz';
-REPLACE INTO `street_types` SET `street_type` = 'hídfő';
-REPLACE INTO `street_types` SET `street_type` = 'hrsz.';
-REPLACE INTO `street_types` SET `street_type` = 'iskola';
-REPLACE INTO `street_types` SET `street_type` = 'játszótér';
-REPLACE INTO `street_types` SET `street_type` = 'kapu';
-REPLACE INTO `street_types` SET `street_type` = 'kastély';
-REPLACE INTO `street_types` SET `street_type` = 'kert';
-REPLACE INTO `street_types` SET `street_type` = 'kertsor';
-REPLACE INTO `street_types` SET `street_type` = 'kilátó';
-REPLACE INTO `street_types` SET `street_type` = 'kioszk';
-REPLACE INTO `street_types` SET `street_type` = 'kocsiszín';
-REPLACE INTO `street_types` SET `street_type` = 'kolónia';
-REPLACE INTO `street_types` SET `street_type` = 'korzó';
-REPLACE INTO `street_types` SET `street_type` = 'kör';
-REPLACE INTO `street_types` SET `street_type` = 'körönd';
-REPLACE INTO `street_types` SET `street_type` = 'körtér';
-REPLACE INTO `street_types` SET `street_type` = 'körút';
-REPLACE INTO `street_types` SET `street_type` = 'körvasútsor';
-REPLACE INTO `street_types` SET `street_type` = 'körzet';
-REPLACE INTO `street_types` SET `street_type` = 'kultúrpark';
-REPLACE INTO `street_types` SET `street_type` = 'kunyhó';
-REPLACE INTO `street_types` SET `street_type` = 'kút';
-REPLACE INTO `street_types` SET `street_type` = 'kültelek';
-REPLACE INTO `street_types` SET `street_type` = 'külterület';
-REPLACE INTO `street_types` SET `street_type` = 'lakóház';
-REPLACE INTO `street_types` SET `street_type` = 'lakónegyed';
-REPLACE INTO `street_types` SET `street_type` = 'lakópark';
-REPLACE INTO `street_types` SET `street_type` = 'lakótelep';
-REPLACE INTO `street_types` SET `street_type` = 'lejáró';
-REPLACE INTO `street_types` SET `street_type` = 'lejtő';
-REPLACE INTO `street_types` SET `street_type` = 'lépcső';
-REPLACE INTO `street_types` SET `street_type` = 'liget';
-REPLACE INTO `street_types` SET `street_type` = 'major';
-REPLACE INTO `street_types` SET `street_type` = 'malom';
-REPLACE INTO `street_types` SET `street_type` = 'menedékház';
-REPLACE INTO `street_types` SET `street_type` = 'mélyút';
-REPLACE INTO `street_types` SET `street_type` = 'munkásszálló';
-REPLACE INTO `street_types` SET `street_type` = 'műút';
-REPLACE INTO `street_types` SET `street_type` = 'oldal';
-REPLACE INTO `street_types` SET `street_type` = 'orom';
-REPLACE INTO `street_types` SET `street_type` = 'őrház';
-REPLACE INTO `street_types` SET `street_type` = 'őrházak';
-REPLACE INTO `street_types` SET `street_type` = 'őrházlak';
-REPLACE INTO `street_types` SET `street_type` = 'park';
-REPLACE INTO `street_types` SET `street_type` = 'parkja';
-REPLACE INTO `street_types` SET `street_type` = 'parkoló';
-REPLACE INTO `street_types` SET `street_type` = 'part';
-REPLACE INTO `street_types` SET `street_type` = 'pavilon';
-REPLACE INTO `street_types` SET `street_type` = 'pálya';
-REPLACE INTO `street_types` SET `street_type` = 'pályaudvar';
-REPLACE INTO `street_types` SET `street_type` = 'piac';
-REPLACE INTO `street_types` SET `street_type` = 'pihenő';
-REPLACE INTO `street_types` SET `street_type` = 'pince';
-REPLACE INTO `street_types` SET `street_type` = 'pincesor';
-REPLACE INTO `street_types` SET `street_type` = 'postafiók';
-REPLACE INTO `street_types` SET `street_type` = 'puszta';
-REPLACE INTO `street_types` SET `street_type` = 'rakpart';
-REPLACE INTO `street_types` SET `street_type` = 'repülőtér';
-REPLACE INTO `street_types` SET `street_type` = 'rész';
-REPLACE INTO `street_types` SET `street_type` = 'rét';
-REPLACE INTO `street_types` SET `street_type` = 'sarok';
-REPLACE INTO `street_types` SET `street_type` = 'sánc';
-REPLACE INTO `street_types` SET `street_type` = 'sávház';
-REPLACE INTO `street_types` SET `street_type` = 'sétány';
-REPLACE INTO `street_types` SET `street_type` = 'sor';
-REPLACE INTO `street_types` SET `street_type` = 'sora';
-REPLACE INTO `street_types` SET `street_type` = 'sportpálya';
-REPLACE INTO `street_types` SET `street_type` = 'sporttelep';
-REPLACE INTO `street_types` SET `street_type` = 'stadion';
-REPLACE INTO `street_types` SET `street_type` = 'strandfürdő';
-REPLACE INTO `street_types` SET `street_type` = 'sugárút';
-REPLACE INTO `street_types` SET `street_type` = 'szállás';
-REPLACE INTO `street_types` SET `street_type` = 'szállások';
-REPLACE INTO `street_types` SET `street_type` = 'szer';
-REPLACE INTO `street_types` SET `street_type` = 'szél';
-REPLACE INTO `street_types` SET `street_type` = 'sziget';
-REPLACE INTO `street_types` SET `street_type` = 'szivattyútelep';
-REPLACE INTO `street_types` SET `street_type` = 'szőlő';
-REPLACE INTO `street_types` SET `street_type` = 'szőlőhegy';
-REPLACE INTO `street_types` SET `street_type` = 'szőlők';
-REPLACE INTO `street_types` SET `street_type` = 'tag';
-REPLACE INTO `street_types` SET `street_type` = 'tanya';
-REPLACE INTO `street_types` SET `street_type` = 'tanyák';
-REPLACE INTO `street_types` SET `street_type` = 'telep';
-REPLACE INTO `street_types` SET `street_type` = 'temető';
-REPLACE INTO `street_types` SET `street_type` = 'tere';
-REPLACE INTO `street_types` SET `street_type` = 'tető';
-REPLACE INTO `street_types` SET `street_type` = 'téli kikötő';
-REPLACE INTO `street_types` SET `street_type` = 'tömb';
-REPLACE INTO `street_types` SET `street_type` = 'turistaház';
-REPLACE INTO `street_types` SET `street_type` = 'udvar';
-REPLACE INTO `street_types` SET `street_type` = 'utak';
-REPLACE INTO `street_types` SET `street_type` = 'utcája';
-REPLACE INTO `street_types` SET `street_type` = 'útja';
-REPLACE INTO `street_types` SET `street_type` = 'útőrház';
-REPLACE INTO `street_types` SET `street_type` = 'üdülő';
-REPLACE INTO `street_types` SET `street_type` = 'üdülő-part';
-REPLACE INTO `street_types` SET `street_type` = 'üdülő-sor';
-REPLACE INTO `street_types` SET `street_type` = 'üdülő-telep';
-REPLACE INTO `street_types` SET `street_type` = 'vadaskert';
-REPLACE INTO `street_types` SET `street_type` = 'vadászház';
-REPLACE INTO `street_types` SET `street_type` = 'vasútállomás';
-REPLACE INTO `street_types` SET `street_type` = 'vasúti megálló';
-REPLACE INTO `street_types` SET `street_type` = 'vasúti őrház';
-REPLACE INTO `street_types` SET `street_type` = 'vasútsor';
-REPLACE INTO `street_types` SET `street_type` = 'vágóhíd';
-REPLACE INTO `street_types` SET `street_type` = 'vár';
-REPLACE INTO `street_types` SET `street_type` = 'várköz';
-REPLACE INTO `street_types` SET `street_type` = 'város';
-REPLACE INTO `street_types` SET `street_type` = 'vezetőút';
-REPLACE INTO `street_types` SET `street_type` = 'villasor';
-REPLACE INTO `street_types` SET `street_type` = 'vízmű';
-REPLACE INTO `street_types` SET `street_type` = 'völgy';
-REPLACE INTO `street_types` SET `street_type` = 'zsilip';
-REPLACE INTO `street_types` SET `street_type` = 'zug';
-REPLACE INTO `street_types` SET `street_type` = 'út';
-REPLACE INTO `street_types` SET `street_type` = 'utca';
-REPLACE INTO `street_types` SET `street_type` = 'tér';
-REPLACE INTO `street_types` SET `street_type` = 'köz';
-REPLACE INTO `street_types` SET `street_type` = 'akna';
-REPLACE INTO `street_types` SET `street_type` = 'akna-alsó';
-REPLACE INTO `street_types` SET `street_type` = 'akna-felső';
-REPLACE INTO `street_types` SET `street_type` = 'alagút';
-REPLACE INTO `street_types` SET `street_type` = 'alsórakpart';
-REPLACE INTO `street_types` SET `street_type` = 'arborétum';
-REPLACE INTO `street_types` SET `street_type` = 'autóút';
-REPLACE INTO `street_types` SET `street_type` = 'állat és növ.kert';
-REPLACE INTO `street_types` SET `street_type` = 'állomás';
-REPLACE INTO `street_types` SET `street_type` = 'árnyék';
-REPLACE INTO `street_types` SET `street_type` = 'árok';
-REPLACE INTO `street_types` SET `street_type` = 'átjáró';
-REPLACE INTO `street_types` SET `street_type` = 'barakképület';
-REPLACE INTO `street_types` SET `street_type` = 'barlang';
-REPLACE INTO `street_types` SET `street_type` = 'bánya';
-REPLACE INTO `street_types` SET `street_type` = 'bányatelep';
-REPLACE INTO `street_types` SET `street_type` = 'bástya';
-REPLACE INTO `street_types` SET `street_type` = 'bástyája';
-REPLACE INTO `street_types` SET `street_type` = 'bejáró';
-REPLACE INTO `street_types` SET `street_type` = 'bekötőút';
-REPLACE INTO `street_types` SET `street_type` = 'csárda';
-REPLACE INTO `street_types` SET `street_type` = 'csónakházak';
-REPLACE INTO `street_types` SET `street_type` = 'domb';
-REPLACE INTO `street_types` SET `street_type` = 'dűlő';
-REPLACE INTO `street_types` SET `street_type` = 'dűlősor';
-REPLACE INTO `street_types` SET `street_type` = 'dűlőterület';
-REPLACE INTO `street_types` SET `street_type` = 'dűlőút';
-REPLACE INTO `street_types` SET `street_type` = 'egyetemváros';
-REPLACE INTO `street_types` SET `street_type` = 'egyéb';
-REPLACE INTO `street_types` SET `street_type` = 'elágazás';
-REPLACE INTO `street_types` SET `street_type` = 'emlékút';
-REPLACE INTO `street_types` SET `street_type` = 'erdészház';
-REPLACE INTO `street_types` SET `street_type` = 'erdészlak';
-REPLACE INTO `street_types` SET `street_type` = 'erdő';
-REPLACE INTO `street_types` SET `street_type` = 'erdősor';
-REPLACE INTO `street_types` SET `street_type` = 'fasor';
-REPLACE INTO `street_types` SET `street_type` = 'fasora';
-REPLACE INTO `street_types` SET `street_type` = 'felső';
-REPLACE INTO `street_types` SET `street_type` = 'forduló';
-REPLACE INTO `street_types` SET `street_type` = 'föld';
-REPLACE INTO `street_types` SET `street_type` = 'főmérnökség';
-REPLACE INTO `street_types` SET `street_type` = 'főtér';
-REPLACE INTO `street_types` SET `street_type` = 'főút';
-REPLACE INTO `street_types` SET `street_type` = 'gát';
-REPLACE INTO `street_types` SET `street_type` = 'gátőrház';
-REPLACE INTO `street_types` SET `street_type` = 'gátsor';
-REPLACE INTO `street_types` SET `street_type` = 'gyár';
-REPLACE INTO `street_types` SET `street_type` = 'gyártelep';
-REPLACE INTO `street_types` SET `street_type` = 'gyárváros';
-REPLACE INTO `street_types` SET `street_type` = 'gyümölcsös';
-REPLACE INTO `street_types` SET `street_type` = 'határsor';
-REPLACE INTO `street_types` SET `street_type` = 'határút';
-REPLACE INTO `street_types` SET `street_type` = 'ház';
-REPLACE INTO `street_types` SET `street_type` = 'hegy';
-REPLACE INTO `street_types` SET `street_type` = 'hegyhát';
-REPLACE INTO `street_types` SET `street_type` = 'hegyhát dűlő';
-REPLACE INTO `street_types` SET `street_type` = 'hegyhát köz';
-REPLACE INTO `street_types` SET `street_type` = 'hídfő';
-REPLACE INTO `street_types` SET `street_type` = 'hrsz.';
-REPLACE INTO `street_types` SET `street_type` = 'iskola';
-REPLACE INTO `street_types` SET `street_type` = 'játszótér';
-REPLACE INTO `street_types` SET `street_type` = 'kapu';
-REPLACE INTO `street_types` SET `street_type` = 'kastély';
-REPLACE INTO `street_types` SET `street_type` = 'kert';
-REPLACE INTO `street_types` SET `street_type` = 'kertsor';
-REPLACE INTO `street_types` SET `street_type` = 'kilátó';
-REPLACE INTO `street_types` SET `street_type` = 'kioszk';
-REPLACE INTO `street_types` SET `street_type` = 'kocsiszín';
-REPLACE INTO `street_types` SET `street_type` = 'kolónia';
-REPLACE INTO `street_types` SET `street_type` = 'korzó';
-REPLACE INTO `street_types` SET `street_type` = 'kör';
-REPLACE INTO `street_types` SET `street_type` = 'körönd';
-REPLACE INTO `street_types` SET `street_type` = 'körtér';
-REPLACE INTO `street_types` SET `street_type` = 'körút';
-REPLACE INTO `street_types` SET `street_type` = 'körvasútsor';
-REPLACE INTO `street_types` SET `street_type` = 'körzet';
-REPLACE INTO `street_types` SET `street_type` = 'kultúrpark';
-REPLACE INTO `street_types` SET `street_type` = 'kunyhó';
-REPLACE INTO `street_types` SET `street_type` = 'kút';
-REPLACE INTO `street_types` SET `street_type` = 'kültelek';
-REPLACE INTO `street_types` SET `street_type` = 'külterület';
-REPLACE INTO `street_types` SET `street_type` = 'lakóház';
-REPLACE INTO `street_types` SET `street_type` = 'lakónegyed';
-REPLACE INTO `street_types` SET `street_type` = 'lakópark';
-REPLACE INTO `street_types` SET `street_type` = 'lakótelep';
-REPLACE INTO `street_types` SET `street_type` = 'lejáró';
-REPLACE INTO `street_types` SET `street_type` = 'lejtő';
-REPLACE INTO `street_types` SET `street_type` = 'lépcső';
-REPLACE INTO `street_types` SET `street_type` = 'liget';
-REPLACE INTO `street_types` SET `street_type` = 'major';
-REPLACE INTO `street_types` SET `street_type` = 'malom';
-REPLACE INTO `street_types` SET `street_type` = 'menedékház';
-REPLACE INTO `street_types` SET `street_type` = 'mélyút';
-REPLACE INTO `street_types` SET `street_type` = 'munkásszálló';
-REPLACE INTO `street_types` SET `street_type` = 'műút';
-REPLACE INTO `street_types` SET `street_type` = 'oldal';
-REPLACE INTO `street_types` SET `street_type` = 'orom';
-REPLACE INTO `street_types` SET `street_type` = 'őrház';
-REPLACE INTO `street_types` SET `street_type` = 'őrházak';
-REPLACE INTO `street_types` SET `street_type` = 'őrházlak';
-REPLACE INTO `street_types` SET `street_type` = 'park';
-REPLACE INTO `street_types` SET `street_type` = 'parkja';
-REPLACE INTO `street_types` SET `street_type` = 'parkoló';
-REPLACE INTO `street_types` SET `street_type` = 'part';
-REPLACE INTO `street_types` SET `street_type` = 'pavilon';
-REPLACE INTO `street_types` SET `street_type` = 'pálya';
-REPLACE INTO `street_types` SET `street_type` = 'pályaudvar';
-REPLACE INTO `street_types` SET `street_type` = 'piac';
-REPLACE INTO `street_types` SET `street_type` = 'pihenő';
-REPLACE INTO `street_types` SET `street_type` = 'pince';
-REPLACE INTO `street_types` SET `street_type` = 'pincesor';
-REPLACE INTO `street_types` SET `street_type` = 'postafiók';
-REPLACE INTO `street_types` SET `street_type` = 'puszta';
-REPLACE INTO `street_types` SET `street_type` = 'rakpart';
-REPLACE INTO `street_types` SET `street_type` = 'repülőtér';
-REPLACE INTO `street_types` SET `street_type` = 'rész';
-REPLACE INTO `street_types` SET `street_type` = 'rét';
-REPLACE INTO `street_types` SET `street_type` = 'sarok';
-REPLACE INTO `street_types` SET `street_type` = 'sánc';
-REPLACE INTO `street_types` SET `street_type` = 'sávház';
-REPLACE INTO `street_types` SET `street_type` = 'sétány';
-REPLACE INTO `street_types` SET `street_type` = 'sor';
-REPLACE INTO `street_types` SET `street_type` = 'sora';
-REPLACE INTO `street_types` SET `street_type` = 'sportpálya';
-REPLACE INTO `street_types` SET `street_type` = 'sporttelep';
-REPLACE INTO `street_types` SET `street_type` = 'stadion';
-REPLACE INTO `street_types` SET `street_type` = 'strandfürdő';
-REPLACE INTO `street_types` SET `street_type` = 'sugárút';
-REPLACE INTO `street_types` SET `street_type` = 'szállás';
-REPLACE INTO `street_types` SET `street_type` = 'szállások';
-REPLACE INTO `street_types` SET `street_type` = 'szer';
-REPLACE INTO `street_types` SET `street_type` = 'szél';
-REPLACE INTO `street_types` SET `street_type` = 'sziget';
-REPLACE INTO `street_types` SET `street_type` = 'szivattyútelep';
-REPLACE INTO `street_types` SET `street_type` = 'szőlő';
-REPLACE INTO `street_types` SET `street_type` = 'szőlőhegy';
-REPLACE INTO `street_types` SET `street_type` = 'szőlők';
-REPLACE INTO `street_types` SET `street_type` = 'tag';
-REPLACE INTO `street_types` SET `street_type` = 'tanya';
-REPLACE INTO `street_types` SET `street_type` = 'tanyák';
-REPLACE INTO `street_types` SET `street_type` = 'telep';
-REPLACE INTO `street_types` SET `street_type` = 'temető';
-REPLACE INTO `street_types` SET `street_type` = 'tere';
-REPLACE INTO `street_types` SET `street_type` = 'tető';
-REPLACE INTO `street_types` SET `street_type` = 'téli kikötő';
-REPLACE INTO `street_types` SET `street_type` = 'tömb';
-REPLACE INTO `street_types` SET `street_type` = 'turistaház';
-REPLACE INTO `street_types` SET `street_type` = 'udvar';
-REPLACE INTO `street_types` SET `street_type` = 'utak';
-REPLACE INTO `street_types` SET `street_type` = 'utcája';
-REPLACE INTO `street_types` SET `street_type` = 'útja';
-REPLACE INTO `street_types` SET `street_type` = 'útőrház';
-REPLACE INTO `street_types` SET `street_type` = 'üdülő';
-REPLACE INTO `street_types` SET `street_type` = 'üdülő-part';
-REPLACE INTO `street_types` SET `street_type` = 'üdülő-sor';
-REPLACE INTO `street_types` SET `street_type` = 'üdülő-telep';
-REPLACE INTO `street_types` SET `street_type` = 'vadaskert';
-REPLACE INTO `street_types` SET `street_type` = 'vadászház';
-REPLACE INTO `street_types` SET `street_type` = 'vasútállomás';
-REPLACE INTO `street_types` SET `street_type` = 'vasúti megálló';
-REPLACE INTO `street_types` SET `street_type` = 'vasúti őrház';
-REPLACE INTO `street_types` SET `street_type` = 'vasútsor';
-REPLACE INTO `street_types` SET `street_type` = 'vágóhíd';
-REPLACE INTO `street_types` SET `street_type` = 'vár';
-REPLACE INTO `street_types` SET `street_type` = 'várköz';
-REPLACE INTO `street_types` SET `street_type` = 'város';
-REPLACE INTO `street_types` SET `street_type` = 'vezetőút';
-REPLACE INTO `street_types` SET `street_type` = 'villasor';
-REPLACE INTO `street_types` SET `street_type` = 'vízmű';
-REPLACE INTO `street_types` SET `street_type` = 'völgy';
-REPLACE INTO `street_types` SET `street_type` = 'zsilip';
-REPLACE INTO `street_types` SET `street_type` = 'zug';
+
+INSERT INTO `street_types` (`street_type`) 
+VALUES
+('út'),
+('utca'),
+('tér'),
+('köz'),
+('akna'),
+('akna-alsó'),
+('akna-felső'),
+('alagút'),
+('alsórakpart'),
+('arborétum'),
+('autóút'),
+('állat és növ.kert'),
+('állomás'),
+('árnyék'),
+('árok'),
+('átjáró'),
+('barakképület'),
+('barlang'),
+('bánya'),
+('bányatelep'),
+('bástya'),
+('bástyája'),
+('bejáró'),
+('bekötőút'),
+('csárda'),
+('csónakházak'),
+('domb'),
+('dűlő'),
+('dűlősor'),
+('dűlőterület'),
+('dűlőút'),
+('egyetemváros'),
+('egyéb'),
+('elágazás'),
+('emlékút'),
+('erdészház'),
+('erdészlak'),
+('erdő'),
+('erdősor'),
+('fasor'),
+('fasora'),
+('felső'),
+('forduló'),
+('föld'),
+('főmérnökség'),
+('főtér'),
+('főút'),
+('gát'),
+('gátőrház'),
+('gátsor'),
+('gyár'),
+('gyártelep'),
+('gyárváros'),
+('gyümölcsös'),
+('határsor'),
+('határút'),
+('ház'),
+('hegy'),
+('hegyhát'),
+('hegyhát dűlő'),
+('hegyhát köz'),
+('hídfő'),
+('hrsz.'),
+('iskola'),
+('játszótér'),
+('kapu'),
+('kastély'),
+('kert'),
+('kertsor'),
+('kilátó'),
+('kioszk'),
+('kocsiszín'),
+('kolónia'),
+('korzó'),
+('kör'),
+('körönd'),
+('körtér'),
+('körút'),
+('körvasútsor'),
+('körzet'),
+('kultúrpark'),
+('kunyhó'),
+('kút'),
+('kültelek'),
+('külterület'),
+('lakóház'),
+('lakónegyed'),
+('lakópark'),
+('lakótelep'),
+('lejáró'),
+('lejtő'),
+('lépcső'),
+('liget'),
+('major'),
+('malom'),
+('menedékház'),
+('mélyút'),
+('munkásszálló'),
+('műút'),
+('oldal'),
+('orom'),
+('őrház'),
+('őrházak'),
+('őrházlak'),
+('park'),
+('parkja'),
+('parkoló'),
+('part'),
+('pavilon'),
+('pálya'),
+('pályaudvar'),
+('piac'),
+('pihenő'),
+('pince'),
+('pincesor'),
+('postafiók'),
+('puszta'),
+('rakpart'),
+('repülőtér'),
+('rész'),
+('rét'),
+('sarok'),
+('sánc'),
+('sávház'),
+('sétány'),
+('sor'),
+('sora'),
+('sportpálya'),
+('sporttelep'),
+('stadion'),
+('strandfürdő'),
+('sugárút'),
+('szállás'),
+('szállások'),
+('szer'),
+('szél'),
+('sziget'),
+('szivattyútelep'),
+('szőlő'),
+('szőlőhegy'),
+('szőlők'),
+('tag'),
+('tanya'),
+('tanyák'),
+('telep'),
+('temető'),
+('tere'),
+('tető'),
+('téli kikötő'),
+('tömb'),
+('turistaház'),
+('udvar'),
+('utak'),
+('utcája'),
+('útja'),
+('útőrház'),
+('üdülő'),
+('üdülő-part'),
+('üdülő-sor'),
+('üdülő-telep'),
+('vadaskert'),
+('vadászház'),
+('vasútállomás'),
+('vasúti megálló'),
+('vasúti őrház'),
+('vasútsor'),
+('vágóhíd'),
+('vár'),
+('várköz'),
+('város'),
+('vezetőút'),
+('villasor'),
+('vízmű'),
+('völgy'),
+('zsilip'),
+('zug'),
+('út'),
+('utca'),
+('tér'),
+('köz'),
+('akna'),
+('akna-alsó'),
+('akna-felső'),
+('alagút'),
+('alsórakpart'),
+('arborétum'),
+('autóút'),
+('állat és növ.kert'),
+('állomás'),
+('árnyék'),
+('árok'),
+('átjáró'),
+('barakképület'),
+('barlang'),
+('bánya'),
+('bányatelep'),
+('bástya'),
+('bástyája'),
+('bejáró'),
+('bekötőút'),
+('csárda'),
+('csónakházak'),
+('domb'),
+('dűlő'),
+('dűlősor'),
+('dűlőterület'),
+('dűlőút'),
+('egyetemváros'),
+('egyéb'),
+('elágazás'),
+('emlékút'),
+('erdészház'),
+('erdészlak'),
+('erdő'),
+('erdősor'),
+('fasor'),
+('fasora'),
+('felső'),
+('forduló'),
+('föld'),
+('főmérnökség'),
+('főtér'),
+('főút'),
+('gát'),
+('gátőrház'),
+('gátsor'),
+('gyár'),
+('gyártelep'),
+('gyárváros'),
+('gyümölcsös'),
+('határsor'),
+('határút'),
+('ház'),
+('hegy'),
+('hegyhát'),
+('hegyhát dűlő'),
+('hegyhát köz'),
+('hídfő'),
+('hrsz.'),
+('iskola'),
+('játszótér'),
+('kapu'),
+('kastély'),
+('kert'),
+('kertsor'),
+('kilátó'),
+('kioszk'),
+('kocsiszín'),
+('kolónia'),
+('korzó'),
+('kör'),
+('körönd'),
+('körtér'),
+('körút'),
+('körvasútsor'),
+('körzet'),
+('kultúrpark'),
+('kunyhó'),
+('kút'),
+('kültelek'),
+('külterület'),
+('lakóház'),
+('lakónegyed'),
+('lakópark'),
+('lakótelep'),
+('lejáró'),
+('lejtő'),
+('lépcső'),
+('liget'),
+('major'),
+('malom'),
+('menedékház'),
+('mélyút'),
+('munkásszálló'),
+('műút'),
+('oldal'),
+('orom'),
+('őrház'),
+('őrházak'),
+('őrházlak'),
+('park'),
+('parkja'),
+('parkoló'),
+('part'),
+('pavilon'),
+('pálya'),
+('pályaudvar'),
+('piac'),
+('pihenő'),
+('pince'),
+('pincesor'),
+('postafiók'),
+('puszta'),
+('rakpart'),
+('repülőtér'),
+('rész'),
+('rét'),
+('sarok'),
+('sánc'),
+('sávház'),
+('sétány'),
+('sor'),
+('sora'),
+('sportpálya'),
+('sporttelep'),
+('stadion'),
+('strandfürdő'),
+('sugárút'),
+('szállás'),
+('szállások'),
+('szer'),
+('szél'),
+('sziget'),
+('szivattyútelep'),
+('szőlő'),
+('szőlőhegy'),
+('szőlők'),
+('tag'),
+('tanya'),
+('tanyák'),
+('telep'),
+('temető'),
+('tere'),
+('tető'),
+('téli kikötő'),
+('tömb'),
+('turistaház'),
+('udvar'),
+('utak'),
+('utcája'),
+('útja'),
+('útőrház'),
+('üdülő'),
+('üdülő-part'),
+('üdülő-sor'),
+('üdülő-telep'),
+('vadaskert'),
+('vadászház'),
+('vasútállomás'),
+('vasúti megálló'),
+('vasúti őrház'),
+('vasútsor'),
+('vágóhíd'),
+('vár'),
+('várköz'),
+('város'),
+('vezetőút'),
+('villasor'),
+('vízmű'),
+('völgy'),
+('zsilip'),
+('zug');
 
 
 DELETE FROM nationality_marks;
 
+INSERT INTO  nationality_marks ( mark, name ) VALUES
+('H','Magyarország'),
 
-Insert into nationality_marks ( mark, name) VALUES ('H','Magyarország');
+('A','Ausztria'),
+('B','Belgium'),
+('BG','Bulgária'),
+('BIH','Bosznia-Hercegovina'),
+('CH','Svájc'),
+('CZ','Csehország'),
+('D','Németország'),
+('DK','Dánia'),
+('E','Spanyolország'),
+('F','Franciaország (és területei)'),
+('FIN','Finnország'),
+('GB','Egyesült Királyság'),
+('GR','Görögország'),
+('HR','Horvátország'),
+('I','Olaszország'),
+('IL','Izrael'),
+('L','Luxemburg'),
+('N','Norvégia'),
+('NL','Hollandia'),
+('P','Portugália'),
+('PL','Lengyelország'),
+('RO','Románia'),
+('S','Svédország'),
+('SCO','Skócia'),
+('SK','Szlovákia'),
+('SLO','Szlovénia'),
+('SRB','Szerbia'),
+('UA','Ukrajna'),
 
-Insert into nationality_marks ( mark, name) VALUES ('A','Ausztria');
-Insert into nationality_marks ( mark, name) VALUES ('B','Belgium');
-Insert into nationality_marks ( mark, name) VALUES ('BG','Bulgária');
-Insert into nationality_marks ( mark, name) VALUES ('BIH','Bosznia-Hercegovina');
-Insert into nationality_marks ( mark, name) VALUES ('CH','Svájc');
-Insert into nationality_marks ( mark, name) VALUES ('CZ','Csehország');
-Insert into nationality_marks ( mark, name) VALUES ('D','Németország');
-Insert into nationality_marks ( mark, name) VALUES ('DK','Dánia');
-Insert into nationality_marks ( mark, name) VALUES ('E','Spanyolország');
-Insert into nationality_marks ( mark, name) VALUES ('F','Franciaország (és területei)');
-Insert into nationality_marks ( mark, name) VALUES ('FIN','Finnország');
-Insert into nationality_marks ( mark, name) VALUES ('GB','Egyesült Királyság');
-Insert into nationality_marks ( mark, name) VALUES ('GR','Görögország');
-Insert into nationality_marks ( mark, name) VALUES ('HR','Horvátország');
-Insert into nationality_marks ( mark, name) VALUES ('I','Olaszország');
-Insert into nationality_marks ( mark, name) VALUES ('IL','Izrael');
-Insert into nationality_marks ( mark, name) VALUES ('L','Luxemburg');
-Insert into nationality_marks ( mark, name) VALUES ('N','Norvégia');
-Insert into nationality_marks ( mark, name) VALUES ('NL','Hollandia');
-Insert into nationality_marks ( mark, name) VALUES ('P','Portugália');
-Insert into nationality_marks ( mark, name) VALUES ('PL','Lengyelország');
-Insert into nationality_marks ( mark, name) VALUES ('RO','Románia');
-Insert into nationality_marks ( mark, name) VALUES ('S','Svédország');
-Insert into nationality_marks ( mark, name) VALUES ('SCO','Skócia');
-Insert into nationality_marks ( mark, name) VALUES ('SK','Szlovákia');
-Insert into nationality_marks ( mark, name) VALUES ('SLO','Szlovénia');
-Insert into nationality_marks ( mark, name) VALUES ('SRB','Szerbia');
-Insert into nationality_marks ( mark, name) VALUES ('UA','Ukrajna');
+('AFG','Afganisztán'),
+('AG','Antigua és Barbuda'),
+('AL','Albánia'),
+('AM','Örményország'),
+('ANG','Angola'),
+('AND','Andorra'),
+('AUS','Ausztrália (és külbirtokai)'),
+('AZ','Azerbajdzsán'),
+('BD','Banglades'),
+('BDS','Barbados'),
+('BER','Bermuda'),
+('BF','Burkina Faso'),
+('BHT','Bhután'),
+('BOL','Bolívia'),
+('BR','Brazília'),
+('BRN','Bahrein'),
+('BRU','Brunei'),
+('BS','Bahama-szigetek'),
+('BU','Burundi'),
+('BW','Botswana'),
+('BY','Fehéroroszország (Belarusz)'),
+('BZ','Belize'),
+('C','Kuba'),
+('CAM','Kamerun'),
+('CC', 'Konzulátusi testület'),
+('CD', 'Diplomáciai testület'),
+('CI','Elefántcsontpart'),
+('CL','Srí Lanka'),
+('CO','Kolumbia'),
+('COM','Comore-szigetek'),
+('CR','Costa Rica'),
+('CV','Zöld-foki Köztársaság'),
+('CY','Ciprus'),
 
+('DJ','Dzsibuti'),
+('DOM','Dominikai Köztársaság'),
+('DPR', 'Észak-Korea'),
+('DRC','Kongói Demokratikus Köztársaság (Zaire)'),
+('DY','Benin'),
+('DZ','Algéria'),
+('EAK','Kenya'),
+('EAT','Tanzánia'),
+('EAU','Uganda'),
+('EC','Ecuador'),
+('ER','Eritrea'),
+('ES','El Salvador'),
+('EST','Észtország'),
+('ET','Egyiptom   '),
+('ETH','Etiópia'),
+('EUR','Európai Unió hivatali gépjárművek'),
+('FJI','Fidzsi-szigetek'),
+('FL','Liechtenstein'),
+('FO','Feröer'),
+('FSM','Mikronézia'),
+('G','Gabon'),
+('GBA', 'Alderney Alderney (Guernsey)'),
+('GBG','Guernsey'),
+('GBJ','Jersey'),
+('GBM','Man'),
+('GBZ','Gibraltár'),
+('GCA','Guatemala'),
+('GE','Grúzia'),
+('GH','Ghána'),
+('GUY','Guyana'),
+('HK','Hongkong'),
+('HKJ','Jordánia'),
+('HN','Honduras'),
+('IND','India'),
+('IR','Irán'),
+('IRL','Írország'),
+('IRQ','Irak'),
+('IS','Izland'),
+('J','Japán'),
+('JA','Jamaica'),
+('K','Kambodzsa'),
+('KIR','Kiribati'),
+('KN','Saint Kitts és Nevis'),
+('KS','Kirgizisztán'),
+('KWT','Kuvait'),
+('KZ','Kazahsztán'),
+('LAO','Laosz'),
+('LAR','Líbia'),
+('LB','Libéria'),
+('LS','Lesotho'),
+('LT','Litvánia'),
+('LV','Lettország'),
+('M','Málta'),
+('MA','Marokkó'),
+('MAL','Malajzia'),
+('MC','Monaco'),
+('MD','Moldova'),
+('MEX','Mexikó'),
+('MGL','Mongólia'),
+('MH','Marshall-szigetek'),
+('MK','Macedónia'),
+('MNE','Montenegró'),
+('MOC','Mozambik'),
+('MS','Mauritius'),
+('MV','Maldív-szigetek'),
+('MW','Malawi'),
+('MYA','Mianmar (Burma)'),
+('NA','Holland Antillák'),
+('NAM','Namíbia'),
+('NAU','Nauru'),
+('NEP','Nepál'),
+('NGR','Nigéria'),
+('NIC','Nicaragua'),
+('NZ','Új-Zéland (és területei)'),
+('OM','Omán'),
+('PA','Panama'),
+('PAL','Palau'),
+('PK','Pakisztán'),
+('PE','Peru'),
+('PNG','Pápua Új-Guinea'),
+('PRC','Kína'),
+('PY','Paraguay'),
+('Q','Katar'),
+('RA','Argentína'),
+('RB','Botswana (nem hivatalosan a BW-t is használják)'),
+('RC','Tajvan'),
+('RCA','Közép-Afrika'),
+('RCB','Kongói Köztársaság'),
+('RCH','Chile'),
+('RG','Guinea'),
+('RGB','Bissau-Guinea'),
+('RGE','Egyenlítői-Guinea'),
+('RH','Haiti'),
+('RI','Indonézia'),
+('RIM','Mauritánia'),
+('RL','Libanon'),
+('RM','Madagaszkár'),
+('RMM','Mali'),
+('RN','Niger'),
+('ROK','Dél-Korea'),
+('ROU','Uruguay'),
+('RP','Fülöp-szigetek'),
+('RSL','Szomáliföld'),
+('RSM','San Marino'),
+('RUS','Oroszország'),
+('RWA','Ruanda'),
+('SA','Szaúd-Arábia'),
+('SD','Szváziföld'),
+('SGP','Szingapúr'),
+('SME','Suriname'),
+('SN','Szenegál'),
+('SO','Szomália'),
+('SOL','Salamon-szigetek'),
+('STP','Sao Tomé és Príncipe'),
+('SUD','Szudán'),
+('SY','Seychelle-szigetek'),
+('SYR','Szíria'),
+('T','Thaiföld'),
+('TCH','Csád'),
+('TG','Togo'),
+('TGA','Tonga'),
+('TJ','Tádzsikisztán'),
+('TK','Tokelau-szigetek'),
+('TM','Türkmenisztán'),
+('TMP','Kelet-Timor'),
+('TN','Tunézia'),
+('TR','Törökország'),
+('TT','Trinidad és Tobago'),
+('TV','Tuvalu'),
+('UAE','Egyesült Arab Emírségek'),
+('USA','USA'),
+('UZ','Üzbegisztán'),
+('V','Vatikán'),
+('VAN', 'Vanuatu'),
+('VN','Vietnam'),
+('WAG','Gambia'),
+('WAL','Sierra Leone'),
+('WD','Dominikai Közösség'),
+('WG','Grenada'),
+('WL','Saint Lucia'),
+('WS','Szamoa'),
+('WV','Saint Vincent és a Grenadine-szigetek'),
+('Y,YAR','Jemen (az Y nem hivatalosan használt jelzés)'),
+('YV','Venezuela'),
+('Z','Zambia'),
+('ZA','Dél-afrikai Köztársaság'),
+('ZW','Zimbabwe');
 
-
-Insert into nationality_marks ( mark, name) VALUES ('AFG','Afganisztán');
-Insert into nationality_marks ( mark, name) VALUES ('AG','Antigua és Barbuda');
-Insert into nationality_marks ( mark, name) VALUES ('AL','Albánia');
-Insert into nationality_marks ( mark, name) VALUES ('AM','Örményország');
-Insert into nationality_marks ( mark, name) VALUES ('ANG','Angola');
-Insert into nationality_marks ( mark, name) VALUES ('AND','Andorra');
-Insert into nationality_marks ( mark, name) VALUES ('AUS','Ausztrália (és külbirtokai)');
-Insert into nationality_marks ( mark, name) VALUES ('AZ','Azerbajdzsán');
-Insert into nationality_marks ( mark, name) VALUES ('BD','Banglades');
-Insert into nationality_marks ( mark, name) VALUES ('BDS','Barbados');
-Insert into nationality_marks ( mark, name) VALUES ('BER','Bermuda');
-Insert into nationality_marks ( mark, name) VALUES ('BF','Burkina Faso');
-Insert into nationality_marks ( mark, name) VALUES ('BHT','Bhután');
-Insert into nationality_marks ( mark, name) VALUES ('BOL','Bolívia');
-Insert into nationality_marks ( mark, name) VALUES ('BR','Brazília');
-Insert into nationality_marks ( mark, name) VALUES ('BRN','Bahrein');
-Insert into nationality_marks ( mark, name) VALUES ('BRU','Brunei');
-Insert into nationality_marks ( mark, name) VALUES ('BS','Bahama-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('BU','Burundi');
-Insert into nationality_marks ( mark, name) VALUES ('BW','Botswana');
-Insert into nationality_marks ( mark, name) VALUES ('BY','Fehéroroszország (Belarusz)');
-Insert into nationality_marks ( mark, name) VALUES ('BZ','Belize');
-Insert into nationality_marks ( mark, name) VALUES ('C','Kuba');
-Insert into nationality_marks ( mark, name) VALUES ('CAM','Kamerun');
-Insert into nationality_marks ( mark, name) VALUES ('CC', 'Konzulátusi testület');
-Insert into nationality_marks ( mark, name) VALUES ('CD', 'Diplomáciai testület');
-Insert into nationality_marks ( mark, name) VALUES ('CI','Elefántcsontpart');
-Insert into nationality_marks ( mark, name) VALUES ('CL','Srí Lanka');
-Insert into nationality_marks ( mark, name) VALUES ('CO','Kolumbia');
-Insert into nationality_marks ( mark, name) VALUES ('COM','Comore-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('CR','Costa Rica');
-Insert into nationality_marks ( mark, name) VALUES ('CV','Zöld-foki Köztársaság');
-Insert into nationality_marks ( mark, name) VALUES ('CY','Ciprus');
-
-
-
-Insert into nationality_marks ( mark, name) VALUES ('DJ','Dzsibuti');
-Insert into nationality_marks ( mark, name) VALUES ('DOM','Dominikai Köztársaság');
-Insert into nationality_marks ( mark, name) VALUES ('DPR', 'Észak-Korea');
-Insert into nationality_marks ( mark, name) VALUES ('DRC','Kongói Demokratikus Köztársaság (Zaire)');
-Insert into nationality_marks ( mark, name) VALUES ('DY','Benin');
-Insert into nationality_marks ( mark, name) VALUES ('DZ','Algéria');
-Insert into nationality_marks ( mark, name) VALUES ('EAK','Kenya');
-Insert into nationality_marks ( mark, name) VALUES ('EAT','Tanzánia');
-Insert into nationality_marks ( mark, name) VALUES ('EAU','Uganda');
-Insert into nationality_marks ( mark, name) VALUES ('EC','Ecuador');
-Insert into nationality_marks ( mark, name) VALUES ('ER','Eritrea');
-Insert into nationality_marks ( mark, name) VALUES ('ES','El Salvador');
-Insert into nationality_marks ( mark, name) VALUES ('EST','Észtország');
-Insert into nationality_marks ( mark, name) VALUES ('ET','Egyiptom    ');
-Insert into nationality_marks ( mark, name) VALUES ('ETH','Etiópia');
-Insert into nationality_marks ( mark, name) VALUES ('EUR','Európai Unió hivatali gépjárművek');
-Insert into nationality_marks ( mark, name) VALUES ('FJI','Fidzsi-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('FL','Liechtenstein');
-Insert into nationality_marks ( mark, name) VALUES ('FO','Feröer');
-Insert into nationality_marks ( mark, name) VALUES ('FSM','Mikronézia');
-Insert into nationality_marks ( mark, name) VALUES ('G','Gabon');
-Insert into nationality_marks ( mark, name) VALUES ('GBA', 'Alderney Alderney (Guernsey)');
-Insert into nationality_marks ( mark, name) VALUES ('GBG','Guernsey');
-Insert into nationality_marks ( mark, name) VALUES ('GBJ','Jersey');
-Insert into nationality_marks ( mark, name) VALUES ('GBM','Man');
-Insert into nationality_marks ( mark, name) VALUES ('GBZ','Gibraltár');
-Insert into nationality_marks ( mark, name) VALUES ('GCA','Guatemala');
-Insert into nationality_marks ( mark, name) VALUES ('GE','Grúzia');
-Insert into nationality_marks ( mark, name) VALUES ('GH','Ghána');
-Insert into nationality_marks ( mark, name) VALUES ('GUY','Guyana');
-Insert into nationality_marks ( mark, name) VALUES ('HK','Hongkong');
-Insert into nationality_marks ( mark, name) VALUES ('HKJ','Jordánia');
-Insert into nationality_marks ( mark, name) VALUES ('HN','Honduras');
-Insert into nationality_marks ( mark, name) VALUES ('IND','India');
-Insert into nationality_marks ( mark, name) VALUES ('IR','Irán');
-Insert into nationality_marks ( mark, name) VALUES ('IRL','Írország');
-Insert into nationality_marks ( mark, name) VALUES ('IRQ','Irak');
-Insert into nationality_marks ( mark, name) VALUES ('IS','Izland');
-Insert into nationality_marks ( mark, name) VALUES ('J','Japán');
-Insert into nationality_marks ( mark, name) VALUES ('JA','Jamaica');
-Insert into nationality_marks ( mark, name) VALUES ('K','Kambodzsa');
-Insert into nationality_marks ( mark, name) VALUES ('KIR','Kiribati');
-Insert into nationality_marks ( mark, name) VALUES ('KN','Saint Kitts és Nevis');
-Insert into nationality_marks ( mark, name) VALUES ('KS','Kirgizisztán');
-Insert into nationality_marks ( mark, name) VALUES ('KWT','Kuvait');
-Insert into nationality_marks ( mark, name) VALUES ('KZ','Kazahsztán');
-Insert into nationality_marks ( mark, name) VALUES ('LAO','Laosz');
-Insert into nationality_marks ( mark, name) VALUES ('LAR','Líbia');
-Insert into nationality_marks ( mark, name) VALUES ('LB','Libéria');
-Insert into nationality_marks ( mark, name) VALUES ('LS','Lesotho');
-Insert into nationality_marks ( mark, name) VALUES ('LT','Litvánia');
-Insert into nationality_marks ( mark, name) VALUES ('LV','Lettország');
-Insert into nationality_marks ( mark, name) VALUES ('M','Málta');
-Insert into nationality_marks ( mark, name) VALUES ('MA','Marokkó');
-Insert into nationality_marks ( mark, name) VALUES ('MAL','Malajzia');
-Insert into nationality_marks ( mark, name) VALUES ('MC','Monaco');
-Insert into nationality_marks ( mark, name) VALUES ('MD','Moldova');
-Insert into nationality_marks ( mark, name) VALUES ('MEX','Mexikó');
-Insert into nationality_marks ( mark, name) VALUES ('MGL','Mongólia');
-Insert into nationality_marks ( mark, name) VALUES ('MH','Marshall-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('MK','Macedónia');
-Insert into nationality_marks ( mark, name) VALUES ('MNE','Montenegró');
-Insert into nationality_marks ( mark, name) VALUES ('MOC','Mozambik');
-Insert into nationality_marks ( mark, name) VALUES ('MS','Mauritius');
-Insert into nationality_marks ( mark, name) VALUES ('MV','Maldív-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('MW','Malawi');
-Insert into nationality_marks ( mark, name) VALUES ('MYA','Mianmar (Burma)');
-Insert into nationality_marks ( mark, name) VALUES ('NA','Holland Antillák');
-Insert into nationality_marks ( mark, name) VALUES ('NAM','Namíbia');
-Insert into nationality_marks ( mark, name) VALUES ('NAU','Nauru');
-Insert into nationality_marks ( mark, name) VALUES ('NEP','Nepál');
-Insert into nationality_marks ( mark, name) VALUES ('NGR','Nigéria');
-Insert into nationality_marks ( mark, name) VALUES ('NIC','Nicaragua');
-Insert into nationality_marks ( mark, name) VALUES ('NZ','Új-Zéland (és területei)');
-Insert into nationality_marks ( mark, name) VALUES ('OM','Omán');
-Insert into nationality_marks ( mark, name) VALUES ('PA','Panama');
-Insert into nationality_marks ( mark, name) VALUES ('PAL','Palau');
-Insert into nationality_marks ( mark, name) VALUES ('PK','Pakisztán');
-Insert into nationality_marks ( mark, name) VALUES ('PE','Peru');
-Insert into nationality_marks ( mark, name) VALUES ('PNG','Pápua Új-Guinea');
-Insert into nationality_marks ( mark, name) VALUES ('PRC','Kína');
-Insert into nationality_marks ( mark, name) VALUES ('PY','Paraguay');
-Insert into nationality_marks ( mark, name) VALUES ('Q','Katar');
-Insert into nationality_marks ( mark, name) VALUES ('RA','Argentína');
-Insert into nationality_marks ( mark, name) VALUES ('RB','Botswana (nem hivatalosan a BW-t is használják)');
-Insert into nationality_marks ( mark, name) VALUES ('RC','Tajvan');
-Insert into nationality_marks ( mark, name) VALUES ('RCA','Közép-Afrika');
-Insert into nationality_marks ( mark, name) VALUES ('RCB','Kongói Köztársaság');
-Insert into nationality_marks ( mark, name) VALUES ('RCH','Chile');
-Insert into nationality_marks ( mark, name) VALUES ('RG','Guinea');
-Insert into nationality_marks ( mark, name) VALUES ('RGB','Bissau-Guinea');
-Insert into nationality_marks ( mark, name) VALUES ('RGE','Egyenlítői-Guinea');
-Insert into nationality_marks ( mark, name) VALUES ('RH','Haiti');
-Insert into nationality_marks ( mark, name) VALUES ('RI','Indonézia');
-Insert into nationality_marks ( mark, name) VALUES ('RIM','Mauritánia');
-Insert into nationality_marks ( mark, name) VALUES ('RL','Libanon');
-Insert into nationality_marks ( mark, name) VALUES ('RM','Madagaszkár');
-Insert into nationality_marks ( mark, name) VALUES ('RMM','Mali');
-Insert into nationality_marks ( mark, name) VALUES ('RN','Niger');
-Insert into nationality_marks ( mark, name) VALUES ('ROK','Dél-Korea');
-Insert into nationality_marks ( mark, name) VALUES ('ROU','Uruguay');
-Insert into nationality_marks ( mark, name) VALUES ('RP','Fülöp-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('RSL','Szomáliföld');
-Insert into nationality_marks ( mark, name) VALUES ('RSM','San Marino');
-Insert into nationality_marks ( mark, name) VALUES ('RUS','Oroszország');
-Insert into nationality_marks ( mark, name) VALUES ('RWA','Ruanda');
-Insert into nationality_marks ( mark, name) VALUES ('SA','Szaúd-Arábia');
-Insert into nationality_marks ( mark, name) VALUES ('SD','Szváziföld');
-Insert into nationality_marks ( mark, name) VALUES ('SGP','Szingapúr');
-Insert into nationality_marks ( mark, name) VALUES ('SME','Suriname');
-Insert into nationality_marks ( mark, name) VALUES ('SN','Szenegál');
-Insert into nationality_marks ( mark, name) VALUES ('SO','Szomália');
-Insert into nationality_marks ( mark, name) VALUES ('SOL','Salamon-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('STP','Sao Tomé és Príncipe');
-Insert into nationality_marks ( mark, name) VALUES ('SUD','Szudán');
-Insert into nationality_marks ( mark, name) VALUES ('SY','Seychelle-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('SYR','Szíria');
-Insert into nationality_marks ( mark, name) VALUES ('T','Thaiföld');
-Insert into nationality_marks ( mark, name) VALUES ('TCH','Csád');
-Insert into nationality_marks ( mark, name) VALUES ('TG','Togo');
-Insert into nationality_marks ( mark, name) VALUES ('TGA','Tonga');
-Insert into nationality_marks ( mark, name) VALUES ('TJ','Tádzsikisztán');
-Insert into nationality_marks ( mark, name) VALUES ('TK','Tokelau-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('TM','Türkmenisztán');
-Insert into nationality_marks ( mark, name) VALUES ('TMP','Kelet-Timor');
-Insert into nationality_marks ( mark, name) VALUES ('TN','Tunézia');
-Insert into nationality_marks ( mark, name) VALUES ('TR','Törökország');
-Insert into nationality_marks ( mark, name) VALUES ('TT','Trinidad és Tobago');
-Insert into nationality_marks ( mark, name) VALUES ('TV','Tuvalu');
-Insert into nationality_marks ( mark, name) VALUES ('UAE','Egyesült Arab Emírségek');
-Insert into nationality_marks ( mark, name) VALUES ('USA','USA');
-Insert into nationality_marks ( mark, name) VALUES ('UZ','Üzbegisztán');
-Insert into nationality_marks ( mark, name) VALUES ('V','Vatikán');
-Insert into nationality_marks ( mark, name) VALUES ('VAN', 'Vanuatu');
-Insert into nationality_marks ( mark, name) VALUES ('VN','Vietnam');
-Insert into nationality_marks ( mark, name) VALUES ('WAG','Gambia');
-Insert into nationality_marks ( mark, name) VALUES ('WAL','Sierra Leone');
-Insert into nationality_marks ( mark, name) VALUES ('WD','Dominikai Közösség');
-Insert into nationality_marks ( mark, name) VALUES ('WG','Grenada');
-Insert into nationality_marks ( mark, name) VALUES ('WL','Saint Lucia');
-Insert into nationality_marks ( mark, name) VALUES ('WS','Szamoa');
-Insert into nationality_marks ( mark, name) VALUES ('WV','Saint Vincent és a Grenadine-szigetek');
-Insert into nationality_marks ( mark, name) VALUES ('Y,YAR','Jemen (az Y nem hivatalosan használt jelzés)');
-Insert into nationality_marks ( mark, name) VALUES ('YV','Venezuela');
-Insert into nationality_marks ( mark, name) VALUES ('Z','Zambia');
-Insert into nationality_marks ( mark, name) VALUES ('ZA','Dél-afrikai Köztársaság');
-Insert into nationality_marks ( mark, name) VALUES ('ZW','Zimbabwe');
-
-
--- Active: 1679018847898@@127.0.0.1@3306@weighing_db
-USE WEIGHING_DB;
-SET autocommit = 1;
 
 delete from zip_codes;
 
-REPLACE INTO `zip_codes` SET zip_code = '2000', city = 'Szentendre';
-REPLACE INTO `zip_codes` SET zip_code = '2009', city = 'Pilisszentlászló';
-REPLACE INTO `zip_codes` SET zip_code = '2011', city = 'Budakalász';
-REPLACE INTO `zip_codes` SET zip_code = '2013', city = 'Pomáz';
-REPLACE INTO `zip_codes` SET zip_code = '2014', city = 'Csobánka';
-REPLACE INTO `zip_codes` SET zip_code = '2015', city = 'Szigetmonostor';
-REPLACE INTO `zip_codes` SET zip_code = '2016', city = 'Leányfalu';
-REPLACE INTO `zip_codes` SET zip_code = '2017', city = 'Pócsmegyer';
-REPLACE INTO `zip_codes` SET zip_code = '2021', city = 'Tahitótfalu';
-REPLACE INTO `zip_codes` SET zip_code = '2022', city = 'Tahitótfalu';
-REPLACE INTO `zip_codes` SET zip_code = '2023', city = 'Dunabogdány';
-REPLACE INTO `zip_codes` SET zip_code = '2024', city = 'Kisoroszi';
-REPLACE INTO `zip_codes` SET zip_code = '2025', city = 'Visegrád';
-REPLACE INTO `zip_codes` SET zip_code = '2026', city = 'Visegrád';
-REPLACE INTO `zip_codes` SET zip_code = '2027', city = 'Dömös';
-REPLACE INTO `zip_codes` SET zip_code = '2028', city = 'Pilismarót';
-REPLACE INTO `zip_codes` SET zip_code = '2030', city = 'Érd';
-REPLACE INTO `zip_codes` SET zip_code = '2038', city = 'Sóskút';
-REPLACE INTO `zip_codes` SET zip_code = '2039', city = 'Pusztazámor';
-REPLACE INTO `zip_codes` SET zip_code = '2040', city = 'Budaörs';
-REPLACE INTO `zip_codes` SET zip_code = '2045', city = 'Törökbálint';
-REPLACE INTO `zip_codes` SET zip_code = '2049', city = 'Diósd';
-REPLACE INTO `zip_codes` SET zip_code = '2051', city = 'Biatorbágy';
-REPLACE INTO `zip_codes` SET zip_code = '2053', city = 'Herceghalom';
-REPLACE INTO `zip_codes` SET zip_code = '2060', city = 'Bicske';
-REPLACE INTO `zip_codes` SET zip_code = '2063', city = 'Óbarok';
-REPLACE INTO `zip_codes` SET zip_code = '2064', city = 'Csabdi';
-REPLACE INTO `zip_codes` SET zip_code = '2065', city = 'Mány';
-REPLACE INTO `zip_codes` SET zip_code = '2066', city = 'Szár';
-REPLACE INTO `zip_codes` SET zip_code = '2066', city = 'Újbarok';
-REPLACE INTO `zip_codes` SET zip_code = '2067', city = 'Szárliget';
-REPLACE INTO `zip_codes` SET zip_code = '2071', city = 'Páty';
-REPLACE INTO `zip_codes` SET zip_code = '2072', city = 'Zsámbék';
-REPLACE INTO `zip_codes` SET zip_code = '2073', city = 'Tök';
-REPLACE INTO `zip_codes` SET zip_code = '2074', city = 'Perbál';
-REPLACE INTO `zip_codes` SET zip_code = '2080', city = 'Pilisjászfalu ';
-REPLACE INTO `zip_codes` SET zip_code = '2081', city = 'Piliscsaba ';
-REPLACE INTO `zip_codes` SET zip_code = '2083', city = 'Solymár';
-REPLACE INTO `zip_codes` SET zip_code = '2084', city = 'Pilisszentiván';
-REPLACE INTO `zip_codes` SET zip_code = '2085', city = 'Pilisvörösvár';
-REPLACE INTO `zip_codes` SET zip_code = '2086', city = 'Tinnye';
-REPLACE INTO `zip_codes` SET zip_code = '2089', city = 'Telki';
-REPLACE INTO `zip_codes` SET zip_code = '2090', city = 'Remeteszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '2091', city = 'Etyek';
-REPLACE INTO `zip_codes` SET zip_code = '2092', city = 'Budakeszi';
-REPLACE INTO `zip_codes` SET zip_code = '2093', city = 'Budajenő';
-REPLACE INTO `zip_codes` SET zip_code = '2094', city = 'Nagykovácsi';
-REPLACE INTO `zip_codes` SET zip_code = '2095', city = 'Pilisszántó';
-REPLACE INTO `zip_codes` SET zip_code = '2096', city = 'Üröm';
-REPLACE INTO `zip_codes` SET zip_code = '2097', city = 'Pilisborosjenő';
-REPLACE INTO `zip_codes` SET zip_code = '2098', city = 'Pilisszentkereszt';
-REPLACE INTO `zip_codes` SET zip_code = '2099', city = 'Pilisszentkereszt';
-REPLACE INTO `zip_codes` SET zip_code = '2100', city = 'Gödöllő';
-REPLACE INTO `zip_codes` SET zip_code = '2111', city = 'Szada';
-REPLACE INTO `zip_codes` SET zip_code = '2112', city = 'Veresegyház';
-REPLACE INTO `zip_codes` SET zip_code = '2113', city = 'Erdőkertes';
-REPLACE INTO `zip_codes` SET zip_code = '2114', city = 'Valkó';
-REPLACE INTO `zip_codes` SET zip_code = '2115', city = 'Vácszentlászló';
-REPLACE INTO `zip_codes` SET zip_code = '2116', city = 'Zsámbok';
-REPLACE INTO `zip_codes` SET zip_code = '2117', city = 'Isaszeg';
-REPLACE INTO `zip_codes` SET zip_code = '2118', city = 'Dány';
-REPLACE INTO `zip_codes` SET zip_code = '2119', city = 'Pécel';
-REPLACE INTO `zip_codes` SET zip_code = '2120', city = 'Dunakeszi';
-REPLACE INTO `zip_codes` SET zip_code = '2131', city = 'Göd';
-REPLACE INTO `zip_codes` SET zip_code = '2132', city = 'Göd';
-REPLACE INTO `zip_codes` SET zip_code = '2133', city = 'Sződliget';
-REPLACE INTO `zip_codes` SET zip_code = '2134', city = 'Sződ';
-REPLACE INTO `zip_codes` SET zip_code = '2135', city = 'Csörög';
-REPLACE INTO `zip_codes` SET zip_code = '2141', city = 'Csömör';
-REPLACE INTO `zip_codes` SET zip_code = '2142', city = 'Nagytarcsa';
-REPLACE INTO `zip_codes` SET zip_code = '2143', city = 'Kistarcsa';
-REPLACE INTO `zip_codes` SET zip_code = '2144', city = 'Kerepes ';
-REPLACE INTO `zip_codes` SET zip_code = '2145', city = 'Kerepes ';
-REPLACE INTO `zip_codes` SET zip_code = '2146', city = 'Mogyoród';
-REPLACE INTO `zip_codes` SET zip_code = '2151', city = 'Fót';
-REPLACE INTO `zip_codes` SET zip_code = '2161', city = 'Csomád';
-REPLACE INTO `zip_codes` SET zip_code = '2162', city = 'Őrbottyán';
-REPLACE INTO `zip_codes` SET zip_code = '2163', city = 'Vácrátót';
-REPLACE INTO `zip_codes` SET zip_code = '2164', city = 'Váchartyán';
-REPLACE INTO `zip_codes` SET zip_code = '2165', city = 'Kisnémedi';
-REPLACE INTO `zip_codes` SET zip_code = '2166', city = 'Püspökszilágy';
-REPLACE INTO `zip_codes` SET zip_code = '2167', city = 'Vácduka';
-REPLACE INTO `zip_codes` SET zip_code = '2170', city = 'Aszód';
-REPLACE INTO `zip_codes` SET zip_code = '2173', city = 'Kartal';
-REPLACE INTO `zip_codes` SET zip_code = '2174', city = 'Verseg';
-REPLACE INTO `zip_codes` SET zip_code = '2175', city = 'Kálló';
-REPLACE INTO `zip_codes` SET zip_code = '2176', city = 'Erdőkürt';
-REPLACE INTO `zip_codes` SET zip_code = '2177', city = 'Erdőtarcsa';
-REPLACE INTO `zip_codes` SET zip_code = '2181', city = 'Iklad';
-REPLACE INTO `zip_codes` SET zip_code = '2182', city = 'Domony';
-REPLACE INTO `zip_codes` SET zip_code = '2183', city = 'Galgamácsa';
-REPLACE INTO `zip_codes` SET zip_code = '2184', city = 'Vácegres';
-REPLACE INTO `zip_codes` SET zip_code = '2185', city = 'Váckisújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '2191', city = 'Bag';
-REPLACE INTO `zip_codes` SET zip_code = '2192', city = 'Hévízgyörk';
-REPLACE INTO `zip_codes` SET zip_code = '2193', city = 'Galgahévíz';
-REPLACE INTO `zip_codes` SET zip_code = '2194', city = 'Tura';
-REPLACE INTO `zip_codes` SET zip_code = '2200', city = 'Monor';
-REPLACE INTO `zip_codes` SET zip_code = '2209', city = 'Péteri';
-REPLACE INTO `zip_codes` SET zip_code = '2211', city = 'Vasad';
-REPLACE INTO `zip_codes` SET zip_code = '2212', city = 'Csévharaszt';
-REPLACE INTO `zip_codes` SET zip_code = '2213', city = 'Monorierdő';
-REPLACE INTO `zip_codes` SET zip_code = '2214', city = 'Pánd';
-REPLACE INTO `zip_codes` SET zip_code = '2215', city = 'Káva';
-REPLACE INTO `zip_codes` SET zip_code = '2216', city = 'Bénye';
-REPLACE INTO `zip_codes` SET zip_code = '2217', city = 'Gomba';
-REPLACE INTO `zip_codes` SET zip_code = '2220', city = 'Vecsés';
-REPLACE INTO `zip_codes` SET zip_code = '2225', city = 'Üllő';
-REPLACE INTO `zip_codes` SET zip_code = '2230', city = 'Gyömrő';
-REPLACE INTO `zip_codes` SET zip_code = '2233', city = 'Ecser';
-REPLACE INTO `zip_codes` SET zip_code = '2234', city = 'Maglód';
-REPLACE INTO `zip_codes` SET zip_code = '2235', city = 'Mende';
-REPLACE INTO `zip_codes` SET zip_code = '2241', city = 'Sülysáp  ';
-REPLACE INTO `zip_codes` SET zip_code = '2242', city = 'Sülysáp  ';
-REPLACE INTO `zip_codes` SET zip_code = '2243', city = 'Kóka';
-REPLACE INTO `zip_codes` SET zip_code = '2244', city = 'Úri';
-REPLACE INTO `zip_codes` SET zip_code = '2251', city = 'Tápiószecső';
-REPLACE INTO `zip_codes` SET zip_code = '2252', city = 'Tóalmás';
-REPLACE INTO `zip_codes` SET zip_code = '2253', city = 'Tápióság';
-REPLACE INTO `zip_codes` SET zip_code = '2254', city = 'Szentmártonkáta';
-REPLACE INTO `zip_codes` SET zip_code = '2255', city = 'Szentlőrinckáta';
-REPLACE INTO `zip_codes` SET zip_code = '2300', city = 'Ráckeve';
-REPLACE INTO `zip_codes` SET zip_code = '2309', city = 'Lórév';
-REPLACE INTO `zip_codes` SET zip_code = '2310', city = 'Szigetszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '2314', city = 'Halásztelek';
-REPLACE INTO `zip_codes` SET zip_code = '2315', city = 'Szigethalom';
-REPLACE INTO `zip_codes` SET zip_code = '2316', city = 'Tököl';
-REPLACE INTO `zip_codes` SET zip_code = '2317', city = 'Szigetcsép';
-REPLACE INTO `zip_codes` SET zip_code = '2318', city = 'Szigetszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '2319', city = 'Szigetújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '2321', city = 'Szigetbecse';
-REPLACE INTO `zip_codes` SET zip_code = '2322', city = 'Makád';
-REPLACE INTO `zip_codes` SET zip_code = '2330', city = 'Dunaharaszti';
-REPLACE INTO `zip_codes` SET zip_code = '2335', city = 'Taksony';
-REPLACE INTO `zip_codes` SET zip_code = '2336', city = 'Dunavarsány';
-REPLACE INTO `zip_codes` SET zip_code = '2337', city = 'Délegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '2338', city = 'Áporka';
-REPLACE INTO `zip_codes` SET zip_code = '2339', city = 'Majosháza';
-REPLACE INTO `zip_codes` SET zip_code = '2340', city = 'Kiskunlacháza';
-REPLACE INTO `zip_codes` SET zip_code = '2344', city = 'Dömsöd';
-REPLACE INTO `zip_codes` SET zip_code = '2345', city = 'Apaj';
-REPLACE INTO `zip_codes` SET zip_code = '2347', city = 'Bugyi';
-REPLACE INTO `zip_codes` SET zip_code = '2351', city = 'Alsónémedi';
-REPLACE INTO `zip_codes` SET zip_code = '2360', city = 'Gyál';
-REPLACE INTO `zip_codes` SET zip_code = '2363', city = 'Felsőpakony';
-REPLACE INTO `zip_codes` SET zip_code = '2364', city = 'Ócsa';
-REPLACE INTO `zip_codes` SET zip_code = '2365', city = 'Inárcs';
-REPLACE INTO `zip_codes` SET zip_code = '2366', city = 'Kakucs';
-REPLACE INTO `zip_codes` SET zip_code = '2367', city = 'Újhartyán';
-REPLACE INTO `zip_codes` SET zip_code = '2370', city = 'Dabas';
-REPLACE INTO `zip_codes` SET zip_code = '2371', city = 'Dabas';
-REPLACE INTO `zip_codes` SET zip_code = '2373', city = 'Dabas';
-REPLACE INTO `zip_codes` SET zip_code = '2375', city = 'Tatárszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '2376', city = 'Hernád';
-REPLACE INTO `zip_codes` SET zip_code = '2377', city = 'Örkény';
-REPLACE INTO `zip_codes` SET zip_code = '2378', city = 'Pusztavacs';
-REPLACE INTO `zip_codes` SET zip_code = '2381', city = 'Táborfalva';
-REPLACE INTO `zip_codes` SET zip_code = '2400', city = 'Dunaújváros';
-REPLACE INTO `zip_codes` SET zip_code = '2407', city = 'Dunaújváros';
-REPLACE INTO `zip_codes` SET zip_code = '2421', city = 'Nagyvenyim';
-REPLACE INTO `zip_codes` SET zip_code = '2422', city = 'Mezőfalva';
-REPLACE INTO `zip_codes` SET zip_code = '2423', city = 'Daruszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '2424', city = 'Előszállás';
-REPLACE INTO `zip_codes` SET zip_code = '2425', city = 'Nagykarácsony';
-REPLACE INTO `zip_codes` SET zip_code = '2426', city = 'Baracs ';
-REPLACE INTO `zip_codes` SET zip_code = '2427', city = 'Baracs ';
-REPLACE INTO `zip_codes` SET zip_code = '2428', city = 'Kisapostag';
-REPLACE INTO `zip_codes` SET zip_code = '2431', city = 'Perkáta';
-REPLACE INTO `zip_codes` SET zip_code = '2432', city = 'Szabadegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '2433', city = 'Sárosd';
-REPLACE INTO `zip_codes` SET zip_code = '2434', city = 'Hantos';
-REPLACE INTO `zip_codes` SET zip_code = '2435', city = 'Nagylók';
-REPLACE INTO `zip_codes` SET zip_code = '2440', city = 'Százhalombatta';
-REPLACE INTO `zip_codes` SET zip_code = '2451', city = 'Ercsi ';
-REPLACE INTO `zip_codes` SET zip_code = '2453', city = 'Ercsi ';
-REPLACE INTO `zip_codes` SET zip_code = '2454', city = 'Iváncsa';
-REPLACE INTO `zip_codes` SET zip_code = '2455', city = 'Beloiannisz';
-REPLACE INTO `zip_codes` SET zip_code = '2456', city = 'Besnyő';
-REPLACE INTO `zip_codes` SET zip_code = '2457', city = 'Adony';
-REPLACE INTO `zip_codes` SET zip_code = '2458', city = 'Kulcs';
-REPLACE INTO `zip_codes` SET zip_code = '2459', city = 'Rácalmás';
-REPLACE INTO `zip_codes` SET zip_code = '2461', city = 'Tárnok';
-REPLACE INTO `zip_codes` SET zip_code = '2462', city = 'Martonvásár';
-REPLACE INTO `zip_codes` SET zip_code = '2463', city = 'Tordas';
-REPLACE INTO `zip_codes` SET zip_code = '2464', city = 'Gyúró';
-REPLACE INTO `zip_codes` SET zip_code = '2465', city = 'Ráckeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '2471', city = 'Baracska';
-REPLACE INTO `zip_codes` SET zip_code = '2472', city = 'Kajászó';
-REPLACE INTO `zip_codes` SET zip_code = '2473', city = 'Vál';
-REPLACE INTO `zip_codes` SET zip_code = '2475', city = 'Kápolnásnyék';
-REPLACE INTO `zip_codes` SET zip_code = '2476', city = 'Pázmánd';
-REPLACE INTO `zip_codes` SET zip_code = '2477', city = 'Vereb';
-REPLACE INTO `zip_codes` SET zip_code = '2481', city = 'Velence ';
-REPLACE INTO `zip_codes` SET zip_code = '2483', city = 'Gárdony ';
-REPLACE INTO `zip_codes` SET zip_code = '2484', city = 'Gárdony ';
-REPLACE INTO `zip_codes` SET zip_code = '2485', city = 'Gárdony ';
-REPLACE INTO `zip_codes` SET zip_code = '2490', city = 'Pusztaszabolcs';
-REPLACE INTO `zip_codes` SET zip_code = '2500', city = 'Esztergom';
-REPLACE INTO `zip_codes` SET zip_code = '2508', city = 'Esztergom';
-REPLACE INTO `zip_codes` SET zip_code = '2509', city = 'Esztergom';
-REPLACE INTO `zip_codes` SET zip_code = '2510', city = 'Dorog';
-REPLACE INTO `zip_codes` SET zip_code = '2517', city = 'Kesztölc';
-REPLACE INTO `zip_codes` SET zip_code = '2518', city = 'Leányvár';
-REPLACE INTO `zip_codes` SET zip_code = '2519', city = 'Piliscsév';
-REPLACE INTO `zip_codes` SET zip_code = '2521', city = 'Csolnok';
-REPLACE INTO `zip_codes` SET zip_code = '2522', city = 'Dág';
-REPLACE INTO `zip_codes` SET zip_code = '2523', city = 'Sárisáp';
-REPLACE INTO `zip_codes` SET zip_code = '2524', city = 'Nagysáp';
-REPLACE INTO `zip_codes` SET zip_code = '2525', city = 'Bajna';
-REPLACE INTO `zip_codes` SET zip_code = '2526', city = 'Epöl';
-REPLACE INTO `zip_codes` SET zip_code = '2527', city = 'Máriahalom';
-REPLACE INTO `zip_codes` SET zip_code = '2528', city = 'Úny';
-REPLACE INTO `zip_codes` SET zip_code = '2529', city = 'Annavölgy';
-REPLACE INTO `zip_codes` SET zip_code = '2531', city = 'Tokod ';
-REPLACE INTO `zip_codes` SET zip_code = '2532', city = 'Tokodaltáró';
-REPLACE INTO `zip_codes` SET zip_code = '2533', city = 'Bajót';
-REPLACE INTO `zip_codes` SET zip_code = '2534', city = 'Tát';
-REPLACE INTO `zip_codes` SET zip_code = '2535', city = 'Mogyorósbánya';
-REPLACE INTO `zip_codes` SET zip_code = '2536', city = 'Nyergesújfalu ';
-REPLACE INTO `zip_codes` SET zip_code = '2541', city = 'Lábatlan ';
-REPLACE INTO `zip_codes` SET zip_code = '2543', city = 'Süttő';
-REPLACE INTO `zip_codes` SET zip_code = '2544', city = 'Neszmély';
-REPLACE INTO `zip_codes` SET zip_code = '2545', city = 'Dunaalmás';
-REPLACE INTO `zip_codes` SET zip_code = '2600', city = 'Vác';
-REPLACE INTO `zip_codes` SET zip_code = '2610', city = 'Nőtincs';
-REPLACE INTO `zip_codes` SET zip_code = '2610', city = 'Ősagárd';
-REPLACE INTO `zip_codes` SET zip_code = '2611', city = 'Felsőpetény';
-REPLACE INTO `zip_codes` SET zip_code = '2612', city = 'Kosd';
-REPLACE INTO `zip_codes` SET zip_code = '2613', city = 'Rád';
-REPLACE INTO `zip_codes` SET zip_code = '2614', city = 'Penc';
-REPLACE INTO `zip_codes` SET zip_code = '2615', city = 'Csővár';
-REPLACE INTO `zip_codes` SET zip_code = '2616', city = 'Keszeg';
-REPLACE INTO `zip_codes` SET zip_code = '2617', city = 'Alsópetény';
-REPLACE INTO `zip_codes` SET zip_code = '2618', city = 'Nézsa';
-REPLACE INTO `zip_codes` SET zip_code = '2619', city = 'Legénd';
-REPLACE INTO `zip_codes` SET zip_code = '2621', city = 'Verőce';
-REPLACE INTO `zip_codes` SET zip_code = '2623', city = 'Kismaros';
-REPLACE INTO `zip_codes` SET zip_code = '2624', city = 'Szokolya';
-REPLACE INTO `zip_codes` SET zip_code = '2625', city = 'Kóspallag';
-REPLACE INTO `zip_codes` SET zip_code = '2626', city = 'Nagymaros';
-REPLACE INTO `zip_codes` SET zip_code = '2627', city = 'Zebegény';
-REPLACE INTO `zip_codes` SET zip_code = '2628', city = 'Szob';
-REPLACE INTO `zip_codes` SET zip_code = '2629', city = 'Márianosztra';
-REPLACE INTO `zip_codes` SET zip_code = '2631', city = 'Ipolydamásd';
-REPLACE INTO `zip_codes` SET zip_code = '2632', city = 'Letkés';
-REPLACE INTO `zip_codes` SET zip_code = '2633', city = 'Ipolytölgyes';
-REPLACE INTO `zip_codes` SET zip_code = '2634', city = 'Nagybörzsöny';
-REPLACE INTO `zip_codes` SET zip_code = '2635', city = 'Vámosmikola';
-REPLACE INTO `zip_codes` SET zip_code = '2636', city = 'Tésa';
-REPLACE INTO `zip_codes` SET zip_code = '2637', city = 'Perőcsény';
-REPLACE INTO `zip_codes` SET zip_code = '2638', city = 'Kemence';
-REPLACE INTO `zip_codes` SET zip_code = '2639', city = 'Bernecebaráti';
-REPLACE INTO `zip_codes` SET zip_code = '2640', city = 'Szendehely';
-REPLACE INTO `zip_codes` SET zip_code = '2641', city = 'Berkenye';
-REPLACE INTO `zip_codes` SET zip_code = '2642', city = 'Nógrád';
-REPLACE INTO `zip_codes` SET zip_code = '2643', city = 'Diósjenő';
-REPLACE INTO `zip_codes` SET zip_code = '2644', city = 'Borsosberény';
-REPLACE INTO `zip_codes` SET zip_code = '2645', city = 'Nagyoroszi';
-REPLACE INTO `zip_codes` SET zip_code = '2646', city = 'Drégelypalánk';
-REPLACE INTO `zip_codes` SET zip_code = '2647', city = 'Hont';
-REPLACE INTO `zip_codes` SET zip_code = '2648', city = 'Patak';
-REPLACE INTO `zip_codes` SET zip_code = '2649', city = 'Dejtár';
-REPLACE INTO `zip_codes` SET zip_code = '2651', city = 'Rétság';
-REPLACE INTO `zip_codes` SET zip_code = '2652', city = 'Tereske';
-REPLACE INTO `zip_codes` SET zip_code = '2653', city = 'Bánk';
-REPLACE INTO `zip_codes` SET zip_code = '2654', city = 'Romhány';
-REPLACE INTO `zip_codes` SET zip_code = '2655', city = 'Kétbodony';
-REPLACE INTO `zip_codes` SET zip_code = '2655', city = 'Kisecset';
-REPLACE INTO `zip_codes` SET zip_code = '2655', city = 'Szente';
-REPLACE INTO `zip_codes` SET zip_code = '2656', city = 'Szátok';
-REPLACE INTO `zip_codes` SET zip_code = '2657', city = 'Tolmács';
-REPLACE INTO `zip_codes` SET zip_code = '2658', city = 'Horpács';
-REPLACE INTO `zip_codes` SET zip_code = '2658', city = 'Pusztaberki';
-REPLACE INTO `zip_codes` SET zip_code = '2659', city = 'Érsekvadkert';
-REPLACE INTO `zip_codes` SET zip_code = '2660', city = 'Balassagyarmat';
-REPLACE INTO `zip_codes` SET zip_code = '2660', city = 'Ipolyszög';
-REPLACE INTO `zip_codes` SET zip_code = '2668', city = 'Patvarc';
-REPLACE INTO `zip_codes` SET zip_code = '2669', city = 'Ipolyvece';
-REPLACE INTO `zip_codes` SET zip_code = '2671', city = 'Őrhalom';
-REPLACE INTO `zip_codes` SET zip_code = '2672', city = 'Hugyag';
-REPLACE INTO `zip_codes` SET zip_code = '2673', city = 'Csitár';
-REPLACE INTO `zip_codes` SET zip_code = '2674', city = 'Iliny';
-REPLACE INTO `zip_codes` SET zip_code = '2675', city = 'Nógrádmarcal';
-REPLACE INTO `zip_codes` SET zip_code = '2676', city = 'Cserhátsurány';
-REPLACE INTO `zip_codes` SET zip_code = '2677', city = 'Herencsény';
-REPLACE INTO `zip_codes` SET zip_code = '2678', city = 'Csesztve';
-REPLACE INTO `zip_codes` SET zip_code = '2681', city = 'Galgagyörk';
-REPLACE INTO `zip_codes` SET zip_code = '2682', city = 'Püspökhatvan';
-REPLACE INTO `zip_codes` SET zip_code = '2683', city = 'Acsa';
-REPLACE INTO `zip_codes` SET zip_code = '2685', city = 'Nógrádsáp';
-REPLACE INTO `zip_codes` SET zip_code = '2686', city = 'Galgaguta';
-REPLACE INTO `zip_codes` SET zip_code = '2687', city = 'Bercel';
-REPLACE INTO `zip_codes` SET zip_code = '2688', city = 'Vanyarc';
-REPLACE INTO `zip_codes` SET zip_code = '2691', city = 'Nógrádkövesd';
-REPLACE INTO `zip_codes` SET zip_code = '2692', city = 'Szécsénke';
-REPLACE INTO `zip_codes` SET zip_code = '2693', city = 'Becske';
-REPLACE INTO `zip_codes` SET zip_code = '2694', city = 'Magyarnándor';
-REPLACE INTO `zip_codes` SET zip_code = '2694', city = 'Cserháthaláp';
-REPLACE INTO `zip_codes` SET zip_code = '2694', city = 'Debercsény';
-REPLACE INTO `zip_codes` SET zip_code = '2696', city = 'Terény';
-REPLACE INTO `zip_codes` SET zip_code = '2697', city = 'Szanda';
-REPLACE INTO `zip_codes` SET zip_code = '2698', city = 'Mohora';
-REPLACE INTO `zip_codes` SET zip_code = '2699', city = 'Szügy';
-REPLACE INTO `zip_codes` SET zip_code = '2700', city = 'Cegléd';
-REPLACE INTO `zip_codes` SET zip_code = '2711', city = 'Tápiószentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '2712', city = 'Nyársapát';
-REPLACE INTO `zip_codes` SET zip_code = '2713', city = 'Csemő';
-REPLACE INTO `zip_codes` SET zip_code = '2721', city = 'Pilis';
-REPLACE INTO `zip_codes` SET zip_code = '2723', city = 'Nyáregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '2724', city = 'Újlengyel';
-REPLACE INTO `zip_codes` SET zip_code = '2730', city = 'Albertirsa';
-REPLACE INTO `zip_codes` SET zip_code = '2735', city = 'Dánszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '2736', city = 'Mikebuda';
-REPLACE INTO `zip_codes` SET zip_code = '2737', city = 'Ceglédbercel';
-REPLACE INTO `zip_codes` SET zip_code = '2738', city = 'Cegléd';
-REPLACE INTO `zip_codes` SET zip_code = '2740', city = 'Abony';
-REPLACE INTO `zip_codes` SET zip_code = '2745', city = 'Kőröstetétlen';
-REPLACE INTO `zip_codes` SET zip_code = '2746', city = 'Jászkarajenő';
-REPLACE INTO `zip_codes` SET zip_code = '2747', city = 'Törtel';
-REPLACE INTO `zip_codes` SET zip_code = '2750', city = 'Nagykőrös';
-REPLACE INTO `zip_codes` SET zip_code = '2755', city = 'Kocsér';
-REPLACE INTO `zip_codes` SET zip_code = '2760', city = 'Nagykáta';
-REPLACE INTO `zip_codes` SET zip_code = '2764', city = 'Tápióbicske';
-REPLACE INTO `zip_codes` SET zip_code = '2765', city = 'Farmos';
-REPLACE INTO `zip_codes` SET zip_code = '2766', city = 'Tápiószele';
-REPLACE INTO `zip_codes` SET zip_code = '2767', city = 'Tápiógyörgye';
-REPLACE INTO `zip_codes` SET zip_code = '2768', city = 'Újszilvás';
-REPLACE INTO `zip_codes` SET zip_code = '2769', city = 'Tápiószőlős';
-REPLACE INTO `zip_codes` SET zip_code = '2800', city = 'Tatabánya';
-REPLACE INTO `zip_codes` SET zip_code = '2821', city = 'Gyermely';
-REPLACE INTO `zip_codes` SET zip_code = '2822', city = 'Szomor';
-REPLACE INTO `zip_codes` SET zip_code = '2823', city = 'Vértessomló';
-REPLACE INTO `zip_codes` SET zip_code = '2824', city = 'Várgesztes';
-REPLACE INTO `zip_codes` SET zip_code = '2831', city = 'Tarján';
-REPLACE INTO `zip_codes` SET zip_code = '2832', city = 'Héreg';
-REPLACE INTO `zip_codes` SET zip_code = '2833', city = 'Vértestolna';
-REPLACE INTO `zip_codes` SET zip_code = '2834', city = 'Tardos';
-REPLACE INTO `zip_codes` SET zip_code = '2835', city = 'Tata';
-REPLACE INTO `zip_codes` SET zip_code = '2836', city = 'Baj';
-REPLACE INTO `zip_codes` SET zip_code = '2837', city = 'Vértesszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '2840', city = 'Oroszlány';
-REPLACE INTO `zip_codes` SET zip_code = '2851', city = 'Környe';
-REPLACE INTO `zip_codes` SET zip_code = '2852', city = 'Kecskéd';
-REPLACE INTO `zip_codes` SET zip_code = '2853', city = 'Kömlőd';
-REPLACE INTO `zip_codes` SET zip_code = '2854', city = 'Dad';
-REPLACE INTO `zip_codes` SET zip_code = '2855', city = 'Bokod';
-REPLACE INTO `zip_codes` SET zip_code = '2856', city = 'Szákszend';
-REPLACE INTO `zip_codes` SET zip_code = '2858', city = 'Császár';
-REPLACE INTO `zip_codes` SET zip_code = '2859', city = 'Vérteskethely';
-REPLACE INTO `zip_codes` SET zip_code = '2861', city = 'Bakonysárkány';
-REPLACE INTO `zip_codes` SET zip_code = '2862', city = 'Aka';
-REPLACE INTO `zip_codes` SET zip_code = '2870', city = 'Kisbér';
-REPLACE INTO `zip_codes` SET zip_code = '2879', city = 'Kisbér';
-REPLACE INTO `zip_codes` SET zip_code = '2881', city = 'Ászár';
-REPLACE INTO `zip_codes` SET zip_code = '2882', city = 'Kerékteleki';
-REPLACE INTO `zip_codes` SET zip_code = '2883', city = 'Bársonyos';
-REPLACE INTO `zip_codes` SET zip_code = '2884', city = 'Bakonyszombathely';
-REPLACE INTO `zip_codes` SET zip_code = '2885', city = 'Bakonybánk';
-REPLACE INTO `zip_codes` SET zip_code = '2886', city = 'Réde';
-REPLACE INTO `zip_codes` SET zip_code = '2887', city = 'Ácsteszér';
-REPLACE INTO `zip_codes` SET zip_code = '2888', city = 'Csatka';
-REPLACE INTO `zip_codes` SET zip_code = '2889', city = 'Súr';
-REPLACE INTO `zip_codes` SET zip_code = '2890', city = 'Tata';
-REPLACE INTO `zip_codes` SET zip_code = '2896', city = 'Szomód';
-REPLACE INTO `zip_codes` SET zip_code = '2897', city = 'Dunaszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '2898', city = 'Kocs';
-REPLACE INTO `zip_codes` SET zip_code = '2899', city = 'Naszály';
-REPLACE INTO `zip_codes` SET zip_code = '2900', city = 'Komárom';
-REPLACE INTO `zip_codes` SET zip_code = '2903', city = 'Komárom';
-REPLACE INTO `zip_codes` SET zip_code = '2911', city = 'Mocsa';
-REPLACE INTO `zip_codes` SET zip_code = '2921', city = 'Komárom';
-REPLACE INTO `zip_codes` SET zip_code = '2931', city = 'Almásfüzitő ';
-REPLACE INTO `zip_codes` SET zip_code = '2941', city = 'Ács';
-REPLACE INTO `zip_codes` SET zip_code = '2942', city = 'Nagyigmánd';
-REPLACE INTO `zip_codes` SET zip_code = '2943', city = 'Bábolna';
-REPLACE INTO `zip_codes` SET zip_code = '2943', city = 'Tárkány';
-REPLACE INTO `zip_codes` SET zip_code = '2944', city = 'Bana';
-REPLACE INTO `zip_codes` SET zip_code = '2945', city = 'Tárkány';
-REPLACE INTO `zip_codes` SET zip_code = '2946', city = 'Csép';
-REPLACE INTO `zip_codes` SET zip_code = '2947', city = 'Ete';
-REPLACE INTO `zip_codes` SET zip_code = '2948', city = 'Kisigmánd';
-REPLACE INTO `zip_codes` SET zip_code = '2949', city = 'Csém';
-REPLACE INTO `zip_codes` SET zip_code = '3000', city = 'Hatvan';
-REPLACE INTO `zip_codes` SET zip_code = '3009', city = 'Kerekharaszt';
-REPLACE INTO `zip_codes` SET zip_code = '3011', city = 'Heréd';
-REPLACE INTO `zip_codes` SET zip_code = '3012', city = 'Nagykökényes';
-REPLACE INTO `zip_codes` SET zip_code = '3013', city = 'Ecséd';
-REPLACE INTO `zip_codes` SET zip_code = '3014', city = 'Hort';
-REPLACE INTO `zip_codes` SET zip_code = '3015', city = 'Csány';
-REPLACE INTO `zip_codes` SET zip_code = '3016', city = 'Boldog';
-REPLACE INTO `zip_codes` SET zip_code = '3021', city = 'Lőrinci ';
-REPLACE INTO `zip_codes` SET zip_code = '3022', city = 'Lőrinci ';
-REPLACE INTO `zip_codes` SET zip_code = '3023', city = 'Petőfibánya';
-REPLACE INTO `zip_codes` SET zip_code = '3024', city = 'Lőrinci ';
-REPLACE INTO `zip_codes` SET zip_code = '3031', city = 'Zagyvaszántó';
-REPLACE INTO `zip_codes` SET zip_code = '3032', city = 'Apc';
-REPLACE INTO `zip_codes` SET zip_code = '3033', city = 'Rózsaszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '3034', city = 'Szűcsi';
-REPLACE INTO `zip_codes` SET zip_code = '3035', city = 'Gyöngyöspata';
-REPLACE INTO `zip_codes` SET zip_code = '3036', city = 'Gyöngyöstarján';
-REPLACE INTO `zip_codes` SET zip_code = '3041', city = 'Héhalom';
-REPLACE INTO `zip_codes` SET zip_code = '3042', city = 'Palotás';
-REPLACE INTO `zip_codes` SET zip_code = '3043', city = 'Egyházasdengeleg';
-REPLACE INTO `zip_codes` SET zip_code = '3044', city = 'Szirák';
-REPLACE INTO `zip_codes` SET zip_code = '3045', city = 'Bér';
-REPLACE INTO `zip_codes` SET zip_code = '3046', city = 'Kisbágyon';
-REPLACE INTO `zip_codes` SET zip_code = '3047', city = 'Buják';
-REPLACE INTO `zip_codes` SET zip_code = '3051', city = 'Szarvasgede';
-REPLACE INTO `zip_codes` SET zip_code = '3052', city = 'Csécse';
-REPLACE INTO `zip_codes` SET zip_code = '3053', city = 'Ecseg';
-REPLACE INTO `zip_codes` SET zip_code = '3053', city = 'Kozárd';
-REPLACE INTO `zip_codes` SET zip_code = '3060', city = 'Pásztó';
-REPLACE INTO `zip_codes` SET zip_code = '3063', city = 'Jobbágyi';
-REPLACE INTO `zip_codes` SET zip_code = '3064', city = 'Szurdokpüspöki';
-REPLACE INTO `zip_codes` SET zip_code = '3065', city = 'Pásztó';
-REPLACE INTO `zip_codes` SET zip_code = '3066', city = 'Cserhátszentiván';
-REPLACE INTO `zip_codes` SET zip_code = '3066', city = 'Bokor';
-REPLACE INTO `zip_codes` SET zip_code = '3066', city = 'Kutasó';
-REPLACE INTO `zip_codes` SET zip_code = '3067', city = 'Felsőtold';
-REPLACE INTO `zip_codes` SET zip_code = '3067', city = 'Garáb';
-REPLACE INTO `zip_codes` SET zip_code = '3068', city = 'Mátraszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '3069', city = 'Alsótold';
-REPLACE INTO `zip_codes` SET zip_code = '3070', city = 'Bátonyterenye';
-REPLACE INTO `zip_codes` SET zip_code = '3073', city = 'Tar';
-REPLACE INTO `zip_codes` SET zip_code = '3074', city = 'Sámsonháza';
-REPLACE INTO `zip_codes` SET zip_code = '3075', city = 'Nagybárkány';
-REPLACE INTO `zip_codes` SET zip_code = '3075', city = 'Kisbárkány';
-REPLACE INTO `zip_codes` SET zip_code = '3075', city = 'Márkháza';
-REPLACE INTO `zip_codes` SET zip_code = '3077', city = 'Mátraverebély';
-REPLACE INTO `zip_codes` SET zip_code = '3078', city = 'Bátonyterenye';
-REPLACE INTO `zip_codes` SET zip_code = '3082', city = 'Pásztó';
-REPLACE INTO `zip_codes` SET zip_code = '3100', city = 'Salgótarján';
-REPLACE INTO `zip_codes` SET zip_code = '3102', city = 'Salgótarján';
-REPLACE INTO `zip_codes` SET zip_code = '3104', city = 'Salgótarján';
-REPLACE INTO `zip_codes` SET zip_code = '3109', city = 'Salgótarján';
-REPLACE INTO `zip_codes` SET zip_code = '3121', city = 'Somoskőújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '3123', city = 'Cered';
-REPLACE INTO `zip_codes` SET zip_code = '3124', city = 'Zabar';
-REPLACE INTO `zip_codes` SET zip_code = '3125', city = 'Szilaspogony';
-REPLACE INTO `zip_codes` SET zip_code = '3126', city = 'Bárna';
-REPLACE INTO `zip_codes` SET zip_code = '3127', city = 'Kazár';
-REPLACE INTO `zip_codes` SET zip_code = '3128', city = 'Vizslás';
-REPLACE INTO `zip_codes` SET zip_code = '3129', city = 'Lucfalva';
-REPLACE INTO `zip_codes` SET zip_code = '3129', city = 'Nagykeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '3131', city = 'Sóshartyán';
-REPLACE INTO `zip_codes` SET zip_code = '3132', city = 'Nógrádmegyer';
-REPLACE INTO `zip_codes` SET zip_code = '3133', city = 'Magyargéc';
-REPLACE INTO `zip_codes` SET zip_code = '3134', city = 'Piliny';
-REPLACE INTO `zip_codes` SET zip_code = '3135', city = 'Szécsényfelfalu';
-REPLACE INTO `zip_codes` SET zip_code = '3136', city = 'Etes';
-REPLACE INTO `zip_codes` SET zip_code = '3137', city = 'Karancsberény';
-REPLACE INTO `zip_codes` SET zip_code = '3138', city = 'Ipolytarnóc';
-REPLACE INTO `zip_codes` SET zip_code = '3141', city = 'Salgótarján';
-REPLACE INTO `zip_codes` SET zip_code = '3142', city = 'Mátraszele';
-REPLACE INTO `zip_codes` SET zip_code = '3143', city = 'Mátranovák';
-REPLACE INTO `zip_codes` SET zip_code = '3144', city = 'Mátranovák';
-REPLACE INTO `zip_codes` SET zip_code = '3145', city = 'Mátraterenye';
-REPLACE INTO `zip_codes` SET zip_code = '3146', city = 'Mátraterenye';
-REPLACE INTO `zip_codes` SET zip_code = '3147', city = 'Kazár';
-REPLACE INTO `zip_codes` SET zip_code = '3151', city = 'Rákóczibánya';
-REPLACE INTO `zip_codes` SET zip_code = '3152', city = 'Nemti';
-REPLACE INTO `zip_codes` SET zip_code = '3153', city = 'Dorogháza';
-REPLACE INTO `zip_codes` SET zip_code = '3154', city = 'Szuha';
-REPLACE INTO `zip_codes` SET zip_code = '3155', city = 'Mátramindszent';
-REPLACE INTO `zip_codes` SET zip_code = '3161', city = 'Kishartyán';
-REPLACE INTO `zip_codes` SET zip_code = '3162', city = 'Ságújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '3163', city = 'Karancsság';
-REPLACE INTO `zip_codes` SET zip_code = '3163', city = 'Szalmatercs';
-REPLACE INTO `zip_codes` SET zip_code = '3165', city = 'Endrefalva';
-REPLACE INTO `zip_codes` SET zip_code = '3170', city = 'Szécsény';
-REPLACE INTO `zip_codes` SET zip_code = '3175', city = 'Nagylóc';
-REPLACE INTO `zip_codes` SET zip_code = '3176', city = 'Hollókő';
-REPLACE INTO `zip_codes` SET zip_code = '3177', city = 'Rimóc';
-REPLACE INTO `zip_codes` SET zip_code = '3178', city = 'Varsány';
-REPLACE INTO `zip_codes` SET zip_code = '3179', city = 'Nógrádsipek';
-REPLACE INTO `zip_codes` SET zip_code = '3181', city = 'Karancsalja';
-REPLACE INTO `zip_codes` SET zip_code = '3182', city = 'Karancslapujtő';
-REPLACE INTO `zip_codes` SET zip_code = '3183', city = 'Karancskeszi';
-REPLACE INTO `zip_codes` SET zip_code = '3184', city = 'Mihálygerge';
-REPLACE INTO `zip_codes` SET zip_code = '3185', city = 'Egyházasgerge';
-REPLACE INTO `zip_codes` SET zip_code = '3186', city = 'Litke';
-REPLACE INTO `zip_codes` SET zip_code = '3187', city = 'Nógrádszakál';
-REPLACE INTO `zip_codes` SET zip_code = '3188', city = 'Ludányhalászi';
-REPLACE INTO `zip_codes` SET zip_code = '3200', city = 'Gyöngyös';
-REPLACE INTO `zip_codes` SET zip_code = '3211', city = 'Gyöngyösoroszi';
-REPLACE INTO `zip_codes` SET zip_code = '3212', city = 'Gyöngyöshalász';
-REPLACE INTO `zip_codes` SET zip_code = '3213', city = 'Atkár';
-REPLACE INTO `zip_codes` SET zip_code = '3214', city = 'Nagyréde';
-REPLACE INTO `zip_codes` SET zip_code = '3221', city = 'Gyöngyös';
-REPLACE INTO `zip_codes` SET zip_code = '3231', city = 'Gyöngyössolymos';
-REPLACE INTO `zip_codes` SET zip_code = '3232', city = 'Gyöngyös';
-REPLACE INTO `zip_codes` SET zip_code = '3233', city = 'Gyöngyös';
-REPLACE INTO `zip_codes` SET zip_code = '3234', city = 'Mátraszentimre';
-REPLACE INTO `zip_codes` SET zip_code = '3235', city = 'Mátraszentimre';
-REPLACE INTO `zip_codes` SET zip_code = '3240', city = 'Parád';
-REPLACE INTO `zip_codes` SET zip_code = '3242', city = 'Parádsasvár';
-REPLACE INTO `zip_codes` SET zip_code = '3243', city = 'Bodony';
-REPLACE INTO `zip_codes` SET zip_code = '3244', city = 'Parád';
-REPLACE INTO `zip_codes` SET zip_code = '3245', city = 'Recsk';
-REPLACE INTO `zip_codes` SET zip_code = '3246', city = 'Mátraderecske';
-REPLACE INTO `zip_codes` SET zip_code = '3247', city = 'Mátraballa';
-REPLACE INTO `zip_codes` SET zip_code = '3248', city = 'Ivád';
-REPLACE INTO `zip_codes` SET zip_code = '3250', city = 'Pétervására';
-REPLACE INTO `zip_codes` SET zip_code = '3252', city = 'Erdőkövesd';
-REPLACE INTO `zip_codes` SET zip_code = '3253', city = 'Istenmezeje';
-REPLACE INTO `zip_codes` SET zip_code = '3254', city = 'Váraszó';
-REPLACE INTO `zip_codes` SET zip_code = '3255', city = 'Fedémes';
-REPLACE INTO `zip_codes` SET zip_code = '3256', city = 'Kisfüzes';
-REPLACE INTO `zip_codes` SET zip_code = '3257', city = 'Bükkszenterzsébet';
-REPLACE INTO `zip_codes` SET zip_code = '3258', city = 'Tarnalelesz';
-REPLACE INTO `zip_codes` SET zip_code = '3259', city = 'Szentdomonkos';
-REPLACE INTO `zip_codes` SET zip_code = '3261', city = 'Abasár';
-REPLACE INTO `zip_codes` SET zip_code = '3261', city = 'Pálosvörösmart';
-REPLACE INTO `zip_codes` SET zip_code = '3262', city = 'Markaz';
-REPLACE INTO `zip_codes` SET zip_code = '3263', city = 'Domoszló';
-REPLACE INTO `zip_codes` SET zip_code = '3264', city = 'Kisnána';
-REPLACE INTO `zip_codes` SET zip_code = '3265', city = 'Vécs';
-REPLACE INTO `zip_codes` SET zip_code = '3271', city = 'Visonta ';
-REPLACE INTO `zip_codes` SET zip_code = '3272', city = 'Visonta ';
-REPLACE INTO `zip_codes` SET zip_code = '3273', city = 'Halmajugra';
-REPLACE INTO `zip_codes` SET zip_code = '3274', city = 'Ludas';
-REPLACE INTO `zip_codes` SET zip_code = '3275', city = 'Detk';
-REPLACE INTO `zip_codes` SET zip_code = '3281', city = 'Karácsond';
-REPLACE INTO `zip_codes` SET zip_code = '3282', city = 'Nagyfüged';
-REPLACE INTO `zip_codes` SET zip_code = '3283', city = 'Tarnazsadány';
-REPLACE INTO `zip_codes` SET zip_code = '3284', city = 'Tarnaméra';
-REPLACE INTO `zip_codes` SET zip_code = '3291', city = 'Vámosgyörk';
-REPLACE INTO `zip_codes` SET zip_code = '3292', city = 'Adács';
-REPLACE INTO `zip_codes` SET zip_code = '3293', city = 'Visznek';
-REPLACE INTO `zip_codes` SET zip_code = '3294', city = 'Tarnaörs';
-REPLACE INTO `zip_codes` SET zip_code = '3295', city = 'Erk';
-REPLACE INTO `zip_codes` SET zip_code = '3296', city = 'Zaránk';
-REPLACE INTO `zip_codes` SET zip_code = '3300', city = 'Eger';
-REPLACE INTO `zip_codes` SET zip_code = '3321', city = 'Egerbakta';
-REPLACE INTO `zip_codes` SET zip_code = '3322', city = 'Hevesaranyos';
-REPLACE INTO `zip_codes` SET zip_code = '3323', city = 'Szarvaskő';
-REPLACE INTO `zip_codes` SET zip_code = '3324', city = 'Felsőtárkány';
-REPLACE INTO `zip_codes` SET zip_code = '3325', city = 'Noszvaj';
-REPLACE INTO `zip_codes` SET zip_code = '3326', city = 'Ostoros';
-REPLACE INTO `zip_codes` SET zip_code = '3327', city = 'Novaj';
-REPLACE INTO `zip_codes` SET zip_code = '3328', city = 'Egerszólát';
-REPLACE INTO `zip_codes` SET zip_code = '3331', city = 'Tarnaszentmária';
-REPLACE INTO `zip_codes` SET zip_code = '3332', city = 'Sirok';
-REPLACE INTO `zip_codes` SET zip_code = '3333', city = 'Terpes';
-REPLACE INTO `zip_codes` SET zip_code = '3334', city = 'Szajla';
-REPLACE INTO `zip_codes` SET zip_code = '3335', city = 'Bükkszék';
-REPLACE INTO `zip_codes` SET zip_code = '3336', city = 'Bátor';
-REPLACE INTO `zip_codes` SET zip_code = '3337', city = 'Egerbocs';
-REPLACE INTO `zip_codes` SET zip_code = '3341', city = 'Egercsehi';
-REPLACE INTO `zip_codes` SET zip_code = '3341', city = 'Szúcs';
-REPLACE INTO `zip_codes` SET zip_code = '3343', city = 'Bekölce';
-REPLACE INTO `zip_codes` SET zip_code = '3344', city = 'Mikófalva';
-REPLACE INTO `zip_codes` SET zip_code = '3345', city = 'Mónosbél';
-REPLACE INTO `zip_codes` SET zip_code = '3346', city = 'Bélapátfalva';
-REPLACE INTO `zip_codes` SET zip_code = '3346', city = 'Bükkszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '3347', city = 'Balaton';
-REPLACE INTO `zip_codes` SET zip_code = '3348', city = 'Szilvásvárad';
-REPLACE INTO `zip_codes` SET zip_code = '3349', city = 'Nagyvisnyó';
-REPLACE INTO `zip_codes` SET zip_code = '3350', city = 'Kál';
-REPLACE INTO `zip_codes` SET zip_code = '3351', city = 'Verpelét';
-REPLACE INTO `zip_codes` SET zip_code = '3352', city = 'Feldebrő';
-REPLACE INTO `zip_codes` SET zip_code = '3353', city = 'Aldebrő';
-REPLACE INTO `zip_codes` SET zip_code = '3354', city = 'Tófalu';
-REPLACE INTO `zip_codes` SET zip_code = '3355', city = 'Kápolna';
-REPLACE INTO `zip_codes` SET zip_code = '3356', city = 'Kompolt';
-REPLACE INTO `zip_codes` SET zip_code = '3357', city = 'Nagyút';
-REPLACE INTO `zip_codes` SET zip_code = '3358', city = 'Erdőtelek';
-REPLACE INTO `zip_codes` SET zip_code = '3359', city = 'Tenk';
-REPLACE INTO `zip_codes` SET zip_code = '3360', city = 'Heves';
-REPLACE INTO `zip_codes` SET zip_code = '3368', city = 'Boconád';
-REPLACE INTO `zip_codes` SET zip_code = '3369', city = 'Tarnabod';
-REPLACE INTO `zip_codes` SET zip_code = '3371', city = 'Átány';
-REPLACE INTO `zip_codes` SET zip_code = '3372', city = 'Kömlő';
-REPLACE INTO `zip_codes` SET zip_code = '3373', city = 'Besenyőtelek';
-REPLACE INTO `zip_codes` SET zip_code = '3374', city = 'Dormánd';
-REPLACE INTO `zip_codes` SET zip_code = '3375', city = 'Mezőtárkány';
-REPLACE INTO `zip_codes` SET zip_code = '3377', city = 'Szihalom';
-REPLACE INTO `zip_codes` SET zip_code = '3378', city = 'Mezőszemere';
-REPLACE INTO `zip_codes` SET zip_code = '3379', city = 'Egerfarmos';
-REPLACE INTO `zip_codes` SET zip_code = '3381', city = 'Pély';
-REPLACE INTO `zip_codes` SET zip_code = '3382', city = 'Tarnaszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '3383', city = 'Hevesvezekény';
-REPLACE INTO `zip_codes` SET zip_code = '3384', city = 'Kisköre';
-REPLACE INTO `zip_codes` SET zip_code = '3385', city = 'Tiszanána';
-REPLACE INTO `zip_codes` SET zip_code = '3386', city = 'Sarud';
-REPLACE INTO `zip_codes` SET zip_code = '3387', city = 'Újlőrincfalva';
-REPLACE INTO `zip_codes` SET zip_code = '3388', city = 'Poroszló';
-REPLACE INTO `zip_codes` SET zip_code = '3390', city = 'Füzesabony ';
-REPLACE INTO `zip_codes` SET zip_code = '3394', city = 'Egerszalók';
-REPLACE INTO `zip_codes` SET zip_code = '3395', city = 'Demjén';
-REPLACE INTO `zip_codes` SET zip_code = '3396', city = 'Kerecsend';
-REPLACE INTO `zip_codes` SET zip_code = '3397', city = 'Maklár';
-REPLACE INTO `zip_codes` SET zip_code = '3398', city = 'Nagytálya';
-REPLACE INTO `zip_codes` SET zip_code = '3399', city = 'Andornaktálya';
-REPLACE INTO `zip_codes` SET zip_code = '3400', city = 'Mezőkövesd';
-REPLACE INTO `zip_codes` SET zip_code = '3411', city = 'Szomolya';
-REPLACE INTO `zip_codes` SET zip_code = '3412', city = 'Bogács';
-REPLACE INTO `zip_codes` SET zip_code = '3413', city = 'Cserépfalu';
-REPLACE INTO `zip_codes` SET zip_code = '3414', city = 'Bükkzsérc';
-REPLACE INTO `zip_codes` SET zip_code = '3416', city = 'Tard';
-REPLACE INTO `zip_codes` SET zip_code = '3417', city = 'Cserépváralja';
-REPLACE INTO `zip_codes` SET zip_code = '3418', city = 'Szentistván';
-REPLACE INTO `zip_codes` SET zip_code = '3421', city = 'Mezőnyárád';
-REPLACE INTO `zip_codes` SET zip_code = '3422', city = 'Bükkábrány';
-REPLACE INTO `zip_codes` SET zip_code = '3423', city = 'Tibolddaróc';
-REPLACE INTO `zip_codes` SET zip_code = '3424', city = 'Kács';
-REPLACE INTO `zip_codes` SET zip_code = '3425', city = 'Sály';
-REPLACE INTO `zip_codes` SET zip_code = '3426', city = 'Borsodgeszt';
-REPLACE INTO `zip_codes` SET zip_code = '3431', city = 'Vatta';
-REPLACE INTO `zip_codes` SET zip_code = '3432', city = 'Emőd';
-REPLACE INTO `zip_codes` SET zip_code = '3433', city = 'Nyékládháza ';
-REPLACE INTO `zip_codes` SET zip_code = '3434', city = 'Mályi';
-REPLACE INTO `zip_codes` SET zip_code = '3441', city = 'Mezőkeresztes ';
-REPLACE INTO `zip_codes` SET zip_code = '3442', city = 'Csincse';
-REPLACE INTO `zip_codes` SET zip_code = '3443', city = 'Mezőnagymihály';
-REPLACE INTO `zip_codes` SET zip_code = '3444', city = 'Gelej';
-REPLACE INTO `zip_codes` SET zip_code = '3450', city = 'Mezőcsát';
-REPLACE INTO `zip_codes` SET zip_code = '3458', city = 'Tiszakeszi';
-REPLACE INTO `zip_codes` SET zip_code = '3459', city = 'Igrici';
-REPLACE INTO `zip_codes` SET zip_code = '3461', city = 'Egerlövő';
-REPLACE INTO `zip_codes` SET zip_code = '3462', city = 'Borsodivánka';
-REPLACE INTO `zip_codes` SET zip_code = '3463', city = 'Négyes';
-REPLACE INTO `zip_codes` SET zip_code = '3464', city = 'Tiszavalk';
-REPLACE INTO `zip_codes` SET zip_code = '3465', city = 'Tiszabábolna';
-REPLACE INTO `zip_codes` SET zip_code = '3466', city = 'Tiszadorogma';
-REPLACE INTO `zip_codes` SET zip_code = '3467', city = 'Ároktő';
-REPLACE INTO `zip_codes` SET zip_code = '3500', city = 'Miskolc*';
-REPLACE INTO `zip_codes` SET zip_code = '3551', city = 'Ónod';
-REPLACE INTO `zip_codes` SET zip_code = '3552', city = 'Muhi';
-REPLACE INTO `zip_codes` SET zip_code = '3553', city = 'Kistokaj';
-REPLACE INTO `zip_codes` SET zip_code = '3554', city = 'Bükkaranyos';
-REPLACE INTO `zip_codes` SET zip_code = '3555', city = 'Harsány';
-REPLACE INTO `zip_codes` SET zip_code = '3556', city = 'Kisgyőr';
-REPLACE INTO `zip_codes` SET zip_code = '3557', city = 'Bükkszentkereszt';
-REPLACE INTO `zip_codes` SET zip_code = '3559', city = 'Répáshuta';
-REPLACE INTO `zip_codes` SET zip_code = '3561', city = 'Felsőzsolca';
-REPLACE INTO `zip_codes` SET zip_code = '3562', city = 'Onga';
-REPLACE INTO `zip_codes` SET zip_code = '3563', city = 'Hernádkak';
-REPLACE INTO `zip_codes` SET zip_code = '3564', city = 'Hernádnémeti';
-REPLACE INTO `zip_codes` SET zip_code = '3565', city = 'Tiszalúc';
-REPLACE INTO `zip_codes` SET zip_code = '3571', city = 'Alsózsolca';
-REPLACE INTO `zip_codes` SET zip_code = '3572', city = 'Sajólád';
-REPLACE INTO `zip_codes` SET zip_code = '3573', city = 'Sajópetri';
-REPLACE INTO `zip_codes` SET zip_code = '3574', city = 'Bőcs';
-REPLACE INTO `zip_codes` SET zip_code = '3575', city = 'Berzék';
-REPLACE INTO `zip_codes` SET zip_code = '3576', city = 'Sajóhídvég';
-REPLACE INTO `zip_codes` SET zip_code = '3577', city = 'Köröm';
-REPLACE INTO `zip_codes` SET zip_code = '3578', city = 'Girincs';
-REPLACE INTO `zip_codes` SET zip_code = '3578', city = 'Kiscsécs';
-REPLACE INTO `zip_codes` SET zip_code = '3579', city = 'Kesznyéten';
-REPLACE INTO `zip_codes` SET zip_code = '3580', city = 'Tiszaújváros';
-REPLACE INTO `zip_codes` SET zip_code = '3586', city = 'Sajóörös';
-REPLACE INTO `zip_codes` SET zip_code = '3587', city = 'Tiszapalkonya';
-REPLACE INTO `zip_codes` SET zip_code = '3588', city = 'Hejőkürt';
-REPLACE INTO `zip_codes` SET zip_code = '3589', city = 'Tiszatarján';
-REPLACE INTO `zip_codes` SET zip_code = '3591', city = 'Oszlár';
-REPLACE INTO `zip_codes` SET zip_code = '3592', city = 'Nemesbikk';
-REPLACE INTO `zip_codes` SET zip_code = '3593', city = 'Hejőbába';
-REPLACE INTO `zip_codes` SET zip_code = '3594', city = 'Hejőpapi';
-REPLACE INTO `zip_codes` SET zip_code = '3595', city = 'Hejőszalonta';
-REPLACE INTO `zip_codes` SET zip_code = '3596', city = 'Szakáld';
-REPLACE INTO `zip_codes` SET zip_code = '3597', city = 'Hejőkeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '3598', city = 'Nagycsécs';
-REPLACE INTO `zip_codes` SET zip_code = '3599', city = 'Sajószöged';
-REPLACE INTO `zip_codes` SET zip_code = '3600', city = 'Ózd';
-REPLACE INTO `zip_codes` SET zip_code = '3603', city = 'Ózd';
-REPLACE INTO `zip_codes` SET zip_code = '3604', city = 'Ózd';
-REPLACE INTO `zip_codes` SET zip_code = '3608', city = 'Farkaslyuk';
-REPLACE INTO `zip_codes` SET zip_code = '3621', city = 'Ózd';
-REPLACE INTO `zip_codes` SET zip_code = '3622', city = 'Uppony';
-REPLACE INTO `zip_codes` SET zip_code = '3623', city = 'Borsodszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '3625', city = 'Ózd';
-REPLACE INTO `zip_codes` SET zip_code = '3626', city = 'Hangony';
-REPLACE INTO `zip_codes` SET zip_code = '3627', city = 'Domaháza';
-REPLACE INTO `zip_codes` SET zip_code = '3627', city = 'Kissikátor';
-REPLACE INTO `zip_codes` SET zip_code = '3630', city = 'Putnok';
-REPLACE INTO `zip_codes` SET zip_code = '3635', city = 'Dubicsány';
-REPLACE INTO `zip_codes` SET zip_code = '3636', city = 'Vadna';
-REPLACE INTO `zip_codes` SET zip_code = '3636', city = 'Sajógalgóc';
-REPLACE INTO `zip_codes` SET zip_code = '3641', city = 'Nagybarca';
-REPLACE INTO `zip_codes` SET zip_code = '3642', city = 'Bánhorváti';
-REPLACE INTO `zip_codes` SET zip_code = '3643', city = 'Dédestapolcsány';
-REPLACE INTO `zip_codes` SET zip_code = '3644', city = 'Tardona';
-REPLACE INTO `zip_codes` SET zip_code = '3645', city = 'Mályinka';
-REPLACE INTO `zip_codes` SET zip_code = '3646', city = 'Nekézseny';
-REPLACE INTO `zip_codes` SET zip_code = '3647', city = 'Csokvaomány';
-REPLACE INTO `zip_codes` SET zip_code = '3648', city = 'Csernely';
-REPLACE INTO `zip_codes` SET zip_code = '3648', city = 'Bükkmogyorósd';
-REPLACE INTO `zip_codes` SET zip_code = '3648', city = 'Lénárddaróc';
-REPLACE INTO `zip_codes` SET zip_code = '3651', city = 'Ózd';
-REPLACE INTO `zip_codes` SET zip_code = '3652', city = 'Sajónémeti';
-REPLACE INTO `zip_codes` SET zip_code = '3653', city = 'Sajópüspöki';
-REPLACE INTO `zip_codes` SET zip_code = '3654', city = 'Bánréve';
-REPLACE INTO `zip_codes` SET zip_code = '3655', city = 'Hét';
-REPLACE INTO `zip_codes` SET zip_code = '3656', city = 'Sajóvelezd';
-REPLACE INTO `zip_codes` SET zip_code = '3656', city = 'Sajómercse';
-REPLACE INTO `zip_codes` SET zip_code = '3657', city = 'Királd';
-REPLACE INTO `zip_codes` SET zip_code = '3658', city = 'Borsodbóta';
-REPLACE INTO `zip_codes` SET zip_code = '3659', city = 'Sáta';
-REPLACE INTO `zip_codes` SET zip_code = '3661', city = 'Ózd';
-REPLACE INTO `zip_codes` SET zip_code = '3662', city = 'Ózd';
-REPLACE INTO `zip_codes` SET zip_code = '3663', city = 'Arló';
-REPLACE INTO `zip_codes` SET zip_code = '3664', city = 'Járdánháza';
-REPLACE INTO `zip_codes` SET zip_code = '3671', city = 'Borsodnádasd ';
-REPLACE INTO `zip_codes` SET zip_code = '3672', city = 'Borsodnádasd ';
-REPLACE INTO `zip_codes` SET zip_code = '3700', city = 'Kazincbarcika';
-REPLACE INTO `zip_codes` SET zip_code = '3704', city = 'Berente';
-REPLACE INTO `zip_codes` SET zip_code = '3711', city = 'Szirmabesenyő';
-REPLACE INTO `zip_codes` SET zip_code = '3712', city = 'Sajóvámos';
-REPLACE INTO `zip_codes` SET zip_code = '3712', city = 'Sajósenye';
-REPLACE INTO `zip_codes` SET zip_code = '3713', city = 'Arnót';
-REPLACE INTO `zip_codes` SET zip_code = '3714', city = 'Sajópálfala';
-REPLACE INTO `zip_codes` SET zip_code = '3715', city = 'Gesztely';
-REPLACE INTO `zip_codes` SET zip_code = '3716', city = 'Újcsanálos';
-REPLACE INTO `zip_codes` SET zip_code = '3716', city = 'Sóstófalva';
-REPLACE INTO `zip_codes` SET zip_code = '3717', city = 'Alsódobsza';
-REPLACE INTO `zip_codes` SET zip_code = '3718', city = 'Megyaszó';
-REPLACE INTO `zip_codes` SET zip_code = '3720', city = 'Sajókaza';
-REPLACE INTO `zip_codes` SET zip_code = '3720', city = 'Sajóivánka';
-REPLACE INTO `zip_codes` SET zip_code = '3721', city = 'Felsőnyárád';
-REPLACE INTO `zip_codes` SET zip_code = '3721', city = 'Dövény';
-REPLACE INTO `zip_codes` SET zip_code = '3721', city = 'Jákfalva';
-REPLACE INTO `zip_codes` SET zip_code = '3722', city = 'Felsőkelecsény';
-REPLACE INTO `zip_codes` SET zip_code = '3723', city = 'Zubogy';
-REPLACE INTO `zip_codes` SET zip_code = '3724', city = 'Ragály';
-REPLACE INTO `zip_codes` SET zip_code = '3724', city = 'Trizs';
-REPLACE INTO `zip_codes` SET zip_code = '3725', city = 'Imola';
-REPLACE INTO `zip_codes` SET zip_code = '3726', city = 'Zádorfalva';
-REPLACE INTO `zip_codes` SET zip_code = '3726', city = 'Alsószuha';
-REPLACE INTO `zip_codes` SET zip_code = '3726', city = 'Szuhafő';
-REPLACE INTO `zip_codes` SET zip_code = '3728', city = 'Kelemér';
-REPLACE INTO `zip_codes` SET zip_code = '3728', city = 'Gömörszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '3729', city = 'Serényfalva';
-REPLACE INTO `zip_codes` SET zip_code = '3731', city = 'Szuhakálló';
-REPLACE INTO `zip_codes` SET zip_code = '3732', city = 'Kurityán';
-REPLACE INTO `zip_codes` SET zip_code = '3733', city = 'Rudabánya';
-REPLACE INTO `zip_codes` SET zip_code = '3734', city = 'Szuhogy';
-REPLACE INTO `zip_codes` SET zip_code = '3735', city = 'Felsőtelekes';
-REPLACE INTO `zip_codes` SET zip_code = '3735', city = 'Alsótelekes';
-REPLACE INTO `zip_codes` SET zip_code = '3735', city = 'Kánó';
-REPLACE INTO `zip_codes` SET zip_code = '3741', city = 'Izsófalva';
-REPLACE INTO `zip_codes` SET zip_code = '3742', city = 'Rudolftelep';
-REPLACE INTO `zip_codes` SET zip_code = '3743', city = 'Ormosbánya';
-REPLACE INTO `zip_codes` SET zip_code = '3744', city = 'Múcsony';
-REPLACE INTO `zip_codes` SET zip_code = '3751', city = 'Szendrőlád';
-REPLACE INTO `zip_codes` SET zip_code = '3752', city = 'Szendrő';
-REPLACE INTO `zip_codes` SET zip_code = '3752', city = 'Galvács';
-REPLACE INTO `zip_codes` SET zip_code = '3753', city = 'Abod';
-REPLACE INTO `zip_codes` SET zip_code = '3754', city = 'Szalonna';
-REPLACE INTO `zip_codes` SET zip_code = '3754', city = 'Meszes';
-REPLACE INTO `zip_codes` SET zip_code = '3755', city = 'Martonyi';
-REPLACE INTO `zip_codes` SET zip_code = '3756', city = 'Perkupa';
-REPLACE INTO `zip_codes` SET zip_code = '3756', city = 'Varbóc';
-REPLACE INTO `zip_codes` SET zip_code = '3757', city = 'Szőlősardó';
-REPLACE INTO `zip_codes` SET zip_code = '3757', city = 'Égerszög';
-REPLACE INTO `zip_codes` SET zip_code = '3757', city = 'Teresztenye';
-REPLACE INTO `zip_codes` SET zip_code = '3758', city = 'Jósvafő';
-REPLACE INTO `zip_codes` SET zip_code = '3759', city = 'Aggtelek';
-REPLACE INTO `zip_codes` SET zip_code = '3761', city = 'Szin';
-REPLACE INTO `zip_codes` SET zip_code = '3761', city = 'Szinpetri';
-REPLACE INTO `zip_codes` SET zip_code = '3761', city = 'Tornakápolna';
-REPLACE INTO `zip_codes` SET zip_code = '3762', city = 'Szögliget';
-REPLACE INTO `zip_codes` SET zip_code = '3763', city = 'Bódvaszilas';
-REPLACE INTO `zip_codes` SET zip_code = '3764', city = 'Bódvarákó';
-REPLACE INTO `zip_codes` SET zip_code = '3765', city = 'Komjáti';
-REPLACE INTO `zip_codes` SET zip_code = '3765', city = 'Tornabarakony';
-REPLACE INTO `zip_codes` SET zip_code = '3765', city = 'Tornaszentandrás';
-REPLACE INTO `zip_codes` SET zip_code = '3767', city = 'Tornanádaska';
-REPLACE INTO `zip_codes` SET zip_code = '3768', city = 'Hidvégardó';
-REPLACE INTO `zip_codes` SET zip_code = '3768', city = 'Becskeháza';
-REPLACE INTO `zip_codes` SET zip_code = '3768', city = 'Bódvalenke';
-REPLACE INTO `zip_codes` SET zip_code = '3769', city = 'Tornaszentjakab';
-REPLACE INTO `zip_codes` SET zip_code = '3770', city = 'Sajószentpéter';
-REPLACE INTO `zip_codes` SET zip_code = '3773', city = 'Sajókápolna';
-REPLACE INTO `zip_codes` SET zip_code = '3773', city = 'Sajólászlófalva';
-REPLACE INTO `zip_codes` SET zip_code = '3775', city = 'Kondó';
-REPLACE INTO `zip_codes` SET zip_code = '3776', city = 'Radostyán';
-REPLACE INTO `zip_codes` SET zip_code = '3777', city = 'Parasznya';
-REPLACE INTO `zip_codes` SET zip_code = '3778', city = 'Varbó';
-REPLACE INTO `zip_codes` SET zip_code = '3779', city = 'Alacska';
-REPLACE INTO `zip_codes` SET zip_code = '3780', city = 'Edelény ';
-REPLACE INTO `zip_codes` SET zip_code = '3780', city = 'Balajt';
-REPLACE INTO `zip_codes` SET zip_code = '3780', city = 'Damak';
-REPLACE INTO `zip_codes` SET zip_code = '3780', city = 'Ládbesenyő';
-REPLACE INTO `zip_codes` SET zip_code = '3783', city = 'Edelény ';
-REPLACE INTO `zip_codes` SET zip_code = '3786', city = 'Lak';
-REPLACE INTO `zip_codes` SET zip_code = '3786', city = 'Hegymeg';
-REPLACE INTO `zip_codes` SET zip_code = '3786', city = 'Irota';
-REPLACE INTO `zip_codes` SET zip_code = '3786', city = 'Szakácsi';
-REPLACE INTO `zip_codes` SET zip_code = '3787', city = 'Tomor';
-REPLACE INTO `zip_codes` SET zip_code = '3791', city = 'Sajókeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '3792', city = 'Sajóbábony';
-REPLACE INTO `zip_codes` SET zip_code = '3793', city = 'Sajóecseg';
-REPLACE INTO `zip_codes` SET zip_code = '3794', city = 'Boldva';
-REPLACE INTO `zip_codes` SET zip_code = '3794', city = 'Ziliz';
-REPLACE INTO `zip_codes` SET zip_code = '3795', city = 'Hangács';
-REPLACE INTO `zip_codes` SET zip_code = '3795', city = 'Nyomár';
-REPLACE INTO `zip_codes` SET zip_code = '3796', city = 'Borsodszirák';
-REPLACE INTO `zip_codes` SET zip_code = '3800', city = 'Szikszó';
-REPLACE INTO `zip_codes` SET zip_code = '3809', city = 'Selyeb';
-REPLACE INTO `zip_codes` SET zip_code = '3809', city = 'Abaújszolnok';
-REPLACE INTO `zip_codes` SET zip_code = '3809', city = 'Nyésta';
-REPLACE INTO `zip_codes` SET zip_code = '3811', city = 'Alsóvadász';
-REPLACE INTO `zip_codes` SET zip_code = '3812', city = 'Homrogd';
-REPLACE INTO `zip_codes` SET zip_code = '3812', city = 'Monaj';
-REPLACE INTO `zip_codes` SET zip_code = '3813', city = 'Kupa';
-REPLACE INTO `zip_codes` SET zip_code = '3814', city = 'Felsővadász';
-REPLACE INTO `zip_codes` SET zip_code = '3815', city = 'Gadna';
-REPLACE INTO `zip_codes` SET zip_code = '3815', city = 'Abaújlak';
-REPLACE INTO `zip_codes` SET zip_code = '3816', city = 'Gagyvendégi';
-REPLACE INTO `zip_codes` SET zip_code = '3817', city = 'Gagybátor';
-REPLACE INTO `zip_codes` SET zip_code = '3821', city = 'Krasznokvajda';
-REPLACE INTO `zip_codes` SET zip_code = '3821', city = 'Büttös';
-REPLACE INTO `zip_codes` SET zip_code = '3821', city = 'Kány';
-REPLACE INTO `zip_codes` SET zip_code = '3821', city = 'Keresztéte';
-REPLACE INTO `zip_codes` SET zip_code = '3821', city = 'Pamlény';
-REPLACE INTO `zip_codes` SET zip_code = '3821', city = 'Perecse';
-REPLACE INTO `zip_codes` SET zip_code = '3821', city = 'Szászfa';
-REPLACE INTO `zip_codes` SET zip_code = '3825', city = 'Rakaca';
-REPLACE INTO `zip_codes` SET zip_code = '3825', city = 'Debréte';
-REPLACE INTO `zip_codes` SET zip_code = '3825', city = 'Viszló';
-REPLACE INTO `zip_codes` SET zip_code = '3826', city = 'Rakacaszend';
-REPLACE INTO `zip_codes` SET zip_code = '3831', city = 'Kázsmárk';
-REPLACE INTO `zip_codes` SET zip_code = '3832', city = 'Léh';
-REPLACE INTO `zip_codes` SET zip_code = '3833', city = 'Rásonysápberencs';
-REPLACE INTO `zip_codes` SET zip_code = '3834', city = 'Detek';
-REPLACE INTO `zip_codes` SET zip_code = '3834', city = 'Beret';
-REPLACE INTO `zip_codes` SET zip_code = '3836', city = 'Baktakék';
-REPLACE INTO `zip_codes` SET zip_code = '3837', city = 'Felsőgagy';
-REPLACE INTO `zip_codes` SET zip_code = '3837', city = 'Alsógagy';
-REPLACE INTO `zip_codes` SET zip_code = '3837', city = 'Csenyéte';
-REPLACE INTO `zip_codes` SET zip_code = '3837', city = 'Gagyapáti';
-REPLACE INTO `zip_codes` SET zip_code = '3841', city = 'Aszaló';
-REPLACE INTO `zip_codes` SET zip_code = '3842', city = 'Halmaj';
-REPLACE INTO `zip_codes` SET zip_code = '3843', city = 'Kiskinizs';
-REPLACE INTO `zip_codes` SET zip_code = '3844', city = 'Nagykinizs';
-REPLACE INTO `zip_codes` SET zip_code = '3844', city = 'Szentistvánbaksa';
-REPLACE INTO `zip_codes` SET zip_code = '3846', city = 'Hernádkércs';
-REPLACE INTO `zip_codes` SET zip_code = '3847', city = 'Felsődobsza';
-REPLACE INTO `zip_codes` SET zip_code = '3848', city = 'Csobád';
-REPLACE INTO `zip_codes` SET zip_code = '3849', city = 'Forró';
-REPLACE INTO `zip_codes` SET zip_code = '3851', city = 'Ináncs';
-REPLACE INTO `zip_codes` SET zip_code = '3852', city = 'Hernádszentandrás';
-REPLACE INTO `zip_codes` SET zip_code = '3853', city = 'Pere';
-REPLACE INTO `zip_codes` SET zip_code = '3853', city = 'Hernádbűd';
-REPLACE INTO `zip_codes` SET zip_code = '3854', city = 'Gibárt';
-REPLACE INTO `zip_codes` SET zip_code = '3855', city = 'Fancsal';
-REPLACE INTO `zip_codes` SET zip_code = '3860', city = 'Encs';
-REPLACE INTO `zip_codes` SET zip_code = '3863', city = 'Szalaszend';
-REPLACE INTO `zip_codes` SET zip_code = '3864', city = 'Fulókércs';
-REPLACE INTO `zip_codes` SET zip_code = '3865', city = 'Fáj';
-REPLACE INTO `zip_codes` SET zip_code = '3866', city = 'Szemere';
-REPLACE INTO `zip_codes` SET zip_code = '3866', city = 'Litka';
-REPLACE INTO `zip_codes` SET zip_code = '3871', city = 'Méra';
-REPLACE INTO `zip_codes` SET zip_code = '3872', city = 'Novajidrány';
-REPLACE INTO `zip_codes` SET zip_code = '3873', city = 'Garadna';
-REPLACE INTO `zip_codes` SET zip_code = '3874', city = 'Hernádvécse';
-REPLACE INTO `zip_codes` SET zip_code = '3874', city = 'Hernádpetri';
-REPLACE INTO `zip_codes` SET zip_code = '3874', city = 'Pusztaradvány';
-REPLACE INTO `zip_codes` SET zip_code = '3875', city = 'Hernádszurdok';
-REPLACE INTO `zip_codes` SET zip_code = '3876', city = 'Hidasnémeti';
-REPLACE INTO `zip_codes` SET zip_code = '3877', city = 'Tornyosnémeti';
-REPLACE INTO `zip_codes` SET zip_code = '3881', city = 'Abaújszántó';
-REPLACE INTO `zip_codes` SET zip_code = '3881', city = 'Baskó';
-REPLACE INTO `zip_codes` SET zip_code = '3881', city = 'Sima';
-REPLACE INTO `zip_codes` SET zip_code = '3882', city = 'Abaújkér';
-REPLACE INTO `zip_codes` SET zip_code = '3882', city = 'Abaújalpár';
-REPLACE INTO `zip_codes` SET zip_code = '3884', city = 'Boldogkőújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '3885', city = 'Boldogkőváralja';
-REPLACE INTO `zip_codes` SET zip_code = '3885', city = 'Arka';
-REPLACE INTO `zip_codes` SET zip_code = '3886', city = 'Korlát';
-REPLACE INTO `zip_codes` SET zip_code = '3887', city = 'Hernádcéce';
-REPLACE INTO `zip_codes` SET zip_code = '3888', city = 'Vizsoly';
-REPLACE INTO `zip_codes` SET zip_code = '3891', city = 'Vilmány';
-REPLACE INTO `zip_codes` SET zip_code = '3892', city = 'Hejce';
-REPLACE INTO `zip_codes` SET zip_code = '3893', city = 'Fony';
-REPLACE INTO `zip_codes` SET zip_code = '3893', city = 'Mogyoróska';
-REPLACE INTO `zip_codes` SET zip_code = '3893', city = 'Regéc';
-REPLACE INTO `zip_codes` SET zip_code = '3894', city = 'Göncruszka';
-REPLACE INTO `zip_codes` SET zip_code = '3895', city = 'Gönc';
-REPLACE INTO `zip_codes` SET zip_code = '3896', city = 'Telkibánya';
-REPLACE INTO `zip_codes` SET zip_code = '3897', city = 'Zsujta';
-REPLACE INTO `zip_codes` SET zip_code = '3898', city = 'Abaújvár';
-REPLACE INTO `zip_codes` SET zip_code = '3898', city = 'Pányok';
-REPLACE INTO `zip_codes` SET zip_code = '3899', city = 'Kéked';
-REPLACE INTO `zip_codes` SET zip_code = '3900', city = 'Szerencs';
-REPLACE INTO `zip_codes` SET zip_code = '3902', city = 'Szerencs';
-REPLACE INTO `zip_codes` SET zip_code = '3903', city = 'Bekecs';
-REPLACE INTO `zip_codes` SET zip_code = '3904', city = 'Legyesbénye';
-REPLACE INTO `zip_codes` SET zip_code = '3905', city = 'Monok';
-REPLACE INTO `zip_codes` SET zip_code = '3906', city = 'Golop';
-REPLACE INTO `zip_codes` SET zip_code = '3907', city = 'Tállya';
-REPLACE INTO `zip_codes` SET zip_code = '3908', city = 'Rátka';
-REPLACE INTO `zip_codes` SET zip_code = '3909', city = 'Mád';
-REPLACE INTO `zip_codes` SET zip_code = '3910', city = 'Tokaj';
-REPLACE INTO `zip_codes` SET zip_code = '3915', city = 'Tarcal';
-REPLACE INTO `zip_codes` SET zip_code = '3916', city = 'Bodrogkeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '3917', city = 'Bodrogkisfalud';
-REPLACE INTO `zip_codes` SET zip_code = '3918', city = 'Szegi';
-REPLACE INTO `zip_codes` SET zip_code = '3918', city = 'Szegilong';
-REPLACE INTO `zip_codes` SET zip_code = '3921', city = 'Taktaszada';
-REPLACE INTO `zip_codes` SET zip_code = '3922', city = 'Taktaharkány';
-REPLACE INTO `zip_codes` SET zip_code = '3923', city = 'Gesztely';
-REPLACE INTO `zip_codes` SET zip_code = '3924', city = 'Taktakenéz';
-REPLACE INTO `zip_codes` SET zip_code = '3925', city = 'Prügy';
-REPLACE INTO `zip_codes` SET zip_code = '3926', city = 'Taktabáj';
-REPLACE INTO `zip_codes` SET zip_code = '3927', city = 'Csobaj';
-REPLACE INTO `zip_codes` SET zip_code = '3928', city = 'Tiszatardos';
-REPLACE INTO `zip_codes` SET zip_code = '3929', city = 'Tiszaladány';
-REPLACE INTO `zip_codes` SET zip_code = '3931', city = 'Mezőzombor';
-REPLACE INTO `zip_codes` SET zip_code = '3932', city = 'Erdőbénye';
-REPLACE INTO `zip_codes` SET zip_code = '3933', city = 'Olaszliszka';
-REPLACE INTO `zip_codes` SET zip_code = '3934', city = 'Tolcsva';
-REPLACE INTO `zip_codes` SET zip_code = '3935', city = 'Erdőhorváti';
-REPLACE INTO `zip_codes` SET zip_code = '3936', city = 'Háromhuta';
-REPLACE INTO `zip_codes` SET zip_code = '3937', city = 'Komlóska';
-REPLACE INTO `zip_codes` SET zip_code = '3941', city = 'Vámosújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '3942', city = 'Sárazsadány';
-REPLACE INTO `zip_codes` SET zip_code = '3943', city = 'Bodrogolaszi';
-REPLACE INTO `zip_codes` SET zip_code = '3944', city = 'Sátoraljaújhely';
-REPLACE INTO `zip_codes` SET zip_code = '3945', city = 'Sátoraljaújhely';
-REPLACE INTO `zip_codes` SET zip_code = '3950', city = 'Sárospatak';
-REPLACE INTO `zip_codes` SET zip_code = '3954', city = 'Györgytarló';
-REPLACE INTO `zip_codes` SET zip_code = '3955', city = 'Kenézlő';
-REPLACE INTO `zip_codes` SET zip_code = '3956', city = 'Viss';
-REPLACE INTO `zip_codes` SET zip_code = '3957', city = 'Zalkod';
-REPLACE INTO `zip_codes` SET zip_code = '3958', city = 'Hercegkút';
-REPLACE INTO `zip_codes` SET zip_code = '3959', city = 'Makkoshotyka';
-REPLACE INTO `zip_codes` SET zip_code = '3961', city = 'Vajdácska';
-REPLACE INTO `zip_codes` SET zip_code = '3962', city = 'Karos';
-REPLACE INTO `zip_codes` SET zip_code = '3963', city = 'Karcsa';
-REPLACE INTO `zip_codes` SET zip_code = '3964', city = 'Pácin';
-REPLACE INTO `zip_codes` SET zip_code = '3965', city = 'Nagyrozvágy';
-REPLACE INTO `zip_codes` SET zip_code = '3965', city = 'Kisrozvágy';
-REPLACE INTO `zip_codes` SET zip_code = '3967', city = 'Lácacséke';
-REPLACE INTO `zip_codes` SET zip_code = '3971', city = 'Tiszakarád';
-REPLACE INTO `zip_codes` SET zip_code = '3972', city = 'Tiszacsermely';
-REPLACE INTO `zip_codes` SET zip_code = '3973', city = 'Cigánd';
-REPLACE INTO `zip_codes` SET zip_code = '3974', city = 'Ricse';
-REPLACE INTO `zip_codes` SET zip_code = '3974', city = 'Semjén';
-REPLACE INTO `zip_codes` SET zip_code = '3976', city = 'Révleányvár';
-REPLACE INTO `zip_codes` SET zip_code = '3977', city = 'Zemplénagárd';
-REPLACE INTO `zip_codes` SET zip_code = '3978', city = 'Dámóc';
-REPLACE INTO `zip_codes` SET zip_code = '3980', city = 'Sátoraljaújhely';
-REPLACE INTO `zip_codes` SET zip_code = '3985', city = 'Alsóberecki';
-REPLACE INTO `zip_codes` SET zip_code = '3985', city = 'Felsőberecki';
-REPLACE INTO `zip_codes` SET zip_code = '3987', city = 'Bodroghalom';
-REPLACE INTO `zip_codes` SET zip_code = '3988', city = 'Sátoraljaújhely';
-REPLACE INTO `zip_codes` SET zip_code = '3989', city = 'Mikóháza';
-REPLACE INTO `zip_codes` SET zip_code = '3989', city = 'Alsóregmec';
-REPLACE INTO `zip_codes` SET zip_code = '3989', city = 'Felsőregmec';
-REPLACE INTO `zip_codes` SET zip_code = '3991', city = 'Vilyvitány';
-REPLACE INTO `zip_codes` SET zip_code = '3992', city = 'Kovácsvágás';
-REPLACE INTO `zip_codes` SET zip_code = '3992', city = 'Vágáshuta';
-REPLACE INTO `zip_codes` SET zip_code = '3993', city = 'Füzérradvány';
-REPLACE INTO `zip_codes` SET zip_code = '3994', city = 'Pálháza';
-REPLACE INTO `zip_codes` SET zip_code = '3994', city = 'Bózsva';
-REPLACE INTO `zip_codes` SET zip_code = '3994', city = 'Filkeháza';
-REPLACE INTO `zip_codes` SET zip_code = '3994', city = 'Füzérkajata';
-REPLACE INTO `zip_codes` SET zip_code = '3994', city = 'Kishuta';
-REPLACE INTO `zip_codes` SET zip_code = '3994', city = 'Nagyhuta';
-REPLACE INTO `zip_codes` SET zip_code = '3995', city = 'Pusztafalu';
-REPLACE INTO `zip_codes` SET zip_code = '3996', city = 'Füzér';
-REPLACE INTO `zip_codes` SET zip_code = '3997', city = 'Füzérkomlós';
-REPLACE INTO `zip_codes` SET zip_code = '3998', city = 'Nyíri';
-REPLACE INTO `zip_codes` SET zip_code = '3999', city = 'Hollóháza';
-REPLACE INTO `zip_codes` SET zip_code = '4000', city = 'Debrecen*';
-REPLACE INTO `zip_codes` SET zip_code = '4060', city = 'Balmazújváros';
-REPLACE INTO `zip_codes` SET zip_code = '4064', city = 'Nagyhegyes';
-REPLACE INTO `zip_codes` SET zip_code = '4065', city = 'Újszentmargita';
-REPLACE INTO `zip_codes` SET zip_code = '4066', city = 'Tiszacsege';
-REPLACE INTO `zip_codes` SET zip_code = '4067', city = 'Egyek';
-REPLACE INTO `zip_codes` SET zip_code = '4069', city = 'Egyek';
-REPLACE INTO `zip_codes` SET zip_code = '4071', city = 'Hortobágy';
-REPLACE INTO `zip_codes` SET zip_code = '4074', city = 'Hajdúböszörmény';
-REPLACE INTO `zip_codes` SET zip_code = '4075', city = 'Görbeháza';
-REPLACE INTO `zip_codes` SET zip_code = '4080', city = 'Hajdúnánás';
-REPLACE INTO `zip_codes` SET zip_code = '4085', city = 'Hajdúnánás';
-REPLACE INTO `zip_codes` SET zip_code = '4086', city = 'Hajdúböszörmény';
-REPLACE INTO `zip_codes` SET zip_code = '4087', city = 'Hajdúdorog';
-REPLACE INTO `zip_codes` SET zip_code = '4090', city = 'Polgár';
-REPLACE INTO `zip_codes` SET zip_code = '4095', city = 'Folyás';
-REPLACE INTO `zip_codes` SET zip_code = '4096', city = 'Újtikos';
-REPLACE INTO `zip_codes` SET zip_code = '4097', city = 'Tiszagyulaháza';
-REPLACE INTO `zip_codes` SET zip_code = '4100', city = 'Berettyóújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '4110', city = 'Biharkeresztes';
-REPLACE INTO `zip_codes` SET zip_code = '4114', city = 'Bojt';
-REPLACE INTO `zip_codes` SET zip_code = '4115', city = 'Ártánd ';
-REPLACE INTO `zip_codes` SET zip_code = '4116', city = 'Berekböszörmény';
-REPLACE INTO `zip_codes` SET zip_code = '4117', city = 'Told ';
-REPLACE INTO `zip_codes` SET zip_code = '4118', city = 'Mezőpeterd';
-REPLACE INTO `zip_codes` SET zip_code = '4119', city = 'Váncsod';
-REPLACE INTO `zip_codes` SET zip_code = '4121', city = 'Szentpéterszeg';
-REPLACE INTO `zip_codes` SET zip_code = '4122', city = 'Gáborján';
-REPLACE INTO `zip_codes` SET zip_code = '4123', city = 'Hencida';
-REPLACE INTO `zip_codes` SET zip_code = '4124', city = 'Esztár';
-REPLACE INTO `zip_codes` SET zip_code = '4125', city = 'Pocsaj';
-REPLACE INTO `zip_codes` SET zip_code = '4126', city = 'Kismarja';
-REPLACE INTO `zip_codes` SET zip_code = '4127', city = 'Nagykereki';
-REPLACE INTO `zip_codes` SET zip_code = '4128', city = 'Bedő';
-REPLACE INTO `zip_codes` SET zip_code = '4130', city = 'Derecske';
-REPLACE INTO `zip_codes` SET zip_code = '4132', city = 'Tépe';
-REPLACE INTO `zip_codes` SET zip_code = '4133', city = 'Konyár';
-REPLACE INTO `zip_codes` SET zip_code = '4134', city = 'Mezősas';
-REPLACE INTO `zip_codes` SET zip_code = '4135', city = 'Körösszegapáti';
-REPLACE INTO `zip_codes` SET zip_code = '4136', city = 'Körösszakál';
-REPLACE INTO `zip_codes` SET zip_code = '4137', city = 'Magyarhomorog';
-REPLACE INTO `zip_codes` SET zip_code = '4138', city = 'Komádi';
-REPLACE INTO `zip_codes` SET zip_code = '4141', city = 'Furta';
-REPLACE INTO `zip_codes` SET zip_code = '4142', city = 'Zsáka';
-REPLACE INTO `zip_codes` SET zip_code = '4143', city = 'Vekerd';
-REPLACE INTO `zip_codes` SET zip_code = '4144', city = 'Darvas';
-REPLACE INTO `zip_codes` SET zip_code = '4145', city = 'Csökmő';
-REPLACE INTO `zip_codes` SET zip_code = '4146', city = 'Újiráz';
-REPLACE INTO `zip_codes` SET zip_code = '4150', city = 'Püspökladány';
-REPLACE INTO `zip_codes` SET zip_code = '4161', city = 'Báránd';
-REPLACE INTO `zip_codes` SET zip_code = '4162', city = 'Szerep';
-REPLACE INTO `zip_codes` SET zip_code = '4163', city = 'Szerep';
-REPLACE INTO `zip_codes` SET zip_code = '4164', city = 'Bakonszeg';
-REPLACE INTO `zip_codes` SET zip_code = '4171', city = 'Sárrétudvari';
-REPLACE INTO `zip_codes` SET zip_code = '4172', city = 'Biharnagybajom';
-REPLACE INTO `zip_codes` SET zip_code = '4173', city = 'Nagyrábé';
-REPLACE INTO `zip_codes` SET zip_code = '4174', city = 'Bihartorda';
-REPLACE INTO `zip_codes` SET zip_code = '4175', city = 'Bihardancsháza';
-REPLACE INTO `zip_codes` SET zip_code = '4176', city = 'Sáp';
-REPLACE INTO `zip_codes` SET zip_code = '4177', city = 'Földes';
-REPLACE INTO `zip_codes` SET zip_code = '4181', city = 'Nádudvar';
-REPLACE INTO `zip_codes` SET zip_code = '4183', city = 'Kaba';
-REPLACE INTO `zip_codes` SET zip_code = '4184', city = 'Tetétlen';
-REPLACE INTO `zip_codes` SET zip_code = '4200', city = 'Hajdúszoboszló';
-REPLACE INTO `zip_codes` SET zip_code = '4211', city = 'Ebes';
-REPLACE INTO `zip_codes` SET zip_code = '4212', city = 'Hajdúszovát';
-REPLACE INTO `zip_codes` SET zip_code = '4220', city = 'Hajdúböszörmény';
-REPLACE INTO `zip_codes` SET zip_code = '4224', city = 'Hajdúböszörmény';
-REPLACE INTO `zip_codes` SET zip_code = '4231', city = 'Bököny';
-REPLACE INTO `zip_codes` SET zip_code = '4232', city = 'Geszteréd';
-REPLACE INTO `zip_codes` SET zip_code = '4233', city = 'Balkány';
-REPLACE INTO `zip_codes` SET zip_code = '4234', city = 'Szakoly';
-REPLACE INTO `zip_codes` SET zip_code = '4235', city = 'Biri';
-REPLACE INTO `zip_codes` SET zip_code = '4241', city = 'Bocskaikert';
-REPLACE INTO `zip_codes` SET zip_code = '4242', city = 'Hajdúhadház';
-REPLACE INTO `zip_codes` SET zip_code = '4243', city = 'Téglás';
-REPLACE INTO `zip_codes` SET zip_code = '4244', city = 'Újfehértó';
-REPLACE INTO `zip_codes` SET zip_code = '4245', city = 'Érpatak';
-REPLACE INTO `zip_codes` SET zip_code = '4246', city = 'Nyíregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '4251', city = 'Hajdúsámson';
-REPLACE INTO `zip_codes` SET zip_code = '4252', city = 'Nyíradony';
-REPLACE INTO `zip_codes` SET zip_code = '4253', city = 'Nyíradony';
-REPLACE INTO `zip_codes` SET zip_code = '4254', city = 'Nyíradony';
-REPLACE INTO `zip_codes` SET zip_code = '4262', city = 'Nyíracsád';
-REPLACE INTO `zip_codes` SET zip_code = '4263', city = 'Nyírmártonfalva';
-REPLACE INTO `zip_codes` SET zip_code = '4264', city = 'Nyírábrány';
-REPLACE INTO `zip_codes` SET zip_code = '4266', city = 'Fülöp';
-REPLACE INTO `zip_codes` SET zip_code = '4267', city = 'Penészlek';
-REPLACE INTO `zip_codes` SET zip_code = '4271', city = 'Mikepércs';
-REPLACE INTO `zip_codes` SET zip_code = '4272', city = 'Sáránd';
-REPLACE INTO `zip_codes` SET zip_code = '4273', city = 'Hajdúbagos';
-REPLACE INTO `zip_codes` SET zip_code = '4274', city = 'Hosszúpályi';
-REPLACE INTO `zip_codes` SET zip_code = '4275', city = 'Monostorpályi';
-REPLACE INTO `zip_codes` SET zip_code = '4281', city = 'Létavértes ';
-REPLACE INTO `zip_codes` SET zip_code = '4283', city = 'Létavértes ';
-REPLACE INTO `zip_codes` SET zip_code = '4284', city = 'Kokad';
-REPLACE INTO `zip_codes` SET zip_code = '4285', city = 'Álmosd';
-REPLACE INTO `zip_codes` SET zip_code = '4286', city = 'Bagamér';
-REPLACE INTO `zip_codes` SET zip_code = '4287', city = 'Vámospércs';
-REPLACE INTO `zip_codes` SET zip_code = '4288', city = 'Újléta';
-REPLACE INTO `zip_codes` SET zip_code = '4300', city = 'Nyírbátor';
-REPLACE INTO `zip_codes` SET zip_code = '4311', city = 'Nyírgyulaj';
-REPLACE INTO `zip_codes` SET zip_code = '4320', city = 'Nagykálló';
-REPLACE INTO `zip_codes` SET zip_code = '4324', city = 'Kállósemjén';
-REPLACE INTO `zip_codes` SET zip_code = '4325', city = 'Kisléta';
-REPLACE INTO `zip_codes` SET zip_code = '4326', city = 'Máriapócs';
-REPLACE INTO `zip_codes` SET zip_code = '4327', city = 'Pócspetri';
-REPLACE INTO `zip_codes` SET zip_code = '4331', city = 'Nyírcsászári';
-REPLACE INTO `zip_codes` SET zip_code = '4332', city = 'Nyírderzs';
-REPLACE INTO `zip_codes` SET zip_code = '4333', city = 'Nyírkáta';
-REPLACE INTO `zip_codes` SET zip_code = '4334', city = 'Hodász';
-REPLACE INTO `zip_codes` SET zip_code = '4335', city = 'Kántorjánosi';
-REPLACE INTO `zip_codes` SET zip_code = '4336', city = 'Őr';
-REPLACE INTO `zip_codes` SET zip_code = '4337', city = 'Jármi';
-REPLACE INTO `zip_codes` SET zip_code = '4338', city = 'Papos ';
-REPLACE INTO `zip_codes` SET zip_code = '4341', city = 'Nyírvasvári';
-REPLACE INTO `zip_codes` SET zip_code = '4342', city = 'Terem';
-REPLACE INTO `zip_codes` SET zip_code = '4343', city = 'Bátorliget';
-REPLACE INTO `zip_codes` SET zip_code = '4351', city = 'Vállaj';
-REPLACE INTO `zip_codes` SET zip_code = '4352', city = 'Mérk';
-REPLACE INTO `zip_codes` SET zip_code = '4353', city = 'Tiborszállás';
-REPLACE INTO `zip_codes` SET zip_code = '4354', city = 'Fábiánháza';
-REPLACE INTO `zip_codes` SET zip_code = '4355', city = 'Nagyecsed';
-REPLACE INTO `zip_codes` SET zip_code = '4356', city = 'Nyírcsaholy';
-REPLACE INTO `zip_codes` SET zip_code = '4361', city = 'Nyírbogát';
-REPLACE INTO `zip_codes` SET zip_code = '4362', city = 'Nyírgelse';
-REPLACE INTO `zip_codes` SET zip_code = '4363', city = 'Nyírmihálydi';
-REPLACE INTO `zip_codes` SET zip_code = '4371', city = 'Nyírlugos';
-REPLACE INTO `zip_codes` SET zip_code = '4372', city = 'Nyírbéltek';
-REPLACE INTO `zip_codes` SET zip_code = '4373', city = 'Ömböly';
-REPLACE INTO `zip_codes` SET zip_code = '4374', city = 'Encsencs';
-REPLACE INTO `zip_codes` SET zip_code = '4375', city = 'Piricse';
-REPLACE INTO `zip_codes` SET zip_code = '4376', city = 'Nyírpilis';
-REPLACE INTO `zip_codes` SET zip_code = '4400', city = 'Nyíregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '4405', city = 'Nyíregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '4431', city = 'Nyíregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '4432', city = 'Nyíregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '4433', city = 'Nyíregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '4434', city = 'Kálmánháza';
-REPLACE INTO `zip_codes` SET zip_code = '4440', city = 'Tiszavasvári';
-REPLACE INTO `zip_codes` SET zip_code = '4441', city = 'Szorgalmatos';
-REPLACE INTO `zip_codes` SET zip_code = '4445', city = 'Nagycserkesz';
-REPLACE INTO `zip_codes` SET zip_code = '4446', city = 'Tiszaeszlár';
-REPLACE INTO `zip_codes` SET zip_code = '4447', city = 'Tiszalök';
-REPLACE INTO `zip_codes` SET zip_code = '4450', city = 'Tiszalök';
-REPLACE INTO `zip_codes` SET zip_code = '4455', city = 'Tiszadada';
-REPLACE INTO `zip_codes` SET zip_code = '4456', city = 'Tiszadob';
-REPLACE INTO `zip_codes` SET zip_code = '4461', city = 'Nyírtelek';
-REPLACE INTO `zip_codes` SET zip_code = '4463', city = 'Tiszanagyfalu';
-REPLACE INTO `zip_codes` SET zip_code = '4464', city = 'Tiszaeszlár    ';
-REPLACE INTO `zip_codes` SET zip_code = '4465', city = 'Rakamaz';
-REPLACE INTO `zip_codes` SET zip_code = '4466', city = 'Timár';
-REPLACE INTO `zip_codes` SET zip_code = '4467', city = 'Szabolcs';
-REPLACE INTO `zip_codes` SET zip_code = '4468', city = 'Balsa';
-REPLACE INTO `zip_codes` SET zip_code = '4471', city = 'Gávavencsellő   ';
-REPLACE INTO `zip_codes` SET zip_code = '4472', city = 'Gávavencsellő   ';
-REPLACE INTO `zip_codes` SET zip_code = '4474', city = 'Tiszabercel';
-REPLACE INTO `zip_codes` SET zip_code = '4475', city = 'Paszab';
-REPLACE INTO `zip_codes` SET zip_code = '4481', city = 'Nyíregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '4482', city = 'Kótaj';
-REPLACE INTO `zip_codes` SET zip_code = '4483', city = 'Buj';
-REPLACE INTO `zip_codes` SET zip_code = '4484', city = 'Ibrány';
-REPLACE INTO `zip_codes` SET zip_code = '4485', city = 'Nagyhalász';
-REPLACE INTO `zip_codes` SET zip_code = '4486', city = 'Tiszatelek';
-REPLACE INTO `zip_codes` SET zip_code = '4487', city = 'Tiszatelek';
-REPLACE INTO `zip_codes` SET zip_code = '4488', city = 'Beszterec';
-REPLACE INTO `zip_codes` SET zip_code = '4491', city = 'Újdombrád';
-REPLACE INTO `zip_codes` SET zip_code = '4492', city = 'Dombrád';
-REPLACE INTO `zip_codes` SET zip_code = '4493', city = 'Tiszakanyár';
-REPLACE INTO `zip_codes` SET zip_code = '4494', city = 'Kékcse';
-REPLACE INTO `zip_codes` SET zip_code = '4495', city = 'Döge';
-REPLACE INTO `zip_codes` SET zip_code = '4496', city = 'Szabolcsveresmart';
-REPLACE INTO `zip_codes` SET zip_code = '4501', city = 'Kemecse';
-REPLACE INTO `zip_codes` SET zip_code = '4502', city = 'Vasmegyer';
-REPLACE INTO `zip_codes` SET zip_code = '4503', city = 'Tiszarád';
-REPLACE INTO `zip_codes` SET zip_code = '4511', city = 'Nyírbogdány ';
-REPLACE INTO `zip_codes` SET zip_code = '4515', city = 'Kék';
-REPLACE INTO `zip_codes` SET zip_code = '4516', city = 'Demecser';
-REPLACE INTO `zip_codes` SET zip_code = '4517', city = 'Gégény';
-REPLACE INTO `zip_codes` SET zip_code = '4521', city = 'Berkesz ';
-REPLACE INTO `zip_codes` SET zip_code = '4522', city = 'Nyírtass';
-REPLACE INTO `zip_codes` SET zip_code = '4523', city = 'Pátroha';
-REPLACE INTO `zip_codes` SET zip_code = '4524', city = 'Ajak';
-REPLACE INTO `zip_codes` SET zip_code = '4525', city = 'Rétközberencs';
-REPLACE INTO `zip_codes` SET zip_code = '4531', city = 'Nyírpazony';
-REPLACE INTO `zip_codes` SET zip_code = '4532', city = 'Nyírtura';
-REPLACE INTO `zip_codes` SET zip_code = '4533', city = 'Sényő';
-REPLACE INTO `zip_codes` SET zip_code = '4534', city = 'Székely';
-REPLACE INTO `zip_codes` SET zip_code = '4535', city = 'Nyíribrony';
-REPLACE INTO `zip_codes` SET zip_code = '4536', city = 'Ramocsaháza';
-REPLACE INTO `zip_codes` SET zip_code = '4537', city = 'Nyírkércs';
-REPLACE INTO `zip_codes` SET zip_code = '4541', city = 'Nyírjákó';
-REPLACE INTO `zip_codes` SET zip_code = '4542', city = 'Petneháza';
-REPLACE INTO `zip_codes` SET zip_code = '4543', city = 'Laskod';
-REPLACE INTO `zip_codes` SET zip_code = '4544', city = 'Nyírkarász';
-REPLACE INTO `zip_codes` SET zip_code = '4545', city = 'Gyulaháza';
-REPLACE INTO `zip_codes` SET zip_code = '4546', city = 'Anarcs';
-REPLACE INTO `zip_codes` SET zip_code = '4547', city = 'Szabolcsbáka';
-REPLACE INTO `zip_codes` SET zip_code = '4551', city = 'Nyíregyháza';
-REPLACE INTO `zip_codes` SET zip_code = '4552', city = 'Napkor';
-REPLACE INTO `zip_codes` SET zip_code = '4553', city = 'Apagy';
-REPLACE INTO `zip_codes` SET zip_code = '4554', city = 'Nyírtét';
-REPLACE INTO `zip_codes` SET zip_code = '4555', city = 'Levelek';
-REPLACE INTO `zip_codes` SET zip_code = '4556', city = 'Magy';
-REPLACE INTO `zip_codes` SET zip_code = '4557', city = 'Besenyőd';
-REPLACE INTO `zip_codes` SET zip_code = '4558', city = 'Ófehértó';
-REPLACE INTO `zip_codes` SET zip_code = '4561', city = 'Baktalórántháza';
-REPLACE INTO `zip_codes` SET zip_code = '4562', city = 'Vaja';
-REPLACE INTO `zip_codes` SET zip_code = '4563', city = 'Rohod';
-REPLACE INTO `zip_codes` SET zip_code = '4564', city = 'Nyírmada';
-REPLACE INTO `zip_codes` SET zip_code = '4565', city = 'Pusztadobos';
-REPLACE INTO `zip_codes` SET zip_code = '4566', city = 'Ilk';
-REPLACE INTO `zip_codes` SET zip_code = '4567', city = 'Gemzse';
-REPLACE INTO `zip_codes` SET zip_code = '4600', city = 'Kisvárda';
-REPLACE INTO `zip_codes` SET zip_code = '4611', city = 'Jéke';
-REPLACE INTO `zip_codes` SET zip_code = '4621', city = 'Fényeslitke';
-REPLACE INTO `zip_codes` SET zip_code = '4622', city = 'Komoró';
-REPLACE INTO `zip_codes` SET zip_code = '4623', city = 'Tuzsér';
-REPLACE INTO `zip_codes` SET zip_code = '4624', city = 'Tiszabezdéd';
-REPLACE INTO `zip_codes` SET zip_code = '4625', city = 'Záhony';
-REPLACE INTO `zip_codes` SET zip_code = '4625', city = 'Győröcske';
-REPLACE INTO `zip_codes` SET zip_code = '4627', city = 'Zsurk';
-REPLACE INTO `zip_codes` SET zip_code = '4628', city = 'Tiszaszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '4631', city = 'Pap';
-REPLACE INTO `zip_codes` SET zip_code = '4632', city = 'Nyírlövő';
-REPLACE INTO `zip_codes` SET zip_code = '4633', city = 'Lövőpetri';
-REPLACE INTO `zip_codes` SET zip_code = '4634', city = 'Aranyosapáti';
-REPLACE INTO `zip_codes` SET zip_code = '4635', city = 'Újkenéz';
-REPLACE INTO `zip_codes` SET zip_code = '4641', city = 'Mezőladány';
-REPLACE INTO `zip_codes` SET zip_code = '4642', city = 'Tornyospálca';
-REPLACE INTO `zip_codes` SET zip_code = '4643', city = 'Benk';
-REPLACE INTO `zip_codes` SET zip_code = '4644', city = 'Mándok';
-REPLACE INTO `zip_codes` SET zip_code = '4645', city = 'Tiszamogyorós';
-REPLACE INTO `zip_codes` SET zip_code = '4646', city = 'Eperjeske';
-REPLACE INTO `zip_codes` SET zip_code = '4700', city = 'Mátészalka';
-REPLACE INTO `zip_codes` SET zip_code = '4721', city = 'Szamoskér';
-REPLACE INTO `zip_codes` SET zip_code = '4722', city = 'Nyírmeggyes';
-REPLACE INTO `zip_codes` SET zip_code = '4731', city = 'Tunyogmatolcs';
-REPLACE INTO `zip_codes` SET zip_code = '4732', city = 'Cégénydányád';
-REPLACE INTO `zip_codes` SET zip_code = '4733', city = 'Gyügye';
-REPLACE INTO `zip_codes` SET zip_code = '4734', city = 'Szamosújlak';
-REPLACE INTO `zip_codes` SET zip_code = '4735', city = 'Szamossályi';
-REPLACE INTO `zip_codes` SET zip_code = '4735', city = 'Hermánszeg';
-REPLACE INTO `zip_codes` SET zip_code = '4737', city = 'Kisnamény';
-REPLACE INTO `zip_codes` SET zip_code = '4737', city = 'Darnó';
-REPLACE INTO `zip_codes` SET zip_code = '4741', city = 'Jánkmajtis';
-REPLACE INTO `zip_codes` SET zip_code = '4742', city = 'Csegöld';
-REPLACE INTO `zip_codes` SET zip_code = '4743', city = 'Csengersima';
-REPLACE INTO `zip_codes` SET zip_code = '4745', city = 'Szamosbecs';
-REPLACE INTO `zip_codes` SET zip_code = '4746', city = 'Szamostatárfalva';
-REPLACE INTO `zip_codes` SET zip_code = '4751', city = 'Kocsord';
-REPLACE INTO `zip_codes` SET zip_code = '4752', city = 'Győrtelek';
-REPLACE INTO `zip_codes` SET zip_code = '4754', city = 'Géberjén';
-REPLACE INTO `zip_codes` SET zip_code = '4754', city = 'Fülpösdaróc';
-REPLACE INTO `zip_codes` SET zip_code = '4755', city = 'Ököritófülpös';
-REPLACE INTO `zip_codes` SET zip_code = '4756', city = 'Rápolt';
-REPLACE INTO `zip_codes` SET zip_code = '4761', city = 'Porcsalma';
-REPLACE INTO `zip_codes` SET zip_code = '4762', city = 'Tyukod';
-REPLACE INTO `zip_codes` SET zip_code = '4763', city = 'Ura';
-REPLACE INTO `zip_codes` SET zip_code = '4764', city = 'Csengerújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '4765', city = 'Csenger';
-REPLACE INTO `zip_codes` SET zip_code = '4765', city = 'Komlódtótfalu';
-REPLACE INTO `zip_codes` SET zip_code = '4766', city = 'Pátyod';
-REPLACE INTO `zip_codes` SET zip_code = '4767', city = 'Szamosangyalos';
-REPLACE INTO `zip_codes` SET zip_code = '4800', city = 'Vásárosnamény';
-REPLACE INTO `zip_codes` SET zip_code = '4803', city = 'Vásárosnamény';
-REPLACE INTO `zip_codes` SET zip_code = '4804', city = 'Vásárosnamény';
-REPLACE INTO `zip_codes` SET zip_code = '4811', city = 'Kisvarsány';
-REPLACE INTO `zip_codes` SET zip_code = '4812', city = 'Nagyvarsány';
-REPLACE INTO `zip_codes` SET zip_code = '4813', city = 'Gyüre ';
-REPLACE INTO `zip_codes` SET zip_code = '4821', city = 'Ópályi';
-REPLACE INTO `zip_codes` SET zip_code = '4822', city = 'Nyírparasznya';
-REPLACE INTO `zip_codes` SET zip_code = '4823', city = 'Nagydobos';
-REPLACE INTO `zip_codes` SET zip_code = '4824', city = 'Szamosszeg';
-REPLACE INTO `zip_codes` SET zip_code = '4826', city = 'Olcsva';
-REPLACE INTO `zip_codes` SET zip_code = '4831', city = 'Tiszaszalka';
-REPLACE INTO `zip_codes` SET zip_code = '4832', city = 'Tiszavid';
-REPLACE INTO `zip_codes` SET zip_code = '4833', city = 'Tiszaadony';
-REPLACE INTO `zip_codes` SET zip_code = '4834', city = 'Tiszakerecseny';
-REPLACE INTO `zip_codes` SET zip_code = '4835', city = 'Mátyus';
-REPLACE INTO `zip_codes` SET zip_code = '4836', city = 'Lónya';
-REPLACE INTO `zip_codes` SET zip_code = '4841', city = 'Jánd';
-REPLACE INTO `zip_codes` SET zip_code = '4842', city = 'Gulács';
-REPLACE INTO `zip_codes` SET zip_code = '4843', city = 'Hetefejércse';
-REPLACE INTO `zip_codes` SET zip_code = '4844', city = 'Csaroda';
-REPLACE INTO `zip_codes` SET zip_code = '4845', city = 'Tákos';
-REPLACE INTO `zip_codes` SET zip_code = '4900', city = 'Fehérgyarmat';
-REPLACE INTO `zip_codes` SET zip_code = '4911', city = 'Nábrád';
-REPLACE INTO `zip_codes` SET zip_code = '4912', city = 'Kérsemjén';
-REPLACE INTO `zip_codes` SET zip_code = '4913', city = 'Panyola';
-REPLACE INTO `zip_codes` SET zip_code = '4914', city = 'Olcsvaapáti';
-REPLACE INTO `zip_codes` SET zip_code = '4921', city = 'Kisar';
-REPLACE INTO `zip_codes` SET zip_code = '4921', city = 'Tivadar';
-REPLACE INTO `zip_codes` SET zip_code = '4922', city = 'Nagyar';
-REPLACE INTO `zip_codes` SET zip_code = '4931', city = 'Tarpa';
-REPLACE INTO `zip_codes` SET zip_code = '4932', city = 'Márokpapi';
-REPLACE INTO `zip_codes` SET zip_code = '4933', city = 'Beregsurány';
-REPLACE INTO `zip_codes` SET zip_code = '4934', city = 'Beregdaróc';
-REPLACE INTO `zip_codes` SET zip_code = '4935', city = 'Gelénes';
-REPLACE INTO `zip_codes` SET zip_code = '4936', city = 'Vámosatya';
-REPLACE INTO `zip_codes` SET zip_code = '4937', city = 'Barabás';
-REPLACE INTO `zip_codes` SET zip_code = '4941', city = 'Penyige';
-REPLACE INTO `zip_codes` SET zip_code = '4942', city = 'Mánd';
-REPLACE INTO `zip_codes` SET zip_code = '4942', city = 'Nemesborzova';
-REPLACE INTO `zip_codes` SET zip_code = '4943', city = 'Kömörő';
-REPLACE INTO `zip_codes` SET zip_code = '4944', city = 'Túristvándi';
-REPLACE INTO `zip_codes` SET zip_code = '4945', city = 'Szatmárcseke';
-REPLACE INTO `zip_codes` SET zip_code = '4946', city = 'Tiszakóród';
-REPLACE INTO `zip_codes` SET zip_code = '4947', city = 'Tiszacsécse';
-REPLACE INTO `zip_codes` SET zip_code = '4948', city = 'Milota';
-REPLACE INTO `zip_codes` SET zip_code = '4951', city = 'Tiszabecs';
-REPLACE INTO `zip_codes` SET zip_code = '4952', city = 'Uszka';
-REPLACE INTO `zip_codes` SET zip_code = '4953', city = 'Magosliget';
-REPLACE INTO `zip_codes` SET zip_code = '4954', city = 'Sonkád';
-REPLACE INTO `zip_codes` SET zip_code = '4955', city = 'Botpalád';
-REPLACE INTO `zip_codes` SET zip_code = '4956', city = 'Kispalád';
-REPLACE INTO `zip_codes` SET zip_code = '4961', city = 'Zsarolyán';
-REPLACE INTO `zip_codes` SET zip_code = '4962', city = 'Nagyszekeres';
-REPLACE INTO `zip_codes` SET zip_code = '4963', city = 'Kisszekeres';
-REPLACE INTO `zip_codes` SET zip_code = '4964', city = 'Fülesd';
-REPLACE INTO `zip_codes` SET zip_code = '4965', city = 'Kölcse';
-REPLACE INTO `zip_codes` SET zip_code = '4966', city = 'Vámosoroszi';
-REPLACE INTO `zip_codes` SET zip_code = '4967', city = 'Csaholc';
-REPLACE INTO `zip_codes` SET zip_code = '4968', city = 'Túrricse';
-REPLACE INTO `zip_codes` SET zip_code = '4969', city = 'Tisztaberek';
-REPLACE INTO `zip_codes` SET zip_code = '4971', city = 'Rozsály';
-REPLACE INTO `zip_codes` SET zip_code = '4972', city = 'Gacsály';
-REPLACE INTO `zip_codes` SET zip_code = '4973', city = 'Császló';
-REPLACE INTO `zip_codes` SET zip_code = '4974', city = 'Zajta';
-REPLACE INTO `zip_codes` SET zip_code = '4975', city = 'Méhtelek';
-REPLACE INTO `zip_codes` SET zip_code = '4976', city = 'Garbolc';
-REPLACE INTO `zip_codes` SET zip_code = '4977', city = 'Nagyhódos';
-REPLACE INTO `zip_codes` SET zip_code = '4977', city = 'Kishódos';
-REPLACE INTO `zip_codes` SET zip_code = '5000', city = 'Szolnok';
-REPLACE INTO `zip_codes` SET zip_code = '5008', city = 'Szolnok';
-REPLACE INTO `zip_codes` SET zip_code = '5051', city = 'Zagyvarékas';
-REPLACE INTO `zip_codes` SET zip_code = '5052', city = 'Újszász';
-REPLACE INTO `zip_codes` SET zip_code = '5053', city = 'Szászberek';
-REPLACE INTO `zip_codes` SET zip_code = '5054', city = 'Jászalsószentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '5055', city = 'Jászladány';
-REPLACE INTO `zip_codes` SET zip_code = '5061', city = 'Tiszasüly';
-REPLACE INTO `zip_codes` SET zip_code = '5062', city = 'Kőtelek';
-REPLACE INTO `zip_codes` SET zip_code = '5063', city = 'Hunyadfalva';
-REPLACE INTO `zip_codes` SET zip_code = '5064', city = 'Csataszög';
-REPLACE INTO `zip_codes` SET zip_code = '5065', city = 'Nagykörű';
-REPLACE INTO `zip_codes` SET zip_code = '5071', city = 'Besenyszög';
-REPLACE INTO `zip_codes` SET zip_code = '5081', city = 'Szajol';
-REPLACE INTO `zip_codes` SET zip_code = '5082', city = 'Tiszatenyő';
-REPLACE INTO `zip_codes` SET zip_code = '5083', city = 'Kengyel';
-REPLACE INTO `zip_codes` SET zip_code = '5084', city = 'Rákócziújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '5085', city = 'Rákóczifalva';
-REPLACE INTO `zip_codes` SET zip_code = '5091', city = 'Tószeg';
-REPLACE INTO `zip_codes` SET zip_code = '5092', city = 'Tiszavárkony';
-REPLACE INTO `zip_codes` SET zip_code = '5093', city = 'Vezseny';
-REPLACE INTO `zip_codes` SET zip_code = '5094', city = 'Tiszajenő';
-REPLACE INTO `zip_codes` SET zip_code = '5095', city = 'Tiszavárkony';
-REPLACE INTO `zip_codes` SET zip_code = '5100', city = 'Jászberény';
-REPLACE INTO `zip_codes` SET zip_code = '5111', city = 'Jászfelsőszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '5121', city = 'Jászjákóhalma';
-REPLACE INTO `zip_codes` SET zip_code = '5122', city = 'Jászdózsa';
-REPLACE INTO `zip_codes` SET zip_code = '5123', city = 'Jászárokszállás';
-REPLACE INTO `zip_codes` SET zip_code = '5124', city = 'Jászágó';
-REPLACE INTO `zip_codes` SET zip_code = '5125', city = 'Pusztamonostor';
-REPLACE INTO `zip_codes` SET zip_code = '5126', city = 'Jászfényszaru';
-REPLACE INTO `zip_codes` SET zip_code = '5130', city = 'Jászapáti';
-REPLACE INTO `zip_codes` SET zip_code = '5135', city = 'Jászivány';
-REPLACE INTO `zip_codes` SET zip_code = '5136', city = 'Jászszentandrás';
-REPLACE INTO `zip_codes` SET zip_code = '5137', city = 'Jászkisér';
-REPLACE INTO `zip_codes` SET zip_code = '5141', city = 'Jásztelek';
-REPLACE INTO `zip_codes` SET zip_code = '5142', city = 'Alattyán';
-REPLACE INTO `zip_codes` SET zip_code = '5143', city = 'Jánoshida';
-REPLACE INTO `zip_codes` SET zip_code = '5144', city = 'Jászboldogháza';
-REPLACE INTO `zip_codes` SET zip_code = '5152', city = 'Jászberény';
-REPLACE INTO `zip_codes` SET zip_code = '5200', city = 'Törökszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '5211', city = 'Tiszapüspöki';
-REPLACE INTO `zip_codes` SET zip_code = '5212', city = 'Törökszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '5213', city = 'Fegyvernek';
-REPLACE INTO `zip_codes` SET zip_code = '5222', city = 'Örményes';
-REPLACE INTO `zip_codes` SET zip_code = '5231', city = 'Fegyvernek';
-REPLACE INTO `zip_codes` SET zip_code = '5232', city = 'Tiszabő';
-REPLACE INTO `zip_codes` SET zip_code = '5233', city = 'Tiszagyenda';
-REPLACE INTO `zip_codes` SET zip_code = '5234', city = 'Tiszaroff';
-REPLACE INTO `zip_codes` SET zip_code = '5235', city = 'Tiszabura';
-REPLACE INTO `zip_codes` SET zip_code = '5241', city = 'Abádszalók';
-REPLACE INTO `zip_codes` SET zip_code = '5243', city = 'Tiszaderzs';
-REPLACE INTO `zip_codes` SET zip_code = '5244', city = 'Tiszaszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '5300', city = 'Karcag';
-REPLACE INTO `zip_codes` SET zip_code = '5309', city = 'Berekfürdő';
-REPLACE INTO `zip_codes` SET zip_code = '5310', city = 'Kisújszállás';
-REPLACE INTO `zip_codes` SET zip_code = '5321', city = 'Kunmadaras';
-REPLACE INTO `zip_codes` SET zip_code = '5322', city = 'Tiszaszentimre';
-REPLACE INTO `zip_codes` SET zip_code = '5323', city = 'Tiszaszentimre';
-REPLACE INTO `zip_codes` SET zip_code = '5324', city = 'Tomajmonostora';
-REPLACE INTO `zip_codes` SET zip_code = '5331', city = 'Kenderes';
-REPLACE INTO `zip_codes` SET zip_code = '5340', city = 'Kunhegyes';
-REPLACE INTO `zip_codes` SET zip_code = '5349', city = 'Kenderes';
-REPLACE INTO `zip_codes` SET zip_code = '5350', city = 'Tiszafüred';
-REPLACE INTO `zip_codes` SET zip_code = '5358', city = 'Tiszafüred';
-REPLACE INTO `zip_codes` SET zip_code = '5359', city = 'Tiszafüred';
-REPLACE INTO `zip_codes` SET zip_code = '5361', city = 'Tiszaigar';
-REPLACE INTO `zip_codes` SET zip_code = '5362', city = 'Tiszaörs';
-REPLACE INTO `zip_codes` SET zip_code = '5363', city = 'Nagyiván';
-REPLACE INTO `zip_codes` SET zip_code = '5400', city = 'Mezőtúr';
-REPLACE INTO `zip_codes` SET zip_code = '5411', city = 'Kétpó';
-REPLACE INTO `zip_codes` SET zip_code = '5412', city = 'Kuncsorba';
-REPLACE INTO `zip_codes` SET zip_code = '5420', city = 'Túrkeve';
-REPLACE INTO `zip_codes` SET zip_code = '5430', city = 'Tiszaföldvár';
-REPLACE INTO `zip_codes` SET zip_code = '5435', city = 'Martfű';
-REPLACE INTO `zip_codes` SET zip_code = '5440', city = 'Kunszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '5449', city = 'Kunszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '5451', city = 'Öcsöd';
-REPLACE INTO `zip_codes` SET zip_code = '5452', city = 'Mesterszállás';
-REPLACE INTO `zip_codes` SET zip_code = '5453', city = 'Mezőhék';
-REPLACE INTO `zip_codes` SET zip_code = '5461', city = 'Tiszaföldvár';
-REPLACE INTO `zip_codes` SET zip_code = '5462', city = 'Cibakháza';
-REPLACE INTO `zip_codes` SET zip_code = '5463', city = 'Nagyrév';
-REPLACE INTO `zip_codes` SET zip_code = '5464', city = 'Tiszainoka';
-REPLACE INTO `zip_codes` SET zip_code = '5465', city = 'Cserkeszőlő';
-REPLACE INTO `zip_codes` SET zip_code = '5471', city = 'Tiszakürt';
-REPLACE INTO `zip_codes` SET zip_code = '5474', city = 'Tiszasas';
-REPLACE INTO `zip_codes` SET zip_code = '5475', city = 'Csépa';
-REPLACE INTO `zip_codes` SET zip_code = '5476', city = 'Szelevény';
-REPLACE INTO `zip_codes` SET zip_code = '5500', city = 'Gyomaendrőd    ';
-REPLACE INTO `zip_codes` SET zip_code = '5502', city = 'Gyomaendrőd    ';
-REPLACE INTO `zip_codes` SET zip_code = '5510', city = 'Dévaványa';
-REPLACE INTO `zip_codes` SET zip_code = '5515', city = 'Ecsegfalva';
-REPLACE INTO `zip_codes` SET zip_code = '5516', city = 'Körösladány';
-REPLACE INTO `zip_codes` SET zip_code = '5520', city = 'Szeghalom';
-REPLACE INTO `zip_codes` SET zip_code = '5525', city = 'Füzesgyarmat';
-REPLACE INTO `zip_codes` SET zip_code = '5526', city = 'Kertészsziget';
-REPLACE INTO `zip_codes` SET zip_code = '5527', city = 'Bucsa';
-REPLACE INTO `zip_codes` SET zip_code = '5530', city = 'Vésztő';
-REPLACE INTO `zip_codes` SET zip_code = '5534', city = 'Okány';
-REPLACE INTO `zip_codes` SET zip_code = '5536', city = 'Körösújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '5537', city = 'Zsadány';
-REPLACE INTO `zip_codes` SET zip_code = '5538', city = 'Biharugra';
-REPLACE INTO `zip_codes` SET zip_code = '5539', city = 'Körösnagyharsány';
-REPLACE INTO `zip_codes` SET zip_code = '5540', city = 'Szarvas';
-REPLACE INTO `zip_codes` SET zip_code = '5551', city = 'Csabacsűd';
-REPLACE INTO `zip_codes` SET zip_code = '5552', city = 'Kardos';
-REPLACE INTO `zip_codes` SET zip_code = '5553', city = 'Kondoros';
-REPLACE INTO `zip_codes` SET zip_code = '5555', city = 'Hunya';
-REPLACE INTO `zip_codes` SET zip_code = '5556', city = 'Örménykút';
-REPLACE INTO `zip_codes` SET zip_code = '5561', city = 'Békésszentandrás';
-REPLACE INTO `zip_codes` SET zip_code = '5600', city = 'Békéscsaba';
-REPLACE INTO `zip_codes` SET zip_code = '5609', city = 'Csabaszabadi ';
-REPLACE INTO `zip_codes` SET zip_code = '5621', city = 'Csárdaszállás';
-REPLACE INTO `zip_codes` SET zip_code = '5622', city = 'Köröstarcsa';
-REPLACE INTO `zip_codes` SET zip_code = '5623', city = 'Békéscsaba';
-REPLACE INTO `zip_codes` SET zip_code = '5624', city = 'Doboz';
-REPLACE INTO `zip_codes` SET zip_code = '5630', city = 'Békés';
-REPLACE INTO `zip_codes` SET zip_code = '5641', city = 'Tarhos';
-REPLACE INTO `zip_codes` SET zip_code = '5643', city = 'Bélmegyer';
-REPLACE INTO `zip_codes` SET zip_code = '5650', city = 'Mezőberény';
-REPLACE INTO `zip_codes` SET zip_code = '5661', city = 'Újkígyós';
-REPLACE INTO `zip_codes` SET zip_code = '5662', city = 'Csanádapáca';
-REPLACE INTO `zip_codes` SET zip_code = '5663', city = 'Medgyesbodzás';
-REPLACE INTO `zip_codes` SET zip_code = '5664', city = 'Medgyesbodzás';
-REPLACE INTO `zip_codes` SET zip_code = '5665', city = 'Pusztaottlaka';
-REPLACE INTO `zip_codes` SET zip_code = '5666', city = 'Medgyesegyháza  ';
-REPLACE INTO `zip_codes` SET zip_code = '5667', city = 'Magyarbánhegyes';
-REPLACE INTO `zip_codes` SET zip_code = '5668', city = 'Nagybánhegyes';
-REPLACE INTO `zip_codes` SET zip_code = '5671', city = 'Békéscsaba';
-REPLACE INTO `zip_codes` SET zip_code = '5672', city = 'Murony';
-REPLACE INTO `zip_codes` SET zip_code = '5673', city = 'Kamut';
-REPLACE INTO `zip_codes` SET zip_code = '5674', city = 'Kétsoprony';
-REPLACE INTO `zip_codes` SET zip_code = '5675', city = 'Telekgerendás';
-REPLACE INTO `zip_codes` SET zip_code = '5700', city = 'Gyula';
-REPLACE INTO `zip_codes` SET zip_code = '5711', city = 'Gyula';
-REPLACE INTO `zip_codes` SET zip_code = '5712', city = 'Szabadkígyós';
-REPLACE INTO `zip_codes` SET zip_code = '5720', city = 'Sarkad';
-REPLACE INTO `zip_codes` SET zip_code = '5725', city = 'Kötegyán';
-REPLACE INTO `zip_codes` SET zip_code = '5726', city = 'Méhkerék';
-REPLACE INTO `zip_codes` SET zip_code = '5727', city = 'Újszalonta';
-REPLACE INTO `zip_codes` SET zip_code = '5731', city = 'Sarkadkeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '5732', city = 'Mezőgyán';
-REPLACE INTO `zip_codes` SET zip_code = '5734', city = 'Geszt';
-REPLACE INTO `zip_codes` SET zip_code = '5741', city = 'Kétegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '5742', city = 'Elek';
-REPLACE INTO `zip_codes` SET zip_code = '5743', city = 'Lőkösháza';
-REPLACE INTO `zip_codes` SET zip_code = '5744', city = 'Kevermes';
-REPLACE INTO `zip_codes` SET zip_code = '5745', city = 'Dombiratos';
-REPLACE INTO `zip_codes` SET zip_code = '5746', city = 'Kunágota';
-REPLACE INTO `zip_codes` SET zip_code = '5747', city = 'Almáskamarás';
-REPLACE INTO `zip_codes` SET zip_code = '5751', city = 'Nagykamarás';
-REPLACE INTO `zip_codes` SET zip_code = '5752', city = 'Medgyesegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '5800', city = 'Mezőkovácsháza';
-REPLACE INTO `zip_codes` SET zip_code = '5811', city = 'Végegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '5820', city = 'Mezőhegyes';
-REPLACE INTO `zip_codes` SET zip_code = '5830', city = 'Battonya';
-REPLACE INTO `zip_codes` SET zip_code = '5836', city = 'Dombegyház';
-REPLACE INTO `zip_codes` SET zip_code = '5837', city = 'Kisdombegyház';
-REPLACE INTO `zip_codes` SET zip_code = '5838', city = 'Magyardombegyház';
-REPLACE INTO `zip_codes` SET zip_code = '5900', city = 'Orosháza';
-REPLACE INTO `zip_codes` SET zip_code = '5903', city = 'Orosháza';
-REPLACE INTO `zip_codes` SET zip_code = '5904', city = 'Orosháza';
-REPLACE INTO `zip_codes` SET zip_code = '5905', city = 'Orosháza';
-REPLACE INTO `zip_codes` SET zip_code = '5919', city = 'Pusztaföldvár';
-REPLACE INTO `zip_codes` SET zip_code = '5920', city = 'Csorvás';
-REPLACE INTO `zip_codes` SET zip_code = '5925', city = 'Gerendás';
-REPLACE INTO `zip_codes` SET zip_code = '5931', city = 'Nagyszénás';
-REPLACE INTO `zip_codes` SET zip_code = '5932', city = 'Gádoros';
-REPLACE INTO `zip_codes` SET zip_code = '5940', city = 'Tótkomlós';
-REPLACE INTO `zip_codes` SET zip_code = '5945', city = 'Kardoskút';
-REPLACE INTO `zip_codes` SET zip_code = '5946', city = 'Békéssámson';
-REPLACE INTO `zip_codes` SET zip_code = '5948', city = 'Kaszaper';
-REPLACE INTO `zip_codes` SET zip_code = '6000', city = 'Kecskemét';
-REPLACE INTO `zip_codes` SET zip_code = '6008', city = 'Kecskemét';
-REPLACE INTO `zip_codes` SET zip_code = '6031', city = 'Szentkirály';
-REPLACE INTO `zip_codes` SET zip_code = '6032', city = 'Nyárlőrinc';
-REPLACE INTO `zip_codes` SET zip_code = '6033', city = 'Városföld';
-REPLACE INTO `zip_codes` SET zip_code = '6034', city = 'Helvécia';
-REPLACE INTO `zip_codes` SET zip_code = '6035', city = 'Ballószög';
-REPLACE INTO `zip_codes` SET zip_code = '6041', city = 'Kerekegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '6042', city = 'Fülöpháza';
-REPLACE INTO `zip_codes` SET zip_code = '6043', city = 'Kunbaracs';
-REPLACE INTO `zip_codes` SET zip_code = '6044', city = 'Kecskemét';
-REPLACE INTO `zip_codes` SET zip_code = '6045', city = 'Ladánybene';
-REPLACE INTO `zip_codes` SET zip_code = '6050', city = 'Lajosmizse';
-REPLACE INTO `zip_codes` SET zip_code = '6055', city = 'Felsőlajos ';
-REPLACE INTO `zip_codes` SET zip_code = '6060', city = 'Tiszakécske';
-REPLACE INTO `zip_codes` SET zip_code = '6062', city = 'Tiszakécske';
-REPLACE INTO `zip_codes` SET zip_code = '6064', city = 'Tiszaug';
-REPLACE INTO `zip_codes` SET zip_code = '6065', city = 'Lakitelek';
-REPLACE INTO `zip_codes` SET zip_code = '6066', city = 'Tiszaalpár ';
-REPLACE INTO `zip_codes` SET zip_code = '6067', city = 'Tiszaalpár ';
-REPLACE INTO `zip_codes` SET zip_code = '6070', city = 'Izsák';
-REPLACE INTO `zip_codes` SET zip_code = '6075', city = 'Páhi';
-REPLACE INTO `zip_codes` SET zip_code = '6076', city = 'Ágasegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '6077', city = 'Orgovány';
-REPLACE INTO `zip_codes` SET zip_code = '6078', city = 'Jakabszállás';
-REPLACE INTO `zip_codes` SET zip_code = '6080', city = 'Szabadszállás';
-REPLACE INTO `zip_codes` SET zip_code = '6085', city = 'Fülöpszállás';
-REPLACE INTO `zip_codes` SET zip_code = '6086', city = 'Szalkszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '6087', city = 'Dunavecse';
-REPLACE INTO `zip_codes` SET zip_code = '6088', city = 'Apostag';
-REPLACE INTO `zip_codes` SET zip_code = '6090', city = 'Kunszentmiklós ';
-REPLACE INTO `zip_codes` SET zip_code = '6096', city = 'Kunpeszér';
-REPLACE INTO `zip_codes` SET zip_code = '6097', city = 'Kunadacs';
-REPLACE INTO `zip_codes` SET zip_code = '6098', city = 'Tass';
-REPLACE INTO `zip_codes` SET zip_code = '6100', city = 'Kiskunfélegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '6111', city = 'Gátér';
-REPLACE INTO `zip_codes` SET zip_code = '6112', city = 'Pálmonostora';
-REPLACE INTO `zip_codes` SET zip_code = '6113', city = 'Petőfiszállás';
-REPLACE INTO `zip_codes` SET zip_code = '6114', city = 'Bugac';
-REPLACE INTO `zip_codes` SET zip_code = '6114', city = 'Bugacpusztaháza';
-REPLACE INTO `zip_codes` SET zip_code = '6115', city = 'Kunszállás';
-REPLACE INTO `zip_codes` SET zip_code = '6116', city = 'Fülöpjakab ';
-REPLACE INTO `zip_codes` SET zip_code = '6120', city = 'Kiskunmajsa';
-REPLACE INTO `zip_codes` SET zip_code = '6131', city = 'Szank';
-REPLACE INTO `zip_codes` SET zip_code = '6132', city = 'Móricgát ';
-REPLACE INTO `zip_codes` SET zip_code = '6133', city = 'Jászszentlászló';
-REPLACE INTO `zip_codes` SET zip_code = '6134', city = 'Kömpöc';
-REPLACE INTO `zip_codes` SET zip_code = '6135', city = 'Csólyospálos';
-REPLACE INTO `zip_codes` SET zip_code = '6136', city = 'Harkakötöny';
-REPLACE INTO `zip_codes` SET zip_code = '6200', city = 'Kiskőrös';
-REPLACE INTO `zip_codes` SET zip_code = '6211', city = 'Kaskantyú';
-REPLACE INTO `zip_codes` SET zip_code = '6221', city = 'Akasztó';
-REPLACE INTO `zip_codes` SET zip_code = '6222', city = 'Csengőd';
-REPLACE INTO `zip_codes` SET zip_code = '6223', city = 'Soltszentimre';
-REPLACE INTO `zip_codes` SET zip_code = '6224', city = 'Tabdi';
-REPLACE INTO `zip_codes` SET zip_code = '6230', city = 'Soltvadkert';
-REPLACE INTO `zip_codes` SET zip_code = '6235', city = 'Bócsa';
-REPLACE INTO `zip_codes` SET zip_code = '6236', city = 'Tázlár';
-REPLACE INTO `zip_codes` SET zip_code = '6237', city = 'Kecel';
-REPLACE INTO `zip_codes` SET zip_code = '6238', city = 'Imrehegy';
-REPLACE INTO `zip_codes` SET zip_code = '6239', city = 'Császártöltés';
-REPLACE INTO `zip_codes` SET zip_code = '6300', city = 'Kalocsa';
-REPLACE INTO `zip_codes` SET zip_code = '6311', city = 'Öregcsertő';
-REPLACE INTO `zip_codes` SET zip_code = '6320', city = 'Solt';
-REPLACE INTO `zip_codes` SET zip_code = '6321', city = 'Újsolt';
-REPLACE INTO `zip_codes` SET zip_code = '6323', city = 'Dunaegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '6325', city = 'Dunatetétlen';
-REPLACE INTO `zip_codes` SET zip_code = '6326', city = 'Harta ';
-REPLACE INTO `zip_codes` SET zip_code = '6327', city = 'Harta ';
-REPLACE INTO `zip_codes` SET zip_code = '6328', city = 'Dunapataj';
-REPLACE INTO `zip_codes` SET zip_code = '6331', city = 'Foktő';
-REPLACE INTO `zip_codes` SET zip_code = '6332', city = 'Uszód';
-REPLACE INTO `zip_codes` SET zip_code = '6333', city = 'Dunaszentbenedek';
-REPLACE INTO `zip_codes` SET zip_code = '6334', city = 'Géderlak';
-REPLACE INTO `zip_codes` SET zip_code = '6335', city = 'Ordas';
-REPLACE INTO `zip_codes` SET zip_code = '6336', city = 'Szakmár';
-REPLACE INTO `zip_codes` SET zip_code = '6337', city = 'Újtelek';
-REPLACE INTO `zip_codes` SET zip_code = '6341', city = 'Homokmégy';
-REPLACE INTO `zip_codes` SET zip_code = '6342', city = 'Drágszél';
-REPLACE INTO `zip_codes` SET zip_code = '6343', city = 'Miske';
-REPLACE INTO `zip_codes` SET zip_code = '6344', city = 'Hajós';
-REPLACE INTO `zip_codes` SET zip_code = '6345', city = 'Nemesnádudvar';
-REPLACE INTO `zip_codes` SET zip_code = '6346', city = 'Sükösd';
-REPLACE INTO `zip_codes` SET zip_code = '6347', city = 'Érsekcsanád';
-REPLACE INTO `zip_codes` SET zip_code = '6348', city = 'Érsekhalma';
-REPLACE INTO `zip_codes` SET zip_code = '6351', city = 'Bátya';
-REPLACE INTO `zip_codes` SET zip_code = '6352', city = 'Fajsz';
-REPLACE INTO `zip_codes` SET zip_code = '6353', city = 'Dusnok';
-REPLACE INTO `zip_codes` SET zip_code = '6400', city = 'Kiskunhalas';
-REPLACE INTO `zip_codes` SET zip_code = '6411', city = 'Zsana';
-REPLACE INTO `zip_codes` SET zip_code = '6412', city = 'Balotaszállás';
-REPLACE INTO `zip_codes` SET zip_code = '6413', city = 'Kunfehértó';
-REPLACE INTO `zip_codes` SET zip_code = '6414', city = 'Pirtó';
-REPLACE INTO `zip_codes` SET zip_code = '6421', city = 'Kisszállás';
-REPLACE INTO `zip_codes` SET zip_code = '6422', city = 'Tompa';
-REPLACE INTO `zip_codes` SET zip_code = '6423', city = 'Kelebia';
-REPLACE INTO `zip_codes` SET zip_code = '6424', city = 'Csikéria';
-REPLACE INTO `zip_codes` SET zip_code = '6425', city = 'Bácsszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '6430', city = 'Bácsalmás';
-REPLACE INTO `zip_codes` SET zip_code = '6435', city = 'Kunbaja';
-REPLACE INTO `zip_codes` SET zip_code = '6440', city = 'Jánoshalma';
-REPLACE INTO `zip_codes` SET zip_code = '6444', city = 'Kéleshalom ';
-REPLACE INTO `zip_codes` SET zip_code = '6445', city = 'Borota';
-REPLACE INTO `zip_codes` SET zip_code = '6446', city = 'Rém';
-REPLACE INTO `zip_codes` SET zip_code = '6447', city = 'Felsőszentiván';
-REPLACE INTO `zip_codes` SET zip_code = '6448', city = 'Csávoly';
-REPLACE INTO `zip_codes` SET zip_code = '6449', city = 'Mélykút';
-REPLACE INTO `zip_codes` SET zip_code = '6451', city = 'Tataháza';
-REPLACE INTO `zip_codes` SET zip_code = '6452', city = 'Mátételke';
-REPLACE INTO `zip_codes` SET zip_code = '6453', city = 'Bácsbokod';
-REPLACE INTO `zip_codes` SET zip_code = '6454', city = 'Bácsborsód';
-REPLACE INTO `zip_codes` SET zip_code = '6455', city = 'Katymár';
-REPLACE INTO `zip_codes` SET zip_code = '6456', city = 'Madaras';
-REPLACE INTO `zip_codes` SET zip_code = '6500', city = 'Baja';
-REPLACE INTO `zip_codes` SET zip_code = '6503', city = 'Baja';
-REPLACE INTO `zip_codes` SET zip_code = '6511', city = 'Bácsszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '6512', city = 'Szeremle';
-REPLACE INTO `zip_codes` SET zip_code = '6513', city = 'Dunafalva';
-REPLACE INTO `zip_codes` SET zip_code = '6521', city = 'Vaskút';
-REPLACE INTO `zip_codes` SET zip_code = '6522', city = 'Gara';
-REPLACE INTO `zip_codes` SET zip_code = '6523', city = 'Csátalja';
-REPLACE INTO `zip_codes` SET zip_code = '6524', city = 'Dávod';
-REPLACE INTO `zip_codes` SET zip_code = '6525', city = 'Hercegszántó';
-REPLACE INTO `zip_codes` SET zip_code = '6527', city = 'Nagybaracska';
-REPLACE INTO `zip_codes` SET zip_code = '6528', city = 'Bátmonostor';
-REPLACE INTO `zip_codes` SET zip_code = '6600', city = 'Szentes';
-REPLACE INTO `zip_codes` SET zip_code = '6612', city = 'Nagytőke';
-REPLACE INTO `zip_codes` SET zip_code = '6621', city = 'Derekegyház';
-REPLACE INTO `zip_codes` SET zip_code = '6622', city = 'Nagymágocs';
-REPLACE INTO `zip_codes` SET zip_code = '6623', city = 'Árpádhalom';
-REPLACE INTO `zip_codes` SET zip_code = '6624', city = 'Eperjes';
-REPLACE INTO `zip_codes` SET zip_code = '6625', city = 'Fábiánsebestyén';
-REPLACE INTO `zip_codes` SET zip_code = '6630', city = 'Mindszent';
-REPLACE INTO `zip_codes` SET zip_code = '6635', city = 'Szegvár';
-REPLACE INTO `zip_codes` SET zip_code = '6636', city = 'Mártély';
-REPLACE INTO `zip_codes` SET zip_code = '6640', city = 'Csongrád';
-REPLACE INTO `zip_codes` SET zip_code = '6645', city = 'Felgyő';
-REPLACE INTO `zip_codes` SET zip_code = '6646', city = 'Tömörkény';
-REPLACE INTO `zip_codes` SET zip_code = '6647', city = 'Csanytelek';
-REPLACE INTO `zip_codes` SET zip_code = '6648', city = 'Csongrád';
-REPLACE INTO `zip_codes` SET zip_code = '6700', city = 'Szeged*';
-REPLACE INTO `zip_codes` SET zip_code = '6750', city = 'Algyő';
-REPLACE INTO `zip_codes` SET zip_code = '6754', city = 'Újszentiván';
-REPLACE INTO `zip_codes` SET zip_code = '6755', city = 'Kübekháza';
-REPLACE INTO `zip_codes` SET zip_code = '6756', city = 'Tiszasziget';
-REPLACE INTO `zip_codes` SET zip_code = '6758', city = 'Röszke';
-REPLACE INTO `zip_codes` SET zip_code = '6760', city = 'Kistelek';
-REPLACE INTO `zip_codes` SET zip_code = '6762', city = 'Sándorfalva';
-REPLACE INTO `zip_codes` SET zip_code = '6763', city = 'Szatymaz';
-REPLACE INTO `zip_codes` SET zip_code = '6764', city = 'Balástya';
-REPLACE INTO `zip_codes` SET zip_code = '6765', city = 'Csengele';
-REPLACE INTO `zip_codes` SET zip_code = '6766', city = 'Dóc';
-REPLACE INTO `zip_codes` SET zip_code = '6767', city = 'Ópusztaszer';
-REPLACE INTO `zip_codes` SET zip_code = '6768', city = 'Baks';
-REPLACE INTO `zip_codes` SET zip_code = '6769', city = 'Pusztaszer';
-REPLACE INTO `zip_codes` SET zip_code = '6772', city = 'Deszk';
-REPLACE INTO `zip_codes` SET zip_code = '6773', city = 'Klárafalva';
-REPLACE INTO `zip_codes` SET zip_code = '6774', city = 'Ferencszállás';
-REPLACE INTO `zip_codes` SET zip_code = '6775', city = 'Kiszombor';
-REPLACE INTO `zip_codes` SET zip_code = '6781', city = 'Domaszék';
-REPLACE INTO `zip_codes` SET zip_code = '6782', city = 'Mórahalom';
-REPLACE INTO `zip_codes` SET zip_code = '6783', city = 'Ásotthalom';
-REPLACE INTO `zip_codes` SET zip_code = '6784', city = 'Öttömös';
-REPLACE INTO `zip_codes` SET zip_code = '6785', city = 'Pusztamérges';
-REPLACE INTO `zip_codes` SET zip_code = '6786', city = 'Ruzsa';
-REPLACE INTO `zip_codes` SET zip_code = '6787', city = 'Zákányszék';
-REPLACE INTO `zip_codes` SET zip_code = '6792', city = 'Zsombó';
-REPLACE INTO `zip_codes` SET zip_code = '6793', city = 'Forráskút';
-REPLACE INTO `zip_codes` SET zip_code = '6794', city = 'Üllés';
-REPLACE INTO `zip_codes` SET zip_code = '6795', city = 'Bordány';
-REPLACE INTO `zip_codes` SET zip_code = '6800', city = 'Hódmezővásárhely';
-REPLACE INTO `zip_codes` SET zip_code = '6805', city = 'Hódmezővásárhely';
-REPLACE INTO `zip_codes` SET zip_code = '6806', city = 'Hódmezővásárhely';
-REPLACE INTO `zip_codes` SET zip_code = '6821', city = 'Székkutas';
-REPLACE INTO `zip_codes` SET zip_code = '6900', city = 'Makó';
-REPLACE INTO `zip_codes` SET zip_code = '6903', city = 'Makó';
-REPLACE INTO `zip_codes` SET zip_code = '6911', city = 'Királyhegyes';
-REPLACE INTO `zip_codes` SET zip_code = '6912', city = 'Kövegy';
-REPLACE INTO `zip_codes` SET zip_code = '6913', city = 'Csanádpalota';
-REPLACE INTO `zip_codes` SET zip_code = '6914', city = 'Pitvaros';
-REPLACE INTO `zip_codes` SET zip_code = '6915', city = 'Csanádalberti';
-REPLACE INTO `zip_codes` SET zip_code = '6916', city = 'Ambrózfalva';
-REPLACE INTO `zip_codes` SET zip_code = '6917', city = 'Nagyér';
-REPLACE INTO `zip_codes` SET zip_code = '6921', city = 'Maroslele';
-REPLACE INTO `zip_codes` SET zip_code = '6922', city = 'Földeák';
-REPLACE INTO `zip_codes` SET zip_code = '6923', city = 'Óföldeák';
-REPLACE INTO `zip_codes` SET zip_code = '6931', city = 'Apátfalva';
-REPLACE INTO `zip_codes` SET zip_code = '6932', city = 'Magyarcsanád';
-REPLACE INTO `zip_codes` SET zip_code = '6933', city = 'Nagylak';
-REPLACE INTO `zip_codes` SET zip_code = '7000', city = 'Sárbogárd';
-REPLACE INTO `zip_codes` SET zip_code = '7003', city = 'Sárbogárd';
-REPLACE INTO `zip_codes` SET zip_code = '7011', city = 'Alap';
-REPLACE INTO `zip_codes` SET zip_code = '7012', city = 'Alsószentiván';
-REPLACE INTO `zip_codes` SET zip_code = '7013', city = 'Cece';
-REPLACE INTO `zip_codes` SET zip_code = '7014', city = 'Sáregres';
-REPLACE INTO `zip_codes` SET zip_code = '7015', city = 'Igar';
-REPLACE INTO `zip_codes` SET zip_code = '7017', city = 'Mezőszilas';
-REPLACE INTO `zip_codes` SET zip_code = '7018', city = 'Sárbogárd';
-REPLACE INTO `zip_codes` SET zip_code = '7019', city = 'Sárbogárd';
-REPLACE INTO `zip_codes` SET zip_code = '7020', city = 'Dunaföldvár';
-REPLACE INTO `zip_codes` SET zip_code = '7025', city = 'Bölcske';
-REPLACE INTO `zip_codes` SET zip_code = '7026', city = 'Madocsa';
-REPLACE INTO `zip_codes` SET zip_code = '7027', city = 'Paks';
-REPLACE INTO `zip_codes` SET zip_code = '7030', city = 'Paks';
-REPLACE INTO `zip_codes` SET zip_code = '7038', city = 'Pusztahencse';
-REPLACE INTO `zip_codes` SET zip_code = '7039', city = 'Németkér';
-REPLACE INTO `zip_codes` SET zip_code = '7041', city = 'Vajta';
-REPLACE INTO `zip_codes` SET zip_code = '7042', city = 'Pálfa';
-REPLACE INTO `zip_codes` SET zip_code = '7043', city = 'Bikács';
-REPLACE INTO `zip_codes` SET zip_code = '7044', city = 'Nagydorog';
-REPLACE INTO `zip_codes` SET zip_code = '7045', city = 'Györköny';
-REPLACE INTO `zip_codes` SET zip_code = '7047', city = 'Sárszentlőrinc';
-REPLACE INTO `zip_codes` SET zip_code = '7051', city = 'Kajdacs';
-REPLACE INTO `zip_codes` SET zip_code = '7052', city = 'Kölesd';
-REPLACE INTO `zip_codes` SET zip_code = '7054', city = 'Tengelic';
-REPLACE INTO `zip_codes` SET zip_code = '7056', city = 'Szedres';
-REPLACE INTO `zip_codes` SET zip_code = '7057', city = 'Medina';
-REPLACE INTO `zip_codes` SET zip_code = '7061', city = 'Belecska';
-REPLACE INTO `zip_codes` SET zip_code = '7062', city = 'Keszőhidegkút';
-REPLACE INTO `zip_codes` SET zip_code = '7063', city = 'Szárazd';
-REPLACE INTO `zip_codes` SET zip_code = '7064', city = 'Gyönk';
-REPLACE INTO `zip_codes` SET zip_code = '7065', city = 'Miszla';
-REPLACE INTO `zip_codes` SET zip_code = '7066', city = 'Udvari';
-REPLACE INTO `zip_codes` SET zip_code = '7067', city = 'Varsád';
-REPLACE INTO `zip_codes` SET zip_code = '7068', city = 'Kistormás';
-REPLACE INTO `zip_codes` SET zip_code = '7071', city = 'Szakadát';
-REPLACE INTO `zip_codes` SET zip_code = '7072', city = 'Diósberény';
-REPLACE INTO `zip_codes` SET zip_code = '7081', city = 'Simontornya';
-REPLACE INTO `zip_codes` SET zip_code = '7082', city = 'Kisszékely';
-REPLACE INTO `zip_codes` SET zip_code = '7083', city = 'Tolnanémedi';
-REPLACE INTO `zip_codes` SET zip_code = '7084', city = 'Pincehely';
-REPLACE INTO `zip_codes` SET zip_code = '7085', city = 'Nagyszékely';
-REPLACE INTO `zip_codes` SET zip_code = '7086', city = 'Ozora';
-REPLACE INTO `zip_codes` SET zip_code = '7087', city = 'Fürged';
-REPLACE INTO `zip_codes` SET zip_code = '7090', city = 'Tamási';
-REPLACE INTO `zip_codes` SET zip_code = '7091', city = 'Pári';
-REPLACE INTO `zip_codes` SET zip_code = '7092', city = 'Nagykónyi';
-REPLACE INTO `zip_codes` SET zip_code = '7093', city = 'Értény';
-REPLACE INTO `zip_codes` SET zip_code = '7094', city = 'Koppányszántó';
-REPLACE INTO `zip_codes` SET zip_code = '7095', city = 'Iregszemcse';
-REPLACE INTO `zip_codes` SET zip_code = '7095', city = 'Újireg';
-REPLACE INTO `zip_codes` SET zip_code = '7097', city = 'Nagyszokoly';
-REPLACE INTO `zip_codes` SET zip_code = '7098', city = 'Magyarkeszi';
-REPLACE INTO `zip_codes` SET zip_code = '7099', city = 'Felsőnyék';
-REPLACE INTO `zip_codes` SET zip_code = '7100', city = 'Szekszárd';
-REPLACE INTO `zip_codes` SET zip_code = '7121', city = 'Szálka';
-REPLACE INTO `zip_codes` SET zip_code = '7122', city = 'Kakasd';
-REPLACE INTO `zip_codes` SET zip_code = '7130', city = 'Tolna';
-REPLACE INTO `zip_codes` SET zip_code = '7131', city = 'Tolna';
-REPLACE INTO `zip_codes` SET zip_code = '7132', city = 'Bogyiszló';
-REPLACE INTO `zip_codes` SET zip_code = '7133', city = 'Fadd';
-REPLACE INTO `zip_codes` SET zip_code = '7134', city = 'Gerjen';
-REPLACE INTO `zip_codes` SET zip_code = '7135', city = 'Dunaszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '7136', city = 'Fácánkert';
-REPLACE INTO `zip_codes` SET zip_code = '7140', city = 'Bátaszék';
-REPLACE INTO `zip_codes` SET zip_code = '7142', city = 'Pörböly';
-REPLACE INTO `zip_codes` SET zip_code = '7143', city = 'Őcsény';
-REPLACE INTO `zip_codes` SET zip_code = '7144', city = 'Decs';
-REPLACE INTO `zip_codes` SET zip_code = '7145', city = 'Sárpilis';
-REPLACE INTO `zip_codes` SET zip_code = '7146', city = 'Várdomb';
-REPLACE INTO `zip_codes` SET zip_code = '7147', city = 'Alsónána';
-REPLACE INTO `zip_codes` SET zip_code = '7148', city = 'Alsónyék';
-REPLACE INTO `zip_codes` SET zip_code = '7149', city = 'Báta';
-REPLACE INTO `zip_codes` SET zip_code = '7150', city = 'Bonyhád';
-REPLACE INTO `zip_codes` SET zip_code = '7158', city = 'Bonyhádvarasd';
-REPLACE INTO `zip_codes` SET zip_code = '7159', city = 'Kisdorog';
-REPLACE INTO `zip_codes` SET zip_code = '7161', city = 'Cikó';
-REPLACE INTO `zip_codes` SET zip_code = '7162', city = 'Grábóc';
-REPLACE INTO `zip_codes` SET zip_code = '7163', city = 'Mőcsény';
-REPLACE INTO `zip_codes` SET zip_code = '7164', city = 'Bátaapáti';
-REPLACE INTO `zip_codes` SET zip_code = '7165', city = 'Mórágy';
-REPLACE INTO `zip_codes` SET zip_code = '7171', city = 'Sióagárd';
-REPLACE INTO `zip_codes` SET zip_code = '7172', city = 'Harc';
-REPLACE INTO `zip_codes` SET zip_code = '7173', city = 'Zomba';
-REPLACE INTO `zip_codes` SET zip_code = '7174', city = 'Kéty';
-REPLACE INTO `zip_codes` SET zip_code = '7175', city = 'Felsőnána';
-REPLACE INTO `zip_codes` SET zip_code = '7176', city = 'Murga';
-REPLACE INTO `zip_codes` SET zip_code = '7181', city = 'Tevel';
-REPLACE INTO `zip_codes` SET zip_code = '7182', city = 'Závod';
-REPLACE INTO `zip_codes` SET zip_code = '7183', city = 'Kisvejke';
-REPLACE INTO `zip_codes` SET zip_code = '7184', city = 'Lengyel';
-REPLACE INTO `zip_codes` SET zip_code = '7185', city = 'Mucsfa';
-REPLACE INTO `zip_codes` SET zip_code = '7186', city = 'Aparhant';
-REPLACE INTO `zip_codes` SET zip_code = '7186', city = 'Nagyvejke';
-REPLACE INTO `zip_codes` SET zip_code = '7187', city = 'Bonyhád';
-REPLACE INTO `zip_codes` SET zip_code = '7188', city = 'Szárász';
-REPLACE INTO `zip_codes` SET zip_code = '7191', city = 'Hőgyész';
-REPLACE INTO `zip_codes` SET zip_code = '7192', city = 'Szakály';
-REPLACE INTO `zip_codes` SET zip_code = '7193', city = 'Regöly';
-REPLACE INTO `zip_codes` SET zip_code = '7194', city = 'Kalaznó';
-REPLACE INTO `zip_codes` SET zip_code = '7195', city = 'Mucsi';
-REPLACE INTO `zip_codes` SET zip_code = '7200', city = 'Dombóvár';
-REPLACE INTO `zip_codes` SET zip_code = '7211', city = 'Dalmand';
-REPLACE INTO `zip_codes` SET zip_code = '7212', city = 'Kocsola';
-REPLACE INTO `zip_codes` SET zip_code = '7213', city = 'Szakcs';
-REPLACE INTO `zip_codes` SET zip_code = '7214', city = 'Lápafő';
-REPLACE INTO `zip_codes` SET zip_code = '7214', city = 'Várong';
-REPLACE INTO `zip_codes` SET zip_code = '7215', city = 'Nak';
-REPLACE INTO `zip_codes` SET zip_code = '7224', city = 'Dúzs';
-REPLACE INTO `zip_codes` SET zip_code = '7225', city = 'Csibrák';
-REPLACE INTO `zip_codes` SET zip_code = '7226', city = 'Kurd';
-REPLACE INTO `zip_codes` SET zip_code = '7227', city = 'Gyulaj';
-REPLACE INTO `zip_codes` SET zip_code = '7228', city = 'Döbrököz';
-REPLACE INTO `zip_codes` SET zip_code = '7251', city = 'Kapospula';
-REPLACE INTO `zip_codes` SET zip_code = '7252', city = 'Attala';
-REPLACE INTO `zip_codes` SET zip_code = '7253', city = 'Csoma';
-REPLACE INTO `zip_codes` SET zip_code = '7253', city = 'Szabadi';
-REPLACE INTO `zip_codes` SET zip_code = '7255', city = 'Nagyberki';
-REPLACE INTO `zip_codes` SET zip_code = '7256', city = 'Kercseliget';
-REPLACE INTO `zip_codes` SET zip_code = '7257', city = 'Mosdós';
-REPLACE INTO `zip_codes` SET zip_code = '7258', city = 'Baté';
-REPLACE INTO `zip_codes` SET zip_code = '7258', city = 'Kaposkeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '7261', city = 'Taszár';
-REPLACE INTO `zip_codes` SET zip_code = '7261', city = 'Kaposhomok';
-REPLACE INTO `zip_codes` SET zip_code = '7271', city = 'Fonó';
-REPLACE INTO `zip_codes` SET zip_code = '7272', city = 'Gölle';
-REPLACE INTO `zip_codes` SET zip_code = '7273', city = 'Büssü';
-REPLACE INTO `zip_codes` SET zip_code = '7274', city = 'Kazsok';
-REPLACE INTO `zip_codes` SET zip_code = '7275', city = 'Igal';
-REPLACE INTO `zip_codes` SET zip_code = '7276', city = 'Somogyszil';
-REPLACE INTO `zip_codes` SET zip_code = '7276', city = 'Gadács';
-REPLACE INTO `zip_codes` SET zip_code = '7279', city = 'Kisgyalán';
-REPLACE INTO `zip_codes` SET zip_code = '7281', city = 'Bonnya';
-REPLACE INTO `zip_codes` SET zip_code = '7282', city = 'Kisbárapáti';
-REPLACE INTO `zip_codes` SET zip_code = '7282', city = 'Fiad';
-REPLACE INTO `zip_codes` SET zip_code = '7283', city = 'Somogyacsa';
-REPLACE INTO `zip_codes` SET zip_code = '7284', city = 'Somogydöröcske';
-REPLACE INTO `zip_codes` SET zip_code = '7285', city = 'Törökkoppány';
-REPLACE INTO `zip_codes` SET zip_code = '7285', city = 'Kára';
-REPLACE INTO `zip_codes` SET zip_code = '7285', city = 'Szorosad';
-REPLACE INTO `zip_codes` SET zip_code = '7300', city = 'Komló';
-REPLACE INTO `zip_codes` SET zip_code = '7304', city = 'Mánfa ';
-REPLACE INTO `zip_codes` SET zip_code = '7305', city = 'Mecsekpölöske';
-REPLACE INTO `zip_codes` SET zip_code = '7331', city = 'Liget';
-REPLACE INTO `zip_codes` SET zip_code = '7332', city = 'Magyaregregy';
-REPLACE INTO `zip_codes` SET zip_code = '7333', city = 'Kárász';
-REPLACE INTO `zip_codes` SET zip_code = '7333', city = 'Vékény';
-REPLACE INTO `zip_codes` SET zip_code = '7334', city = 'Szalatnak';
-REPLACE INTO `zip_codes` SET zip_code = '7334', city = 'Köblény';
-REPLACE INTO `zip_codes` SET zip_code = '7341', city = 'Csikóstőttős';
-REPLACE INTO `zip_codes` SET zip_code = '7342', city = 'Mágocs';
-REPLACE INTO `zip_codes` SET zip_code = '7343', city = 'Nagyhajmás';
-REPLACE INTO `zip_codes` SET zip_code = '7344', city = 'Mekényes';
-REPLACE INTO `zip_codes` SET zip_code = '7345', city = 'Alsómocsolád';
-REPLACE INTO `zip_codes` SET zip_code = '7346', city = 'Bikal';
-REPLACE INTO `zip_codes` SET zip_code = '7347', city = 'Egyházaskozár';
-REPLACE INTO `zip_codes` SET zip_code = '7348', city = 'Hegyhátmaróc';
-REPLACE INTO `zip_codes` SET zip_code = '7348', city = 'Tófű';
-REPLACE INTO `zip_codes` SET zip_code = '7349', city = 'Szászvár';
-REPLACE INTO `zip_codes` SET zip_code = '7351', city = 'Máza';
-REPLACE INTO `zip_codes` SET zip_code = '7352', city = 'Györe';
-REPLACE INTO `zip_codes` SET zip_code = '7353', city = 'Izmény';
-REPLACE INTO `zip_codes` SET zip_code = '7354', city = 'Váralja';
-REPLACE INTO `zip_codes` SET zip_code = '7355', city = 'Nagymányok';
-REPLACE INTO `zip_codes` SET zip_code = '7356', city = 'Kismányok';
-REPLACE INTO `zip_codes` SET zip_code = '7357', city = 'Jágónak';
-REPLACE INTO `zip_codes` SET zip_code = '7361', city = 'Kaposszekcső';
-REPLACE INTO `zip_codes` SET zip_code = '7362', city = 'Vásárosdombó';
-REPLACE INTO `zip_codes` SET zip_code = '7362', city = 'Gerényes';
-REPLACE INTO `zip_codes` SET zip_code = '7362', city = 'Tarrós';
-REPLACE INTO `zip_codes` SET zip_code = '7370', city = 'Sásd';
-REPLACE INTO `zip_codes` SET zip_code = '7370', city = 'Felsőegerszeg';
-REPLACE INTO `zip_codes` SET zip_code = '7370', city = 'Meződ';
-REPLACE INTO `zip_codes` SET zip_code = '7370', city = 'Oroszló';
-REPLACE INTO `zip_codes` SET zip_code = '7370', city = 'Palé';
-REPLACE INTO `zip_codes` SET zip_code = '7370', city = 'Varga';
-REPLACE INTO `zip_codes` SET zip_code = '7370', city = 'Vázsnok';
-REPLACE INTO `zip_codes` SET zip_code = '7381', city = 'Kisvaszar';
-REPLACE INTO `zip_codes` SET zip_code = '7381', city = 'Ág';
-REPLACE INTO `zip_codes` SET zip_code = '7381', city = 'Tékes';
-REPLACE INTO `zip_codes` SET zip_code = '7383', city = 'Tormás';
-REPLACE INTO `zip_codes` SET zip_code = '7383', city = 'Baranyaszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '7383', city = 'Szágy';
-REPLACE INTO `zip_codes` SET zip_code = '7384', city = 'Baranyajenő';
-REPLACE INTO `zip_codes` SET zip_code = '7385', city = 'Gödre';
-REPLACE INTO `zip_codes` SET zip_code = '7386', city = 'Gödre';
-REPLACE INTO `zip_codes` SET zip_code = '7391', city = 'Mindszentgodisa';
-REPLACE INTO `zip_codes` SET zip_code = '7391', city = 'Kisbeszterce';
-REPLACE INTO `zip_codes` SET zip_code = '7391', city = 'Kishajmás';
-REPLACE INTO `zip_codes` SET zip_code = '7393', city = 'Bakóca';
-REPLACE INTO `zip_codes` SET zip_code = '7394', city = 'Magyarhertelend';
-REPLACE INTO `zip_codes` SET zip_code = '7394', city = 'Bodolyabér';
-REPLACE INTO `zip_codes` SET zip_code = '7396', city = 'Magyarszék';
-REPLACE INTO `zip_codes` SET zip_code = '7400', city = 'Kaposvár';
-REPLACE INTO `zip_codes` SET zip_code = '7400', city = 'Zselickislak';
-REPLACE INTO `zip_codes` SET zip_code = '7431', city = 'Juta';
-REPLACE INTO `zip_codes` SET zip_code = '7432', city = 'Hetes';
-REPLACE INTO `zip_codes` SET zip_code = '7432', city = 'Csombárd';
-REPLACE INTO `zip_codes` SET zip_code = '7434', city = 'Mezőcsokonya';
-REPLACE INTO `zip_codes` SET zip_code = '7435', city = 'Somogysárd';
-REPLACE INTO `zip_codes` SET zip_code = '7436', city = 'Újvárfalva';
-REPLACE INTO `zip_codes` SET zip_code = '7439', city = 'Bodrog';
-REPLACE INTO `zip_codes` SET zip_code = '7441', city = 'Magyaregres';
-REPLACE INTO `zip_codes` SET zip_code = '7442', city = 'Várda';
-REPLACE INTO `zip_codes` SET zip_code = '7443', city = 'Somogyjád';
-REPLACE INTO `zip_codes` SET zip_code = '7443', city = 'Alsóbogát';
-REPLACE INTO `zip_codes` SET zip_code = '7443', city = 'Edde';
-REPLACE INTO `zip_codes` SET zip_code = '7444', city = 'Osztopán';
-REPLACE INTO `zip_codes` SET zip_code = '7452', city = 'Somogyaszaló';
-REPLACE INTO `zip_codes` SET zip_code = '7451', city = 'Kaposvár';
-REPLACE INTO `zip_codes` SET zip_code = '7453', city = 'Mernye';
-REPLACE INTO `zip_codes` SET zip_code = '7454', city = 'Somodor';
-REPLACE INTO `zip_codes` SET zip_code = '7455', city = 'Somogygeszti';
-REPLACE INTO `zip_codes` SET zip_code = '7456', city = 'Felsőmocsolád';
-REPLACE INTO `zip_codes` SET zip_code = '7457', city = 'Ecseny';
-REPLACE INTO `zip_codes` SET zip_code = '7458', city = 'Polány';
-REPLACE INTO `zip_codes` SET zip_code = '7461', city = 'Orci';
-REPLACE INTO `zip_codes` SET zip_code = '7463', city = 'Magyaratád';
-REPLACE INTO `zip_codes` SET zip_code = '7463', city = 'Patalom';
-REPLACE INTO `zip_codes` SET zip_code = '7464', city = 'Ráksi';
-REPLACE INTO `zip_codes` SET zip_code = '7465', city = 'Szentgáloskér';
-REPLACE INTO `zip_codes` SET zip_code = '7471', city = 'Zimány';
-REPLACE INTO `zip_codes` SET zip_code = '7472', city = 'Szentbalázs';
-REPLACE INTO `zip_codes` SET zip_code = '7472', city = 'Cserénfa';
-REPLACE INTO `zip_codes` SET zip_code = '7473', city = 'Gálosfa';
-REPLACE INTO `zip_codes` SET zip_code = '7473', city = 'Hajmás';
-REPLACE INTO `zip_codes` SET zip_code = '7473', city = 'Kaposgyarmat';
-REPLACE INTO `zip_codes` SET zip_code = '7474', city = 'Simonfa';
-REPLACE INTO `zip_codes` SET zip_code = '7474', city = 'Zselicszentpál';
-REPLACE INTO `zip_codes` SET zip_code = '7475', city = 'Bőszénfa';
-REPLACE INTO `zip_codes` SET zip_code = '7476', city = 'Kaposszerdahely';
-REPLACE INTO `zip_codes` SET zip_code = '7477', city = 'Szenna';
-REPLACE INTO `zip_codes` SET zip_code = '7477', city = 'Patca';
-REPLACE INTO `zip_codes` SET zip_code = '7477', city = 'Szilvásszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '7477', city = 'Zselickisfalud';
-REPLACE INTO `zip_codes` SET zip_code = '7478', city = 'Bárdudvarnok';
-REPLACE INTO `zip_codes` SET zip_code = '7479', city = 'Sántos';
-REPLACE INTO `zip_codes` SET zip_code = '7500', city = 'Nagyatád';
-REPLACE INTO `zip_codes` SET zip_code = '7511', city = 'Ötvöskónyi';
-REPLACE INTO `zip_codes` SET zip_code = '7512', city = 'Mike';
-REPLACE INTO `zip_codes` SET zip_code = '7513', city = 'Rinyaszentkirály';
-REPLACE INTO `zip_codes` SET zip_code = '7514', city = 'Tarany';
-REPLACE INTO `zip_codes` SET zip_code = '7515', city = 'Somogyudvarhely';
-REPLACE INTO `zip_codes` SET zip_code = '7516', city = 'Berzence';
-REPLACE INTO `zip_codes` SET zip_code = '7517', city = 'Bolhás';
-REPLACE INTO `zip_codes` SET zip_code = '7521', city = 'Kaposmérő';
-REPLACE INTO `zip_codes` SET zip_code = '7522', city = 'Kaposújlak';
-REPLACE INTO `zip_codes` SET zip_code = '7523', city = 'Kaposfő';
-REPLACE INTO `zip_codes` SET zip_code = '7523', city = 'Kisasszond';
-REPLACE INTO `zip_codes` SET zip_code = '7524', city = 'Kiskorpád';
-REPLACE INTO `zip_codes` SET zip_code = '7525', city = 'Jákó';
-REPLACE INTO `zip_codes` SET zip_code = '7526', city = 'Csököly';
-REPLACE INTO `zip_codes` SET zip_code = '7527', city = 'Gige';
-REPLACE INTO `zip_codes` SET zip_code = '7527', city = 'Rinyakovácsi';
-REPLACE INTO `zip_codes` SET zip_code = '7530', city = 'Kadarkút';
-REPLACE INTO `zip_codes` SET zip_code = '7530', city = 'Kőkút';
-REPLACE INTO `zip_codes` SET zip_code = '7532', city = 'Hencse';
-REPLACE INTO `zip_codes` SET zip_code = '7533', city = 'Hedrehely';
-REPLACE INTO `zip_codes` SET zip_code = '7533', city = 'Visnye';
-REPLACE INTO `zip_codes` SET zip_code = '7535', city = 'Lad';
-REPLACE INTO `zip_codes` SET zip_code = '7536', city = 'Patosfa';
-REPLACE INTO `zip_codes` SET zip_code = '7537', city = 'Homokszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '7538', city = 'Kálmáncsa';
-REPLACE INTO `zip_codes` SET zip_code = '7539', city = 'Szulok';
-REPLACE INTO `zip_codes` SET zip_code = '7541', city = 'Kutas';
-REPLACE INTO `zip_codes` SET zip_code = '7542', city = 'Kisbajom';
-REPLACE INTO `zip_codes` SET zip_code = '7543', city = 'Beleg';
-REPLACE INTO `zip_codes` SET zip_code = '7544', city = 'Szabás';
-REPLACE INTO `zip_codes` SET zip_code = '7545', city = 'Nagykorpád';
-REPLACE INTO `zip_codes` SET zip_code = '7551', city = 'Lábod';
-REPLACE INTO `zip_codes` SET zip_code = '7552', city = 'Rinyabesenyő';
-REPLACE INTO `zip_codes` SET zip_code = '7553', city = 'Görgeteg';
-REPLACE INTO `zip_codes` SET zip_code = '7555', city = 'Csokonyavisonta';
-REPLACE INTO `zip_codes` SET zip_code = '7556', city = 'Rinyaújlak';
-REPLACE INTO `zip_codes` SET zip_code = '7557', city = 'Barcs';
-REPLACE INTO `zip_codes` SET zip_code = '7561', city = 'Nagybajom';
-REPLACE INTO `zip_codes` SET zip_code = '7561', city = 'Pálmajor';
-REPLACE INTO `zip_codes` SET zip_code = '7562', city = 'Segesd';
-REPLACE INTO `zip_codes` SET zip_code = '7563', city = 'Somogyszob';
-REPLACE INTO `zip_codes` SET zip_code = '7564', city = 'Kaszó';
-REPLACE INTO `zip_codes` SET zip_code = '7570', city = 'Barcs';
-REPLACE INTO `zip_codes` SET zip_code = '7582', city = 'Komlósd';
-REPLACE INTO `zip_codes` SET zip_code = '7582', city = 'Péterhida';
-REPLACE INTO `zip_codes` SET zip_code = '7584', city = 'Babócsa';
-REPLACE INTO `zip_codes` SET zip_code = '7584', city = 'Rinyaújnép';
-REPLACE INTO `zip_codes` SET zip_code = '7584', city = 'Somogyaracs';
-REPLACE INTO `zip_codes` SET zip_code = '7585', city = 'Háromfa';
-REPLACE INTO `zip_codes` SET zip_code = '7585', city = 'Bakháza';
-REPLACE INTO `zip_codes` SET zip_code = '7586', city = 'Bolhó';
-REPLACE INTO `zip_codes` SET zip_code = '7587', city = 'Heresznye';
-REPLACE INTO `zip_codes` SET zip_code = '7588', city = 'Vízvár';
-REPLACE INTO `zip_codes` SET zip_code = '7589', city = 'Bélavár';
-REPLACE INTO `zip_codes` SET zip_code = '7600', city = 'Pécs*';
-REPLACE INTO `zip_codes` SET zip_code = '7639', city = 'Kökény';
-REPLACE INTO `zip_codes` SET zip_code = '7661', city = 'Erzsébet';
-REPLACE INTO `zip_codes` SET zip_code = '7661', city = 'Kátoly';
-REPLACE INTO `zip_codes` SET zip_code = '7661', city = 'Kékesd';
-REPLACE INTO `zip_codes` SET zip_code = '7661', city = 'Szellő';
-REPLACE INTO `zip_codes` SET zip_code = '7663', city = 'Máriakéménd';
-REPLACE INTO `zip_codes` SET zip_code = '7664', city = 'Berkesd';
-REPLACE INTO `zip_codes` SET zip_code = '7664', city = 'Pereked';
-REPLACE INTO `zip_codes` SET zip_code = '7664', city = 'Szilágy';
-REPLACE INTO `zip_codes` SET zip_code = '7666', city = 'Pogány';
-REPLACE INTO `zip_codes` SET zip_code = '7668', city = 'Keszü';
-REPLACE INTO `zip_codes` SET zip_code = '7668', city = 'Gyód';
-REPLACE INTO `zip_codes` SET zip_code = '7671', city = 'Bicsérd';
-REPLACE INTO `zip_codes` SET zip_code = '7671', city = 'Aranyosgadány';
-REPLACE INTO `zip_codes` SET zip_code = '7671', city = 'Zók';
-REPLACE INTO `zip_codes` SET zip_code = '7672', city = 'Boda';
-REPLACE INTO `zip_codes` SET zip_code = '7673', city = 'Kővágószőlős';
-REPLACE INTO `zip_codes` SET zip_code = '7673', city = 'Cserkút';
-REPLACE INTO `zip_codes` SET zip_code = '7675', city = 'Bakonya';
-REPLACE INTO `zip_codes` SET zip_code = '7675', city = 'Kővágótöttös';
-REPLACE INTO `zip_codes` SET zip_code = '7677', city = 'Orfű ';
-REPLACE INTO `zip_codes` SET zip_code = '7678', city = 'Abaliget';
-REPLACE INTO `zip_codes` SET zip_code = '7678', city = 'Husztót';
-REPLACE INTO `zip_codes` SET zip_code = '7678', city = 'Kovácsszénája';
-REPLACE INTO `zip_codes` SET zip_code = '7681', city = 'Hetvehely';
-REPLACE INTO `zip_codes` SET zip_code = '7681', city = 'Okorvölgy';
-REPLACE INTO `zip_codes` SET zip_code = '7681', city = 'Szentkatalin';
-REPLACE INTO `zip_codes` SET zip_code = '7682', city = 'Bükkösd';
-REPLACE INTO `zip_codes` SET zip_code = '7683', city = 'Helesfa';
-REPLACE INTO `zip_codes` SET zip_code = '7683', city = 'Cserdi';
-REPLACE INTO `zip_codes` SET zip_code = '7683', city = 'Dinnyeberki';
-REPLACE INTO `zip_codes` SET zip_code = '7694', city = 'Hosszúhetény';
-REPLACE INTO `zip_codes` SET zip_code = '7695', city = 'Mecseknádasd';
-REPLACE INTO `zip_codes` SET zip_code = '7695', city = 'Óbánya';
-REPLACE INTO `zip_codes` SET zip_code = '7695', city = 'Ófalu';
-REPLACE INTO `zip_codes` SET zip_code = '7696', city = 'Hidas';
-REPLACE INTO `zip_codes` SET zip_code = '7700', city = 'Mohács';
-REPLACE INTO `zip_codes` SET zip_code = '7711', city = 'Bár';
-REPLACE INTO `zip_codes` SET zip_code = '7712', city = 'Dunaszekcső';
-REPLACE INTO `zip_codes` SET zip_code = '7714', city = 'Mohács';
-REPLACE INTO `zip_codes` SET zip_code = '7715', city = 'Mohács';
-REPLACE INTO `zip_codes` SET zip_code = '7716', city = 'Homorúd';
-REPLACE INTO `zip_codes` SET zip_code = '7717', city = 'Kölked';
-REPLACE INTO `zip_codes` SET zip_code = '7718', city = 'Udvar';
-REPLACE INTO `zip_codes` SET zip_code = '7720', city = 'Pécsvárad';
-REPLACE INTO `zip_codes` SET zip_code = '7720', city = 'Apátvarasd';
-REPLACE INTO `zip_codes` SET zip_code = '7720', city = 'Lovászhetény';
-REPLACE INTO `zip_codes` SET zip_code = '7720', city = 'Martonfa';
-REPLACE INTO `zip_codes` SET zip_code = '7720', city = 'Zengővárkony';
-REPLACE INTO `zip_codes` SET zip_code = '7723', city = 'Erdősmecske';
-REPLACE INTO `zip_codes` SET zip_code = '7724', city = 'Feked';
-REPLACE INTO `zip_codes` SET zip_code = '7725', city = 'Szebény';
-REPLACE INTO `zip_codes` SET zip_code = '7726', city = 'Véménd';
-REPLACE INTO `zip_codes` SET zip_code = '7727', city = 'Palotabozsok';
-REPLACE INTO `zip_codes` SET zip_code = '7728', city = 'Somberek';
-REPLACE INTO `zip_codes` SET zip_code = '7728', city = 'Görcsönydoboka';
-REPLACE INTO `zip_codes` SET zip_code = '7731', city = 'Nagypall';
-REPLACE INTO `zip_codes` SET zip_code = '7732', city = 'Fazekasboda';
-REPLACE INTO `zip_codes` SET zip_code = '7733', city = 'Geresdlak';
-REPLACE INTO `zip_codes` SET zip_code = '7733', city = 'Maráza';
-REPLACE INTO `zip_codes` SET zip_code = '7735', city = 'Himesháza';
-REPLACE INTO `zip_codes` SET zip_code = '7735', city = 'Erdősmárok';
-REPLACE INTO `zip_codes` SET zip_code = '7735', city = 'Szűr';
-REPLACE INTO `zip_codes` SET zip_code = '7737', city = 'Székelyszabar';
-REPLACE INTO `zip_codes` SET zip_code = '7741', city = 'Nagykozár';
-REPLACE INTO `zip_codes` SET zip_code = '7742', city = 'Bogád';
-REPLACE INTO `zip_codes` SET zip_code = '7743', city = 'Romonya';
-REPLACE INTO `zip_codes` SET zip_code = '7744', city = 'Ellend';
-REPLACE INTO `zip_codes` SET zip_code = '7745', city = 'Olasz';
-REPLACE INTO `zip_codes` SET zip_code = '7745', city = 'Hásságy';
-REPLACE INTO `zip_codes` SET zip_code = '7747', city = 'Belvárdgyula';
-REPLACE INTO `zip_codes` SET zip_code = '7747', city = 'Birján';
-REPLACE INTO `zip_codes` SET zip_code = '7751', city = 'Szederkény';
-REPLACE INTO `zip_codes` SET zip_code = '7751', city = 'Monyoród';
-REPLACE INTO `zip_codes` SET zip_code = '7752', city = 'Versend';
-REPLACE INTO `zip_codes` SET zip_code = '7753', city = 'Szajk';
-REPLACE INTO `zip_codes` SET zip_code = '7754', city = 'Bóly';
-REPLACE INTO `zip_codes` SET zip_code = '7755', city = 'Töttös';
-REPLACE INTO `zip_codes` SET zip_code = '7756', city = 'Borjád';
-REPLACE INTO `zip_codes` SET zip_code = '7756', city = 'Kisbudmér';
-REPLACE INTO `zip_codes` SET zip_code = '7756', city = 'Nagybudmér';
-REPLACE INTO `zip_codes` SET zip_code = '7756', city = 'Pócsa';
-REPLACE INTO `zip_codes` SET zip_code = '7757', city = 'Babarc';
-REPLACE INTO `zip_codes` SET zip_code = '7757', city = 'Liptód';
-REPLACE INTO `zip_codes` SET zip_code = '7759', city = 'Lánycsók';
-REPLACE INTO `zip_codes` SET zip_code = '7759', city = 'Kisnyárád';
-REPLACE INTO `zip_codes` SET zip_code = '7761', city = 'Kozármisleny';
-REPLACE INTO `zip_codes` SET zip_code = '7761', city = 'Lothárd';
-REPLACE INTO `zip_codes` SET zip_code = '7761', city = 'Magyarsarlós';
-REPLACE INTO `zip_codes` SET zip_code = '7762', city = 'Pécsudvard';
-REPLACE INTO `zip_codes` SET zip_code = '7763', city = 'Egerág';
-REPLACE INTO `zip_codes` SET zip_code = '7763', city = 'Áta';
-REPLACE INTO `zip_codes` SET zip_code = '7763', city = 'Kisherend';
-REPLACE INTO `zip_codes` SET zip_code = '7763', city = 'Szemely';
-REPLACE INTO `zip_codes` SET zip_code = '7763', city = 'Szőkéd';
-REPLACE INTO `zip_codes` SET zip_code = '7766', city = 'Újpetre';
-REPLACE INTO `zip_codes` SET zip_code = '7766', city = 'Kiskassa';
-REPLACE INTO `zip_codes` SET zip_code = '7766', city = 'Peterd';
-REPLACE INTO `zip_codes` SET zip_code = '7766', city = 'Pécsdevecser';
-REPLACE INTO `zip_codes` SET zip_code = '7768', city = 'Vokány';
-REPLACE INTO `zip_codes` SET zip_code = '7768', city = 'Kistótfalu';
-REPLACE INTO `zip_codes` SET zip_code = '7771', city = 'Palkonya';
-REPLACE INTO `zip_codes` SET zip_code = '7772', city = 'Villánykövesd';
-REPLACE INTO `zip_codes` SET zip_code = '7772', city = 'Ivánbattyán';
-REPLACE INTO `zip_codes` SET zip_code = '7773', city = 'Villány';
-REPLACE INTO `zip_codes` SET zip_code = '7773', city = 'Kisjakabfalva';
-REPLACE INTO `zip_codes` SET zip_code = '7774', city = 'Márok';
-REPLACE INTO `zip_codes` SET zip_code = '7775', city = 'Magyarbóly';
-REPLACE INTO `zip_codes` SET zip_code = '7775', city = 'Illocska';
-REPLACE INTO `zip_codes` SET zip_code = '7775', city = 'Kislippó';
-REPLACE INTO `zip_codes` SET zip_code = '7775', city = 'Lapáncsa';
-REPLACE INTO `zip_codes` SET zip_code = '7781', city = 'Lippó';
-REPLACE INTO `zip_codes` SET zip_code = '7781', city = 'Ivándárda';
-REPLACE INTO `zip_codes` SET zip_code = '7781', city = 'Sárok';
-REPLACE INTO `zip_codes` SET zip_code = '7782', city = 'Bezedek';
-REPLACE INTO `zip_codes` SET zip_code = '7783', city = 'Majs';
-REPLACE INTO `zip_codes` SET zip_code = '7784', city = 'Nagynyárád';
-REPLACE INTO `zip_codes` SET zip_code = '7785', city = 'Sátorhely';
-REPLACE INTO `zip_codes` SET zip_code = '7800', city = 'Siklós';
-REPLACE INTO `zip_codes` SET zip_code = '7800', city = 'Kisharsány';
-REPLACE INTO `zip_codes` SET zip_code = '7800', city = 'Nagytótfalu';
-REPLACE INTO `zip_codes` SET zip_code = '7811', city = 'Szalánta';
-REPLACE INTO `zip_codes` SET zip_code = '7811', city = 'Bisse';
-REPLACE INTO `zip_codes` SET zip_code = '7811', city = 'Bosta';
-REPLACE INTO `zip_codes` SET zip_code = '7811', city = 'Csarnóta';
-REPLACE INTO `zip_codes` SET zip_code = '7811', city = 'Szilvás';
-REPLACE INTO `zip_codes` SET zip_code = '7811', city = 'Túrony';
-REPLACE INTO `zip_codes` SET zip_code = '7812', city = 'Garé';
-REPLACE INTO `zip_codes` SET zip_code = '7813', city = 'Szava';
-REPLACE INTO `zip_codes` SET zip_code = '7814', city = 'Ócsárd';
-REPLACE INTO `zip_codes` SET zip_code = '7814', city = 'Babarcszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '7814', city = 'Kisdér';
-REPLACE INTO `zip_codes` SET zip_code = '7814', city = 'Siklósbodony';
-REPLACE INTO `zip_codes` SET zip_code = '7815', city = 'Harkány';
-REPLACE INTO `zip_codes` SET zip_code = '7817', city = 'Diósviszló';
-REPLACE INTO `zip_codes` SET zip_code = '7817', city = 'Márfa';
-REPLACE INTO `zip_codes` SET zip_code = '7817', city = 'Rádfalva';
-REPLACE INTO `zip_codes` SET zip_code = '7822', city = 'Nagyharsány';
-REPLACE INTO `zip_codes` SET zip_code = '7823', city = 'Siklósnagyfalu';
-REPLACE INTO `zip_codes` SET zip_code = '7823', city = 'Kistapolca';
-REPLACE INTO `zip_codes` SET zip_code = '7824', city = 'Egyházasharaszti';
-REPLACE INTO `zip_codes` SET zip_code = '7825', city = 'Old';
-REPLACE INTO `zip_codes` SET zip_code = '7826', city = 'Alsószentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '7827', city = 'Beremend';
-REPLACE INTO `zip_codes` SET zip_code = '7827', city = 'Kásád';
-REPLACE INTO `zip_codes` SET zip_code = '7831', city = 'Pellérd';
-REPLACE INTO `zip_codes` SET zip_code = '7833', city = 'Görcsöny';
-REPLACE INTO `zip_codes` SET zip_code = '7833', city = 'Regenye';
-REPLACE INTO `zip_codes` SET zip_code = '7833', city = 'Szőke';
-REPLACE INTO `zip_codes` SET zip_code = '7834', city = 'Baksa';
-REPLACE INTO `zip_codes` SET zip_code = '7834', city = 'Tengeri';
-REPLACE INTO `zip_codes` SET zip_code = '7834', city = 'Téseny';
-REPLACE INTO `zip_codes` SET zip_code = '7836', city = 'Bogádmindszent';
-REPLACE INTO `zip_codes` SET zip_code = '7836', city = 'Ózdfalu';
-REPLACE INTO `zip_codes` SET zip_code = '7837', city = 'Hegyszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '7838', city = 'Vajszló';
-REPLACE INTO `zip_codes` SET zip_code = '7838', city = 'Besence';
-REPLACE INTO `zip_codes` SET zip_code = '7838', city = 'Hirics';
-REPLACE INTO `zip_codes` SET zip_code = '7838', city = 'Lúzsok';
-REPLACE INTO `zip_codes` SET zip_code = '7838', city = 'Nagycsány';
-REPLACE INTO `zip_codes` SET zip_code = '7838', city = 'Páprád';
-REPLACE INTO `zip_codes` SET zip_code = '7838', city = 'Piskó';
-REPLACE INTO `zip_codes` SET zip_code = '7838', city = 'Vejti';
-REPLACE INTO `zip_codes` SET zip_code = '7839', city = 'Zaláta';
-REPLACE INTO `zip_codes` SET zip_code = '7839', city = 'Kemse';
-REPLACE INTO `zip_codes` SET zip_code = '7841', city = 'Sámod';
-REPLACE INTO `zip_codes` SET zip_code = '7841', city = 'Adorjás';
-REPLACE INTO `zip_codes` SET zip_code = '7841', city = 'Baranyahídvég';
-REPLACE INTO `zip_codes` SET zip_code = '7841', city = 'Kisszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '7841', city = 'Kórós';
-REPLACE INTO `zip_codes` SET zip_code = '7843', city = 'Kémes';
-REPLACE INTO `zip_codes` SET zip_code = '7843', city = 'Cún';
-REPLACE INTO `zip_codes` SET zip_code = '7843', city = 'Drávapiski';
-REPLACE INTO `zip_codes` SET zip_code = '7843', city = 'Szaporca';
-REPLACE INTO `zip_codes` SET zip_code = '7843', city = 'Tésenfa';
-REPLACE INTO `zip_codes` SET zip_code = '7846', city = 'Drávacsepely';
-REPLACE INTO `zip_codes` SET zip_code = '7847', city = 'Kovácshida';
-REPLACE INTO `zip_codes` SET zip_code = '7847', city = 'Drávaszerdahely';
-REPLACE INTO `zip_codes` SET zip_code = '7847', city = 'Ipacsfa';
-REPLACE INTO `zip_codes` SET zip_code = '7849', city = 'Drávacsehi';
-REPLACE INTO `zip_codes` SET zip_code = '7850', city = 'Drávapalkonya';
-REPLACE INTO `zip_codes` SET zip_code = '7851', city = 'Drávaszabolcs';
-REPLACE INTO `zip_codes` SET zip_code = '7853', city = 'Gordisa';
-REPLACE INTO `zip_codes` SET zip_code = '7854', city = 'Matty';
-REPLACE INTO `zip_codes` SET zip_code = '7900', city = 'Szigetvár';
-REPLACE INTO `zip_codes` SET zip_code = '7900', city = 'Botykapeterd';
-REPLACE INTO `zip_codes` SET zip_code = '7900', city = 'Csertő';
-REPLACE INTO `zip_codes` SET zip_code = '7912', city = 'Nagypeterd';
-REPLACE INTO `zip_codes` SET zip_code = '7912', city = 'Nyugotszenterzsébet';
-REPLACE INTO `zip_codes` SET zip_code = '7912', city = 'Nagyváty';
-REPLACE INTO `zip_codes` SET zip_code = '7913', city = 'Szentdénes';
-REPLACE INTO `zip_codes` SET zip_code = '7914', city = 'Rózsafa';
-REPLACE INTO `zip_codes` SET zip_code = '7914', city = 'Bánfa';
-REPLACE INTO `zip_codes` SET zip_code = '7914', city = 'Katádfa';
-REPLACE INTO `zip_codes` SET zip_code = '7915', city = 'Dencsháza';
-REPLACE INTO `zip_codes` SET zip_code = '7915', city = 'Szentegát';
-REPLACE INTO `zip_codes` SET zip_code = '7918', city = 'Lakócsa';
-REPLACE INTO `zip_codes` SET zip_code = '7918', city = 'Szentborbás';
-REPLACE INTO `zip_codes` SET zip_code = '7918', city = 'Tótújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '7921', city = 'Somogyhatvan';
-REPLACE INTO `zip_codes` SET zip_code = '7922', city = 'Somogyapáti';
-REPLACE INTO `zip_codes` SET zip_code = '7923', city = 'Basal';
-REPLACE INTO `zip_codes` SET zip_code = '7923', city = 'Patapoklosi';
-REPLACE INTO `zip_codes` SET zip_code = '7924', city = 'Somogyviszló';
-REPLACE INTO `zip_codes` SET zip_code = '7925', city = 'Somogyhárságy';
-REPLACE INTO `zip_codes` SET zip_code = '7925', city = 'Magyarlukafa';
-REPLACE INTO `zip_codes` SET zip_code = '7926', city = 'Vásárosbéc';
-REPLACE INTO `zip_codes` SET zip_code = '7932', city = 'Mozsgó';
-REPLACE INTO `zip_codes` SET zip_code = '7932', city = 'Almáskeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '7932', city = 'Szulimán';
-REPLACE INTO `zip_codes` SET zip_code = '7934', city = 'Almamellék';
-REPLACE INTO `zip_codes` SET zip_code = '7935', city = 'Ibafa';
-REPLACE INTO `zip_codes` SET zip_code = '7935', city = 'Csebény';
-REPLACE INTO `zip_codes` SET zip_code = '7935', city = 'Horváthertelend';
-REPLACE INTO `zip_codes` SET zip_code = '7936', city = 'Szentlászló';
-REPLACE INTO `zip_codes` SET zip_code = '7937', city = 'Boldogasszonyfa';
-REPLACE INTO `zip_codes` SET zip_code = '7940', city = 'Szentlőrinc';
-REPLACE INTO `zip_codes` SET zip_code = '7940', city = 'Csonkamindszent';
-REPLACE INTO `zip_codes` SET zip_code = '7940', city = 'Kacsóta';
-REPLACE INTO `zip_codes` SET zip_code = '7951', city = 'Szabadszentkirály';
-REPLACE INTO `zip_codes` SET zip_code = '7951', city = 'Gerde';
-REPLACE INTO `zip_codes` SET zip_code = '7951', city = 'Pécsbagota';
-REPLACE INTO `zip_codes` SET zip_code = '7951', city = 'Velény';
-REPLACE INTO `zip_codes` SET zip_code = '7953', city = 'Királyegyháza';
-REPLACE INTO `zip_codes` SET zip_code = '7954', city = 'Magyarmecske';
-REPLACE INTO `zip_codes` SET zip_code = '7954', city = 'Gilvánfa';
-REPLACE INTO `zip_codes` SET zip_code = '7954', city = 'Gyöngyfa';
-REPLACE INTO `zip_codes` SET zip_code = '7954', city = 'Kisasszonyfa';
-REPLACE INTO `zip_codes` SET zip_code = '7954', city = 'Magyartelek';
-REPLACE INTO `zip_codes` SET zip_code = '7957', city = 'Okorág ';
-REPLACE INTO `zip_codes` SET zip_code = '7958', city = 'Kákics ';
-REPLACE INTO `zip_codes` SET zip_code = '7960', city = 'Sellye';
-REPLACE INTO `zip_codes` SET zip_code = '7960', city = 'Drávaiványi';
-REPLACE INTO `zip_codes` SET zip_code = '7960', city = 'Drávasztára';
-REPLACE INTO `zip_codes` SET zip_code = '7960', city = 'Marócsa';
-REPLACE INTO `zip_codes` SET zip_code = '7960', city = 'Sósvertike';
-REPLACE INTO `zip_codes` SET zip_code = '7960', city = 'Sumony';
-REPLACE INTO `zip_codes` SET zip_code = '7964', city = 'Csányoszró';
-REPLACE INTO `zip_codes` SET zip_code = '7966', city = 'Bogdása';
-REPLACE INTO `zip_codes` SET zip_code = '7967', city = 'Drávafok';
-REPLACE INTO `zip_codes` SET zip_code = '7967', city = 'Drávakeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '7967', city = 'Markóc';
-REPLACE INTO `zip_codes` SET zip_code = '7968', city = 'Felsőszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '7971', city = 'Hobol';
-REPLACE INTO `zip_codes` SET zip_code = '7972', city = 'Gyöngyösmellék';
-REPLACE INTO `zip_codes` SET zip_code = '7973', city = 'Teklafalu';
-REPLACE INTO `zip_codes` SET zip_code = '7973', city = 'Bürüs';
-REPLACE INTO `zip_codes` SET zip_code = '7973', city = 'Endrőc';
-REPLACE INTO `zip_codes` SET zip_code = '7973', city = 'Várad';
-REPLACE INTO `zip_codes` SET zip_code = '7975', city = 'Kétújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '7976', city = 'Zádor';
-REPLACE INTO `zip_codes` SET zip_code = '7976', city = 'Szörény';
-REPLACE INTO `zip_codes` SET zip_code = '7977', city = 'Kastélyosdombó';
-REPLACE INTO `zip_codes` SET zip_code = '7977', city = 'Drávagárdony';
-REPLACE INTO `zip_codes` SET zip_code = '7977', city = 'Potony';
-REPLACE INTO `zip_codes` SET zip_code = '7979', city = 'Drávatamási';
-REPLACE INTO `zip_codes` SET zip_code = '7980', city = 'Pettend';
-REPLACE INTO `zip_codes` SET zip_code = '7981', city = 'Nemeske';
-REPLACE INTO `zip_codes` SET zip_code = '7981', city = 'Kistamási';
-REPLACE INTO `zip_codes` SET zip_code = '7981', city = 'Merenye';
-REPLACE INTO `zip_codes` SET zip_code = '7981', city = 'Molvány';
-REPLACE INTO `zip_codes` SET zip_code = '7981', city = 'Tótszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '7985', city = 'Nagydobsza';
-REPLACE INTO `zip_codes` SET zip_code = '7985', city = 'Kisdobsza';
-REPLACE INTO `zip_codes` SET zip_code = '7987', city = 'Istvándi';
-REPLACE INTO `zip_codes` SET zip_code = '7988', city = 'Darány';
-REPLACE INTO `zip_codes` SET zip_code = '8000', city = 'Székesfehérvár';
-REPLACE INTO `zip_codes` SET zip_code = '8019', city = 'Székesfehérvár';
-REPLACE INTO `zip_codes` SET zip_code = '8041', city = 'Csór';
-REPLACE INTO `zip_codes` SET zip_code = '8042', city = 'Moha';
-REPLACE INTO `zip_codes` SET zip_code = '8043', city = 'Iszkaszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '8044', city = 'Kincsesbánya';
-REPLACE INTO `zip_codes` SET zip_code = '8045', city = 'Isztimér';
-REPLACE INTO `zip_codes` SET zip_code = '8046', city = 'Bakonykúti';
-REPLACE INTO `zip_codes` SET zip_code = '8051', city = 'Sárkeresztes';
-REPLACE INTO `zip_codes` SET zip_code = '8052', city = 'Fehérvárcsurgó';
-REPLACE INTO `zip_codes` SET zip_code = '8053', city = 'Bodajk';
-REPLACE INTO `zip_codes` SET zip_code = '8054', city = 'Balinka';
-REPLACE INTO `zip_codes` SET zip_code = '8055', city = 'Balinka';
-REPLACE INTO `zip_codes` SET zip_code = '8056', city = 'Bakonycsernye';
-REPLACE INTO `zip_codes` SET zip_code = '8060', city = 'Mór';
-REPLACE INTO `zip_codes` SET zip_code = '8065', city = 'Nagyveleg';
-REPLACE INTO `zip_codes` SET zip_code = '8066', city = 'Pusztavám';
-REPLACE INTO `zip_codes` SET zip_code = '8071', city = 'Magyaralmás';
-REPLACE INTO `zip_codes` SET zip_code = '8072', city = 'Söréd';
-REPLACE INTO `zip_codes` SET zip_code = '8073', city = 'Csákberény';
-REPLACE INTO `zip_codes` SET zip_code = '8074', city = 'Csókakő';
-REPLACE INTO `zip_codes` SET zip_code = '8080', city = 'Bodmér';
-REPLACE INTO `zip_codes` SET zip_code = '8081', city = 'Zámoly';
-REPLACE INTO `zip_codes` SET zip_code = '8082', city = 'Gánt';
-REPLACE INTO `zip_codes` SET zip_code = '8083', city = 'Csákvár';
-REPLACE INTO `zip_codes` SET zip_code = '8085', city = 'Vértesboglár';
-REPLACE INTO `zip_codes` SET zip_code = '8086', city = 'Felcsút';
-REPLACE INTO `zip_codes` SET zip_code = '8087', city = 'Alcsútdoboz';
-REPLACE INTO `zip_codes` SET zip_code = '8088', city = 'Tabajd';
-REPLACE INTO `zip_codes` SET zip_code = '8089', city = 'Vértesacsa';
-REPLACE INTO `zip_codes` SET zip_code = '8092', city = 'Pátka';
-REPLACE INTO `zip_codes` SET zip_code = '8093', city = 'Lovasberény';
-REPLACE INTO `zip_codes` SET zip_code = '8095', city = 'Pákozd';
-REPLACE INTO `zip_codes` SET zip_code = '8096', city = 'Sukoró';
-REPLACE INTO `zip_codes` SET zip_code = '8097', city = 'Nadap';
-REPLACE INTO `zip_codes` SET zip_code = '8100', city = 'Várpalota';
-REPLACE INTO `zip_codes` SET zip_code = '8105', city = 'Pétfürdő';
-REPLACE INTO `zip_codes` SET zip_code = '8109', city = 'Tés';
-REPLACE INTO `zip_codes` SET zip_code = '8111', city = 'Seregélyes';
-REPLACE INTO `zip_codes` SET zip_code = '8112', city = 'Zichyújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '8121', city = 'Tác';
-REPLACE INTO `zip_codes` SET zip_code = '8122', city = 'Csősz';
-REPLACE INTO `zip_codes` SET zip_code = '8123', city = 'Soponya';
-REPLACE INTO `zip_codes` SET zip_code = '8124', city = 'Káloz';
-REPLACE INTO `zip_codes` SET zip_code = '8125', city = 'Sárkeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '8126', city = 'Sárszentágota';
-REPLACE INTO `zip_codes` SET zip_code = '8127', city = 'Aba';
-REPLACE INTO `zip_codes` SET zip_code = '8130', city = 'Enying';
-REPLACE INTO `zip_codes` SET zip_code = '8131', city = 'Enying';
-REPLACE INTO `zip_codes` SET zip_code = '8132', city = 'Lepsény';
-REPLACE INTO `zip_codes` SET zip_code = '8133', city = 'Mezőszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '8134', city = 'Mátyásdomb';
-REPLACE INTO `zip_codes` SET zip_code = '8135', city = 'Dég';
-REPLACE INTO `zip_codes` SET zip_code = '8136', city = 'Lajoskomárom';
-REPLACE INTO `zip_codes` SET zip_code = '8137', city = 'Mezőkomárom';
-REPLACE INTO `zip_codes` SET zip_code = '8138', city = 'Szabadhídvég';
-REPLACE INTO `zip_codes` SET zip_code = '8139', city = 'Szabadhídvég';
-REPLACE INTO `zip_codes` SET zip_code = '8142', city = 'Úrhida';
-REPLACE INTO `zip_codes` SET zip_code = '8143', city = 'Sárszentmihály';
-REPLACE INTO `zip_codes` SET zip_code = '8144', city = 'Sárkeszi';
-REPLACE INTO `zip_codes` SET zip_code = '8145', city = 'Nádasdladány';
-REPLACE INTO `zip_codes` SET zip_code = '8146', city = 'Jenő';
-REPLACE INTO `zip_codes` SET zip_code = '8151', city = 'Szabadbattyán';
-REPLACE INTO `zip_codes` SET zip_code = '8152', city = 'Kőszárhegy';
-REPLACE INTO `zip_codes` SET zip_code = '8154', city = 'Polgárdi';
-REPLACE INTO `zip_codes` SET zip_code = '8156', city = 'Kisláng';
-REPLACE INTO `zip_codes` SET zip_code = '8157', city = 'Füle';
-REPLACE INTO `zip_codes` SET zip_code = '8161', city = 'Ősi';
-REPLACE INTO `zip_codes` SET zip_code = '8162', city = 'Küngös';
-REPLACE INTO `zip_codes` SET zip_code = '8163', city = 'Csajág';
-REPLACE INTO `zip_codes` SET zip_code = '8164', city = 'Balatonfőkajár';
-REPLACE INTO `zip_codes` SET zip_code = '8171', city = 'Balatonvilágos';
-REPLACE INTO `zip_codes` SET zip_code = '8172', city = 'Balatonakarattya';
-REPLACE INTO `zip_codes` SET zip_code = '8174', city = 'Balatonkenese';
-REPLACE INTO `zip_codes` SET zip_code = '8175', city = 'Balatonfűzfő';
-REPLACE INTO `zip_codes` SET zip_code = '8181', city = 'Berhida';
-REPLACE INTO `zip_codes` SET zip_code = '8182', city = 'Berhida';
-REPLACE INTO `zip_codes` SET zip_code = '8183', city = 'Papkeszi';
-REPLACE INTO `zip_codes` SET zip_code = '8184', city = 'Balatonfűzfő';
-REPLACE INTO `zip_codes` SET zip_code = '8191', city = 'Öskü';
-REPLACE INTO `zip_codes` SET zip_code = '8192', city = 'Hajmáskér';
-REPLACE INTO `zip_codes` SET zip_code = '8193', city = 'Sóly';
-REPLACE INTO `zip_codes` SET zip_code = '8194', city = 'Vilonya';
-REPLACE INTO `zip_codes` SET zip_code = '8195', city = 'Királyszentistván';
-REPLACE INTO `zip_codes` SET zip_code = '8196', city = 'Litér';
-REPLACE INTO `zip_codes` SET zip_code = '8200', city = 'Veszprém';
-REPLACE INTO `zip_codes` SET zip_code = '8220', city = 'Balatonalmádi';
-REPLACE INTO `zip_codes` SET zip_code = '8225', city = 'Szentkirályszabadja';
-REPLACE INTO `zip_codes` SET zip_code = '8226', city = 'Alsóörs';
-REPLACE INTO `zip_codes` SET zip_code = '8227', city = 'Felsőörs';
-REPLACE INTO `zip_codes` SET zip_code = '8228', city = 'Lovas';
-REPLACE INTO `zip_codes` SET zip_code = '8229', city = 'Csopak';
-REPLACE INTO `zip_codes` SET zip_code = '8229', city = 'Paloznak';
-REPLACE INTO `zip_codes` SET zip_code = '8230', city = 'Balatonfüred';
-REPLACE INTO `zip_codes` SET zip_code = '8233', city = 'Balatonszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '8237', city = 'Tihany';
-REPLACE INTO `zip_codes` SET zip_code = '8241', city = 'Aszófő';
-REPLACE INTO `zip_codes` SET zip_code = '8242', city = 'Balatonudvari';
-REPLACE INTO `zip_codes` SET zip_code = '8242', city = 'Örvényes';
-REPLACE INTO `zip_codes` SET zip_code = '8243', city = 'Balatonakali';
-REPLACE INTO `zip_codes` SET zip_code = '8244', city = 'Dörgicse';
-REPLACE INTO `zip_codes` SET zip_code = '8245', city = 'Pécsely';
-REPLACE INTO `zip_codes` SET zip_code = '8245', city = 'Vászoly';
-REPLACE INTO `zip_codes` SET zip_code = '8246', city = 'Tótvázsony';
-REPLACE INTO `zip_codes` SET zip_code = '8247', city = 'Hidegkút';
-REPLACE INTO `zip_codes` SET zip_code = '8248', city = 'Nemesvámos';
-REPLACE INTO `zip_codes` SET zip_code = '8248', city = 'Veszprémfajsz';
-REPLACE INTO `zip_codes` SET zip_code = '8251', city = 'Zánka ';
-REPLACE INTO `zip_codes` SET zip_code = '8252', city = 'Balatonszepezd';
-REPLACE INTO `zip_codes` SET zip_code = '8253', city = 'Révfülöp';
-REPLACE INTO `zip_codes` SET zip_code = '8254', city = 'Kővágóörs';
-REPLACE INTO `zip_codes` SET zip_code = '8254', city = 'Kékkút';
-REPLACE INTO `zip_codes` SET zip_code = '8255', city = 'Balatonrendes';
-REPLACE INTO `zip_codes` SET zip_code = '8255', city = 'Kővágóörs';
-REPLACE INTO `zip_codes` SET zip_code = '8256', city = 'Ábrahámhegy';
-REPLACE INTO `zip_codes` SET zip_code = '8256', city = 'Salföld';
-REPLACE INTO `zip_codes` SET zip_code = '8257', city = 'Badacsonytomaj';
-REPLACE INTO `zip_codes` SET zip_code = '8258', city = 'Badacsonytomaj';
-REPLACE INTO `zip_codes` SET zip_code = '8261', city = 'Badacsonytomaj';
-REPLACE INTO `zip_codes` SET zip_code = '8263', city = 'Badacsonytördemic';
-REPLACE INTO `zip_codes` SET zip_code = '8264', city = 'Szigliget';
-REPLACE INTO `zip_codes` SET zip_code = '8265', city = 'Hegymagas';
-REPLACE INTO `zip_codes` SET zip_code = '8271', city = 'Mencshely';
-REPLACE INTO `zip_codes` SET zip_code = '8272', city = 'Szentantalfa';
-REPLACE INTO `zip_codes` SET zip_code = '8272', city = 'Balatoncsicsó';
-REPLACE INTO `zip_codes` SET zip_code = '8272', city = 'Óbudavár';
-REPLACE INTO `zip_codes` SET zip_code = '8272', city = 'Szentjakabfa';
-REPLACE INTO `zip_codes` SET zip_code = '8272', city = 'Tagyon';
-REPLACE INTO `zip_codes` SET zip_code = '8273', city = 'Monoszló';
-REPLACE INTO `zip_codes` SET zip_code = '8274', city = 'Köveskál';
-REPLACE INTO `zip_codes` SET zip_code = '8275', city = 'Balatonhenye';
-REPLACE INTO `zip_codes` SET zip_code = '8281', city = 'Szentbékkálla';
-REPLACE INTO `zip_codes` SET zip_code = '8282', city = 'Mindszentkálla';
-REPLACE INTO `zip_codes` SET zip_code = '8283', city = 'Káptalantóti';
-REPLACE INTO `zip_codes` SET zip_code = '8284', city = 'Nemesgulács';
-REPLACE INTO `zip_codes` SET zip_code = '8284', city = 'Kisapáti';
-REPLACE INTO `zip_codes` SET zip_code = '8286', city = 'Gyulakeszi';
-REPLACE INTO `zip_codes` SET zip_code = '8291', city = 'Nagyvázsony';
-REPLACE INTO `zip_codes` SET zip_code = '8291', city = 'Barnag';
-REPLACE INTO `zip_codes` SET zip_code = '8291', city = 'Pula';
-REPLACE INTO `zip_codes` SET zip_code = '8291', city = 'Vöröstó';
-REPLACE INTO `zip_codes` SET zip_code = '8292', city = 'Öcs';
-REPLACE INTO `zip_codes` SET zip_code = '8294', city = 'Kapolcs';
-REPLACE INTO `zip_codes` SET zip_code = '8294', city = 'Vigántpetend';
-REPLACE INTO `zip_codes` SET zip_code = '8295', city = 'Taliándörögd';
-REPLACE INTO `zip_codes` SET zip_code = '8296', city = 'Monostorapáti';
-REPLACE INTO `zip_codes` SET zip_code = '8296', city = 'Hegyesd';
-REPLACE INTO `zip_codes` SET zip_code = '8297', city = 'Tapolca';
-REPLACE INTO `zip_codes` SET zip_code = '8300', city = 'Tapolca';
-REPLACE INTO `zip_codes` SET zip_code = '8300', city = 'Raposka';
-REPLACE INTO `zip_codes` SET zip_code = '8308', city = 'Zalahaláp';
-REPLACE INTO `zip_codes` SET zip_code = '8308', city = 'Sáska';
-REPLACE INTO `zip_codes` SET zip_code = '8311', city = 'Nemesvita';
-REPLACE INTO `zip_codes` SET zip_code = '8312', city = 'Balatonederics';
-REPLACE INTO `zip_codes` SET zip_code = '8313', city = 'Balatongyörök';
-REPLACE INTO `zip_codes` SET zip_code = '8314', city = 'Vonyarcvashegy';
-REPLACE INTO `zip_codes` SET zip_code = '8315', city = 'Gyenesdiás';
-REPLACE INTO `zip_codes` SET zip_code = '8316', city = 'Várvölgy';
-REPLACE INTO `zip_codes` SET zip_code = '8316', city = 'Vállus';
-REPLACE INTO `zip_codes` SET zip_code = '8317', city = 'Lesencefalu';
-REPLACE INTO `zip_codes` SET zip_code = '8318', city = 'Lesencetomaj';
-REPLACE INTO `zip_codes` SET zip_code = '8319', city = 'Lesenceistvánd';
-REPLACE INTO `zip_codes` SET zip_code = '8321', city = 'Uzsa';
-REPLACE INTO `zip_codes` SET zip_code = '8330', city = 'Sümeg';
-REPLACE INTO `zip_codes` SET zip_code = '8341', city = 'Mihályfa';
-REPLACE INTO `zip_codes` SET zip_code = '8341', city = 'Kisvásárhely';
-REPLACE INTO `zip_codes` SET zip_code = '8341', city = 'Szalapa';
-REPLACE INTO `zip_codes` SET zip_code = '8342', city = 'Óhíd';
-REPLACE INTO `zip_codes` SET zip_code = '8344', city = 'Zalaerdőd';
-REPLACE INTO `zip_codes` SET zip_code = '8344', city = 'Hetyefő';
-REPLACE INTO `zip_codes` SET zip_code = '8345', city = 'Dabronc';
-REPLACE INTO `zip_codes` SET zip_code = '8346', city = 'Gógánfa';
-REPLACE INTO `zip_codes` SET zip_code = '8347', city = 'Ukk';
-REPLACE INTO `zip_codes` SET zip_code = '8348', city = 'Rigács';
-REPLACE INTO `zip_codes` SET zip_code = '8348', city = 'Megyer';
-REPLACE INTO `zip_codes` SET zip_code = '8348', city = 'Zalameggyes';
-REPLACE INTO `zip_codes` SET zip_code = '8349', city = 'Zalagyömörő';
-REPLACE INTO `zip_codes` SET zip_code = '8351', city = 'Sümegprága';
-REPLACE INTO `zip_codes` SET zip_code = '8352', city = 'Bazsi';
-REPLACE INTO `zip_codes` SET zip_code = '8353', city = 'Zalaszántó';
-REPLACE INTO `zip_codes` SET zip_code = '8353', city = 'Vindornyalak';
-REPLACE INTO `zip_codes` SET zip_code = '8354', city = 'Karmacs';
-REPLACE INTO `zip_codes` SET zip_code = '8354', city = 'Vindornyafok';
-REPLACE INTO `zip_codes` SET zip_code = '8354', city = 'Zalaköveskút';
-REPLACE INTO `zip_codes` SET zip_code = '8355', city = 'Vindornyaszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '8356', city = 'Kisgörbő';
-REPLACE INTO `zip_codes` SET zip_code = '8356', city = 'Nagygörbő';
-REPLACE INTO `zip_codes` SET zip_code = '8357', city = 'Sümegcsehi';
-REPLACE INTO `zip_codes` SET zip_code = '8357', city = 'Döbröce';
-REPLACE INTO `zip_codes` SET zip_code = '8360', city = 'Keszthely';
-REPLACE INTO `zip_codes` SET zip_code = '8371', city = 'Nemesbük';
-REPLACE INTO `zip_codes` SET zip_code = '8372', city = 'Cserszegtomaj';
-REPLACE INTO `zip_codes` SET zip_code = '8373', city = 'Rezi';
-REPLACE INTO `zip_codes` SET zip_code = '8380', city = 'Hévíz';
-REPLACE INTO `zip_codes` SET zip_code = '8391', city = 'Sármellék';
-REPLACE INTO `zip_codes` SET zip_code = '8392', city = 'Zalavár';
-REPLACE INTO `zip_codes` SET zip_code = '8393', city = 'Szentgyörgyvár';
-REPLACE INTO `zip_codes` SET zip_code = '8394', city = 'Alsópáhok';
-REPLACE INTO `zip_codes` SET zip_code = '8395', city = 'Felsőpáhok';
-REPLACE INTO `zip_codes` SET zip_code = '8400', city = 'Ajka';
-REPLACE INTO `zip_codes` SET zip_code = '8409', city = 'Úrkút';
-REPLACE INTO `zip_codes` SET zip_code = '8411', city = 'Veszprém';
-REPLACE INTO `zip_codes` SET zip_code = '8412', city = 'Veszprém';
-REPLACE INTO `zip_codes` SET zip_code = '8413', city = 'Eplény';
-REPLACE INTO `zip_codes` SET zip_code = '8414', city = 'Olaszfalu';
-REPLACE INTO `zip_codes` SET zip_code = '8415', city = 'Nagyesztergár';
-REPLACE INTO `zip_codes` SET zip_code = '8416', city = 'Dudar';
-REPLACE INTO `zip_codes` SET zip_code = '8417', city = 'Csetény';
-REPLACE INTO `zip_codes` SET zip_code = '8418', city = 'Bakonyoszlop';
-REPLACE INTO `zip_codes` SET zip_code = '8419', city = 'Csesznek';
-REPLACE INTO `zip_codes` SET zip_code = '8420', city = 'Zirc';
-REPLACE INTO `zip_codes` SET zip_code = '8422', city = 'Bakonynána';
-REPLACE INTO `zip_codes` SET zip_code = '8423', city = 'Szápár';
-REPLACE INTO `zip_codes` SET zip_code = '8424', city = 'Jásd';
-REPLACE INTO `zip_codes` SET zip_code = '8425', city = 'Lókút';
-REPLACE INTO `zip_codes` SET zip_code = '8426', city = 'Pénzesgyőr';
-REPLACE INTO `zip_codes` SET zip_code = '8427', city = 'Bakonybél';
-REPLACE INTO `zip_codes` SET zip_code = '8428', city = 'Borzavár';
-REPLACE INTO `zip_codes` SET zip_code = '8429', city = 'Porva';
-REPLACE INTO `zip_codes` SET zip_code = '8430', city = 'Bakonyszentkirály';
-REPLACE INTO `zip_codes` SET zip_code = '8431', city = 'Bakonyszentlászló';
-REPLACE INTO `zip_codes` SET zip_code = '8432', city = 'Fenyőfő';
-REPLACE INTO `zip_codes` SET zip_code = '8433', city = 'Bakonygyirót';
-REPLACE INTO `zip_codes` SET zip_code = '8434', city = 'Románd';
-REPLACE INTO `zip_codes` SET zip_code = '8435', city = 'Gic';
-REPLACE INTO `zip_codes` SET zip_code = '8438', city = 'Veszprémvarsány';
-REPLACE INTO `zip_codes` SET zip_code = '8439', city = 'Sikátor';
-REPLACE INTO `zip_codes` SET zip_code = '8440', city = 'Herend';
-REPLACE INTO `zip_codes` SET zip_code = '8441', city = 'Márkó';
-REPLACE INTO `zip_codes` SET zip_code = '8442', city = 'Hárskút';
-REPLACE INTO `zip_codes` SET zip_code = '8443', city = 'Bánd';
-REPLACE INTO `zip_codes` SET zip_code = '8444', city = 'Szentgál';
-REPLACE INTO `zip_codes` SET zip_code = '8445', city = 'Városlőd';
-REPLACE INTO `zip_codes` SET zip_code = '8445', city = 'Csehbánya';
-REPLACE INTO `zip_codes` SET zip_code = '8446', city = 'Kislőd';
-REPLACE INTO `zip_codes` SET zip_code = '8447', city = 'Ajka';
-REPLACE INTO `zip_codes` SET zip_code = '8448', city = 'Ajka';
-REPLACE INTO `zip_codes` SET zip_code = '8449', city = 'Magyarpolány';
-REPLACE INTO `zip_codes` SET zip_code = '8451', city = 'Ajka';
-REPLACE INTO `zip_codes` SET zip_code = '8452', city = 'Halimba';
-REPLACE INTO `zip_codes` SET zip_code = '8452', city = 'Szőc';
-REPLACE INTO `zip_codes` SET zip_code = '8454', city = 'Nyirád';
-REPLACE INTO `zip_codes` SET zip_code = '8455', city = 'Pusztamiske';
-REPLACE INTO `zip_codes` SET zip_code = '8456', city = 'Noszlop';
-REPLACE INTO `zip_codes` SET zip_code = '8457', city = 'Bakonypölöske';
-REPLACE INTO `zip_codes` SET zip_code = '8458', city = 'Oroszi';
-REPLACE INTO `zip_codes` SET zip_code = '8460', city = 'Devecser';
-REPLACE INTO `zip_codes` SET zip_code = '8468', city = 'Kolontár';
-REPLACE INTO `zip_codes` SET zip_code = '8469', city = 'Kamond';
-REPLACE INTO `zip_codes` SET zip_code = '8471', city = 'Káptalanfa';
-REPLACE INTO `zip_codes` SET zip_code = '8471', city = 'Bodorfa';
-REPLACE INTO `zip_codes` SET zip_code = '8471', city = 'Nemeshany';
-REPLACE INTO `zip_codes` SET zip_code = '8473', city = 'Gyepükaján';
-REPLACE INTO `zip_codes` SET zip_code = '8474', city = 'Csabrendek';
-REPLACE INTO `zip_codes` SET zip_code = '8475', city = 'Veszprémgalsa';
-REPLACE INTO `zip_codes` SET zip_code = '8475', city = 'Hosztót';
-REPLACE INTO `zip_codes` SET zip_code = '8475', city = 'Szentimrefalva';
-REPLACE INTO `zip_codes` SET zip_code = '8476', city = 'Zalaszegvár';
-REPLACE INTO `zip_codes` SET zip_code = '8477', city = 'Tüskevár';
-REPLACE INTO `zip_codes` SET zip_code = '8477', city = 'Apácatorna';
-REPLACE INTO `zip_codes` SET zip_code = '8477', city = 'Kisberzseny';
-REPLACE INTO `zip_codes` SET zip_code = '8478', city = 'Somlójenő';
-REPLACE INTO `zip_codes` SET zip_code = '8479', city = 'Borszörcsök';
-REPLACE INTO `zip_codes` SET zip_code = '8481', city = 'Somlóvásárhely';
-REPLACE INTO `zip_codes` SET zip_code = '8482', city = 'Doba';
-REPLACE INTO `zip_codes` SET zip_code = '8483', city = 'Somlószőlős';
-REPLACE INTO `zip_codes` SET zip_code = '8483', city = 'Kisszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '8484', city = 'Nagyalásony';
-REPLACE INTO `zip_codes` SET zip_code = '8484', city = 'Somlóvecse';
-REPLACE INTO `zip_codes` SET zip_code = '8484', city = 'Vid';
-REPLACE INTO `zip_codes` SET zip_code = '8485', city = 'Dabrony';
-REPLACE INTO `zip_codes` SET zip_code = '8491', city = 'Karakószörcsök';
-REPLACE INTO `zip_codes` SET zip_code = '8492', city = 'Kerta';
-REPLACE INTO `zip_codes` SET zip_code = '8493', city = 'Iszkáz';
-REPLACE INTO `zip_codes` SET zip_code = '8494', city = 'Kiscsősz';
-REPLACE INTO `zip_codes` SET zip_code = '8495', city = 'Csögle';
-REPLACE INTO `zip_codes` SET zip_code = '8496', city = 'Nagypirit';
-REPLACE INTO `zip_codes` SET zip_code = '8496', city = 'Kispirit';
-REPLACE INTO `zip_codes` SET zip_code = '8497', city = 'Adorjánháza';
-REPLACE INTO `zip_codes` SET zip_code = '8497', city = 'Egeralja';
-REPLACE INTO `zip_codes` SET zip_code = '8500', city = 'Pápa';
-REPLACE INTO `zip_codes` SET zip_code = '8511', city = 'Pápa';
-REPLACE INTO `zip_codes` SET zip_code = '8512', city = 'Nyárád';
-REPLACE INTO `zip_codes` SET zip_code = '8513', city = 'Mihályháza';
-REPLACE INTO `zip_codes` SET zip_code = '8514', city = 'Mezőlak';
-REPLACE INTO `zip_codes` SET zip_code = '8515', city = 'Békás';
-REPLACE INTO `zip_codes` SET zip_code = '8516', city = 'Kemeneshőgyész';
-REPLACE INTO `zip_codes` SET zip_code = '8517', city = 'Magyargencs';
-REPLACE INTO `zip_codes` SET zip_code = '8518', city = 'Kemenesszentpéter';
-REPLACE INTO `zip_codes` SET zip_code = '8521', city = 'Nagyacsád';
-REPLACE INTO `zip_codes` SET zip_code = '8522', city = 'Nemesgörzsöny';
-REPLACE INTO `zip_codes` SET zip_code = '8523', city = 'Egyházaskesző';
-REPLACE INTO `zip_codes` SET zip_code = '8523', city = 'Várkesző';
-REPLACE INTO `zip_codes` SET zip_code = '8531', city = 'Marcaltő';
-REPLACE INTO `zip_codes` SET zip_code = '8532', city = 'Marcaltő';
-REPLACE INTO `zip_codes` SET zip_code = '8533', city = 'Malomsok';
-REPLACE INTO `zip_codes` SET zip_code = '8541', city = 'Takácsi';
-REPLACE INTO `zip_codes` SET zip_code = '8542', city = 'Vaszar';
-REPLACE INTO `zip_codes` SET zip_code = '8543', city = 'Gecse';
-REPLACE INTO `zip_codes` SET zip_code = '8551', city = 'Nagygyimót';
-REPLACE INTO `zip_codes` SET zip_code = '8552', city = 'Vanyola';
-REPLACE INTO `zip_codes` SET zip_code = '8553', city = 'Lovászpatona';
-REPLACE INTO `zip_codes` SET zip_code = '8554', city = 'Nagydém';
-REPLACE INTO `zip_codes` SET zip_code = '8555', city = 'Bakonytamási';
-REPLACE INTO `zip_codes` SET zip_code = '8556', city = 'Pápateszér';
-REPLACE INTO `zip_codes` SET zip_code = '8557', city = 'Bakonyszentiván';
-REPLACE INTO `zip_codes` SET zip_code = '8557', city = 'Bakonyság';
-REPLACE INTO `zip_codes` SET zip_code = '8558', city = 'Csót';
-REPLACE INTO `zip_codes` SET zip_code = '8561', city = 'Adásztevel';
-REPLACE INTO `zip_codes` SET zip_code = '8562', city = 'Nagytevel';
-REPLACE INTO `zip_codes` SET zip_code = '8563', city = 'Homokbödöge';
-REPLACE INTO `zip_codes` SET zip_code = '8564', city = 'Ugod';
-REPLACE INTO `zip_codes` SET zip_code = '8565', city = 'Béb';
-REPLACE INTO `zip_codes` SET zip_code = '8571', city = 'Bakonykoppány';
-REPLACE INTO `zip_codes` SET zip_code = '8572', city = 'Bakonyszücs';
-REPLACE INTO `zip_codes` SET zip_code = '8581', city = 'Bakonyjákó';
-REPLACE INTO `zip_codes` SET zip_code = '8581', city = 'Németbánya';
-REPLACE INTO `zip_codes` SET zip_code = '8582', city = 'Farkasgyepű';
-REPLACE INTO `zip_codes` SET zip_code = '8591', city = 'Pápa';
-REPLACE INTO `zip_codes` SET zip_code = '8591', city = 'Nóráp';
-REPLACE INTO `zip_codes` SET zip_code = '8592', city = 'Dáka';
-REPLACE INTO `zip_codes` SET zip_code = '8593', city = 'Pápadereske';
-REPLACE INTO `zip_codes` SET zip_code = '8594', city = 'Pápasalamon';
-REPLACE INTO `zip_codes` SET zip_code = '8595', city = 'Kup';
-REPLACE INTO `zip_codes` SET zip_code = '8596', city = 'Pápakovácsi';
-REPLACE INTO `zip_codes` SET zip_code = '8597', city = 'Ganna';
-REPLACE INTO `zip_codes` SET zip_code = '8597', city = 'Döbrönte';
-REPLACE INTO `zip_codes` SET zip_code = '8598', city = 'Pápa';
-REPLACE INTO `zip_codes` SET zip_code = '8600', city = 'Siófok';
-REPLACE INTO `zip_codes` SET zip_code = '8612', city = 'Nyim';
-REPLACE INTO `zip_codes` SET zip_code = '8613', city = 'Balatonendréd';
-REPLACE INTO `zip_codes` SET zip_code = '8614', city = 'Bálványos';
-REPLACE INTO `zip_codes` SET zip_code = '8617', city = 'Kőröshegy ';
-REPLACE INTO `zip_codes` SET zip_code = '8618', city = 'Kereki';
-REPLACE INTO `zip_codes` SET zip_code = '8619', city = 'Pusztaszemes';
-REPLACE INTO `zip_codes` SET zip_code = '8621', city = 'Zamárdi';
-REPLACE INTO `zip_codes` SET zip_code = '8622', city = 'Szántód';
-REPLACE INTO `zip_codes` SET zip_code = '8623', city = 'Balatonföldvár';
-REPLACE INTO `zip_codes` SET zip_code = '8624', city = 'Balatonszárszó';
-REPLACE INTO `zip_codes` SET zip_code = '8625', city = 'Szólád';
-REPLACE INTO `zip_codes` SET zip_code = '8626', city = 'Teleki';
-REPLACE INTO `zip_codes` SET zip_code = '8627', city = 'Kötcse';
-REPLACE INTO `zip_codes` SET zip_code = '8628', city = 'Nagycsepely';
-REPLACE INTO `zip_codes` SET zip_code = '8630', city = 'Balatonboglár';
-REPLACE INTO `zip_codes` SET zip_code = '8635', city = 'Ordacsehi';
-REPLACE INTO `zip_codes` SET zip_code = '8636', city = 'Balatonszemes';
-REPLACE INTO `zip_codes` SET zip_code = '8637', city = 'Balatonőszöd';
-REPLACE INTO `zip_codes` SET zip_code = '8638', city = 'Balatonlelle';
-REPLACE INTO `zip_codes` SET zip_code = '8640', city = 'Fonyód';
-REPLACE INTO `zip_codes` SET zip_code = '8646', city = 'Balatonfenyves';
-REPLACE INTO `zip_codes` SET zip_code = '8647', city = 'Balatonmáriafürdő';
-REPLACE INTO `zip_codes` SET zip_code = '8648', city = 'Balatonkeresztúr ';
-REPLACE INTO `zip_codes` SET zip_code = '8649', city = 'Balatonberény';
-REPLACE INTO `zip_codes` SET zip_code = '8651', city = 'Balatonszabadi';
-REPLACE INTO `zip_codes` SET zip_code = '8652', city = 'Siójut';
-REPLACE INTO `zip_codes` SET zip_code = '8653', city = 'Ádánd';
-REPLACE INTO `zip_codes` SET zip_code = '8654', city = 'Ságvár';
-REPLACE INTO `zip_codes` SET zip_code = '8655', city = 'Som';
-REPLACE INTO `zip_codes` SET zip_code = '8656', city = 'Nagyberény';
-REPLACE INTO `zip_codes` SET zip_code = '8658', city = 'Bábonymegyer';
-REPLACE INTO `zip_codes` SET zip_code = '8660', city = 'Tab';
-REPLACE INTO `zip_codes` SET zip_code = '8660', city = 'Lulla';
-REPLACE INTO `zip_codes` SET zip_code = '8660', city = 'Sérsekszőlős';
-REPLACE INTO `zip_codes` SET zip_code = '8660', city = 'Torvaj';
-REPLACE INTO `zip_codes` SET zip_code = '8660', city = 'Zala';
-REPLACE INTO `zip_codes` SET zip_code = '8666', city = 'Bedegkér';
-REPLACE INTO `zip_codes` SET zip_code = '8666', city = 'Somogyegres';
-REPLACE INTO `zip_codes` SET zip_code = '8667', city = 'Kánya';
-REPLACE INTO `zip_codes` SET zip_code = '8668', city = 'Tengőd';
-REPLACE INTO `zip_codes` SET zip_code = '8669', city = 'Miklósi';
-REPLACE INTO `zip_codes` SET zip_code = '8671', city = 'Kapoly';
-REPLACE INTO `zip_codes` SET zip_code = '8672', city = 'Zics';
-REPLACE INTO `zip_codes` SET zip_code = '8673', city = 'Somogymeggyes';
-REPLACE INTO `zip_codes` SET zip_code = '8674', city = 'Nágocs';
-REPLACE INTO `zip_codes` SET zip_code = '8675', city = 'Andocs';
-REPLACE INTO `zip_codes` SET zip_code = '8676', city = 'Karád';
-REPLACE INTO `zip_codes` SET zip_code = '8681', city = 'Látrány';
-REPLACE INTO `zip_codes` SET zip_code = '8681', city = 'Visz';
-REPLACE INTO `zip_codes` SET zip_code = '8683', city = 'Somogytúr';
-REPLACE INTO `zip_codes` SET zip_code = '8684', city = 'Somogybabod';
-REPLACE INTO `zip_codes` SET zip_code = '8685', city = 'Gamás';
-REPLACE INTO `zip_codes` SET zip_code = '8691', city = 'Balatonboglár';
-REPLACE INTO `zip_codes` SET zip_code = '8692', city = 'Szőlősgyörök';
-REPLACE INTO `zip_codes` SET zip_code = '8692', city = 'Gyugy';
-REPLACE INTO `zip_codes` SET zip_code = '8693', city = 'Lengyeltóti';
-REPLACE INTO `zip_codes` SET zip_code = '8693', city = 'Kisberény';
-REPLACE INTO `zip_codes` SET zip_code = '8694', city = 'Hács';
-REPLACE INTO `zip_codes` SET zip_code = '8695', city = 'Buzsák';
-REPLACE INTO `zip_codes` SET zip_code = '8696', city = 'Táska';
-REPLACE INTO `zip_codes` SET zip_code = '8697', city = 'Öreglak';
-REPLACE INTO `zip_codes` SET zip_code = '8698', city = 'Somogyvár';
-REPLACE INTO `zip_codes` SET zip_code = '8698', city = 'Pamuk';
-REPLACE INTO `zip_codes` SET zip_code = '8699', city = 'Somogyvámos';
-REPLACE INTO `zip_codes` SET zip_code = '8700', city = 'Marcali';
-REPLACE INTO `zip_codes` SET zip_code = '8700', city = 'Csömend';
-REPLACE INTO `zip_codes` SET zip_code = '8705', city = 'Somogyszentpál';
-REPLACE INTO `zip_codes` SET zip_code = '8706', city = 'Nikla';
-REPLACE INTO `zip_codes` SET zip_code = '8707', city = 'Pusztakovácsi';
-REPLACE INTO `zip_codes` SET zip_code = '8707', city = 'Libickozma';
-REPLACE INTO `zip_codes` SET zip_code = '8708', city = 'Somogyfajsz';
-REPLACE INTO `zip_codes` SET zip_code = '8709', city = 'Marcali';
-REPLACE INTO `zip_codes` SET zip_code = '8710', city = 'Balatonszentgyörgy ';
-REPLACE INTO `zip_codes` SET zip_code = '8711', city = 'Vörs';
-REPLACE INTO `zip_codes` SET zip_code = '8712', city = 'Balatonújlak';
-REPLACE INTO `zip_codes` SET zip_code = '8713', city = 'Kéthely';
-REPLACE INTO `zip_codes` SET zip_code = '8714', city = 'Marcali';
-REPLACE INTO `zip_codes` SET zip_code = '8714', city = 'Kelevíz';
-REPLACE INTO `zip_codes` SET zip_code = '8715', city = 'Gadány';
-REPLACE INTO `zip_codes` SET zip_code = '8716', city = 'Mesztegnyő';
-REPLACE INTO `zip_codes` SET zip_code = '8716', city = 'Hosszúvíz';
-REPLACE INTO `zip_codes` SET zip_code = '8717', city = 'Szenyér';
-REPLACE INTO `zip_codes` SET zip_code = '8717', city = 'Nemeskisfalud';
-REPLACE INTO `zip_codes` SET zip_code = '8718', city = 'Tapsony';
-REPLACE INTO `zip_codes` SET zip_code = '8719', city = 'Böhönye';
-REPLACE INTO `zip_codes` SET zip_code = '8721', city = 'Vése';
-REPLACE INTO `zip_codes` SET zip_code = '8722', city = 'Nemesdéd';
-REPLACE INTO `zip_codes` SET zip_code = '8723', city = 'Varászló';
-REPLACE INTO `zip_codes` SET zip_code = '8724', city = 'Inke';
-REPLACE INTO `zip_codes` SET zip_code = '8725', city = 'Iharosberény';
-REPLACE INTO `zip_codes` SET zip_code = '8726', city = 'Iharos';
-REPLACE INTO `zip_codes` SET zip_code = '8726', city = 'Somogycsicsó';
-REPLACE INTO `zip_codes` SET zip_code = '8728', city = 'Pogányszentpéter';
-REPLACE INTO `zip_codes` SET zip_code = '8731', city = 'Hollád';
-REPLACE INTO `zip_codes` SET zip_code = '8731', city = 'Tikos';
-REPLACE INTO `zip_codes` SET zip_code = '8732', city = 'Sávoly';
-REPLACE INTO `zip_codes` SET zip_code = '8732', city = 'Főnyed';
-REPLACE INTO `zip_codes` SET zip_code = '8732', city = 'Szegerdő';
-REPLACE INTO `zip_codes` SET zip_code = '8733', city = 'Somogysámson';
-REPLACE INTO `zip_codes` SET zip_code = '8734', city = 'Somogyzsitfa';
-REPLACE INTO `zip_codes` SET zip_code = '8735', city = 'Csákány';
-REPLACE INTO `zip_codes` SET zip_code = '8736', city = 'Szőkedencs';
-REPLACE INTO `zip_codes` SET zip_code = '8737', city = 'Somogysimonyi';
-REPLACE INTO `zip_codes` SET zip_code = '8738', city = 'Nemesvid';
-REPLACE INTO `zip_codes` SET zip_code = '8739', city = 'Nagyszakácsi';
-REPLACE INTO `zip_codes` SET zip_code = '8741', city = 'Zalaapáti';
-REPLACE INTO `zip_codes` SET zip_code = '8741', city = 'Bókaháza';
-REPLACE INTO `zip_codes` SET zip_code = '8742', city = 'Esztergályhorváti';
-REPLACE INTO `zip_codes` SET zip_code = '8743', city = 'Zalaszabar';
-REPLACE INTO `zip_codes` SET zip_code = '8744', city = 'Orosztony';
-REPLACE INTO `zip_codes` SET zip_code = '8745', city = 'Kerecseny';
-REPLACE INTO `zip_codes` SET zip_code = '8746', city = 'Nagyrada';
-REPLACE INTO `zip_codes` SET zip_code = '8747', city = 'Garabonc';
-REPLACE INTO `zip_codes` SET zip_code = '8747', city = 'Zalamerenye';
-REPLACE INTO `zip_codes` SET zip_code = '8749', city = 'Zalakaros';
-REPLACE INTO `zip_codes` SET zip_code = '8751', city = 'Zalakomár';
-REPLACE INTO `zip_codes` SET zip_code = '8752', city = 'Zalakomár';
-REPLACE INTO `zip_codes` SET zip_code = '8753', city = 'Balatonmagyaród';
-REPLACE INTO `zip_codes` SET zip_code = '8754', city = 'Galambok';
-REPLACE INTO `zip_codes` SET zip_code = '8756', city = 'Nagyrécse';
-REPLACE INTO `zip_codes` SET zip_code = '8756', city = 'Csapi';
-REPLACE INTO `zip_codes` SET zip_code = '8756', city = 'Kisrécse';
-REPLACE INTO `zip_codes` SET zip_code = '8756', city = 'Zalasárszeg';
-REPLACE INTO `zip_codes` SET zip_code = '8761', city = 'Pacsa';
-REPLACE INTO `zip_codes` SET zip_code = '8761', city = 'Zalaigrice';
-REPLACE INTO `zip_codes` SET zip_code = '8762', city = 'Szentpéterúr';
-REPLACE INTO `zip_codes` SET zip_code = '8762', city = 'Gétye';
-REPLACE INTO `zip_codes` SET zip_code = '8764', city = 'Dióskál';
-REPLACE INTO `zip_codes` SET zip_code = '8764', city = 'Zalaszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '8765', city = 'Egeraracsa';
-REPLACE INTO `zip_codes` SET zip_code = '8767', city = 'Felsőrajk';
-REPLACE INTO `zip_codes` SET zip_code = '8767', city = 'Alsórajk';
-REPLACE INTO `zip_codes` SET zip_code = '8767', city = 'Pötréte';
-REPLACE INTO `zip_codes` SET zip_code = '8771', city = 'Hahót';
-REPLACE INTO `zip_codes` SET zip_code = '8772', city = 'Zalaszentbalázs';
-REPLACE INTO `zip_codes` SET zip_code = '8772', city = 'Börzönce';
-REPLACE INTO `zip_codes` SET zip_code = '8773', city = 'Pölöskefő';
-REPLACE INTO `zip_codes` SET zip_code = '8773', city = 'Kacorlak';
-REPLACE INTO `zip_codes` SET zip_code = '8774', city = 'Gelse';
-REPLACE INTO `zip_codes` SET zip_code = '8774', city = 'Gelsesziget';
-REPLACE INTO `zip_codes` SET zip_code = '8774', city = 'Kilimán';
-REPLACE INTO `zip_codes` SET zip_code = '8776', city = 'Magyarszerdahely';
-REPLACE INTO `zip_codes` SET zip_code = '8776', city = 'Bocska';
-REPLACE INTO `zip_codes` SET zip_code = '8776', city = 'Magyarszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '8777', city = 'Hosszúvölgy';
-REPLACE INTO `zip_codes` SET zip_code = '8777', city = 'Fűzvölgy';
-REPLACE INTO `zip_codes` SET zip_code = '8777', city = 'Homokkomárom';
-REPLACE INTO `zip_codes` SET zip_code = '8778', city = 'Újudvar';
-REPLACE INTO `zip_codes` SET zip_code = '8782', city = 'Zalacsány';
-REPLACE INTO `zip_codes` SET zip_code = '8782', city = 'Ligetfalva';
-REPLACE INTO `zip_codes` SET zip_code = '8782', city = 'Tilaj';
-REPLACE INTO `zip_codes` SET zip_code = '8784', city = 'Kehidakustány';
-REPLACE INTO `zip_codes` SET zip_code = '8785', city = 'Zalaszentgrót';
-REPLACE INTO `zip_codes` SET zip_code = '8785', city = 'Kallósd';
-REPLACE INTO `zip_codes` SET zip_code = '8788', city = 'Zalaszentlászló';
-REPLACE INTO `zip_codes` SET zip_code = '8788', city = 'Sénye';
-REPLACE INTO `zip_codes` SET zip_code = '8789', city = 'Zalaszentgrót';
-REPLACE INTO `zip_codes` SET zip_code = '8790', city = 'Zalaszentgrót';
-REPLACE INTO `zip_codes` SET zip_code = '8792', city = 'Zalavég';
-REPLACE INTO `zip_codes` SET zip_code = '8793', city = 'Tekenye';
-REPLACE INTO `zip_codes` SET zip_code = '8795', city = 'Zalaszentgrót';
-REPLACE INTO `zip_codes` SET zip_code = '8796', city = 'Türje';
-REPLACE INTO `zip_codes` SET zip_code = '8797', city = 'Batyk';
-REPLACE INTO `zip_codes` SET zip_code = '8798', city = 'Zalabér';
-REPLACE INTO `zip_codes` SET zip_code = '8799', city = 'Pakod';
-REPLACE INTO `zip_codes` SET zip_code = '8799', city = 'Dötk';
-REPLACE INTO `zip_codes` SET zip_code = '8800', city = 'Nagykanizsa';
-REPLACE INTO `zip_codes` SET zip_code = '8808', city = 'Nagykanizsa';
-REPLACE INTO `zip_codes` SET zip_code = '8809', city = 'Nagykanizsa';
-REPLACE INTO `zip_codes` SET zip_code = '8821', city = 'Nagybakónak';
-REPLACE INTO `zip_codes` SET zip_code = '8822', city = 'Zalaújlak';
-REPLACE INTO `zip_codes` SET zip_code = '8824', city = 'Sand';
-REPLACE INTO `zip_codes` SET zip_code = '8825', city = 'Miháld';
-REPLACE INTO `zip_codes` SET zip_code = '8825', city = 'Pat';
-REPLACE INTO `zip_codes` SET zip_code = '8827', city = 'Zalaszentjakab';
-REPLACE INTO `zip_codes` SET zip_code = '8831', city = 'Nagykanizsa';
-REPLACE INTO `zip_codes` SET zip_code = '8832', city = 'Liszó';
-REPLACE INTO `zip_codes` SET zip_code = '8834', city = 'Murakeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '8835', city = 'Fityeház';
-REPLACE INTO `zip_codes` SET zip_code = '8840', city = 'Csurgó';
-REPLACE INTO `zip_codes` SET zip_code = '8840', city = 'Csurgónagymarton';
-REPLACE INTO `zip_codes` SET zip_code = '8849', city = 'Szenta';
-REPLACE INTO `zip_codes` SET zip_code = '8851', city = 'Gyékényes';
-REPLACE INTO `zip_codes` SET zip_code = '8852', city = 'Zákány';
-REPLACE INTO `zip_codes` SET zip_code = '8853', city = 'Zákányfalu';
-REPLACE INTO `zip_codes` SET zip_code = '8854', city = 'Őrtilos';
-REPLACE INTO `zip_codes` SET zip_code = '8855', city = 'Belezna';
-REPLACE INTO `zip_codes` SET zip_code = '8856', city = 'Surd';
-REPLACE INTO `zip_codes` SET zip_code = '8857', city = 'Nemespátró';
-REPLACE INTO `zip_codes` SET zip_code = '8858', city = 'Porrog';
-REPLACE INTO `zip_codes` SET zip_code = '8858', city = 'Porrogszentkirály';
-REPLACE INTO `zip_codes` SET zip_code = '8858', city = 'Porrogszentpál';
-REPLACE INTO `zip_codes` SET zip_code = '8858', city = 'Somogybükkösd';
-REPLACE INTO `zip_codes` SET zip_code = '8861', city = 'Szepetnek';
-REPLACE INTO `zip_codes` SET zip_code = '8862', city = 'Semjénháza';
-REPLACE INTO `zip_codes` SET zip_code = '8863', city = 'Molnári';
-REPLACE INTO `zip_codes` SET zip_code = '8864', city = 'Tótszerdahely';
-REPLACE INTO `zip_codes` SET zip_code = '8865', city = 'Tótszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '8866', city = 'Becsehely';
-REPLACE INTO `zip_codes` SET zip_code = '8866', city = 'Petrivente';
-REPLACE INTO `zip_codes` SET zip_code = '8868', city = 'Letenye';
-REPLACE INTO `zip_codes` SET zip_code = '8868', city = 'Kistolmács';
-REPLACE INTO `zip_codes` SET zip_code = '8868', city = 'Murarátka';
-REPLACE INTO `zip_codes` SET zip_code = '8868', city = 'Zajk';
-REPLACE INTO `zip_codes` SET zip_code = '8872', city = 'Muraszemenye';
-REPLACE INTO `zip_codes` SET zip_code = '8872', city = 'Szentmargitfalva';
-REPLACE INTO `zip_codes` SET zip_code = '8873', city = 'Csörnyeföld';
-REPLACE INTO `zip_codes` SET zip_code = '8874', city = 'Dobri';
-REPLACE INTO `zip_codes` SET zip_code = '8874', city = 'Kerkaszentkirály';
-REPLACE INTO `zip_codes` SET zip_code = '8876', city = 'Tormafölde';
-REPLACE INTO `zip_codes` SET zip_code = '8877', city = 'Tornyiszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '8878', city = 'Lovászi';
-REPLACE INTO `zip_codes` SET zip_code = '8879', city = 'Szécsisziget';
-REPLACE INTO `zip_codes` SET zip_code = '8879', city = 'Kerkateskánd';
-REPLACE INTO `zip_codes` SET zip_code = '8881', city = 'Sormás';
-REPLACE INTO `zip_codes` SET zip_code = '8882', city = 'Eszteregnye';
-REPLACE INTO `zip_codes` SET zip_code = '8883', city = 'Rigyác';
-REPLACE INTO `zip_codes` SET zip_code = '8885', city = 'Borsfa';
-REPLACE INTO `zip_codes` SET zip_code = '8885', city = 'Valkonya';
-REPLACE INTO `zip_codes` SET zip_code = '8886', city = 'Oltárc';
-REPLACE INTO `zip_codes` SET zip_code = '8887', city = 'Bázakerettye';
-REPLACE INTO `zip_codes` SET zip_code = '8887', city = 'Lasztonya';
-REPLACE INTO `zip_codes` SET zip_code = '8888', city = 'Lispeszentadorján';
-REPLACE INTO `zip_codes` SET zip_code = '8888', city = 'Kiscsehi';
-REPLACE INTO `zip_codes` SET zip_code = '8888', city = 'Maróc';
-REPLACE INTO `zip_codes` SET zip_code = '8891', city = 'Bánokszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '8891', city = 'Várfölde';
-REPLACE INTO `zip_codes` SET zip_code = '8893', city = 'Szentliszló';
-REPLACE INTO `zip_codes` SET zip_code = '8893', city = 'Bucsuta';
-REPLACE INTO `zip_codes` SET zip_code = '8895', city = 'Pusztamagyaród';
-REPLACE INTO `zip_codes` SET zip_code = '8896', city = 'Pusztaszentlászló';
-REPLACE INTO `zip_codes` SET zip_code = '8897', city = 'Söjtör';
-REPLACE INTO `zip_codes` SET zip_code = '8900', city = 'Zalaegerszeg';
-REPLACE INTO `zip_codes` SET zip_code = '8904', city = 'Zalaegerszeg';
-REPLACE INTO `zip_codes` SET zip_code = '8911', city = 'Nagykutas';
-REPLACE INTO `zip_codes` SET zip_code = '8911', city = 'Kiskutas';
-REPLACE INTO `zip_codes` SET zip_code = '8912', city = 'Kispáli';
-REPLACE INTO `zip_codes` SET zip_code = '8912', city = 'Nagypáli';
-REPLACE INTO `zip_codes` SET zip_code = '8913', city = 'Egervár';
-REPLACE INTO `zip_codes` SET zip_code = '8913', city = 'Gősfa';
-REPLACE INTO `zip_codes` SET zip_code = '8913', city = 'Lakhegy';
-REPLACE INTO `zip_codes` SET zip_code = '8914', city = 'Vasboldogasszony';
-REPLACE INTO `zip_codes` SET zip_code = '8915', city = 'Nemesrádó';
-REPLACE INTO `zip_codes` SET zip_code = '8917', city = 'Milejszeg';
-REPLACE INTO `zip_codes` SET zip_code = '8918', city = 'Csonkahegyhát';
-REPLACE INTO `zip_codes` SET zip_code = '8918', city = 'Németfalu';
-REPLACE INTO `zip_codes` SET zip_code = '8919', city = 'Kustánszeg';
-REPLACE INTO `zip_codes` SET zip_code = '8921', city = 'Zalaszentiván';
-REPLACE INTO `zip_codes` SET zip_code = '8921', city = 'Alibánfa';
-REPLACE INTO `zip_codes` SET zip_code = '8921', city = 'Pethőhenye';
-REPLACE INTO `zip_codes` SET zip_code = '8921', city = 'Zalaszentlőrinc';
-REPLACE INTO `zip_codes` SET zip_code = '8923', city = 'Nemesapáti';
-REPLACE INTO `zip_codes` SET zip_code = '8924', city = 'Alsónemesapáti';
-REPLACE INTO `zip_codes` SET zip_code = '8925', city = 'Búcsúszentlászló';
-REPLACE INTO `zip_codes` SET zip_code = '8925', city = 'Nemessándorháza';
-REPLACE INTO `zip_codes` SET zip_code = '8925', city = 'Nemesszentandrás';
-REPLACE INTO `zip_codes` SET zip_code = '8926', city = 'Kisbucsa';
-REPLACE INTO `zip_codes` SET zip_code = '8928', city = 'Nemeshetés';
-REPLACE INTO `zip_codes` SET zip_code = '8929', city = 'Pölöske';
-REPLACE INTO `zip_codes` SET zip_code = '8931', city = 'Kemendollár';
-REPLACE INTO `zip_codes` SET zip_code = '8931', city = 'Vöckönd';
-REPLACE INTO `zip_codes` SET zip_code = '8932', city = 'Pókaszepetk';
-REPLACE INTO `zip_codes` SET zip_code = '8932', city = 'Gyűrűs';
-REPLACE INTO `zip_codes` SET zip_code = '8932', city = 'Zalaistvánd';
-REPLACE INTO `zip_codes` SET zip_code = '8934', city = 'Bezeréd';
-REPLACE INTO `zip_codes` SET zip_code = '8935', city = 'Nagykapornak';
-REPLACE INTO `zip_codes` SET zip_code = '8935', city = 'Almásháza';
-REPLACE INTO `zip_codes` SET zip_code = '8935', city = 'Misefa';
-REPLACE INTO `zip_codes` SET zip_code = '8935', city = 'Orbányosfa';
-REPLACE INTO `zip_codes` SET zip_code = '8935', city = 'Padár';
-REPLACE INTO `zip_codes` SET zip_code = '8936', city = 'Zalaszentmihály';
-REPLACE INTO `zip_codes` SET zip_code = '8943', city = 'Bocfölde';
-REPLACE INTO `zip_codes` SET zip_code = '8943', city = 'Csatár';
-REPLACE INTO `zip_codes` SET zip_code = '8944', city = 'Sárhida';
-REPLACE INTO `zip_codes` SET zip_code = '8945', city = 'Bak';
-REPLACE INTO `zip_codes` SET zip_code = '8946', city = 'Tófej';
-REPLACE INTO `zip_codes` SET zip_code = '8946', city = 'Baktüttös';
-REPLACE INTO `zip_codes` SET zip_code = '8946', city = 'Pusztaederics';
-REPLACE INTO `zip_codes` SET zip_code = '8947', city = 'Zalatárnok';
-REPLACE INTO `zip_codes` SET zip_code = '8947', city = 'Szentkozmadombja';
-REPLACE INTO `zip_codes` SET zip_code = '8948', city = 'Nova';
-REPLACE INTO `zip_codes` SET zip_code = '8948', city = 'Barlahida';
-REPLACE INTO `zip_codes` SET zip_code = '8949', city = 'Mikekarácsonyfa';
-REPLACE INTO `zip_codes` SET zip_code = '8951', city = 'Gutorfölde';
-REPLACE INTO `zip_codes` SET zip_code = '8951', city = 'Csertalakos';
-REPLACE INTO `zip_codes` SET zip_code = '8953', city = 'Szentpéterfölde';
-REPLACE INTO `zip_codes` SET zip_code = '8954', city = 'Ortaháza';
-REPLACE INTO `zip_codes` SET zip_code = '8956', city = 'Páka';
-REPLACE INTO `zip_codes` SET zip_code = '8956', city = 'Kányavár';
-REPLACE INTO `zip_codes` SET zip_code = '8956', city = 'Pördefölde';
-REPLACE INTO `zip_codes` SET zip_code = '8957', city = 'Csömödér';
-REPLACE INTO `zip_codes` SET zip_code = '8957', city = 'Hernyék';
-REPLACE INTO `zip_codes` SET zip_code = '8957', city = 'Kissziget';
-REPLACE INTO `zip_codes` SET zip_code = '8957', city = 'Zebecke';
-REPLACE INTO `zip_codes` SET zip_code = '8958', city = 'Iklódbördőce';
-REPLACE INTO `zip_codes` SET zip_code = '8960', city = 'Lenti';
-REPLACE INTO `zip_codes` SET zip_code = '8960', city = 'Gosztola';
-REPLACE INTO `zip_codes` SET zip_code = '8966', city = 'Lenti';
-REPLACE INTO `zip_codes` SET zip_code = '8969', city = 'Gáborjánháza';
-REPLACE INTO `zip_codes` SET zip_code = '8969', city = 'Bödeháza';
-REPLACE INTO `zip_codes` SET zip_code = '8969', city = 'Szijártóháza';
-REPLACE INTO `zip_codes` SET zip_code = '8969', city = 'Zalaszombatfa';
-REPLACE INTO `zip_codes` SET zip_code = '8971', city = 'Zalabaksa';
-REPLACE INTO `zip_codes` SET zip_code = '8971', city = 'Kerkabarabás';
-REPLACE INTO `zip_codes` SET zip_code = '8973', city = 'Csesztreg';
-REPLACE INTO `zip_codes` SET zip_code = '8973', city = 'Alsószenterzsébet';
-REPLACE INTO `zip_codes` SET zip_code = '8973', city = 'Felsőszenterzsébet';
-REPLACE INTO `zip_codes` SET zip_code = '8973', city = 'Kerkafalva';
-REPLACE INTO `zip_codes` SET zip_code = '8973', city = 'Kerkakutas';
-REPLACE INTO `zip_codes` SET zip_code = '8973', city = 'Magyarföld';
-REPLACE INTO `zip_codes` SET zip_code = '8973', city = 'Ramocsa';
-REPLACE INTO `zip_codes` SET zip_code = '8975', city = 'Szentgyörgyvölgy';
-REPLACE INTO `zip_codes` SET zip_code = '8976', city = 'Nemesnép';
-REPLACE INTO `zip_codes` SET zip_code = '8976', city = 'Márokföld';
-REPLACE INTO `zip_codes` SET zip_code = '8977', city = 'Resznek';
-REPLACE INTO `zip_codes` SET zip_code = '8977', city = 'Baglad';
-REPLACE INTO `zip_codes` SET zip_code = '8977', city = 'Lendvajakabfa';
-REPLACE INTO `zip_codes` SET zip_code = '8978', city = 'Rédics';
-REPLACE INTO `zip_codes` SET zip_code = '8978', city = 'Belsősárd';
-REPLACE INTO `zip_codes` SET zip_code = '8978', city = 'Külsősárd';
-REPLACE INTO `zip_codes` SET zip_code = '8978', city = 'Lendvadedes';
-REPLACE INTO `zip_codes` SET zip_code = '8981', city = 'Gellénháza';
-REPLACE INTO `zip_codes` SET zip_code = '8981', city = 'Lickóvadamos';
-REPLACE INTO `zip_codes` SET zip_code = '8983', city = 'Nagylengyel';
-REPLACE INTO `zip_codes` SET zip_code = '8983', city = 'Babosdöbréte';
-REPLACE INTO `zip_codes` SET zip_code = '8983', city = 'Ormándlak';
-REPLACE INTO `zip_codes` SET zip_code = '8984', city = 'Petrikeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '8984', city = 'Gombosszeg';
-REPLACE INTO `zip_codes` SET zip_code = '8984', city = 'Iborfia';
-REPLACE INTO `zip_codes` SET zip_code = '8985', city = 'Becsvölgye';
-REPLACE INTO `zip_codes` SET zip_code = '8986', city = 'Pórszombat';
-REPLACE INTO `zip_codes` SET zip_code = '8986', city = 'Pusztaapáti';
-REPLACE INTO `zip_codes` SET zip_code = '8986', city = 'Szilvágy';
-REPLACE INTO `zip_codes` SET zip_code = '8988', city = 'Kálócfa';
-REPLACE INTO `zip_codes` SET zip_code = '8988', city = 'Kozmadombja';
-REPLACE INTO `zip_codes` SET zip_code = '8989', city = 'Dobronhegy';
-REPLACE INTO `zip_codes` SET zip_code = '8990', city = 'Pálfiszeg';
-REPLACE INTO `zip_codes` SET zip_code = '8991', city = 'Teskánd';
-REPLACE INTO `zip_codes` SET zip_code = '8991', city = 'Böde';
-REPLACE INTO `zip_codes` SET zip_code = '8991', city = 'Hottó';
-REPLACE INTO `zip_codes` SET zip_code = '8992', city = 'Bagod';
-REPLACE INTO `zip_codes` SET zip_code = '8992', city = 'Boncodfölde';
-REPLACE INTO `zip_codes` SET zip_code = '8992', city = 'Hagyárosbörönd';
-REPLACE INTO `zip_codes` SET zip_code = '8992', city = 'Zalaboldogfa';
-REPLACE INTO `zip_codes` SET zip_code = '8994', city = 'Zalaszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '8994', city = 'Kávás';
-REPLACE INTO `zip_codes` SET zip_code = '8995', city = 'Salomvár';
-REPLACE INTO `zip_codes` SET zip_code = '8995', city = 'Keménfa';
-REPLACE INTO `zip_codes` SET zip_code = '8996', city = 'Zalacséb';
-REPLACE INTO `zip_codes` SET zip_code = '8997', city = 'Zalaháshágy';
-REPLACE INTO `zip_codes` SET zip_code = '8998', city = 'Vaspör';
-REPLACE INTO `zip_codes` SET zip_code = '8998', city = 'Ozmánbük';
-REPLACE INTO `zip_codes` SET zip_code = '8999', city = 'Zalalövő';
-REPLACE INTO `zip_codes` SET zip_code = '8999', city = 'Csöde';
-REPLACE INTO `zip_codes` SET zip_code = '9000', city = 'Győr*';
-REPLACE INTO `zip_codes` SET zip_code = '9061', city = 'Vámosszabadi';
-REPLACE INTO `zip_codes` SET zip_code = '9062', city = 'Kisbajcs';
-REPLACE INTO `zip_codes` SET zip_code = '9062', city = 'Vének';
-REPLACE INTO `zip_codes` SET zip_code = '9063', city = 'Nagybajcs';
-REPLACE INTO `zip_codes` SET zip_code = '9064', city = 'Vámosszabadi';
-REPLACE INTO `zip_codes` SET zip_code = '9071', city = 'Gönyű';
-REPLACE INTO `zip_codes` SET zip_code = '9072', city = 'Nagyszentjános';
-REPLACE INTO `zip_codes` SET zip_code = '9073', city = 'Bőny';
-REPLACE INTO `zip_codes` SET zip_code = '9074', city = 'Rétalap';
-REPLACE INTO `zip_codes` SET zip_code = '9081', city = 'Győrújbarát';
-REPLACE INTO `zip_codes` SET zip_code = '9082', city = 'Nyúl';
-REPLACE INTO `zip_codes` SET zip_code = '9083', city = 'Écs';
-REPLACE INTO `zip_codes` SET zip_code = '9084', city = 'Győrság';
-REPLACE INTO `zip_codes` SET zip_code = '9085', city = 'Pázmándfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9086', city = 'Töltéstava';
-REPLACE INTO `zip_codes` SET zip_code = '9088', city = 'Bakonypéterd';
-REPLACE INTO `zip_codes` SET zip_code = '9089', city = 'Lázi';
-REPLACE INTO `zip_codes` SET zip_code = '9090', city = 'Pannonhalma';
-REPLACE INTO `zip_codes` SET zip_code = '9091', city = 'Ravazd';
-REPLACE INTO `zip_codes` SET zip_code = '9092', city = 'Tarjánpuszta';
-REPLACE INTO `zip_codes` SET zip_code = '9093', city = 'Győrasszonyfa';
-REPLACE INTO `zip_codes` SET zip_code = '9094', city = 'Tápszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '9095', city = 'Táp';
-REPLACE INTO `zip_codes` SET zip_code = '9096', city = 'Nyalka';
-REPLACE INTO `zip_codes` SET zip_code = '9097', city = 'Mezőörs';
-REPLACE INTO `zip_codes` SET zip_code = '9098', city = 'Pér';
-REPLACE INTO `zip_codes` SET zip_code = '9099', city = 'Pér';
-REPLACE INTO `zip_codes` SET zip_code = '9100', city = 'Tét';
-REPLACE INTO `zip_codes` SET zip_code = '9111', city = 'Tényő';
-REPLACE INTO `zip_codes` SET zip_code = '9112', city = 'Sokorópátka';
-REPLACE INTO `zip_codes` SET zip_code = '9113', city = 'Koroncó';
-REPLACE INTO `zip_codes` SET zip_code = '9121', city = 'Győrszemere';
-REPLACE INTO `zip_codes` SET zip_code = '9122', city = 'Felpéc';
-REPLACE INTO `zip_codes` SET zip_code = '9123', city = 'Kajárpéc';
-REPLACE INTO `zip_codes` SET zip_code = '9124', city = 'Gyömöre';
-REPLACE INTO `zip_codes` SET zip_code = '9125', city = 'Szerecseny';
-REPLACE INTO `zip_codes` SET zip_code = '9126', city = 'Gyarmat';
-REPLACE INTO `zip_codes` SET zip_code = '9127', city = 'Csikvánd';
-REPLACE INTO `zip_codes` SET zip_code = '9131', city = 'Mórichida';
-REPLACE INTO `zip_codes` SET zip_code = '9132', city = 'Árpás';
-REPLACE INTO `zip_codes` SET zip_code = '9133', city = 'Kisbabot';
-REPLACE INTO `zip_codes` SET zip_code = '9133', city = 'Rábaszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '9134', city = 'Bodonhely';
-REPLACE INTO `zip_codes` SET zip_code = '9135', city = 'Rábaszentmihály';
-REPLACE INTO `zip_codes` SET zip_code = '9136', city = 'Rábacsécsény';
-REPLACE INTO `zip_codes` SET zip_code = '9136', city = 'Mérges';
-REPLACE INTO `zip_codes` SET zip_code = '9141', city = 'Ikrény';
-REPLACE INTO `zip_codes` SET zip_code = '9142', city = 'Rábapatona';
-REPLACE INTO `zip_codes` SET zip_code = '9143', city = 'Enese';
-REPLACE INTO `zip_codes` SET zip_code = '9144', city = 'Kóny';
-REPLACE INTO `zip_codes` SET zip_code = '9145', city = 'Bágyogszovát';
-REPLACE INTO `zip_codes` SET zip_code = '9146', city = 'Rábapordány';
-REPLACE INTO `zip_codes` SET zip_code = '9147', city = 'Dör';
-REPLACE INTO `zip_codes` SET zip_code = '9151', city = 'Abda';
-REPLACE INTO `zip_codes` SET zip_code = '9152', city = 'Börcs';
-REPLACE INTO `zip_codes` SET zip_code = '9153', city = 'Öttevény';
-REPLACE INTO `zip_codes` SET zip_code = '9154', city = 'Mosonszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '9155', city = 'Lébény';
-REPLACE INTO `zip_codes` SET zip_code = '9161', city = 'Győrsövényház';
-REPLACE INTO `zip_codes` SET zip_code = '9162', city = 'Bezi';
-REPLACE INTO `zip_codes` SET zip_code = '9163', city = 'Fehértó';
-REPLACE INTO `zip_codes` SET zip_code = '9164', city = 'Markotabödöge';
-REPLACE INTO `zip_codes` SET zip_code = '9165', city = 'Rábcakapi';
-REPLACE INTO `zip_codes` SET zip_code = '9165', city = 'Cakóháza';
-REPLACE INTO `zip_codes` SET zip_code = '9165', city = 'Tárnokréti';
-REPLACE INTO `zip_codes` SET zip_code = '9167', city = 'Bősárkány';
-REPLACE INTO `zip_codes` SET zip_code = '9167', city = 'Jánossomorja    ';
-REPLACE INTO `zip_codes` SET zip_code = '9168', city = 'Acsalag';
-REPLACE INTO `zip_codes` SET zip_code = '9168', city = 'Csorna';
-REPLACE INTO `zip_codes` SET zip_code = '9169', city = 'Barbacs';
-REPLACE INTO `zip_codes` SET zip_code = '9169', city = 'Maglóca';
-REPLACE INTO `zip_codes` SET zip_code = '9171', city = 'Győrújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9172', city = 'Győrzámoly';
-REPLACE INTO `zip_codes` SET zip_code = '9173', city = 'Győrladamér';
-REPLACE INTO `zip_codes` SET zip_code = '9174', city = 'Dunaszeg';
-REPLACE INTO `zip_codes` SET zip_code = '9175', city = 'Dunaszentpál';
-REPLACE INTO `zip_codes` SET zip_code = '9176', city = 'Mecsér';
-REPLACE INTO `zip_codes` SET zip_code = '9177', city = 'Ásványráró';
-REPLACE INTO `zip_codes` SET zip_code = '9178', city = 'Hédervár';
-REPLACE INTO `zip_codes` SET zip_code = '9181', city = 'Kimle';
-REPLACE INTO `zip_codes` SET zip_code = '9182', city = 'Károlyháza';
-REPLACE INTO `zip_codes` SET zip_code = '9183', city = 'Mosonszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '9183', city = 'Mosonszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '9184', city = 'Kunsziget';
-REPLACE INTO `zip_codes` SET zip_code = '9200', city = 'Mosonmagyaróvár';
-REPLACE INTO `zip_codes` SET zip_code = '9211', city = 'Feketeerdő';
-REPLACE INTO `zip_codes` SET zip_code = '9221', city = 'Levél';
-REPLACE INTO `zip_codes` SET zip_code = '9222', city = 'Hegyeshalom';
-REPLACE INTO `zip_codes` SET zip_code = '9223', city = 'Bezenye';
-REPLACE INTO `zip_codes` SET zip_code = '9224', city = 'Rajka';
-REPLACE INTO `zip_codes` SET zip_code = '9225', city = 'Dunakiliti';
-REPLACE INTO `zip_codes` SET zip_code = '9226', city = 'Dunasziget';
-REPLACE INTO `zip_codes` SET zip_code = '9228', city = 'Halászi';
-REPLACE INTO `zip_codes` SET zip_code = '9231', city = 'Máriakálnok';
-REPLACE INTO `zip_codes` SET zip_code = '9232', city = 'Darnózseli';
-REPLACE INTO `zip_codes` SET zip_code = '9233', city = 'Lipót';
-REPLACE INTO `zip_codes` SET zip_code = '9234', city = 'Kisbodak';
-REPLACE INTO `zip_codes` SET zip_code = '9235', city = 'Püski';
-REPLACE INTO `zip_codes` SET zip_code = '9235', city = 'Dunaremete';
-REPLACE INTO `zip_codes` SET zip_code = '9241', city = 'Jánossomorja    ';
-REPLACE INTO `zip_codes` SET zip_code = '9242', city = 'Jánossomorja    ';
-REPLACE INTO `zip_codes` SET zip_code = '9243', city = 'Jánossomorja';
-REPLACE INTO `zip_codes` SET zip_code = '9243', city = 'Várbalog';
-REPLACE INTO `zip_codes` SET zip_code = '9244', city = 'Újrónafő';
-REPLACE INTO `zip_codes` SET zip_code = '9245', city = 'Mosonszolnok';
-REPLACE INTO `zip_codes` SET zip_code = '9246', city = 'Mosonudvar';
-REPLACE INTO `zip_codes` SET zip_code = '9300', city = 'Csorna';
-REPLACE INTO `zip_codes` SET zip_code = '9311', city = 'Pásztori';
-REPLACE INTO `zip_codes` SET zip_code = '9312', city = 'Szilsárkány';
-REPLACE INTO `zip_codes` SET zip_code = '9313', city = 'Rábacsanak';
-REPLACE INTO `zip_codes` SET zip_code = '9314', city = 'Egyed';
-REPLACE INTO `zip_codes` SET zip_code = '9315', city = 'Sobor';
-REPLACE INTO `zip_codes` SET zip_code = '9316', city = 'Rábaszentandrás';
-REPLACE INTO `zip_codes` SET zip_code = '9317', city = 'Szany';
-REPLACE INTO `zip_codes` SET zip_code = '9321', city = 'Farád';
-REPLACE INTO `zip_codes` SET zip_code = '9322', city = 'Rábatamási';
-REPLACE INTO `zip_codes` SET zip_code = '9323', city = 'Jobaháza';
-REPLACE INTO `zip_codes` SET zip_code = '9324', city = 'Bogyoszló';
-REPLACE INTO `zip_codes` SET zip_code = '9324', city = 'Potyond';
-REPLACE INTO `zip_codes` SET zip_code = '9325', city = 'Sopronnémeti';
-REPLACE INTO `zip_codes` SET zip_code = '9326', city = 'Szil';
-REPLACE INTO `zip_codes` SET zip_code = '9327', city = 'Vág';
-REPLACE INTO `zip_codes` SET zip_code = '9327', city = 'Rábasebes';
-REPLACE INTO `zip_codes` SET zip_code = '9330', city = 'Kapuvár';
-REPLACE INTO `zip_codes` SET zip_code = '9339', city = 'Kapuvár';
-REPLACE INTO `zip_codes` SET zip_code = '9341', city = 'Kisfalud';
-REPLACE INTO `zip_codes` SET zip_code = '9342', city = 'Mihályi';
-REPLACE INTO `zip_codes` SET zip_code = '9343', city = 'Beled';
-REPLACE INTO `zip_codes` SET zip_code = '9343', city = 'Edve';
-REPLACE INTO `zip_codes` SET zip_code = '9343', city = 'Vásárosfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9344', city = 'Rábakecöl';
-REPLACE INTO `zip_codes` SET zip_code = '9345', city = 'Páli';
-REPLACE INTO `zip_codes` SET zip_code = '9346', city = 'Magyarkeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '9346', city = 'Vadosfa';
-REPLACE INTO `zip_codes` SET zip_code = '9346', city = 'Zsebeháza';
-REPLACE INTO `zip_codes` SET zip_code = '9351', city = 'Babót';
-REPLACE INTO `zip_codes` SET zip_code = '9352', city = 'Veszkény';
-REPLACE INTO `zip_codes` SET zip_code = '9353', city = 'Szárföld';
-REPLACE INTO `zip_codes` SET zip_code = '9354', city = 'Osli';
-REPLACE INTO `zip_codes` SET zip_code = '9361', city = 'Hövej';
-REPLACE INTO `zip_codes` SET zip_code = '9362', city = 'Himod';
-REPLACE INTO `zip_codes` SET zip_code = '9363', city = 'Gyóró';
-REPLACE INTO `zip_codes` SET zip_code = '9364', city = 'Cirák';
-REPLACE INTO `zip_codes` SET zip_code = '9365', city = 'Dénesfa';
-REPLACE INTO `zip_codes` SET zip_code = '9371', city = 'Vitnyéd';
-REPLACE INTO `zip_codes` SET zip_code = '9372', city = 'Csapod';
-REPLACE INTO `zip_codes` SET zip_code = '9373', city = 'Pusztacsalád';
-REPLACE INTO `zip_codes` SET zip_code = '9374', city = 'Iván';
-REPLACE INTO `zip_codes` SET zip_code = '9375', city = 'Répceszemere';
-REPLACE INTO `zip_codes` SET zip_code = '9375', city = 'Csáfordjánosfa';
-REPLACE INTO `zip_codes` SET zip_code = '9375', city = 'Csér';
-REPLACE INTO `zip_codes` SET zip_code = '9400', city = 'Sopron';
-REPLACE INTO `zip_codes` SET zip_code = '9407', city = 'Sopron';
-REPLACE INTO `zip_codes` SET zip_code = '9408', city = 'Sopron';
-REPLACE INTO `zip_codes` SET zip_code = '9421', city = 'Fertőrákos';
-REPLACE INTO `zip_codes` SET zip_code = '9422', city = 'Harka';
-REPLACE INTO `zip_codes` SET zip_code = '9423', city = 'Ágfalva';
-REPLACE INTO `zip_codes` SET zip_code = '9431', city = 'Fertőd';
-REPLACE INTO `zip_codes` SET zip_code = '9433', city = 'Fertőd';
-REPLACE INTO `zip_codes` SET zip_code = '9434', city = 'Sarród';
-REPLACE INTO `zip_codes` SET zip_code = '9435', city = 'Sarród';
-REPLACE INTO `zip_codes` SET zip_code = '9436', city = 'Fertőszéplak';
-REPLACE INTO `zip_codes` SET zip_code = '9437', city = 'Hegykő';
-REPLACE INTO `zip_codes` SET zip_code = '9438', city = 'Sarród';
-REPLACE INTO `zip_codes` SET zip_code = '9441', city = 'Agyagosszergény';
-REPLACE INTO `zip_codes` SET zip_code = '9442', city = 'Fertőendréd';
-REPLACE INTO `zip_codes` SET zip_code = '9443', city = 'Petőháza';
-REPLACE INTO `zip_codes` SET zip_code = '9444', city = 'Fertőszentmiklós';
-REPLACE INTO `zip_codes` SET zip_code = '9451', city = 'Röjtökmuzsaj';
-REPLACE INTO `zip_codes` SET zip_code = '9451', city = 'Ebergőc';
-REPLACE INTO `zip_codes` SET zip_code = '9461', city = 'Lövő';
-REPLACE INTO `zip_codes` SET zip_code = '9462', city = 'Völcsej';
-REPLACE INTO `zip_codes` SET zip_code = '9463', city = 'Sopronhorpács';
-REPLACE INTO `zip_codes` SET zip_code = '9464', city = 'Und';
-REPLACE INTO `zip_codes` SET zip_code = '9471', city = 'Nemeskér';
-REPLACE INTO `zip_codes` SET zip_code = '9472', city = 'Újkér';
-REPLACE INTO `zip_codes` SET zip_code = '9473', city = 'Egyházasfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9474', city = 'Szakony';
-REPLACE INTO `zip_codes` SET zip_code = '9474', city = 'Gyalóka';
-REPLACE INTO `zip_codes` SET zip_code = '9475', city = 'Répcevis';
-REPLACE INTO `zip_codes` SET zip_code = '9476', city = 'Zsira';
-REPLACE INTO `zip_codes` SET zip_code = '9481', city = 'Pinnye';
-REPLACE INTO `zip_codes` SET zip_code = '9482', city = 'Nagylózs';
-REPLACE INTO `zip_codes` SET zip_code = '9483', city = 'Sopronkövesd';
-REPLACE INTO `zip_codes` SET zip_code = '9484', city = 'Pereszteg';
-REPLACE INTO `zip_codes` SET zip_code = '9485', city = 'Nagycenk';
-REPLACE INTO `zip_codes` SET zip_code = '9491', city = 'Hidegség';
-REPLACE INTO `zip_codes` SET zip_code = '9492', city = 'Fertőhomok';
-REPLACE INTO `zip_codes` SET zip_code = '9493', city = 'Fertőboz';
-REPLACE INTO `zip_codes` SET zip_code = '9494', city = 'Sopron';
-REPLACE INTO `zip_codes` SET zip_code = '9495', city = 'Kópháza';
-REPLACE INTO `zip_codes` SET zip_code = '9500', city = 'Celldömölk';
-REPLACE INTO `zip_codes` SET zip_code = '9511', city = 'Kemenesmihályfa';
-REPLACE INTO `zip_codes` SET zip_code = '9512', city = 'Ostffyasszonyfa';
-REPLACE INTO `zip_codes` SET zip_code = '9513', city = 'Csönge';
-REPLACE INTO `zip_codes` SET zip_code = '9514', city = 'Kenyeri';
-REPLACE INTO `zip_codes` SET zip_code = '9515', city = 'Pápoc';
-REPLACE INTO `zip_codes` SET zip_code = '9516', city = 'Vönöck';
-REPLACE INTO `zip_codes` SET zip_code = '9517', city = 'Kemenessömjén';
-REPLACE INTO `zip_codes` SET zip_code = '9521', city = 'Kemenesszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '9522', city = 'Kemenesmagasi';
-REPLACE INTO `zip_codes` SET zip_code = '9523', city = 'Szergény';
-REPLACE INTO `zip_codes` SET zip_code = '9531', city = 'Mersevát';
-REPLACE INTO `zip_codes` SET zip_code = '9532', city = 'Külsővat';
-REPLACE INTO `zip_codes` SET zip_code = '9533', city = 'Nemesszalók';
-REPLACE INTO `zip_codes` SET zip_code = '9534', city = 'Marcalgergelyi';
-REPLACE INTO `zip_codes` SET zip_code = '9534', city = 'Vinár';
-REPLACE INTO `zip_codes` SET zip_code = '9541', city = 'Celldömölk';
-REPLACE INTO `zip_codes` SET zip_code = '9542', city = 'Boba';
-REPLACE INTO `zip_codes` SET zip_code = '9542', city = 'Nemeskocs';
-REPLACE INTO `zip_codes` SET zip_code = '9544', city = 'Kemenespálfa';
-REPLACE INTO `zip_codes` SET zip_code = '9545', city = 'Jánosháza';
-REPLACE INTO `zip_codes` SET zip_code = '9547', city = 'Karakó';
-REPLACE INTO `zip_codes` SET zip_code = '9548', city = 'Nemeskeresztúr';
-REPLACE INTO `zip_codes` SET zip_code = '9549', city = 'Keléd';
-REPLACE INTO `zip_codes` SET zip_code = '9551', city = 'Mesteri';
-REPLACE INTO `zip_codes` SET zip_code = '9552', city = 'Vásárosmiske';
-REPLACE INTO `zip_codes` SET zip_code = '9553', city = 'Köcsk';
-REPLACE INTO `zip_codes` SET zip_code = '9553', city = 'Kemeneskápolna';
-REPLACE INTO `zip_codes` SET zip_code = '9554', city = 'Egyházashetye';
-REPLACE INTO `zip_codes` SET zip_code = '9554', city = 'Borgáta';
-REPLACE INTO `zip_codes` SET zip_code = '9555', city = 'Kissomlyó';
-REPLACE INTO `zip_codes` SET zip_code = '9556', city = 'Duka';
-REPLACE INTO `zip_codes` SET zip_code = '9561', city = 'Nagysimonyi';
-REPLACE INTO `zip_codes` SET zip_code = '9561', city = 'Tokorcs';
-REPLACE INTO `zip_codes` SET zip_code = '9600', city = 'Sárvár';
-REPLACE INTO `zip_codes` SET zip_code = '9608', city = 'Sárvár';
-REPLACE INTO `zip_codes` SET zip_code = '9609', city = 'Sárvár';
-REPLACE INTO `zip_codes` SET zip_code = '9611', city = 'Csénye';
-REPLACE INTO `zip_codes` SET zip_code = '9612', city = 'Bögöt';
-REPLACE INTO `zip_codes` SET zip_code = '9612', city = 'Porpác';
-REPLACE INTO `zip_codes` SET zip_code = '9621', city = 'Ölbő';
-REPLACE INTO `zip_codes` SET zip_code = '9622', city = 'Szeleste';
-REPLACE INTO `zip_codes` SET zip_code = '9623', city = 'Répceszentgyörgy';
-REPLACE INTO `zip_codes` SET zip_code = '9624', city = 'Chernelházadamonya';
-REPLACE INTO `zip_codes` SET zip_code = '9625', city = 'Bő';
-REPLACE INTO `zip_codes` SET zip_code = '9625', city = 'Gór';
-REPLACE INTO `zip_codes` SET zip_code = '9631', city = 'Hegyfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9632', city = 'Sajtoskál';
-REPLACE INTO `zip_codes` SET zip_code = '9633', city = 'Simaság';
-REPLACE INTO `zip_codes` SET zip_code = '9634', city = 'Lócs';
-REPLACE INTO `zip_codes` SET zip_code = '9634', city = 'Iklanberény';
-REPLACE INTO `zip_codes` SET zip_code = '9635', city = 'Zsédeny';
-REPLACE INTO `zip_codes` SET zip_code = '9636', city = 'Pósfa';
-REPLACE INTO `zip_codes` SET zip_code = '9641', city = 'Rábapaty';
-REPLACE INTO `zip_codes` SET zip_code = '9643', city = 'Jákfa';
-REPLACE INTO `zip_codes` SET zip_code = '9651', city = 'Uraiújfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9652', city = 'Nick';
-REPLACE INTO `zip_codes` SET zip_code = '9653', city = 'Répcelak';
-REPLACE INTO `zip_codes` SET zip_code = '9654', city = 'Csánig';
-REPLACE INTO `zip_codes` SET zip_code = '9661', city = 'Vasegerszeg';
-REPLACE INTO `zip_codes` SET zip_code = '9662', city = 'Tompaládony';
-REPLACE INTO `zip_codes` SET zip_code = '9662', city = 'Mesterháza';
-REPLACE INTO `zip_codes` SET zip_code = '9663', city = 'Nemesládony';
-REPLACE INTO `zip_codes` SET zip_code = '9664', city = 'Nagygeresd';
-REPLACE INTO `zip_codes` SET zip_code = '9665', city = 'Vámoscsalád';
-REPLACE INTO `zip_codes` SET zip_code = '9671', city = 'Sitke';
-REPLACE INTO `zip_codes` SET zip_code = '9672', city = 'Gérce';
-REPLACE INTO `zip_codes` SET zip_code = '9673', city = 'Káld';
-REPLACE INTO `zip_codes` SET zip_code = '9674', city = 'Vashosszúfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9675', city = 'Bögöte';
-REPLACE INTO `zip_codes` SET zip_code = '9676', city = 'Hosszúpereszteg';
-REPLACE INTO `zip_codes` SET zip_code = '9681', city = 'Sótony';
-REPLACE INTO `zip_codes` SET zip_code = '9682', city = 'Nyőgér';
-REPLACE INTO `zip_codes` SET zip_code = '9683', city = 'Bejcgyertyános';
-REPLACE INTO `zip_codes` SET zip_code = '9684', city = 'Egervölgy';
-REPLACE INTO `zip_codes` SET zip_code = '9685', city = 'Szemenye';
-REPLACE INTO `zip_codes` SET zip_code = '9700', city = 'Szombathely';
-REPLACE INTO `zip_codes` SET zip_code = '9707', city = 'Szombathely';
-REPLACE INTO `zip_codes` SET zip_code = '9721', city = 'Gencsapáti';
-REPLACE INTO `zip_codes` SET zip_code = '9722', city = 'Perenye';
-REPLACE INTO `zip_codes` SET zip_code = '9723', city = 'Gyöngyösfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9724', city = 'Lukácsháza ';
-REPLACE INTO `zip_codes` SET zip_code = '9725', city = 'Kőszegszerdahely';
-REPLACE INTO `zip_codes` SET zip_code = '9725', city = 'Cák';
-REPLACE INTO `zip_codes` SET zip_code = '9725', city = 'Kőszegdoroszló';
-REPLACE INTO `zip_codes` SET zip_code = '9726', city = 'Velem';
-REPLACE INTO `zip_codes` SET zip_code = '9727', city = 'Bozsok';
-REPLACE INTO `zip_codes` SET zip_code = '9730', city = 'Kőszeg';
-REPLACE INTO `zip_codes` SET zip_code = '9733', city = 'Horvátzsidány';
-REPLACE INTO `zip_codes` SET zip_code = '9733', city = 'Kiszsidány';
-REPLACE INTO `zip_codes` SET zip_code = '9733', city = 'Ólmod';
-REPLACE INTO `zip_codes` SET zip_code = '9734', city = 'Peresznye';
-REPLACE INTO `zip_codes` SET zip_code = '9735', city = 'Csepreg';
-REPLACE INTO `zip_codes` SET zip_code = '9736', city = 'Tormásliget';
-REPLACE INTO `zip_codes` SET zip_code = '9737', city = 'Bük';
-REPLACE INTO `zip_codes` SET zip_code = '9738', city = 'Tömörd';
-REPLACE INTO `zip_codes` SET zip_code = '9739', city = 'Nemescsó';
-REPLACE INTO `zip_codes` SET zip_code = '9739', city = 'Kőszegpaty';
-REPLACE INTO `zip_codes` SET zip_code = '9739', city = 'Pusztacsó';
-REPLACE INTO `zip_codes` SET zip_code = '9740', city = 'Bük';
-REPLACE INTO `zip_codes` SET zip_code = '9741', city = 'Vassurány';
-REPLACE INTO `zip_codes` SET zip_code = '9742', city = 'Salköveskút';
-REPLACE INTO `zip_codes` SET zip_code = '9743', city = 'Söpte';
-REPLACE INTO `zip_codes` SET zip_code = '9744', city = 'Vasasszonyfa';
-REPLACE INTO `zip_codes` SET zip_code = '9745', city = 'Meszlen';
-REPLACE INTO `zip_codes` SET zip_code = '9746', city = 'Acsád';
-REPLACE INTO `zip_codes` SET zip_code = '9747', city = 'Vasszilvágy';
-REPLACE INTO `zip_codes` SET zip_code = '9748', city = 'Vát';
-REPLACE INTO `zip_codes` SET zip_code = '9749', city = 'Nemesbőd';
-REPLACE INTO `zip_codes` SET zip_code = '9751', city = 'Vép';
-REPLACE INTO `zip_codes` SET zip_code = '9752', city = 'Bozzai';
-REPLACE INTO `zip_codes` SET zip_code = '9752', city = 'Kenéz';
-REPLACE INTO `zip_codes` SET zip_code = '9754', city = 'Pecöl';
-REPLACE INTO `zip_codes` SET zip_code = '9754', city = 'Megyehíd';
-REPLACE INTO `zip_codes` SET zip_code = '9756', city = 'Ikervár';
-REPLACE INTO `zip_codes` SET zip_code = '9757', city = 'Meggyeskovácsi';
-REPLACE INTO `zip_codes` SET zip_code = '9761', city = 'Táplánszentkereszt';
-REPLACE INTO `zip_codes` SET zip_code = '9762', city = 'Tanakajd';
-REPLACE INTO `zip_codes` SET zip_code = '9763', city = 'Vasszécseny';
-REPLACE INTO `zip_codes` SET zip_code = '9764', city = 'Csempeszkopács';
-REPLACE INTO `zip_codes` SET zip_code = '9764', city = 'Meggyeskovácsi';
-REPLACE INTO `zip_codes` SET zip_code = '9766', city = 'Rum';
-REPLACE INTO `zip_codes` SET zip_code = '9766', city = 'Rábatöttös';
-REPLACE INTO `zip_codes` SET zip_code = '9766', city = 'Zsennye';
-REPLACE INTO `zip_codes` SET zip_code = '9771', city = 'Balogunyom';
-REPLACE INTO `zip_codes` SET zip_code = '9772', city = 'Kisunyom';
-REPLACE INTO `zip_codes` SET zip_code = '9773', city = 'Sorokpolány';
-REPLACE INTO `zip_codes` SET zip_code = '9774', city = 'Sorkifalud';
-REPLACE INTO `zip_codes` SET zip_code = '9774', city = 'Gyanógeregye';
-REPLACE INTO `zip_codes` SET zip_code = '9774', city = 'Sorkikápolna';
-REPLACE INTO `zip_codes` SET zip_code = '9775', city = 'Nemeskolta';
-REPLACE INTO `zip_codes` SET zip_code = '9776', city = 'Püspökmolnári';
-REPLACE INTO `zip_codes` SET zip_code = '9777', city = 'Rábahídvég';
-REPLACE INTO `zip_codes` SET zip_code = '9781', city = 'Egyházashollós';
-REPLACE INTO `zip_codes` SET zip_code = '9782', city = 'Nemesrempehollós';
-REPLACE INTO `zip_codes` SET zip_code = '9783', city = 'Egyházasrádóc';
-REPLACE INTO `zip_codes` SET zip_code = '9784', city = 'Rádóckölked';
-REPLACE INTO `zip_codes` SET zip_code = '9784', city = 'Harasztifalu';
-REPLACE INTO `zip_codes` SET zip_code = '9784', city = 'Nagykölked';
-REPLACE INTO `zip_codes` SET zip_code = '9789', city = 'Sé';
-REPLACE INTO `zip_codes` SET zip_code = '9791', city = 'Torony';
-REPLACE INTO `zip_codes` SET zip_code = '9791', city = 'Dozmat';
-REPLACE INTO `zip_codes` SET zip_code = '9792', city = 'Bucsu';
-REPLACE INTO `zip_codes` SET zip_code = '9793', city = 'Narda';
-REPLACE INTO `zip_codes` SET zip_code = '9794', city = 'Felsőcsatár';
-REPLACE INTO `zip_codes` SET zip_code = '9795', city = 'Vaskeresztes';
-REPLACE INTO `zip_codes` SET zip_code = '9796', city = 'Pornóapáti';
-REPLACE INTO `zip_codes` SET zip_code = '9796', city = 'Horvátlövő';
-REPLACE INTO `zip_codes` SET zip_code = '9797', city = 'Nárai';
-REPLACE INTO `zip_codes` SET zip_code = '9798', city = 'Ják';
-REPLACE INTO `zip_codes` SET zip_code = '9799', city = 'Szentpéterfa';
-REPLACE INTO `zip_codes` SET zip_code = '9800', city = 'Vasvár';
-REPLACE INTO `zip_codes` SET zip_code = '9811', city = 'Andrásfa';
-REPLACE INTO `zip_codes` SET zip_code = '9812', city = 'Telekes';
-REPLACE INTO `zip_codes` SET zip_code = '9813', city = 'Gersekarát';
-REPLACE INTO `zip_codes` SET zip_code = '9813', city = 'Sárfimizdó';
-REPLACE INTO `zip_codes` SET zip_code = '9814', city = 'Halastó';
-REPLACE INTO `zip_codes` SET zip_code = '9821', city = 'Győrvár';
-REPLACE INTO `zip_codes` SET zip_code = '9821', city = 'Hegyhátszentpéter';
-REPLACE INTO `zip_codes` SET zip_code = '9823', city = 'Pácsony';
-REPLACE INTO `zip_codes` SET zip_code = '9824', city = 'Olaszfa';
-REPLACE INTO `zip_codes` SET zip_code = '9825', city = 'Oszkó';
-REPLACE INTO `zip_codes` SET zip_code = '9826', city = 'Petőmihályfa';
-REPLACE INTO `zip_codes` SET zip_code = '9831', city = 'Bérbaltavár';
-REPLACE INTO `zip_codes` SET zip_code = '9832', city = 'Nagytilaj';
-REPLACE INTO `zip_codes` SET zip_code = '9833', city = 'Csehi';
-REPLACE INTO `zip_codes` SET zip_code = '9834', city = 'Csehimindszent';
-REPLACE INTO `zip_codes` SET zip_code = '9835', city = 'Mikosszéplak';
-REPLACE INTO `zip_codes` SET zip_code = '9836', city = 'Csipkerek';
-REPLACE INTO `zip_codes` SET zip_code = '9841', city = 'Kám';
-REPLACE INTO `zip_codes` SET zip_code = '9842', city = 'Alsóújlak';
-REPLACE INTO `zip_codes` SET zip_code = '9900', city = 'Körmend';
-REPLACE INTO `zip_codes` SET zip_code = '9909', city = 'Körmend';
-REPLACE INTO `zip_codes` SET zip_code = '9909', city = 'Magyarnádalja';
-REPLACE INTO `zip_codes` SET zip_code = '9912', city = 'Molnaszecsőd';
-REPLACE INTO `zip_codes` SET zip_code = '9912', city = 'Magyarszecsőd';
-REPLACE INTO `zip_codes` SET zip_code = '9913', city = 'Szarvaskend';
-REPLACE INTO `zip_codes` SET zip_code = '9913', city = 'Döröske';
-REPLACE INTO `zip_codes` SET zip_code = '9913', city = 'Nagymizdó';
-REPLACE INTO `zip_codes` SET zip_code = '9914', city = 'Döbörhegy';
-REPLACE INTO `zip_codes` SET zip_code = '9915', city = 'Nádasd';
-REPLACE INTO `zip_codes` SET zip_code = '9915', city = 'Hegyháthodász';
-REPLACE INTO `zip_codes` SET zip_code = '9915', city = 'Hegyhátsál';
-REPLACE INTO `zip_codes` SET zip_code = '9915', city = 'Katafa';
-REPLACE INTO `zip_codes` SET zip_code = '9917', city = 'Halogy';
-REPLACE INTO `zip_codes` SET zip_code = '9917', city = 'Daraboshegy';
-REPLACE INTO `zip_codes` SET zip_code = '9918', city = 'Felsőmarác';
-REPLACE INTO `zip_codes` SET zip_code = '9919', city = 'Csákánydoroszló';
-REPLACE INTO `zip_codes` SET zip_code = '9921', city = 'Vasalja';
-REPLACE INTO `zip_codes` SET zip_code = '9922', city = 'Pinkamindszent';
-REPLACE INTO `zip_codes` SET zip_code = '9923', city = 'Kemestaródfa';
-REPLACE INTO `zip_codes` SET zip_code = '9931', city = 'Ivánc';
-REPLACE INTO `zip_codes` SET zip_code = '9931', city = 'Hegyhátszentmárton';
-REPLACE INTO `zip_codes` SET zip_code = '9932', city = 'Viszák';
-REPLACE INTO `zip_codes` SET zip_code = '9933', city = 'Őrimagyarósd';
-REPLACE INTO `zip_codes` SET zip_code = '9934', city = 'Hegyhátszentjakab';
-REPLACE INTO `zip_codes` SET zip_code = '9934', city = 'Felsőjánosfa';
-REPLACE INTO `zip_codes` SET zip_code = '9934', city = 'Szaknyér';
-REPLACE INTO `zip_codes` SET zip_code = '9935', city = 'Szőce';
-REPLACE INTO `zip_codes` SET zip_code = '9936', city = 'Kisrákos';
-REPLACE INTO `zip_codes` SET zip_code = '9937', city = 'Pankasz';
-REPLACE INTO `zip_codes` SET zip_code = '9938', city = 'Nagyrákos';
-REPLACE INTO `zip_codes` SET zip_code = '9938', city = 'Szatta';
-REPLACE INTO `zip_codes` SET zip_code = '9941', city = 'Őriszentpéter';
-REPLACE INTO `zip_codes` SET zip_code = '9941', city = 'Ispánk';
-REPLACE INTO `zip_codes` SET zip_code = '9942', city = 'Szalafő';
-REPLACE INTO `zip_codes` SET zip_code = '9943', city = 'Kondorfa';
-REPLACE INTO `zip_codes` SET zip_code = '9944', city = 'Bajánsenye';
-REPLACE INTO `zip_codes` SET zip_code = '9944', city = 'Kerkáskápolna';
-REPLACE INTO `zip_codes` SET zip_code = '9945', city = 'Kercaszomor';
-REPLACE INTO `zip_codes` SET zip_code = '9946', city = 'Magyarszombatfa';
-REPLACE INTO `zip_codes` SET zip_code = '9946', city = 'Velemér';
-REPLACE INTO `zip_codes` SET zip_code = '9951', city = 'Rátót';
-REPLACE INTO `zip_codes` SET zip_code = '9952', city = 'Gasztony';
-REPLACE INTO `zip_codes` SET zip_code = '9953', city = 'Vasszentmihály';
-REPLACE INTO `zip_codes` SET zip_code = '9953', city = 'Nemesmedves';
-REPLACE INTO `zip_codes` SET zip_code = '9954', city = 'Rönök';
-REPLACE INTO `zip_codes` SET zip_code = '9955', city = 'Szentgotthárd';
-REPLACE INTO `zip_codes` SET zip_code = '9961', city = 'Rábagyarmat';
-REPLACE INTO `zip_codes` SET zip_code = '9962', city = 'Csörötnek';
-REPLACE INTO `zip_codes` SET zip_code = '9962', city = 'Magyarlak';
-REPLACE INTO `zip_codes` SET zip_code = '9970', city = 'Szentgotthárd';
-REPLACE INTO `zip_codes` SET zip_code = '9981', city = 'Szentgotthárd';
-REPLACE INTO `zip_codes` SET zip_code = '9982', city = 'Apátistvánfalva';
-REPLACE INTO `zip_codes` SET zip_code = '9982', city = 'Kétvölgy';
-REPLACE INTO `zip_codes` SET zip_code = '9982', city = 'Orfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9983', city = 'Alsószölnök';
-REPLACE INTO `zip_codes` SET zip_code = '9983', city = 'Szakonyfalu';
-REPLACE INTO `zip_codes` SET zip_code = '9985', city = 'Felsőszölnök';
-REPLACE INTO `zip_codes` SET zip_code = '1007', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1011', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1012', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1013', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1014', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1015', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1016', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1021', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1022', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1023', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1024', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1025', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1026', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1027', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1028', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1029', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1031', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1032', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1033', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1034', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1035', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1036', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1037', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1038', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1039', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1041', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1042', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1043', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1044', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1045', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1046', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1047', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1048', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1051', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1052', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1053', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1054', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1055', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1056', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1061', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1062', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1063', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1064', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1065', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1066', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1067', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1068', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1071', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1072', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1073', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1074', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1075', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1076', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1077', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1078', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1081', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1082', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1083', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1084', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1085', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1086', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1087', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1088', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1089', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1091', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1092', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1093', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1094', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1095', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1096', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1097', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1098', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1101', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1102', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1103', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1104', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1105', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1106', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1107', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1108', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1111', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1112', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1113', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1114', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1115', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1116', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1117', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1118', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1119', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1121', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1122', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1123', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1124', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1125', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1126', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1131', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1132', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1133', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1134', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1135', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1136', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1137', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1138', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1139', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1141', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1142', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1143', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1144', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1145', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1146', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1147', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1148', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1149', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1151', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1152', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1153', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1154', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1155', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1156', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1157', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1158', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1161', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1162', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1163', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1164', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1165', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1171', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1172', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1173', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1174', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1181', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1182', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1183', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1184', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1185', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1186', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1188', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1191', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1192', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1193', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1194', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1195', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1196', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1201', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1202', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1203', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1204', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1205', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1211', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1212', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1213', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1214', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1215', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1221', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1222', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1223', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1224', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1225', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1237', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1238', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '1239', city = 'Budapest';
-REPLACE INTO `zip_codes` SET zip_code = '3501', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3508', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3515', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3516', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3517', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3518', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3519', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3521', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3524', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3525', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3526', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3527', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3528', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3529', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3530', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3531', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3532', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3533', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3534', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3535', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '3558', city = 'Miskolc';
-REPLACE INTO `zip_codes` SET zip_code = '4002', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4024', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4025', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4026', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4027', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4028', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4029', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4030', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4031', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4032', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4033', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4034', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4042', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4063', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4078', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4079', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '4225', city = 'Debrecen';
-REPLACE INTO `zip_codes` SET zip_code = '6710', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6720', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6721', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6722', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6723', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6724', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6725', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6726', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6727', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6728', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6729', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6753', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6757', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6771', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '6791', city = 'Szeged';
-REPLACE INTO `zip_codes` SET zip_code = '7621', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7622', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7623', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7624', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7625', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7626', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7627', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7628', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7629', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7630', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7631', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7632', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7633', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7634', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7635', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7636', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7639', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7668', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7691', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '7693', city = 'Pécs';
-REPLACE INTO `zip_codes` SET zip_code = '9011', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9012', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9019', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9021', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9022', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9023', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9024', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9025', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9026', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9027', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9028', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9029', city = 'Győr';
-REPLACE INTO `zip_codes` SET zip_code = '9030', city = 'Győr';
+INSERT INTO `zip_codes` (zip_code, city) VALUES 
+('2000', 'Szentendre'),
+('2009', 'Pilisszentlászló'),
+('2011', 'Budakalász'),
+('2013', 'Pomáz'),
+('2014', 'Csobánka'),
+('2015', 'Szigetmonostor'),
+('2016', 'Leányfalu'),
+('2017', 'Pócsmegyer'),
+('2021', 'Tahitótfalu'),
+('2022', 'Tahitótfalu'),
+('2023', 'Dunabogdány'),
+('2024', 'Kisoroszi'),
+('2025', 'Visegrád'),
+('2026', 'Visegrád'),
+('2027', 'Dömös'),
+('2028', 'Pilismarót'),
+('2030', 'Érd'),
+('2038', 'Sóskút'),
+('2039', 'Pusztazámor'),
+('2040', 'Budaörs'),
+('2045', 'Törökbálint'),
+('2049', 'Diósd'),
+('2051', 'Biatorbágy'),
+('2053', 'Herceghalom'),
+('2060', 'Bicske'),
+('2063', 'Óbarok'),
+('2064', 'Csabdi'),
+('2065', 'Mány'),
+('2066', 'Szár'),
+('2066', 'Újbarok'),
+('2067', 'Szárliget'),
+('2071', 'Páty'),
+('2072', 'Zsámbék'),
+('2073', 'Tök'),
+('2074', 'Perbál'),
+('2080', 'Pilisjászfalu '),
+('2081', 'Piliscsaba '),
+('2083', 'Solymár'),
+('2084', 'Pilisszentiván'),
+('2085', 'Pilisvörösvár'),
+('2086', 'Tinnye'),
+('2089', 'Telki'),
+('2090', 'Remeteszőlős'),
+('2091', 'Etyek'),
+('2092', 'Budakeszi'),
+('2093', 'Budajenő'),
+('2094', 'Nagykovácsi'),
+('2095', 'Pilisszántó'),
+('2096', 'Üröm'),
+('2097', 'Pilisborosjenő'),
+('2098', 'Pilisszentkereszt'),
+('2099', 'Pilisszentkereszt'),
+('2100', 'Gödöllő'),
+('2111', 'Szada'),
+('2112', 'Veresegyház'),
+('2113', 'Erdőkertes'),
+('2114', 'Valkó'),
+('2115', 'Vácszentlászló'),
+('2116', 'Zsámbok'),
+('2117', 'Isaszeg'),
+('2118', 'Dány'),
+('2119', 'Pécel'),
+('2120', 'Dunakeszi'),
+('2131', 'Göd'),
+('2132', 'Göd'),
+('2133', 'Sződliget'),
+('2134', 'Sződ'),
+('2135', 'Csörög'),
+('2141', 'Csömör'),
+('2142', 'Nagytarcsa'),
+('2143', 'Kistarcsa'),
+('2144', 'Kerepes '),
+('2145', 'Kerepes '),
+('2146', 'Mogyoród'),
+('2151', 'Fót'),
+('2161', 'Csomád'),
+('2162', 'Őrbottyán'),
+('2163', 'Vácrátót'),
+('2164', 'Váchartyán'),
+('2165', 'Kisnémedi'),
+('2166', 'Püspökszilágy'),
+('2167', 'Vácduka'),
+('2170', 'Aszód'),
+('2173', 'Kartal'),
+('2174', 'Verseg'),
+('2175', 'Kálló'),
+('2176', 'Erdőkürt'),
+('2177', 'Erdőtarcsa'),
+('2181', 'Iklad'),
+('2182', 'Domony'),
+('2183', 'Galgamácsa'),
+('2184', 'Vácegres'),
+('2185', 'Váckisújfalu'),
+('2191', 'Bag'),
+('2192', 'Hévízgyörk'),
+('2193', 'Galgahévíz'),
+('2194', 'Tura'),
+('2200', 'Monor'),
+('2209', 'Péteri'),
+('2211', 'Vasad'),
+('2212', 'Csévharaszt'),
+('2213', 'Monorierdő'),
+('2214', 'Pánd'),
+('2215', 'Káva'),
+('2216', 'Bénye'),
+('2217', 'Gomba'),
+('2220', 'Vecsés'),
+('2225', 'Üllő'),
+('2230', 'Gyömrő'),
+('2233', 'Ecser'),
+('2234', 'Maglód'),
+('2235', 'Mende'),
+('2241', 'Sülysáp  '),
+('2242', 'Sülysáp  '),
+('2243', 'Kóka'),
+('2244', 'Úri'),
+('2251', 'Tápiószecső'),
+('2252', 'Tóalmás'),
+('2253', 'Tápióság'),
+('2254', 'Szentmártonkáta'),
+('2255', 'Szentlőrinckáta'),
+('2300', 'Ráckeve'),
+('2309', 'Lórév'),
+('2310', 'Szigetszentmiklós'),
+('2314', 'Halásztelek'),
+('2315', 'Szigethalom'),
+('2316', 'Tököl'),
+('2317', 'Szigetcsép'),
+('2318', 'Szigetszentmárton'),
+('2319', 'Szigetújfalu'),
+('2321', 'Szigetbecse'),
+('2322', 'Makád'),
+('2330', 'Dunaharaszti'),
+('2335', 'Taksony'),
+('2336', 'Dunavarsány'),
+('2337', 'Délegyháza'),
+('2338', 'Áporka'),
+('2339', 'Majosháza'),
+('2340', 'Kiskunlacháza'),
+('2344', 'Dömsöd'),
+('2345', 'Apaj'),
+('2347', 'Bugyi'),
+('2351', 'Alsónémedi'),
+('2360', 'Gyál'),
+('2363', 'Felsőpakony'),
+('2364', 'Ócsa'),
+('2365', 'Inárcs'),
+('2366', 'Kakucs'),
+('2367', 'Újhartyán'),
+('2370', 'Dabas'),
+('2371', 'Dabas'),
+('2373', 'Dabas'),
+('2375', 'Tatárszentgyörgy'),
+('2376', 'Hernád'),
+('2377', 'Örkény'),
+('2378', 'Pusztavacs'),
+('2381', 'Táborfalva'),
+('2400', 'Dunaújváros'),
+('2407', 'Dunaújváros'),
+('2421', 'Nagyvenyim'),
+('2422', 'Mezőfalva'),
+('2423', 'Daruszentmiklós'),
+('2424', 'Előszállás'),
+('2425', 'Nagykarácsony'),
+('2426', 'Baracs '),
+('2427', 'Baracs '),
+('2428', 'Kisapostag'),
+('2431', 'Perkáta'),
+('2432', 'Szabadegyháza'),
+('2433', 'Sárosd'),
+('2434', 'Hantos'),
+('2435', 'Nagylók'),
+('2440', 'Százhalombatta'),
+('2451', 'Ercsi '),
+('2453', 'Ercsi '),
+('2454', 'Iváncsa'),
+('2455', 'Beloiannisz'),
+('2456', 'Besnyő'),
+('2457', 'Adony'),
+('2458', 'Kulcs'),
+('2459', 'Rácalmás'),
+('2461', 'Tárnok'),
+('2462', 'Martonvásár'),
+('2463', 'Tordas'),
+('2464', 'Gyúró'),
+('2465', 'Ráckeresztúr'),
+('2471', 'Baracska'),
+('2472', 'Kajászó'),
+('2473', 'Vál'),
+('2475', 'Kápolnásnyék'),
+('2476', 'Pázmánd'),
+('2477', 'Vereb'),
+('2481', 'Velence '),
+('2483', 'Gárdony '),
+('2484', 'Gárdony '),
+('2485', 'Gárdony '),
+('2490', 'Pusztaszabolcs'),
+('2500', 'Esztergom'),
+('2508', 'Esztergom'),
+('2509', 'Esztergom'),
+('2510', 'Dorog'),
+('2517', 'Kesztölc'),
+('2518', 'Leányvár'),
+('2519', 'Piliscsév'),
+('2521', 'Csolnok'),
+('2522', 'Dág'),
+('2523', 'Sárisáp'),
+('2524', 'Nagysáp'),
+('2525', 'Bajna'),
+('2526', 'Epöl'),
+('2527', 'Máriahalom'),
+('2528', 'Úny'),
+('2529', 'Annavölgy'),
+('2531', 'Tokod '),
+('2532', 'Tokodaltáró'),
+('2533', 'Bajót'),
+('2534', 'Tát'),
+('2535', 'Mogyorósbánya'),
+('2536', 'Nyergesújfalu '),
+('2541', 'Lábatlan '),
+('2543', 'Süttő'),
+('2544', 'Neszmély'),
+('2545', 'Dunaalmás'),
+('2600', 'Vác'),
+('2610', 'Nőtincs'),
+('2610', 'Ősagárd'),
+('2611', 'Felsőpetény'),
+('2612', 'Kosd'),
+('2613', 'Rád'),
+('2614', 'Penc'),
+('2615', 'Csővár'),
+('2616', 'Keszeg'),
+('2617', 'Alsópetény'),
+('2618', 'Nézsa'),
+('2619', 'Legénd'),
+('2621', 'Verőce'),
+('2623', 'Kismaros'),
+('2624', 'Szokolya'),
+('2625', 'Kóspallag'),
+('2626', 'Nagymaros'),
+('2627', 'Zebegény'),
+('2628', 'Szob'),
+('2629', 'Márianosztra'),
+('2631', 'Ipolydamásd'),
+('2632', 'Letkés'),
+('2633', 'Ipolytölgyes'),
+('2634', 'Nagybörzsöny'),
+('2635', 'Vámosmikola'),
+('2636', 'Tésa'),
+('2637', 'Perőcsény'),
+('2638', 'Kemence'),
+('2639', 'Bernecebaráti'),
+('2640', 'Szendehely'),
+('2641', 'Berkenye'),
+('2642', 'Nógrád'),
+('2643', 'Diósjenő'),
+('2644', 'Borsosberény'),
+('2645', 'Nagyoroszi'),
+('2646', 'Drégelypalánk'),
+('2647', 'Hont'),
+('2648', 'Patak'),
+('2649', 'Dejtár'),
+('2651', 'Rétság'),
+('2652', 'Tereske'),
+('2653', 'Bánk'),
+('2654', 'Romhány'),
+('2655', 'Kétbodony'),
+('2655', 'Kisecset'),
+('2655', 'Szente'),
+('2656', 'Szátok'),
+('2657', 'Tolmács'),
+('2658', 'Horpács'),
+('2658', 'Pusztaberki'),
+('2659', 'Érsekvadkert'),
+('2660', 'Balassagyarmat'),
+('2660', 'Ipolyszög'),
+('2668', 'Patvarc'),
+('2669', 'Ipolyvece'),
+('2671', 'Őrhalom'),
+('2672', 'Hugyag'),
+('2673', 'Csitár'),
+('2674', 'Iliny'),
+('2675', 'Nógrádmarcal'),
+('2676', 'Cserhátsurány'),
+('2677', 'Herencsény'),
+('2678', 'Csesztve'),
+('2681', 'Galgagyörk'),
+('2682', 'Püspökhatvan'),
+('2683', 'Acsa'),
+('2685', 'Nógrádsáp'),
+('2686', 'Galgaguta'),
+('2687', 'Bercel'),
+('2688', 'Vanyarc'),
+('2691', 'Nógrádkövesd'),
+('2692', 'Szécsénke'),
+('2693', 'Becske'),
+('2694', 'Magyarnándor'),
+('2694', 'Cserháthaláp'),
+('2694', 'Debercsény'),
+('2696', 'Terény'),
+('2697', 'Szanda'),
+('2698', 'Mohora'),
+('2699', 'Szügy'),
+('2700', 'Cegléd'),
+('2711', 'Tápiószentmárton'),
+('2712', 'Nyársapát'),
+('2713', 'Csemő'),
+('2721', 'Pilis'),
+('2723', 'Nyáregyháza'),
+('2724', 'Újlengyel'),
+('2730', 'Albertirsa'),
+('2735', 'Dánszentmiklós'),
+('2736', 'Mikebuda'),
+('2737', 'Ceglédbercel'),
+('2738', 'Cegléd'),
+('2740', 'Abony'),
+('2745', 'Kőröstetétlen'),
+('2746', 'Jászkarajenő'),
+('2747', 'Törtel'),
+('2750', 'Nagykőrös'),
+('2755', 'Kocsér'),
+('2760', 'Nagykáta'),
+('2764', 'Tápióbicske'),
+('2765', 'Farmos'),
+('2766', 'Tápiószele'),
+('2767', 'Tápiógyörgye'),
+('2768', 'Újszilvás'),
+('2769', 'Tápiószőlős'),
+('2800', 'Tatabánya'),
+('2821', 'Gyermely'),
+('2822', 'Szomor'),
+('2823', 'Vértessomló'),
+('2824', 'Várgesztes'),
+('2831', 'Tarján'),
+('2832', 'Héreg'),
+('2833', 'Vértestolna'),
+('2834', 'Tardos'),
+('2835', 'Tata'),
+('2836', 'Baj'),
+('2837', 'Vértesszőlős'),
+('2840', 'Oroszlány'),
+('2851', 'Környe'),
+('2852', 'Kecskéd'),
+('2853', 'Kömlőd'),
+('2854', 'Dad'),
+('2855', 'Bokod'),
+('2856', 'Szákszend'),
+('2858', 'Császár'),
+('2859', 'Vérteskethely'),
+('2861', 'Bakonysárkány'),
+('2862', 'Aka'),
+('2870', 'Kisbér'),
+('2879', 'Kisbér'),
+('2881', 'Ászár'),
+('2882', 'Kerékteleki'),
+('2883', 'Bársonyos'),
+('2884', 'Bakonyszombathely'),
+('2885', 'Bakonybánk'),
+('2886', 'Réde'),
+('2887', 'Ácsteszér'),
+('2888', 'Csatka'),
+('2889', 'Súr'),
+('2890', 'Tata'),
+('2896', 'Szomód'),
+('2897', 'Dunaszentmiklós'),
+('2898', 'Kocs'),
+('2899', 'Naszály'),
+('2900', 'Komárom'),
+('2903', 'Komárom'),
+('2911', 'Mocsa'),
+('2921', 'Komárom'),
+('2931', 'Almásfüzitő '),
+('2941', 'Ács'),
+('2942', 'Nagyigmánd'),
+('2943', 'Bábolna'),
+('2943', 'Tárkány'),
+('2944', 'Bana'),
+('2945', 'Tárkány'),
+('2946', 'Csép'),
+('2947', 'Ete'),
+('2948', 'Kisigmánd'),
+('2949', 'Csém'),
+('3000', 'Hatvan'),
+('3009', 'Kerekharaszt'),
+('3011', 'Heréd'),
+('3012', 'Nagykökényes'),
+('3013', 'Ecséd'),
+('3014', 'Hort'),
+('3015', 'Csány'),
+('3016', 'Boldog'),
+('3021', 'Lőrinci '),
+('3022', 'Lőrinci '),
+('3023', 'Petőfibánya'),
+('3024', 'Lőrinci '),
+('3031', 'Zagyvaszántó'),
+('3032', 'Apc'),
+('3033', 'Rózsaszentmárton'),
+('3034', 'Szűcsi'),
+('3035', 'Gyöngyöspata'),
+('3036', 'Gyöngyöstarján'),
+('3041', 'Héhalom'),
+('3042', 'Palotás'),
+('3043', 'Egyházasdengeleg'),
+('3044', 'Szirák'),
+('3045', 'Bér'),
+('3046', 'Kisbágyon'),
+('3047', 'Buják'),
+('3051', 'Szarvasgede'),
+('3052', 'Csécse'),
+('3053', 'Ecseg'),
+('3053', 'Kozárd'),
+('3060', 'Pásztó'),
+('3063', 'Jobbágyi'),
+('3064', 'Szurdokpüspöki'),
+('3065', 'Pásztó'),
+('3066', 'Cserhátszentiván'),
+('3066', 'Bokor'),
+('3066', 'Kutasó'),
+('3067', 'Felsőtold'),
+('3067', 'Garáb'),
+('3068', 'Mátraszőlős'),
+('3069', 'Alsótold'),
+('3070', 'Bátonyterenye'),
+('3073', 'Tar'),
+('3074', 'Sámsonháza'),
+('3075', 'Nagybárkány'),
+('3075', 'Kisbárkány'),
+('3075', 'Márkháza'),
+('3077', 'Mátraverebély'),
+('3078', 'Bátonyterenye'),
+('3082', 'Pásztó'),
+('3100', 'Salgótarján'),
+('3102', 'Salgótarján'),
+('3104', 'Salgótarján'),
+('3109', 'Salgótarján'),
+('3121', 'Somoskőújfalu'),
+('3123', 'Cered'),
+('3124', 'Zabar'),
+('3125', 'Szilaspogony'),
+('3126', 'Bárna'),
+('3127', 'Kazár'),
+('3128', 'Vizslás'),
+('3129', 'Lucfalva'),
+('3129', 'Nagykeresztúr'),
+('3131', 'Sóshartyán'),
+('3132', 'Nógrádmegyer'),
+('3133', 'Magyargéc'),
+('3134', 'Piliny'),
+('3135', 'Szécsényfelfalu'),
+('3136', 'Etes'),
+('3137', 'Karancsberény'),
+('3138', 'Ipolytarnóc'),
+('3141', 'Salgótarján'),
+('3142', 'Mátraszele'),
+('3143', 'Mátranovák'),
+('3144', 'Mátranovák'),
+('3145', 'Mátraterenye'),
+('3146', 'Mátraterenye'),
+('3147', 'Kazár'),
+('3151', 'Rákóczibánya'),
+('3152', 'Nemti'),
+('3153', 'Dorogháza'),
+('3154', 'Szuha'),
+('3155', 'Mátramindszent'),
+('3161', 'Kishartyán'),
+('3162', 'Ságújfalu'),
+('3163', 'Karancsság'),
+('3163', 'Szalmatercs'),
+('3165', 'Endrefalva'),
+('3170', 'Szécsény'),
+('3175', 'Nagylóc'),
+('3176', 'Hollókő'),
+('3177', 'Rimóc'),
+('3178', 'Varsány'),
+('3179', 'Nógrádsipek'),
+('3181', 'Karancsalja'),
+('3182', 'Karancslapujtő'),
+('3183', 'Karancskeszi'),
+('3184', 'Mihálygerge'),
+('3185', 'Egyházasgerge'),
+('3186', 'Litke'),
+('3187', 'Nógrádszakál'),
+('3188', 'Ludányhalászi'),
+('3200', 'Gyöngyös'),
+('3211', 'Gyöngyösoroszi'),
+('3212', 'Gyöngyöshalász'),
+('3213', 'Atkár'),
+('3214', 'Nagyréde'),
+('3221', 'Gyöngyös'),
+('3231', 'Gyöngyössolymos'),
+('3232', 'Gyöngyös'),
+('3233', 'Gyöngyös'),
+('3234', 'Mátraszentimre'),
+('3235', 'Mátraszentimre'),
+('3240', 'Parád'),
+('3242', 'Parádsasvár'),
+('3243', 'Bodony'),
+('3244', 'Parád'),
+('3245', 'Recsk'),
+('3246', 'Mátraderecske'),
+('3247', 'Mátraballa'),
+('3248', 'Ivád'),
+('3250', 'Pétervására'),
+('3252', 'Erdőkövesd'),
+('3253', 'Istenmezeje'),
+('3254', 'Váraszó'),
+('3255', 'Fedémes'),
+('3256', 'Kisfüzes'),
+('3257', 'Bükkszenterzsébet'),
+('3258', 'Tarnalelesz'),
+('3259', 'Szentdomonkos'),
+('3261', 'Abasár'),
+('3261', 'Pálosvörösmart'),
+('3262', 'Markaz'),
+('3263', 'Domoszló'),
+('3264', 'Kisnána'),
+('3265', 'Vécs'),
+('3271', 'Visonta '),
+('3272', 'Visonta '),
+('3273', 'Halmajugra'),
+('3274', 'Ludas'),
+('3275', 'Detk'),
+('3281', 'Karácsond'),
+('3282', 'Nagyfüged'),
+('3283', 'Tarnazsadány'),
+('3284', 'Tarnaméra'),
+('3291', 'Vámosgyörk'),
+('3292', 'Adács'),
+('3293', 'Visznek'),
+('3294', 'Tarnaörs'),
+('3295', 'Erk'),
+('3296', 'Zaránk'),
+('3300', 'Eger'),
+('3321', 'Egerbakta'),
+('3322', 'Hevesaranyos'),
+('3323', 'Szarvaskő'),
+('3324', 'Felsőtárkány'),
+('3325', 'Noszvaj'),
+('3326', 'Ostoros'),
+('3327', 'Novaj'),
+('3328', 'Egerszólát'),
+('3331', 'Tarnaszentmária'),
+('3332', 'Sirok'),
+('3333', 'Terpes'),
+('3334', 'Szajla'),
+('3335', 'Bükkszék'),
+('3336', 'Bátor'),
+('3337', 'Egerbocs'),
+('3341', 'Egercsehi'),
+('3341', 'Szúcs'),
+('3343', 'Bekölce'),
+('3344', 'Mikófalva'),
+('3345', 'Mónosbél'),
+('3346', 'Bélapátfalva'),
+('3346', 'Bükkszentmárton'),
+('3347', 'Balaton'),
+('3348', 'Szilvásvárad'),
+('3349', 'Nagyvisnyó'),
+('3350', 'Kál'),
+('3351', 'Verpelét'),
+('3352', 'Feldebrő'),
+('3353', 'Aldebrő'),
+('3354', 'Tófalu'),
+('3355', 'Kápolna'),
+('3356', 'Kompolt'),
+('3357', 'Nagyút'),
+('3358', 'Erdőtelek'),
+('3359', 'Tenk'),
+('3360', 'Heves'),
+('3368', 'Boconád'),
+('3369', 'Tarnabod'),
+('3371', 'Átány'),
+('3372', 'Kömlő'),
+('3373', 'Besenyőtelek'),
+('3374', 'Dormánd'),
+('3375', 'Mezőtárkány'),
+('3377', 'Szihalom'),
+('3378', 'Mezőszemere'),
+('3379', 'Egerfarmos'),
+('3381', 'Pély'),
+('3382', 'Tarnaszentmiklós'),
+('3383', 'Hevesvezekény'),
+('3384', 'Kisköre'),
+('3385', 'Tiszanána'),
+('3386', 'Sarud'),
+('3387', 'Újlőrincfalva'),
+('3388', 'Poroszló'),
+('3390', 'Füzesabony '),
+('3394', 'Egerszalók'),
+('3395', 'Demjén'),
+('3396', 'Kerecsend'),
+('3397', 'Maklár'),
+('3398', 'Nagytálya'),
+('3399', 'Andornaktálya'),
+('3400', 'Mezőkövesd'),
+('3411', 'Szomolya'),
+('3412', 'Bogács'),
+('3413', 'Cserépfalu'),
+('3414', 'Bükkzsérc'),
+('3416', 'Tard'),
+('3417', 'Cserépváralja'),
+('3418', 'Szentistván'),
+('3421', 'Mezőnyárád'),
+('3422', 'Bükkábrány'),
+('3423', 'Tibolddaróc'),
+('3424', 'Kács'),
+('3425', 'Sály'),
+('3426', 'Borsodgeszt'),
+('3431', 'Vatta'),
+('3432', 'Emőd'),
+('3433', 'Nyékládháza '),
+('3434', 'Mályi'),
+('3441', 'Mezőkeresztes '),
+('3442', 'Csincse'),
+('3443', 'Mezőnagymihály'),
+('3444', 'Gelej'),
+('3450', 'Mezőcsát'),
+('3458', 'Tiszakeszi'),
+('3459', 'Igrici'),
+('3461', 'Egerlövő'),
+('3462', 'Borsodivánka'),
+('3463', 'Négyes'),
+('3464', 'Tiszavalk'),
+('3465', 'Tiszabábolna'),
+('3466', 'Tiszadorogma'),
+('3467', 'Ároktő'),
+('3500', 'Miskolc*'),
+('3551', 'Ónod'),
+('3552', 'Muhi'),
+('3553', 'Kistokaj'),
+('3554', 'Bükkaranyos'),
+('3555', 'Harsány'),
+('3556', 'Kisgyőr'),
+('3557', 'Bükkszentkereszt'),
+('3559', 'Répáshuta'),
+('3561', 'Felsőzsolca'),
+('3562', 'Onga'),
+('3563', 'Hernádkak'),
+('3564', 'Hernádnémeti'),
+('3565', 'Tiszalúc'),
+('3571', 'Alsózsolca'),
+('3572', 'Sajólád'),
+('3573', 'Sajópetri'),
+('3574', 'Bőcs'),
+('3575', 'Berzék'),
+('3576', 'Sajóhídvég'),
+('3577', 'Köröm'),
+('3578', 'Girincs'),
+('3578', 'Kiscsécs'),
+('3579', 'Kesznyéten'),
+('3580', 'Tiszaújváros'),
+('3586', 'Sajóörös'),
+('3587', 'Tiszapalkonya'),
+('3588', 'Hejőkürt'),
+('3589', 'Tiszatarján'),
+('3591', 'Oszlár'),
+('3592', 'Nemesbikk'),
+('3593', 'Hejőbába'),
+('3594', 'Hejőpapi'),
+('3595', 'Hejőszalonta'),
+('3596', 'Szakáld'),
+('3597', 'Hejőkeresztúr'),
+('3598', 'Nagycsécs'),
+('3599', 'Sajószöged'),
+('3600', 'Ózd'),
+('3603', 'Ózd'),
+('3604', 'Ózd'),
+('3608', 'Farkaslyuk'),
+('3621', 'Ózd'),
+('3622', 'Uppony'),
+('3623', 'Borsodszentgyörgy'),
+('3625', 'Ózd'),
+('3626', 'Hangony'),
+('3627', 'Domaháza'),
+('3627', 'Kissikátor'),
+('3630', 'Putnok'),
+('3635', 'Dubicsány'),
+('3636', 'Vadna'),
+('3636', 'Sajógalgóc'),
+('3641', 'Nagybarca'),
+('3642', 'Bánhorváti'),
+('3643', 'Dédestapolcsány'),
+('3644', 'Tardona'),
+('3645', 'Mályinka'),
+('3646', 'Nekézseny'),
+('3647', 'Csokvaomány'),
+('3648', 'Csernely'),
+('3648', 'Bükkmogyorósd'),
+('3648', 'Lénárddaróc'),
+('3651', 'Ózd'),
+('3652', 'Sajónémeti'),
+('3653', 'Sajópüspöki'),
+('3654', 'Bánréve'),
+('3655', 'Hét'),
+('3656', 'Sajóvelezd'),
+('3656', 'Sajómercse'),
+('3657', 'Királd'),
+('3658', 'Borsodbóta'),
+('3659', 'Sáta'),
+('3661', 'Ózd'),
+('3662', 'Ózd'),
+('3663', 'Arló'),
+('3664', 'Járdánháza'),
+('3671', 'Borsodnádasd '),
+('3672', 'Borsodnádasd '),
+('3700', 'Kazincbarcika'),
+('3704', 'Berente'),
+('3711', 'Szirmabesenyő'),
+('3712', 'Sajóvámos'),
+('3712', 'Sajósenye'),
+('3713', 'Arnót'),
+('3714', 'Sajópálfala'),
+('3715', 'Gesztely'),
+('3716', 'Újcsanálos'),
+('3716', 'Sóstófalva'),
+('3717', 'Alsódobsza'),
+('3718', 'Megyaszó'),
+('3720', 'Sajókaza'),
+('3720', 'Sajóivánka'),
+('3721', 'Felsőnyárád'),
+('3721', 'Dövény'),
+('3721', 'Jákfalva'),
+('3722', 'Felsőkelecsény'),
+('3723', 'Zubogy'),
+('3724', 'Ragály'),
+('3724', 'Trizs'),
+('3725', 'Imola'),
+('3726', 'Zádorfalva'),
+('3726', 'Alsószuha'),
+('3726', 'Szuhafő'),
+('3728', 'Kelemér'),
+('3728', 'Gömörszőlős'),
+('3729', 'Serényfalva'),
+('3731', 'Szuhakálló'),
+('3732', 'Kurityán'),
+('3733', 'Rudabánya'),
+('3734', 'Szuhogy'),
+('3735', 'Felsőtelekes'),
+('3735', 'Alsótelekes'),
+('3735', 'Kánó'),
+('3741', 'Izsófalva'),
+('3742', 'Rudolftelep'),
+('3743', 'Ormosbánya'),
+('3744', 'Múcsony'),
+('3751', 'Szendrőlád'),
+('3752', 'Szendrő'),
+('3752', 'Galvács'),
+('3753', 'Abod'),
+('3754', 'Szalonna'),
+('3754', 'Meszes'),
+('3755', 'Martonyi'),
+('3756', 'Perkupa'),
+('3756', 'Varbóc'),
+('3757', 'Szőlősardó'),
+('3757', 'Égerszög'),
+('3757', 'Teresztenye'),
+('3758', 'Jósvafő'),
+('3759', 'Aggtelek'),
+('3761', 'Szin'),
+('3761', 'Szinpetri'),
+('3761', 'Tornakápolna'),
+('3762', 'Szögliget'),
+('3763', 'Bódvaszilas'),
+('3764', 'Bódvarákó'),
+('3765', 'Komjáti'),
+('3765', 'Tornabarakony'),
+('3765', 'Tornaszentandrás'),
+('3767', 'Tornanádaska'),
+('3768', 'Hidvégardó'),
+('3768', 'Becskeháza'),
+('3768', 'Bódvalenke'),
+('3769', 'Tornaszentjakab'),
+('3770', 'Sajószentpéter'),
+('3773', 'Sajókápolna'),
+('3773', 'Sajólászlófalva'),
+('3775', 'Kondó'),
+('3776', 'Radostyán'),
+('3777', 'Parasznya'),
+('3778', 'Varbó'),
+('3779', 'Alacska'),
+('3780', 'Edelény '),
+('3780', 'Balajt'),
+('3780', 'Damak'),
+('3780', 'Ládbesenyő'),
+('3783', 'Edelény '),
+('3786', 'Lak'),
+('3786', 'Hegymeg'),
+('3786', 'Irota'),
+('3786', 'Szakácsi'),
+('3787', 'Tomor'),
+('3791', 'Sajókeresztúr'),
+('3792', 'Sajóbábony'),
+('3793', 'Sajóecseg'),
+('3794', 'Boldva'),
+('3794', 'Ziliz'),
+('3795', 'Hangács'),
+('3795', 'Nyomár'),
+('3796', 'Borsodszirák'),
+('3800', 'Szikszó'),
+('3809', 'Selyeb'),
+('3809', 'Abaújszolnok'),
+('3809', 'Nyésta'),
+('3811', 'Alsóvadász'),
+('3812', 'Homrogd'),
+('3812', 'Monaj'),
+('3813', 'Kupa'),
+('3814', 'Felsővadász'),
+('3815', 'Gadna'),
+('3815', 'Abaújlak'),
+('3816', 'Gagyvendégi'),
+('3817', 'Gagybátor'),
+('3821', 'Krasznokvajda'),
+('3821', 'Büttös'),
+('3821', 'Kány'),
+('3821', 'Keresztéte'),
+('3821', 'Pamlény'),
+('3821', 'Perecse'),
+('3821', 'Szászfa'),
+('3825', 'Rakaca'),
+('3825', 'Debréte'),
+('3825', 'Viszló'),
+('3826', 'Rakacaszend'),
+('3831', 'Kázsmárk'),
+('3832', 'Léh'),
+('3833', 'Rásonysápberencs'),
+('3834', 'Detek'),
+('3834', 'Beret'),
+('3836', 'Baktakék'),
+('3837', 'Felsőgagy'),
+('3837', 'Alsógagy'),
+('3837', 'Csenyéte'),
+('3837', 'Gagyapáti'),
+('3841', 'Aszaló'),
+('3842', 'Halmaj'),
+('3843', 'Kiskinizs'),
+('3844', 'Nagykinizs'),
+('3844', 'Szentistvánbaksa'),
+('3846', 'Hernádkércs'),
+('3847', 'Felsődobsza'),
+('3848', 'Csobád'),
+('3849', 'Forró'),
+('3851', 'Ináncs'),
+('3852', 'Hernádszentandrás'),
+('3853', 'Pere'),
+('3853', 'Hernádbűd'),
+('3854', 'Gibárt'),
+('3855', 'Fancsal'),
+('3860', 'Encs'),
+('3863', 'Szalaszend'),
+('3864', 'Fulókércs'),
+('3865', 'Fáj'),
+('3866', 'Szemere'),
+('3866', 'Litka'),
+('3871', 'Méra'),
+('3872', 'Novajidrány'),
+('3873', 'Garadna'),
+('3874', 'Hernádvécse'),
+('3874', 'Hernádpetri'),
+('3874', 'Pusztaradvány'),
+('3875', 'Hernádszurdok'),
+('3876', 'Hidasnémeti'),
+('3877', 'Tornyosnémeti'),
+('3881', 'Abaújszántó'),
+('3881', 'Baskó'),
+('3881', 'Sima'),
+('3882', 'Abaújkér'),
+('3882', 'Abaújalpár'),
+('3884', 'Boldogkőújfalu'),
+('3885', 'Boldogkőváralja'),
+('3885', 'Arka'),
+('3886', 'Korlát'),
+('3887', 'Hernádcéce'),
+('3888', 'Vizsoly'),
+('3891', 'Vilmány'),
+('3892', 'Hejce'),
+('3893', 'Fony'),
+('3893', 'Mogyoróska'),
+('3893', 'Regéc'),
+('3894', 'Göncruszka'),
+('3895', 'Gönc'),
+('3896', 'Telkibánya'),
+('3897', 'Zsujta'),
+('3898', 'Abaújvár'),
+('3898', 'Pányok'),
+('3899', 'Kéked'),
+('3900', 'Szerencs'),
+('3902', 'Szerencs'),
+('3903', 'Bekecs'),
+('3904', 'Legyesbénye'),
+('3905', 'Monok'),
+('3906', 'Golop'),
+('3907', 'Tállya'),
+('3908', 'Rátka'),
+('3909', 'Mád'),
+('3910', 'Tokaj'),
+('3915', 'Tarcal'),
+('3916', 'Bodrogkeresztúr'),
+('3917', 'Bodrogkisfalud'),
+('3918', 'Szegi'),
+('3918', 'Szegilong'),
+('3921', 'Taktaszada'),
+('3922', 'Taktaharkány'),
+('3923', 'Gesztely'),
+('3924', 'Taktakenéz'),
+('3925', 'Prügy'),
+('3926', 'Taktabáj'),
+('3927', 'Csobaj'),
+('3928', 'Tiszatardos'),
+('3929', 'Tiszaladány'),
+('3931', 'Mezőzombor'),
+('3932', 'Erdőbénye'),
+('3933', 'Olaszliszka'),
+('3934', 'Tolcsva'),
+('3935', 'Erdőhorváti'),
+('3936', 'Háromhuta'),
+('3937', 'Komlóska'),
+('3941', 'Vámosújfalu'),
+('3942', 'Sárazsadány'),
+('3943', 'Bodrogolaszi'),
+('3944', 'Sátoraljaújhely'),
+('3945', 'Sátoraljaújhely'),
+('3950', 'Sárospatak'),
+('3954', 'Györgytarló'),
+('3955', 'Kenézlő'),
+('3956', 'Viss'),
+('3957', 'Zalkod'),
+('3958', 'Hercegkút'),
+('3959', 'Makkoshotyka'),
+('3961', 'Vajdácska'),
+('3962', 'Karos'),
+('3963', 'Karcsa'),
+('3964', 'Pácin'),
+('3965', 'Nagyrozvágy'),
+('3965', 'Kisrozvágy'),
+('3967', 'Lácacséke'),
+('3971', 'Tiszakarád'),
+('3972', 'Tiszacsermely'),
+('3973', 'Cigánd'),
+('3974', 'Ricse'),
+('3974', 'Semjén'),
+('3976', 'Révleányvár'),
+('3977', 'Zemplénagárd'),
+('3978', 'Dámóc'),
+('3980', 'Sátoraljaújhely'),
+('3985', 'Alsóberecki'),
+('3985', 'Felsőberecki'),
+('3987', 'Bodroghalom'),
+('3988', 'Sátoraljaújhely'),
+('3989', 'Mikóháza'),
+('3989', 'Alsóregmec'),
+('3989', 'Felsőregmec'),
+('3991', 'Vilyvitány'),
+('3992', 'Kovácsvágás'),
+('3992', 'Vágáshuta'),
+('3993', 'Füzérradvány'),
+('3994', 'Pálháza'),
+('3994', 'Bózsva'),
+('3994', 'Filkeháza'),
+('3994', 'Füzérkajata'),
+('3994', 'Kishuta'),
+('3994', 'Nagyhuta'),
+('3995', 'Pusztafalu'),
+('3996', 'Füzér'),
+('3997', 'Füzérkomlós'),
+('3998', 'Nyíri'),
+('3999', 'Hollóháza'),
+('4000', 'Debrecen*'),
+('4060', 'Balmazújváros'),
+('4064', 'Nagyhegyes'),
+('4065', 'Újszentmargita'),
+('4066', 'Tiszacsege'),
+('4067', 'Egyek'),
+('4069', 'Egyek'),
+('4071', 'Hortobágy'),
+('4074', 'Hajdúböszörmény'),
+('4075', 'Görbeháza'),
+('4080', 'Hajdúnánás'),
+('4085', 'Hajdúnánás'),
+('4086', 'Hajdúböszörmény'),
+('4087', 'Hajdúdorog'),
+('4090', 'Polgár'),
+('4095', 'Folyás'),
+('4096', 'Újtikos'),
+('4097', 'Tiszagyulaháza'),
+('4100', 'Berettyóújfalu'),
+('4110', 'Biharkeresztes'),
+('4114', 'Bojt'),
+('4115', 'Ártánd '),
+('4116', 'Berekböszörmény'),
+('4117', 'Told '),
+('4118', 'Mezőpeterd'),
+('4119', 'Váncsod'),
+('4121', 'Szentpéterszeg'),
+('4122', 'Gáborján'),
+('4123', 'Hencida'),
+('4124', 'Esztár'),
+('4125', 'Pocsaj'),
+('4126', 'Kismarja'),
+('4127', 'Nagykereki'),
+('4128', 'Bedő'),
+('4130', 'Derecske'),
+('4132', 'Tépe'),
+('4133', 'Konyár'),
+('4134', 'Mezősas'),
+('4135', 'Körösszegapáti'),
+('4136', 'Körösszakál'),
+('4137', 'Magyarhomorog'),
+('4138', 'Komádi'),
+('4141', 'Furta'),
+('4142', 'Zsáka'),
+('4143', 'Vekerd'),
+('4144', 'Darvas'),
+('4145', 'Csökmő'),
+('4146', 'Újiráz'),
+('4150', 'Püspökladány'),
+('4161', 'Báránd'),
+('4162', 'Szerep'),
+('4163', 'Szerep'),
+('4164', 'Bakonszeg'),
+('4171', 'Sárrétudvari'),
+('4172', 'Biharnagybajom'),
+('4173', 'Nagyrábé'),
+('4174', 'Bihartorda'),
+('4175', 'Bihardancsháza'),
+('4176', 'Sáp'),
+('4177', 'Földes'),
+('4181', 'Nádudvar'),
+('4183', 'Kaba'),
+('4184', 'Tetétlen'),
+('4200', 'Hajdúszoboszló'),
+('4211', 'Ebes'),
+('4212', 'Hajdúszovát'),
+('4220', 'Hajdúböszörmény'),
+('4224', 'Hajdúböszörmény'),
+('4231', 'Bököny'),
+('4232', 'Geszteréd'),
+('4233', 'Balkány'),
+('4234', 'Szakoly'),
+('4235', 'Biri'),
+('4241', 'Bocskaikert'),
+('4242', 'Hajdúhadház'),
+('4243', 'Téglás'),
+('4244', 'Újfehértó'),
+('4245', 'Érpatak'),
+('4246', 'Nyíregyháza'),
+('4251', 'Hajdúsámson'),
+('4252', 'Nyíradony'),
+('4253', 'Nyíradony'),
+('4254', 'Nyíradony'),
+('4262', 'Nyíracsád'),
+('4263', 'Nyírmártonfalva'),
+('4264', 'Nyírábrány'),
+('4266', 'Fülöp'),
+('4267', 'Penészlek'),
+('4271', 'Mikepércs'),
+('4272', 'Sáránd'),
+('4273', 'Hajdúbagos'),
+('4274', 'Hosszúpályi'),
+('4275', 'Monostorpályi'),
+('4281', 'Létavértes '),
+('4283', 'Létavértes '),
+('4284', 'Kokad'),
+('4285', 'Álmosd'),
+('4286', 'Bagamér'),
+('4287', 'Vámospércs'),
+('4288', 'Újléta'),
+('4300', 'Nyírbátor'),
+('4311', 'Nyírgyulaj'),
+('4320', 'Nagykálló'),
+('4324', 'Kállósemjén'),
+('4325', 'Kisléta'),
+('4326', 'Máriapócs'),
+('4327', 'Pócspetri'),
+('4331', 'Nyírcsászári'),
+('4332', 'Nyírderzs'),
+('4333', 'Nyírkáta'),
+('4334', 'Hodász'),
+('4335', 'Kántorjánosi'),
+('4336', 'Őr'),
+('4337', 'Jármi'),
+('4338', 'Papos '),
+('4341', 'Nyírvasvári'),
+('4342', 'Terem'),
+('4343', 'Bátorliget'),
+('4351', 'Vállaj'),
+('4352', 'Mérk'),
+('4353', 'Tiborszállás'),
+('4354', 'Fábiánháza'),
+('4355', 'Nagyecsed'),
+('4356', 'Nyírcsaholy'),
+('4361', 'Nyírbogát'),
+('4362', 'Nyírgelse'),
+('4363', 'Nyírmihálydi'),
+('4371', 'Nyírlugos'),
+('4372', 'Nyírbéltek'),
+('4373', 'Ömböly'),
+('4374', 'Encsencs'),
+('4375', 'Piricse'),
+('4376', 'Nyírpilis'),
+('4400', 'Nyíregyháza'),
+('4405', 'Nyíregyháza'),
+('4431', 'Nyíregyháza'),
+('4432', 'Nyíregyháza'),
+('4433', 'Nyíregyháza'),
+('4434', 'Kálmánháza'),
+('4440', 'Tiszavasvári'),
+('4441', 'Szorgalmatos'),
+('4445', 'Nagycserkesz'),
+('4446', 'Tiszaeszlár'),
+('4447', 'Tiszalök'),
+('4450', 'Tiszalök'),
+('4455', 'Tiszadada'),
+('4456', 'Tiszadob'),
+('4461', 'Nyírtelek'),
+('4463', 'Tiszanagyfalu'),
+('4464', 'Tiszaeszlár    '),
+('4465', 'Rakamaz'),
+('4466', 'Timár'),
+('4467', 'Szabolcs'),
+('4468', 'Balsa'),
+('4471', 'Gávavencsellő   '),
+('4472', 'Gávavencsellő   '),
+('4474', 'Tiszabercel'),
+('4475', 'Paszab'),
+('4481', 'Nyíregyháza'),
+('4482', 'Kótaj'),
+('4483', 'Buj'),
+('4484', 'Ibrány'),
+('4485', 'Nagyhalász'),
+('4486', 'Tiszatelek'),
+('4487', 'Tiszatelek'),
+('4488', 'Beszterec'),
+('4491', 'Újdombrád'),
+('4492', 'Dombrád'),
+('4493', 'Tiszakanyár'),
+('4494', 'Kékcse'),
+('4495', 'Döge'),
+('4496', 'Szabolcsveresmart'),
+('4501', 'Kemecse'),
+('4502', 'Vasmegyer'),
+('4503', 'Tiszarád'),
+('4511', 'Nyírbogdány '),
+('4515', 'Kék'),
+('4516', 'Demecser'),
+('4517', 'Gégény'),
+('4521', 'Berkesz '),
+('4522', 'Nyírtass'),
+('4523', 'Pátroha'),
+('4524', 'Ajak'),
+('4525', 'Rétközberencs'),
+('4531', 'Nyírpazony'),
+('4532', 'Nyírtura'),
+('4533', 'Sényő'),
+('4534', 'Székely'),
+('4535', 'Nyíribrony'),
+('4536', 'Ramocsaháza'),
+('4537', 'Nyírkércs'),
+('4541', 'Nyírjákó'),
+('4542', 'Petneháza'),
+('4543', 'Laskod'),
+('4544', 'Nyírkarász'),
+('4545', 'Gyulaháza'),
+('4546', 'Anarcs'),
+('4547', 'Szabolcsbáka'),
+('4551', 'Nyíregyháza'),
+('4552', 'Napkor'),
+('4553', 'Apagy'),
+('4554', 'Nyírtét'),
+('4555', 'Levelek'),
+('4556', 'Magy'),
+('4557', 'Besenyőd'),
+('4558', 'Ófehértó'),
+('4561', 'Baktalórántháza'),
+('4562', 'Vaja'),
+('4563', 'Rohod'),
+('4564', 'Nyírmada'),
+('4565', 'Pusztadobos'),
+('4566', 'Ilk'),
+('4567', 'Gemzse'),
+('4600', 'Kisvárda'),
+('4611', 'Jéke'),
+('4621', 'Fényeslitke'),
+('4622', 'Komoró'),
+('4623', 'Tuzsér'),
+('4624', 'Tiszabezdéd'),
+('4625', 'Záhony'),
+('4625', 'Győröcske'),
+('4627', 'Zsurk'),
+('4628', 'Tiszaszentmárton'),
+('4631', 'Pap'),
+('4632', 'Nyírlövő'),
+('4633', 'Lövőpetri'),
+('4634', 'Aranyosapáti'),
+('4635', 'Újkenéz'),
+('4641', 'Mezőladány'),
+('4642', 'Tornyospálca'),
+('4643', 'Benk'),
+('4644', 'Mándok'),
+('4645', 'Tiszamogyorós'),
+('4646', 'Eperjeske'),
+('4700', 'Mátészalka'),
+('4721', 'Szamoskér'),
+('4722', 'Nyírmeggyes'),
+('4731', 'Tunyogmatolcs'),
+('4732', 'Cégénydányád'),
+('4733', 'Gyügye'),
+('4734', 'Szamosújlak'),
+('4735', 'Szamossályi'),
+('4735', 'Hermánszeg'),
+('4737', 'Kisnamény'),
+('4737', 'Darnó'),
+('4741', 'Jánkmajtis'),
+('4742', 'Csegöld'),
+('4743', 'Csengersima'),
+('4745', 'Szamosbecs'),
+('4746', 'Szamostatárfalva'),
+('4751', 'Kocsord'),
+('4752', 'Győrtelek'),
+('4754', 'Géberjén'),
+('4754', 'Fülpösdaróc'),
+('4755', 'Ököritófülpös'),
+('4756', 'Rápolt'),
+('4761', 'Porcsalma'),
+('4762', 'Tyukod'),
+('4763', 'Ura'),
+('4764', 'Csengerújfalu'),
+('4765', 'Csenger'),
+('4765', 'Komlódtótfalu'),
+('4766', 'Pátyod'),
+('4767', 'Szamosangyalos'),
+('4800', 'Vásárosnamény'),
+('4803', 'Vásárosnamény'),
+('4804', 'Vásárosnamény'),
+('4811', 'Kisvarsány'),
+('4812', 'Nagyvarsány'),
+('4813', 'Gyüre '),
+('4821', 'Ópályi'),
+('4822', 'Nyírparasznya'),
+('4823', 'Nagydobos'),
+('4824', 'Szamosszeg'),
+('4826', 'Olcsva'),
+('4831', 'Tiszaszalka'),
+('4832', 'Tiszavid'),
+('4833', 'Tiszaadony'),
+('4834', 'Tiszakerecseny'),
+('4835', 'Mátyus'),
+('4836', 'Lónya'),
+('4841', 'Jánd'),
+('4842', 'Gulács'),
+('4843', 'Hetefejércse'),
+('4844', 'Csaroda'),
+('4845', 'Tákos'),
+('4900', 'Fehérgyarmat'),
+('4911', 'Nábrád'),
+('4912', 'Kérsemjén'),
+('4913', 'Panyola'),
+('4914', 'Olcsvaapáti'),
+('4921', 'Kisar'),
+('4921', 'Tivadar'),
+('4922', 'Nagyar'),
+('4931', 'Tarpa'),
+('4932', 'Márokpapi'),
+('4933', 'Beregsurány'),
+('4934', 'Beregdaróc'),
+('4935', 'Gelénes'),
+('4936', 'Vámosatya'),
+('4937', 'Barabás'),
+('4941', 'Penyige'),
+('4942', 'Mánd'),
+('4942', 'Nemesborzova'),
+('4943', 'Kömörő'),
+('4944', 'Túristvándi'),
+('4945', 'Szatmárcseke'),
+('4946', 'Tiszakóród'),
+('4947', 'Tiszacsécse'),
+('4948', 'Milota'),
+('4951', 'Tiszabecs'),
+('4952', 'Uszka'),
+('4953', 'Magosliget'),
+('4954', 'Sonkád'),
+('4955', 'Botpalád'),
+('4956', 'Kispalád'),
+('4961', 'Zsarolyán'),
+('4962', 'Nagyszekeres'),
+('4963', 'Kisszekeres'),
+('4964', 'Fülesd'),
+('4965', 'Kölcse'),
+('4966', 'Vámosoroszi'),
+('4967', 'Csaholc'),
+('4968', 'Túrricse'),
+('4969', 'Tisztaberek'),
+('4971', 'Rozsály'),
+('4972', 'Gacsály'),
+('4973', 'Császló'),
+('4974', 'Zajta'),
+('4975', 'Méhtelek'),
+('4976', 'Garbolc'),
+('4977', 'Nagyhódos'),
+('4977', 'Kishódos'),
+('5000', 'Szolnok'),
+('5008', 'Szolnok'),
+('5051', 'Zagyvarékas'),
+('5052', 'Újszász'),
+('5053', 'Szászberek'),
+('5054', 'Jászalsószentgyörgy'),
+('5055', 'Jászladány'),
+('5061', 'Tiszasüly'),
+('5062', 'Kőtelek'),
+('5063', 'Hunyadfalva'),
+('5064', 'Csataszög'),
+('5065', 'Nagykörű'),
+('5071', 'Besenyszög'),
+('5081', 'Szajol'),
+('5082', 'Tiszatenyő'),
+('5083', 'Kengyel'),
+('5084', 'Rákócziújfalu'),
+('5085', 'Rákóczifalva'),
+('5091', 'Tószeg'),
+('5092', 'Tiszavárkony'),
+('5093', 'Vezseny'),
+('5094', 'Tiszajenő'),
+('5095', 'Tiszavárkony'),
+('5100', 'Jászberény'),
+('5111', 'Jászfelsőszentgyörgy'),
+('5121', 'Jászjákóhalma'),
+('5122', 'Jászdózsa'),
+('5123', 'Jászárokszállás'),
+('5124', 'Jászágó'),
+('5125', 'Pusztamonostor'),
+('5126', 'Jászfényszaru'),
+('5130', 'Jászapáti'),
+('5135', 'Jászivány'),
+('5136', 'Jászszentandrás'),
+('5137', 'Jászkisér'),
+('5141', 'Jásztelek'),
+('5142', 'Alattyán'),
+('5143', 'Jánoshida'),
+('5144', 'Jászboldogháza'),
+('5152', 'Jászberény'),
+('5200', 'Törökszentmiklós'),
+('5211', 'Tiszapüspöki'),
+('5212', 'Törökszentmiklós'),
+('5213', 'Fegyvernek'),
+('5222', 'Örményes'),
+('5231', 'Fegyvernek'),
+('5232', 'Tiszabő'),
+('5233', 'Tiszagyenda'),
+('5234', 'Tiszaroff'),
+('5235', 'Tiszabura'),
+('5241', 'Abádszalók'),
+('5243', 'Tiszaderzs'),
+('5244', 'Tiszaszőlős'),
+('5300', 'Karcag'),
+('5309', 'Berekfürdő'),
+('5310', 'Kisújszállás'),
+('5321', 'Kunmadaras'),
+('5322', 'Tiszaszentimre'),
+('5323', 'Tiszaszentimre'),
+('5324', 'Tomajmonostora'),
+('5331', 'Kenderes'),
+('5340', 'Kunhegyes'),
+('5349', 'Kenderes'),
+('5350', 'Tiszafüred'),
+('5358', 'Tiszafüred'),
+('5359', 'Tiszafüred'),
+('5361', 'Tiszaigar'),
+('5362', 'Tiszaörs'),
+('5363', 'Nagyiván'),
+('5400', 'Mezőtúr'),
+('5411', 'Kétpó'),
+('5412', 'Kuncsorba'),
+('5420', 'Túrkeve'),
+('5430', 'Tiszaföldvár'),
+('5435', 'Martfű'),
+('5440', 'Kunszentmárton'),
+('5449', 'Kunszentmárton'),
+('5451', 'Öcsöd'),
+('5452', 'Mesterszállás'),
+('5453', 'Mezőhék'),
+('5461', 'Tiszaföldvár'),
+('5462', 'Cibakháza'),
+('5463', 'Nagyrév'),
+('5464', 'Tiszainoka'),
+('5465', 'Cserkeszőlő'),
+('5471', 'Tiszakürt'),
+('5474', 'Tiszasas'),
+('5475', 'Csépa'),
+('5476', 'Szelevény'),
+('5500', 'Gyomaendrőd    '),
+('5502', 'Gyomaendrőd    '),
+('5510', 'Dévaványa'),
+('5515', 'Ecsegfalva'),
+('5516', 'Körösladány'),
+('5520', 'Szeghalom'),
+('5525', 'Füzesgyarmat'),
+('5526', 'Kertészsziget'),
+('5527', 'Bucsa'),
+('5530', 'Vésztő'),
+('5534', 'Okány'),
+('5536', 'Körösújfalu'),
+('5537', 'Zsadány'),
+('5538', 'Biharugra'),
+('5539', 'Körösnagyharsány'),
+('5540', 'Szarvas'),
+('5551', 'Csabacsűd'),
+('5552', 'Kardos'),
+('5553', 'Kondoros'),
+('5555', 'Hunya'),
+('5556', 'Örménykút'),
+('5561', 'Békésszentandrás'),
+('5600', 'Békéscsaba'),
+('5609', 'Csabaszabadi '),
+('5621', 'Csárdaszállás'),
+('5622', 'Köröstarcsa'),
+('5623', 'Békéscsaba'),
+('5624', 'Doboz'),
+('5630', 'Békés'),
+('5641', 'Tarhos'),
+('5643', 'Bélmegyer'),
+('5650', 'Mezőberény'),
+('5661', 'Újkígyós'),
+('5662', 'Csanádapáca'),
+('5663', 'Medgyesbodzás'),
+('5664', 'Medgyesbodzás'),
+('5665', 'Pusztaottlaka'),
+('5666', 'Medgyesegyháza  '),
+('5667', 'Magyarbánhegyes'),
+('5668', 'Nagybánhegyes'),
+('5671', 'Békéscsaba'),
+('5672', 'Murony'),
+('5673', 'Kamut'),
+('5674', 'Kétsoprony'),
+('5675', 'Telekgerendás'),
+('5700', 'Gyula'),
+('5711', 'Gyula'),
+('5712', 'Szabadkígyós'),
+('5720', 'Sarkad'),
+('5725', 'Kötegyán'),
+('5726', 'Méhkerék'),
+('5727', 'Újszalonta'),
+('5731', 'Sarkadkeresztúr'),
+('5732', 'Mezőgyán'),
+('5734', 'Geszt'),
+('5741', 'Kétegyháza'),
+('5742', 'Elek'),
+('5743', 'Lőkösháza'),
+('5744', 'Kevermes'),
+('5745', 'Dombiratos'),
+('5746', 'Kunágota'),
+('5747', 'Almáskamarás'),
+('5751', 'Nagykamarás'),
+('5752', 'Medgyesegyháza'),
+('5800', 'Mezőkovácsháza'),
+('5811', 'Végegyháza'),
+('5820', 'Mezőhegyes'),
+('5830', 'Battonya'),
+('5836', 'Dombegyház'),
+('5837', 'Kisdombegyház'),
+('5838', 'Magyardombegyház'),
+('5900', 'Orosháza'),
+('5903', 'Orosháza'),
+('5904', 'Orosháza'),
+('5905', 'Orosháza'),
+('5919', 'Pusztaföldvár'),
+('5920', 'Csorvás'),
+('5925', 'Gerendás'),
+('5931', 'Nagyszénás'),
+('5932', 'Gádoros'),
+('5940', 'Tótkomlós'),
+('5945', 'Kardoskút'),
+('5946', 'Békéssámson'),
+('5948', 'Kaszaper'),
+('6000', 'Kecskemét'),
+('6008', 'Kecskemét'),
+('6031', 'Szentkirály'),
+('6032', 'Nyárlőrinc'),
+('6033', 'Városföld'),
+('6034', 'Helvécia'),
+('6035', 'Ballószög'),
+('6041', 'Kerekegyháza'),
+('6042', 'Fülöpháza'),
+('6043', 'Kunbaracs'),
+('6044', 'Kecskemét'),
+('6045', 'Ladánybene'),
+('6050', 'Lajosmizse'),
+('6055', 'Felsőlajos '),
+('6060', 'Tiszakécske'),
+('6062', 'Tiszakécske'),
+('6064', 'Tiszaug'),
+('6065', 'Lakitelek'),
+('6066', 'Tiszaalpár '),
+('6067', 'Tiszaalpár '),
+('6070', 'Izsák'),
+('6075', 'Páhi'),
+('6076', 'Ágasegyháza'),
+('6077', 'Orgovány'),
+('6078', 'Jakabszállás'),
+('6080', 'Szabadszállás'),
+('6085', 'Fülöpszállás'),
+('6086', 'Szalkszentmárton'),
+('6087', 'Dunavecse'),
+('6088', 'Apostag'),
+('6090', 'Kunszentmiklós '),
+('6096', 'Kunpeszér'),
+('6097', 'Kunadacs'),
+('6098', 'Tass'),
+('6100', 'Kiskunfélegyháza'),
+('6111', 'Gátér'),
+('6112', 'Pálmonostora'),
+('6113', 'Petőfiszállás'),
+('6114', 'Bugac'),
+('6114', 'Bugacpusztaháza'),
+('6115', 'Kunszállás'),
+('6116', 'Fülöpjakab '),
+('6120', 'Kiskunmajsa'),
+('6131', 'Szank'),
+('6132', 'Móricgát '),
+('6133', 'Jászszentlászló'),
+('6134', 'Kömpöc'),
+('6135', 'Csólyospálos'),
+('6136', 'Harkakötöny'),
+('6200', 'Kiskőrös'),
+('6211', 'Kaskantyú'),
+('6221', 'Akasztó'),
+('6222', 'Csengőd'),
+('6223', 'Soltszentimre'),
+('6224', 'Tabdi'),
+('6230', 'Soltvadkert'),
+('6235', 'Bócsa'),
+('6236', 'Tázlár'),
+('6237', 'Kecel'),
+('6238', 'Imrehegy'),
+('6239', 'Császártöltés'),
+('6300', 'Kalocsa'),
+('6311', 'Öregcsertő'),
+('6320', 'Solt'),
+('6321', 'Újsolt'),
+('6323', 'Dunaegyháza'),
+('6325', 'Dunatetétlen'),
+('6326', 'Harta '),
+('6327', 'Harta '),
+('6328', 'Dunapataj'),
+('6331', 'Foktő'),
+('6332', 'Uszód'),
+('6333', 'Dunaszentbenedek'),
+('6334', 'Géderlak'),
+('6335', 'Ordas'),
+('6336', 'Szakmár'),
+('6337', 'Újtelek'),
+('6341', 'Homokmégy'),
+('6342', 'Drágszél'),
+('6343', 'Miske'),
+('6344', 'Hajós'),
+('6345', 'Nemesnádudvar'),
+('6346', 'Sükösd'),
+('6347', 'Érsekcsanád'),
+('6348', 'Érsekhalma'),
+('6351', 'Bátya'),
+('6352', 'Fajsz'),
+('6353', 'Dusnok'),
+('6400', 'Kiskunhalas'),
+('6411', 'Zsana'),
+('6412', 'Balotaszállás'),
+('6413', 'Kunfehértó'),
+('6414', 'Pirtó'),
+('6421', 'Kisszállás'),
+('6422', 'Tompa'),
+('6423', 'Kelebia'),
+('6424', 'Csikéria'),
+('6425', 'Bácsszőlős'),
+('6430', 'Bácsalmás'),
+('6435', 'Kunbaja'),
+('6440', 'Jánoshalma'),
+('6444', 'Kéleshalom '),
+('6445', 'Borota'),
+('6446', 'Rém'),
+('6447', 'Felsőszentiván'),
+('6448', 'Csávoly'),
+('6449', 'Mélykút'),
+('6451', 'Tataháza'),
+('6452', 'Mátételke'),
+('6453', 'Bácsbokod'),
+('6454', 'Bácsborsód'),
+('6455', 'Katymár'),
+('6456', 'Madaras'),
+('6500', 'Baja'),
+('6503', 'Baja'),
+('6511', 'Bácsszentgyörgy'),
+('6512', 'Szeremle'),
+('6513', 'Dunafalva'),
+('6521', 'Vaskút'),
+('6522', 'Gara'),
+('6523', 'Csátalja'),
+('6524', 'Dávod'),
+('6525', 'Hercegszántó'),
+('6527', 'Nagybaracska'),
+('6528', 'Bátmonostor'),
+('6600', 'Szentes'),
+('6612', 'Nagytőke'),
+('6621', 'Derekegyház'),
+('6622', 'Nagymágocs'),
+('6623', 'Árpádhalom'),
+('6624', 'Eperjes'),
+('6625', 'Fábiánsebestyén'),
+('6630', 'Mindszent'),
+('6635', 'Szegvár'),
+('6636', 'Mártély'),
+('6640', 'Csongrád'),
+('6645', 'Felgyő'),
+('6646', 'Tömörkény'),
+('6647', 'Csanytelek'),
+('6648', 'Csongrád'),
+('6700', 'Szeged*'),
+('6750', 'Algyő'),
+('6754', 'Újszentiván'),
+('6755', 'Kübekháza'),
+('6756', 'Tiszasziget'),
+('6758', 'Röszke'),
+('6760', 'Kistelek'),
+('6762', 'Sándorfalva'),
+('6763', 'Szatymaz'),
+('6764', 'Balástya'),
+('6765', 'Csengele'),
+('6766', 'Dóc'),
+('6767', 'Ópusztaszer'),
+('6768', 'Baks'),
+('6769', 'Pusztaszer'),
+('6772', 'Deszk'),
+('6773', 'Klárafalva'),
+('6774', 'Ferencszállás'),
+('6775', 'Kiszombor'),
+('6781', 'Domaszék'),
+('6782', 'Mórahalom'),
+('6783', 'Ásotthalom'),
+('6784', 'Öttömös'),
+('6785', 'Pusztamérges'),
+('6786', 'Ruzsa'),
+('6787', 'Zákányszék'),
+('6792', 'Zsombó'),
+('6793', 'Forráskút'),
+('6794', 'Üllés'),
+('6795', 'Bordány'),
+('6800', 'Hódmezővásárhely'),
+('6805', 'Hódmezővásárhely'),
+('6806', 'Hódmezővásárhely'),
+('6821', 'Székkutas'),
+('6900', 'Makó'),
+('6903', 'Makó'),
+('6911', 'Királyhegyes'),
+('6912', 'Kövegy'),
+('6913', 'Csanádpalota'),
+('6914', 'Pitvaros'),
+('6915', 'Csanádalberti'),
+('6916', 'Ambrózfalva'),
+('6917', 'Nagyér'),
+('6921', 'Maroslele'),
+('6922', 'Földeák'),
+('6923', 'Óföldeák'),
+('6931', 'Apátfalva'),
+('6932', 'Magyarcsanád'),
+('6933', 'Nagylak'),
+('7000', 'Sárbogárd'),
+('7003', 'Sárbogárd'),
+('7011', 'Alap'),
+('7012', 'Alsószentiván'),
+('7013', 'Cece'),
+('7014', 'Sáregres'),
+('7015', 'Igar'),
+('7017', 'Mezőszilas'),
+('7018', 'Sárbogárd'),
+('7019', 'Sárbogárd'),
+('7020', 'Dunaföldvár'),
+('7025', 'Bölcske'),
+('7026', 'Madocsa'),
+('7027', 'Paks'),
+('7030', 'Paks'),
+('7038', 'Pusztahencse'),
+('7039', 'Németkér'),
+('7041', 'Vajta'),
+('7042', 'Pálfa'),
+('7043', 'Bikács'),
+('7044', 'Nagydorog'),
+('7045', 'Györköny'),
+('7047', 'Sárszentlőrinc'),
+('7051', 'Kajdacs'),
+('7052', 'Kölesd'),
+('7054', 'Tengelic'),
+('7056', 'Szedres'),
+('7057', 'Medina'),
+('7061', 'Belecska'),
+('7062', 'Keszőhidegkút'),
+('7063', 'Szárazd'),
+('7064', 'Gyönk'),
+('7065', 'Miszla'),
+('7066', 'Udvari'),
+('7067', 'Varsád'),
+('7068', 'Kistormás'),
+('7071', 'Szakadát'),
+('7072', 'Diósberény'),
+('7081', 'Simontornya'),
+('7082', 'Kisszékely'),
+('7083', 'Tolnanémedi'),
+('7084', 'Pincehely'),
+('7085', 'Nagyszékely'),
+('7086', 'Ozora'),
+('7087', 'Fürged'),
+('7090', 'Tamási'),
+('7091', 'Pári'),
+('7092', 'Nagykónyi'),
+('7093', 'Értény'),
+('7094', 'Koppányszántó'),
+('7095', 'Iregszemcse'),
+('7095', 'Újireg'),
+('7097', 'Nagyszokoly'),
+('7098', 'Magyarkeszi'),
+('7099', 'Felsőnyék'),
+('7100', 'Szekszárd'),
+('7121', 'Szálka'),
+('7122', 'Kakasd'),
+('7130', 'Tolna'),
+('7131', 'Tolna'),
+('7132', 'Bogyiszló'),
+('7133', 'Fadd'),
+('7134', 'Gerjen'),
+('7135', 'Dunaszentgyörgy'),
+('7136', 'Fácánkert'),
+('7140', 'Bátaszék'),
+('7142', 'Pörböly'),
+('7143', 'Őcsény'),
+('7144', 'Decs'),
+('7145', 'Sárpilis'),
+('7146', 'Várdomb'),
+('7147', 'Alsónána'),
+('7148', 'Alsónyék'),
+('7149', 'Báta'),
+('7150', 'Bonyhád'),
+('7158', 'Bonyhádvarasd'),
+('7159', 'Kisdorog'),
+('7161', 'Cikó'),
+('7162', 'Grábóc'),
+('7163', 'Mőcsény'),
+('7164', 'Bátaapáti'),
+('7165', 'Mórágy'),
+('7171', 'Sióagárd'),
+('7172', 'Harc'),
+('7173', 'Zomba'),
+('7174', 'Kéty'),
+('7175', 'Felsőnána'),
+('7176', 'Murga'),
+('7181', 'Tevel'),
+('7182', 'Závod'),
+('7183', 'Kisvejke'),
+('7184', 'Lengyel'),
+('7185', 'Mucsfa'),
+('7186', 'Aparhant'),
+('7186', 'Nagyvejke'),
+('7187', 'Bonyhád'),
+('7188', 'Szárász'),
+('7191', 'Hőgyész'),
+('7192', 'Szakály'),
+('7193', 'Regöly'),
+('7194', 'Kalaznó'),
+('7195', 'Mucsi'),
+('7200', 'Dombóvár'),
+('7211', 'Dalmand'),
+('7212', 'Kocsola'),
+('7213', 'Szakcs'),
+('7214', 'Lápafő'),
+('7214', 'Várong'),
+('7215', 'Nak'),
+('7224', 'Dúzs'),
+('7225', 'Csibrák'),
+('7226', 'Kurd'),
+('7227', 'Gyulaj'),
+('7228', 'Döbrököz'),
+('7251', 'Kapospula'),
+('7252', 'Attala'),
+('7253', 'Csoma'),
+('7253', 'Szabadi'),
+('7255', 'Nagyberki'),
+('7256', 'Kercseliget'),
+('7257', 'Mosdós'),
+('7258', 'Baté'),
+('7258', 'Kaposkeresztúr'),
+('7261', 'Taszár'),
+('7261', 'Kaposhomok'),
+('7271', 'Fonó'),
+('7272', 'Gölle'),
+('7273', 'Büssü'),
+('7274', 'Kazsok'),
+('7275', 'Igal'),
+('7276', 'Somogyszil'),
+('7276', 'Gadács'),
+('7279', 'Kisgyalán'),
+('7281', 'Bonnya'),
+('7282', 'Kisbárapáti'),
+('7282', 'Fiad'),
+('7283', 'Somogyacsa'),
+('7284', 'Somogydöröcske'),
+('7285', 'Törökkoppány'),
+('7285', 'Kára'),
+('7285', 'Szorosad'),
+('7300', 'Komló'),
+('7304', 'Mánfa '),
+('7305', 'Mecsekpölöske'),
+('7331', 'Liget'),
+('7332', 'Magyaregregy'),
+('7333', 'Kárász'),
+('7333', 'Vékény'),
+('7334', 'Szalatnak'),
+('7334', 'Köblény'),
+('7341', 'Csikóstőttős'),
+('7342', 'Mágocs'),
+('7343', 'Nagyhajmás'),
+('7344', 'Mekényes'),
+('7345', 'Alsómocsolád'),
+('7346', 'Bikal'),
+('7347', 'Egyházaskozár'),
+('7348', 'Hegyhátmaróc'),
+('7348', 'Tófű'),
+('7349', 'Szászvár'),
+('7351', 'Máza'),
+('7352', 'Györe'),
+('7353', 'Izmény'),
+('7354', 'Váralja'),
+('7355', 'Nagymányok'),
+('7356', 'Kismányok'),
+('7357', 'Jágónak'),
+('7361', 'Kaposszekcső'),
+('7362', 'Vásárosdombó'),
+('7362', 'Gerényes'),
+('7362', 'Tarrós'),
+('7370', 'Sásd'),
+('7370', 'Felsőegerszeg'),
+('7370', 'Meződ'),
+('7370', 'Oroszló'),
+('7370', 'Palé'),
+('7370', 'Varga'),
+('7370', 'Vázsnok'),
+('7381', 'Kisvaszar'),
+('7381', 'Ág'),
+('7381', 'Tékes'),
+('7383', 'Tormás'),
+('7383', 'Baranyaszentgyörgy'),
+('7383', 'Szágy'),
+('7384', 'Baranyajenő'),
+('7385', 'Gödre'),
+('7386', 'Gödre'),
+('7391', 'Mindszentgodisa'),
+('7391', 'Kisbeszterce'),
+('7391', 'Kishajmás'),
+('7393', 'Bakóca'),
+('7394', 'Magyarhertelend'),
+('7394', 'Bodolyabér'),
+('7396', 'Magyarszék'),
+('7400', 'Kaposvár'),
+('7400', 'Zselickislak'),
+('7431', 'Juta'),
+('7432', 'Hetes'),
+('7432', 'Csombárd'),
+('7434', 'Mezőcsokonya'),
+('7435', 'Somogysárd'),
+('7436', 'Újvárfalva'),
+('7439', 'Bodrog'),
+('7441', 'Magyaregres'),
+('7442', 'Várda'),
+('7443', 'Somogyjád'),
+('7443', 'Alsóbogát'),
+('7443', 'Edde'),
+('7444', 'Osztopán'),
+('7452', 'Somogyaszaló'),
+('7451', 'Kaposvár'),
+('7453', 'Mernye'),
+('7454', 'Somodor'),
+('7455', 'Somogygeszti'),
+('7456', 'Felsőmocsolád'),
+('7457', 'Ecseny'),
+('7458', 'Polány'),
+('7461', 'Orci'),
+('7463', 'Magyaratád'),
+('7463', 'Patalom'),
+('7464', 'Ráksi'),
+('7465', 'Szentgáloskér'),
+('7471', 'Zimány'),
+('7472', 'Szentbalázs'),
+('7472', 'Cserénfa'),
+('7473', 'Gálosfa'),
+('7473', 'Hajmás'),
+('7473', 'Kaposgyarmat'),
+('7474', 'Simonfa'),
+('7474', 'Zselicszentpál'),
+('7475', 'Bőszénfa'),
+('7476', 'Kaposszerdahely'),
+('7477', 'Szenna'),
+('7477', 'Patca'),
+('7477', 'Szilvásszentmárton'),
+('7477', 'Zselickisfalud'),
+('7478', 'Bárdudvarnok'),
+('7479', 'Sántos'),
+('7500', 'Nagyatád'),
+('7511', 'Ötvöskónyi'),
+('7512', 'Mike'),
+('7513', 'Rinyaszentkirály'),
+('7514', 'Tarany'),
+('7515', 'Somogyudvarhely'),
+('7516', 'Berzence'),
+('7517', 'Bolhás'),
+('7521', 'Kaposmérő'),
+('7522', 'Kaposújlak'),
+('7523', 'Kaposfő'),
+('7523', 'Kisasszond'),
+('7524', 'Kiskorpád'),
+('7525', 'Jákó'),
+('7526', 'Csököly'),
+('7527', 'Gige'),
+('7527', 'Rinyakovácsi'),
+('7530', 'Kadarkút'),
+('7530', 'Kőkút'),
+('7532', 'Hencse'),
+('7533', 'Hedrehely'),
+('7533', 'Visnye'),
+('7535', 'Lad'),
+('7536', 'Patosfa'),
+('7537', 'Homokszentgyörgy'),
+('7538', 'Kálmáncsa'),
+('7539', 'Szulok'),
+('7541', 'Kutas'),
+('7542', 'Kisbajom'),
+('7543', 'Beleg'),
+('7544', 'Szabás'),
+('7545', 'Nagykorpád'),
+('7551', 'Lábod'),
+('7552', 'Rinyabesenyő'),
+('7553', 'Görgeteg'),
+('7555', 'Csokonyavisonta'),
+('7556', 'Rinyaújlak'),
+('7557', 'Barcs'),
+('7561', 'Nagybajom'),
+('7561', 'Pálmajor'),
+('7562', 'Segesd'),
+('7563', 'Somogyszob'),
+('7564', 'Kaszó'),
+('7570', 'Barcs'),
+('7582', 'Komlósd'),
+('7582', 'Péterhida'),
+('7584', 'Babócsa'),
+('7584', 'Rinyaújnép'),
+('7584', 'Somogyaracs'),
+('7585', 'Háromfa'),
+('7585', 'Bakháza'),
+('7586', 'Bolhó'),
+('7587', 'Heresznye'),
+('7588', 'Vízvár'),
+('7589', 'Bélavár'),
+('7600', 'Pécs*'),
+('7639', 'Kökény'),
+('7661', 'Erzsébet'),
+('7661', 'Kátoly'),
+('7661', 'Kékesd'),
+('7661', 'Szellő'),
+('7663', 'Máriakéménd'),
+('7664', 'Berkesd'),
+('7664', 'Pereked'),
+('7664', 'Szilágy'),
+('7666', 'Pogány'),
+('7668', 'Keszü'),
+('7668', 'Gyód'),
+('7671', 'Bicsérd'),
+('7671', 'Aranyosgadány'),
+('7671', 'Zók'),
+('7672', 'Boda'),
+('7673', 'Kővágószőlős'),
+('7673', 'Cserkút'),
+('7675', 'Bakonya'),
+('7675', 'Kővágótöttös'),
+('7677', 'Orfű '),
+('7678', 'Abaliget'),
+('7678', 'Husztót'),
+('7678', 'Kovácsszénája'),
+('7681', 'Hetvehely'),
+('7681', 'Okorvölgy'),
+('7681', 'Szentkatalin'),
+('7682', 'Bükkösd'),
+('7683', 'Helesfa'),
+('7683', 'Cserdi'),
+('7683', 'Dinnyeberki'),
+('7694', 'Hosszúhetény'),
+('7695', 'Mecseknádasd'),
+('7695', 'Óbánya'),
+('7695', 'Ófalu'),
+('7696', 'Hidas'),
+('7700', 'Mohács'),
+('7711', 'Bár'),
+('7712', 'Dunaszekcső'),
+('7714', 'Mohács'),
+('7715', 'Mohács'),
+('7716', 'Homorúd'),
+('7717', 'Kölked'),
+('7718', 'Udvar'),
+('7720', 'Pécsvárad'),
+('7720', 'Apátvarasd'),
+('7720', 'Lovászhetény'),
+('7720', 'Martonfa'),
+('7720', 'Zengővárkony'),
+('7723', 'Erdősmecske'),
+('7724', 'Feked'),
+('7725', 'Szebény'),
+('7726', 'Véménd'),
+('7727', 'Palotabozsok'),
+('7728', 'Somberek'),
+('7728', 'Görcsönydoboka'),
+('7731', 'Nagypall'),
+('7732', 'Fazekasboda'),
+('7733', 'Geresdlak'),
+('7733', 'Maráza'),
+('7735', 'Himesháza'),
+('7735', 'Erdősmárok'),
+('7735', 'Szűr'),
+('7737', 'Székelyszabar'),
+('7741', 'Nagykozár'),
+('7742', 'Bogád'),
+('7743', 'Romonya'),
+('7744', 'Ellend'),
+('7745', 'Olasz'),
+('7745', 'Hásságy'),
+('7747', 'Belvárdgyula'),
+('7747', 'Birján'),
+('7751', 'Szederkény'),
+('7751', 'Monyoród'),
+('7752', 'Versend'),
+('7753', 'Szajk'),
+('7754', 'Bóly'),
+('7755', 'Töttös'),
+('7756', 'Borjád'),
+('7756', 'Kisbudmér'),
+('7756', 'Nagybudmér'),
+('7756', 'Pócsa'),
+('7757', 'Babarc'),
+('7757', 'Liptód'),
+('7759', 'Lánycsók'),
+('7759', 'Kisnyárád'),
+('7761', 'Kozármisleny'),
+('7761', 'Lothárd'),
+('7761', 'Magyarsarlós'),
+('7762', 'Pécsudvard'),
+('7763', 'Egerág'),
+('7763', 'Áta'),
+('7763', 'Kisherend'),
+('7763', 'Szemely'),
+('7763', 'Szőkéd'),
+('7766', 'Újpetre'),
+('7766', 'Kiskassa'),
+('7766', 'Peterd'),
+('7766', 'Pécsdevecser'),
+('7768', 'Vokány'),
+('7768', 'Kistótfalu'),
+('7771', 'Palkonya'),
+('7772', 'Villánykövesd'),
+('7772', 'Ivánbattyán'),
+('7773', 'Villány'),
+('7773', 'Kisjakabfalva'),
+('7774', 'Márok'),
+('7775', 'Magyarbóly'),
+('7775', 'Illocska'),
+('7775', 'Kislippó'),
+('7775', 'Lapáncsa'),
+('7781', 'Lippó'),
+('7781', 'Ivándárda'),
+('7781', 'Sárok'),
+('7782', 'Bezedek'),
+('7783', 'Majs'),
+('7784', 'Nagynyárád'),
+('7785', 'Sátorhely'),
+('7800', 'Siklós'),
+('7800', 'Kisharsány'),
+('7800', 'Nagytótfalu'),
+('7811', 'Szalánta'),
+('7811', 'Bisse'),
+('7811', 'Bosta'),
+('7811', 'Csarnóta'),
+('7811', 'Szilvás'),
+('7811', 'Túrony'),
+('7812', 'Garé'),
+('7813', 'Szava'),
+('7814', 'Ócsárd'),
+('7814', 'Babarcszőlős'),
+('7814', 'Kisdér'),
+('7814', 'Siklósbodony'),
+('7815', 'Harkány'),
+('7817', 'Diósviszló'),
+('7817', 'Márfa'),
+('7817', 'Rádfalva'),
+('7822', 'Nagyharsány'),
+('7823', 'Siklósnagyfalu'),
+('7823', 'Kistapolca'),
+('7824', 'Egyházasharaszti'),
+('7825', 'Old'),
+('7826', 'Alsószentmárton'),
+('7827', 'Beremend'),
+('7827', 'Kásád'),
+('7831', 'Pellérd'),
+('7833', 'Görcsöny'),
+('7833', 'Regenye'),
+('7833', 'Szőke'),
+('7834', 'Baksa'),
+('7834', 'Tengeri'),
+('7834', 'Téseny'),
+('7836', 'Bogádmindszent'),
+('7836', 'Ózdfalu'),
+('7837', 'Hegyszentmárton'),
+('7838', 'Vajszló'),
+('7838', 'Besence'),
+('7838', 'Hirics'),
+('7838', 'Lúzsok'),
+('7838', 'Nagycsány'),
+('7838', 'Páprád'),
+('7838', 'Piskó'),
+('7838', 'Vejti'),
+('7839', 'Zaláta'),
+('7839', 'Kemse'),
+('7841', 'Sámod'),
+('7841', 'Adorjás'),
+('7841', 'Baranyahídvég'),
+('7841', 'Kisszentmárton'),
+('7841', 'Kórós'),
+('7843', 'Kémes'),
+('7843', 'Cún'),
+('7843', 'Drávapiski'),
+('7843', 'Szaporca'),
+('7843', 'Tésenfa'),
+('7846', 'Drávacsepely'),
+('7847', 'Kovácshida'),
+('7847', 'Drávaszerdahely'),
+('7847', 'Ipacsfa'),
+('7849', 'Drávacsehi'),
+('7850', 'Drávapalkonya'),
+('7851', 'Drávaszabolcs'),
+('7853', 'Gordisa'),
+('7854', 'Matty'),
+('7900', 'Szigetvár'),
+('7900', 'Botykapeterd'),
+('7900', 'Csertő'),
+('7912', 'Nagypeterd'),
+('7912', 'Nyugotszenterzsébet'),
+('7912', 'Nagyváty'),
+('7913', 'Szentdénes'),
+('7914', 'Rózsafa'),
+('7914', 'Bánfa'),
+('7914', 'Katádfa'),
+('7915', 'Dencsháza'),
+('7915', 'Szentegát'),
+('7918', 'Lakócsa'),
+('7918', 'Szentborbás'),
+('7918', 'Tótújfalu'),
+('7921', 'Somogyhatvan'),
+('7922', 'Somogyapáti'),
+('7923', 'Basal'),
+('7923', 'Patapoklosi'),
+('7924', 'Somogyviszló'),
+('7925', 'Somogyhárságy'),
+('7925', 'Magyarlukafa'),
+('7926', 'Vásárosbéc'),
+('7932', 'Mozsgó'),
+('7932', 'Almáskeresztúr'),
+('7932', 'Szulimán'),
+('7934', 'Almamellék'),
+('7935', 'Ibafa'),
+('7935', 'Csebény'),
+('7935', 'Horváthertelend'),
+('7936', 'Szentlászló'),
+('7937', 'Boldogasszonyfa'),
+('7940', 'Szentlőrinc'),
+('7940', 'Csonkamindszent'),
+('7940', 'Kacsóta'),
+('7951', 'Szabadszentkirály'),
+('7951', 'Gerde'),
+('7951', 'Pécsbagota'),
+('7951', 'Velény'),
+('7953', 'Királyegyháza'),
+('7954', 'Magyarmecske'),
+('7954', 'Gilvánfa'),
+('7954', 'Gyöngyfa'),
+('7954', 'Kisasszonyfa'),
+('7954', 'Magyartelek'),
+('7957', 'Okorág '),
+('7958', 'Kákics '),
+('7960', 'Sellye'),
+('7960', 'Drávaiványi'),
+('7960', 'Drávasztára'),
+('7960', 'Marócsa'),
+('7960', 'Sósvertike'),
+('7960', 'Sumony'),
+('7964', 'Csányoszró'),
+('7966', 'Bogdása'),
+('7967', 'Drávafok'),
+('7967', 'Drávakeresztúr'),
+('7967', 'Markóc'),
+('7968', 'Felsőszentmárton'),
+('7971', 'Hobol'),
+('7972', 'Gyöngyösmellék'),
+('7973', 'Teklafalu'),
+('7973', 'Bürüs'),
+('7973', 'Endrőc'),
+('7973', 'Várad'),
+('7975', 'Kétújfalu'),
+('7976', 'Zádor'),
+('7976', 'Szörény'),
+('7977', 'Kastélyosdombó'),
+('7977', 'Drávagárdony'),
+('7977', 'Potony'),
+('7979', 'Drávatamási'),
+('7980', 'Pettend'),
+('7981', 'Nemeske'),
+('7981', 'Kistamási'),
+('7981', 'Merenye'),
+('7981', 'Molvány'),
+('7981', 'Tótszentgyörgy'),
+('7985', 'Nagydobsza'),
+('7985', 'Kisdobsza'),
+('7987', 'Istvándi'),
+('7988', 'Darány'),
+('8000', 'Székesfehérvár'),
+('8019', 'Székesfehérvár'),
+('8041', 'Csór'),
+('8042', 'Moha'),
+('8043', 'Iszkaszentgyörgy'),
+('8044', 'Kincsesbánya'),
+('8045', 'Isztimér'),
+('8046', 'Bakonykúti'),
+('8051', 'Sárkeresztes'),
+('8052', 'Fehérvárcsurgó'),
+('8053', 'Bodajk'),
+('8054', 'Balinka'),
+('8055', 'Balinka'),
+('8056', 'Bakonycsernye'),
+('8060', 'Mór'),
+('8065', 'Nagyveleg'),
+('8066', 'Pusztavám'),
+('8071', 'Magyaralmás'),
+('8072', 'Söréd'),
+('8073', 'Csákberény'),
+('8074', 'Csókakő'),
+('8080', 'Bodmér'),
+('8081', 'Zámoly'),
+('8082', 'Gánt'),
+('8083', 'Csákvár'),
+('8085', 'Vértesboglár'),
+('8086', 'Felcsút'),
+('8087', 'Alcsútdoboz'),
+('8088', 'Tabajd'),
+('8089', 'Vértesacsa'),
+('8092', 'Pátka'),
+('8093', 'Lovasberény'),
+('8095', 'Pákozd'),
+('8096', 'Sukoró'),
+('8097', 'Nadap'),
+('8100', 'Várpalota'),
+('8105', 'Pétfürdő'),
+('8109', 'Tés'),
+('8111', 'Seregélyes'),
+('8112', 'Zichyújfalu'),
+('8121', 'Tác'),
+('8122', 'Csősz'),
+('8123', 'Soponya'),
+('8124', 'Káloz'),
+('8125', 'Sárkeresztúr'),
+('8126', 'Sárszentágota'),
+('8127', 'Aba'),
+('8130', 'Enying'),
+('8131', 'Enying'),
+('8132', 'Lepsény'),
+('8133', 'Mezőszentgyörgy'),
+('8134', 'Mátyásdomb'),
+('8135', 'Dég'),
+('8136', 'Lajoskomárom'),
+('8137', 'Mezőkomárom'),
+('8138', 'Szabadhídvég'),
+('8139', 'Szabadhídvég'),
+('8142', 'Úrhida'),
+('8143', 'Sárszentmihály'),
+('8144', 'Sárkeszi'),
+('8145', 'Nádasdladány'),
+('8146', 'Jenő'),
+('8151', 'Szabadbattyán'),
+('8152', 'Kőszárhegy'),
+('8154', 'Polgárdi'),
+('8156', 'Kisláng'),
+('8157', 'Füle'),
+('8161', 'Ősi'),
+('8162', 'Küngös'),
+('8163', 'Csajág'),
+('8164', 'Balatonfőkajár'),
+('8171', 'Balatonvilágos'),
+('8172', 'Balatonakarattya'),
+('8174', 'Balatonkenese'),
+('8175', 'Balatonfűzfő'),
+('8181', 'Berhida'),
+('8182', 'Berhida'),
+('8183', 'Papkeszi'),
+('8184', 'Balatonfűzfő'),
+('8191', 'Öskü'),
+('8192', 'Hajmáskér'),
+('8193', 'Sóly'),
+('8194', 'Vilonya'),
+('8195', 'Királyszentistván'),
+('8196', 'Litér'),
+('8200', 'Veszprém'),
+('8220', 'Balatonalmádi'),
+('8225', 'Szentkirályszabadja'),
+('8226', 'Alsóörs'),
+('8227', 'Felsőörs'),
+('8228', 'Lovas'),
+('8229', 'Csopak'),
+('8229', 'Paloznak'),
+('8230', 'Balatonfüred'),
+('8233', 'Balatonszőlős'),
+('8237', 'Tihany'),
+('8241', 'Aszófő'),
+('8242', 'Balatonudvari'),
+('8242', 'Örvényes'),
+('8243', 'Balatonakali'),
+('8244', 'Dörgicse'),
+('8245', 'Pécsely'),
+('8245', 'Vászoly'),
+('8246', 'Tótvázsony'),
+('8247', 'Hidegkút'),
+('8248', 'Nemesvámos'),
+('8248', 'Veszprémfajsz'),
+('8251', 'Zánka '),
+('8252', 'Balatonszepezd'),
+('8253', 'Révfülöp'),
+('8254', 'Kővágóörs'),
+('8254', 'Kékkút'),
+('8255', 'Balatonrendes'),
+('8255', 'Kővágóörs'),
+('8256', 'Ábrahámhegy'),
+('8256', 'Salföld'),
+('8257', 'Badacsonytomaj'),
+('8258', 'Badacsonytomaj'),
+('8261', 'Badacsonytomaj'),
+('8263', 'Badacsonytördemic'),
+('8264', 'Szigliget'),
+('8265', 'Hegymagas'),
+('8271', 'Mencshely'),
+('8272', 'Szentantalfa'),
+('8272', 'Balatoncsicsó'),
+('8272', 'Óbudavár'),
+('8272', 'Szentjakabfa'),
+('8272', 'Tagyon'),
+('8273', 'Monoszló'),
+('8274', 'Köveskál'),
+('8275', 'Balatonhenye'),
+('8281', 'Szentbékkálla'),
+('8282', 'Mindszentkálla'),
+('8283', 'Káptalantóti'),
+('8284', 'Nemesgulács'),
+('8284', 'Kisapáti'),
+('8286', 'Gyulakeszi'),
+('8291', 'Nagyvázsony'),
+('8291', 'Barnag'),
+('8291', 'Pula'),
+('8291', 'Vöröstó'),
+('8292', 'Öcs'),
+('8294', 'Kapolcs'),
+('8294', 'Vigántpetend'),
+('8295', 'Taliándörögd'),
+('8296', 'Monostorapáti'),
+('8296', 'Hegyesd'),
+('8297', 'Tapolca'),
+('8300', 'Tapolca'),
+('8300', 'Raposka'),
+('8308', 'Zalahaláp'),
+('8308', 'Sáska'),
+('8311', 'Nemesvita'),
+('8312', 'Balatonederics'),
+('8313', 'Balatongyörök'),
+('8314', 'Vonyarcvashegy'),
+('8315', 'Gyenesdiás'),
+('8316', 'Várvölgy'),
+('8316', 'Vállus'),
+('8317', 'Lesencefalu'),
+('8318', 'Lesencetomaj'),
+('8319', 'Lesenceistvánd'),
+('8321', 'Uzsa'),
+('8330', 'Sümeg'),
+('8341', 'Mihályfa'),
+('8341', 'Kisvásárhely'),
+('8341', 'Szalapa'),
+('8342', 'Óhíd'),
+('8344', 'Zalaerdőd'),
+('8344', 'Hetyefő'),
+('8345', 'Dabronc'),
+('8346', 'Gógánfa'),
+('8347', 'Ukk'),
+('8348', 'Rigács'),
+('8348', 'Megyer'),
+('8348', 'Zalameggyes'),
+('8349', 'Zalagyömörő'),
+('8351', 'Sümegprága'),
+('8352', 'Bazsi'),
+('8353', 'Zalaszántó'),
+('8353', 'Vindornyalak'),
+('8354', 'Karmacs'),
+('8354', 'Vindornyafok'),
+('8354', 'Zalaköveskút'),
+('8355', 'Vindornyaszőlős'),
+('8356', 'Kisgörbő'),
+('8356', 'Nagygörbő'),
+('8357', 'Sümegcsehi'),
+('8357', 'Döbröce'),
+('8360', 'Keszthely'),
+('8371', 'Nemesbük'),
+('8372', 'Cserszegtomaj'),
+('8373', 'Rezi'),
+('8380', 'Hévíz'),
+('8391', 'Sármellék'),
+('8392', 'Zalavár'),
+('8393', 'Szentgyörgyvár'),
+('8394', 'Alsópáhok'),
+('8395', 'Felsőpáhok'),
+('8400', 'Ajka'),
+('8409', 'Úrkút'),
+('8411', 'Veszprém'),
+('8412', 'Veszprém'),
+('8413', 'Eplény'),
+('8414', 'Olaszfalu'),
+('8415', 'Nagyesztergár'),
+('8416', 'Dudar'),
+('8417', 'Csetény'),
+('8418', 'Bakonyoszlop'),
+('8419', 'Csesznek'),
+('8420', 'Zirc'),
+('8422', 'Bakonynána'),
+('8423', 'Szápár'),
+('8424', 'Jásd'),
+('8425', 'Lókút'),
+('8426', 'Pénzesgyőr'),
+('8427', 'Bakonybél'),
+('8428', 'Borzavár'),
+('8429', 'Porva'),
+('8430', 'Bakonyszentkirály'),
+('8431', 'Bakonyszentlászló'),
+('8432', 'Fenyőfő'),
+('8433', 'Bakonygyirót'),
+('8434', 'Románd'),
+('8435', 'Gic'),
+('8438', 'Veszprémvarsány'),
+('8439', 'Sikátor'),
+('8440', 'Herend'),
+('8441', 'Márkó'),
+('8442', 'Hárskút'),
+('8443', 'Bánd'),
+('8444', 'Szentgál'),
+('8445', 'Városlőd'),
+('8445', 'Csehbánya'),
+('8446', 'Kislőd'),
+('8447', 'Ajka'),
+('8448', 'Ajka'),
+('8449', 'Magyarpolány'),
+('8451', 'Ajka'),
+('8452', 'Halimba'),
+('8452', 'Szőc'),
+('8454', 'Nyirád'),
+('8455', 'Pusztamiske'),
+('8456', 'Noszlop'),
+('8457', 'Bakonypölöske'),
+('8458', 'Oroszi'),
+('8460', 'Devecser'),
+('8468', 'Kolontár'),
+('8469', 'Kamond'),
+('8471', 'Káptalanfa'),
+('8471', 'Bodorfa'),
+('8471', 'Nemeshany'),
+('8473', 'Gyepükaján'),
+('8474', 'Csabrendek'),
+('8475', 'Veszprémgalsa'),
+('8475', 'Hosztót'),
+('8475', 'Szentimrefalva'),
+('8476', 'Zalaszegvár'),
+('8477', 'Tüskevár'),
+('8477', 'Apácatorna'),
+('8477', 'Kisberzseny'),
+('8478', 'Somlójenő'),
+('8479', 'Borszörcsök'),
+('8481', 'Somlóvásárhely'),
+('8482', 'Doba'),
+('8483', 'Somlószőlős'),
+('8483', 'Kisszőlős'),
+('8484', 'Nagyalásony'),
+('8484', 'Somlóvecse'),
+('8484', 'Vid'),
+('8485', 'Dabrony'),
+('8491', 'Karakószörcsök'),
+('8492', 'Kerta'),
+('8493', 'Iszkáz'),
+('8494', 'Kiscsősz'),
+('8495', 'Csögle'),
+('8496', 'Nagypirit'),
+('8496', 'Kispirit'),
+('8497', 'Adorjánháza'),
+('8497', 'Egeralja'),
+('8500', 'Pápa'),
+('8511', 'Pápa'),
+('8512', 'Nyárád'),
+('8513', 'Mihályháza'),
+('8514', 'Mezőlak'),
+('8515', 'Békás'),
+('8516', 'Kemeneshőgyész'),
+('8517', 'Magyargencs'),
+('8518', 'Kemenesszentpéter'),
+('8521', 'Nagyacsád'),
+('8522', 'Nemesgörzsöny'),
+('8523', 'Egyházaskesző'),
+('8523', 'Várkesző'),
+('8531', 'Marcaltő'),
+('8532', 'Marcaltő'),
+('8533', 'Malomsok'),
+('8541', 'Takácsi'),
+('8542', 'Vaszar'),
+('8543', 'Gecse'),
+('8551', 'Nagygyimót'),
+('8552', 'Vanyola'),
+('8553', 'Lovászpatona'),
+('8554', 'Nagydém'),
+('8555', 'Bakonytamási'),
+('8556', 'Pápateszér'),
+('8557', 'Bakonyszentiván'),
+('8557', 'Bakonyság'),
+('8558', 'Csót'),
+('8561', 'Adásztevel'),
+('8562', 'Nagytevel'),
+('8563', 'Homokbödöge'),
+('8564', 'Ugod'),
+('8565', 'Béb'),
+('8571', 'Bakonykoppány'),
+('8572', 'Bakonyszücs'),
+('8581', 'Bakonyjákó'),
+('8581', 'Németbánya'),
+('8582', 'Farkasgyepű'),
+('8591', 'Pápa'),
+('8591', 'Nóráp'),
+('8592', 'Dáka'),
+('8593', 'Pápadereske'),
+('8594', 'Pápasalamon'),
+('8595', 'Kup'),
+('8596', 'Pápakovácsi'),
+('8597', 'Ganna'),
+('8597', 'Döbrönte'),
+('8598', 'Pápa'),
+('8600', 'Siófok'),
+('8612', 'Nyim'),
+('8613', 'Balatonendréd'),
+('8614', 'Bálványos'),
+('8617', 'Kőröshegy '),
+('8618', 'Kereki'),
+('8619', 'Pusztaszemes'),
+('8621', 'Zamárdi'),
+('8622', 'Szántód'),
+('8623', 'Balatonföldvár'),
+('8624', 'Balatonszárszó'),
+('8625', 'Szólád'),
+('8626', 'Teleki'),
+('8627', 'Kötcse'),
+('8628', 'Nagycsepely'),
+('8630', 'Balatonboglár'),
+('8635', 'Ordacsehi'),
+('8636', 'Balatonszemes'),
+('8637', 'Balatonőszöd'),
+('8638', 'Balatonlelle'),
+('8640', 'Fonyód'),
+('8646', 'Balatonfenyves'),
+('8647', 'Balatonmáriafürdő'),
+('8648', 'Balatonkeresztúr '),
+('8649', 'Balatonberény'),
+('8651', 'Balatonszabadi'),
+('8652', 'Siójut'),
+('8653', 'Ádánd'),
+('8654', 'Ságvár'),
+('8655', 'Som'),
+('8656', 'Nagyberény'),
+('8658', 'Bábonymegyer'),
+('8660', 'Tab'),
+('8660', 'Lulla'),
+('8660', 'Sérsekszőlős'),
+('8660', 'Torvaj'),
+('8660', 'Zala'),
+('8666', 'Bedegkér'),
+('8666', 'Somogyegres'),
+('8667', 'Kánya'),
+('8668', 'Tengőd'),
+('8669', 'Miklósi'),
+('8671', 'Kapoly'),
+('8672', 'Zics'),
+('8673', 'Somogymeggyes'),
+('8674', 'Nágocs'),
+('8675', 'Andocs'),
+('8676', 'Karád'),
+('8681', 'Látrány'),
+('8681', 'Visz'),
+('8683', 'Somogytúr'),
+('8684', 'Somogybabod'),
+('8685', 'Gamás'),
+('8691', 'Balatonboglár'),
+('8692', 'Szőlősgyörök'),
+('8692', 'Gyugy'),
+('8693', 'Lengyeltóti'),
+('8693', 'Kisberény'),
+('8694', 'Hács'),
+('8695', 'Buzsák'),
+('8696', 'Táska'),
+('8697', 'Öreglak'),
+('8698', 'Somogyvár'),
+('8698', 'Pamuk'),
+('8699', 'Somogyvámos'),
+('8700', 'Marcali'),
+('8700', 'Csömend'),
+('8705', 'Somogyszentpál'),
+('8706', 'Nikla'),
+('8707', 'Pusztakovácsi'),
+('8707', 'Libickozma'),
+('8708', 'Somogyfajsz'),
+('8709', 'Marcali'),
+('8710', 'Balatonszentgyörgy '),
+('8711', 'Vörs'),
+('8712', 'Balatonújlak'),
+('8713', 'Kéthely'),
+('8714', 'Marcali'),
+('8714', 'Kelevíz'),
+('8715', 'Gadány'),
+('8716', 'Mesztegnyő'),
+('8716', 'Hosszúvíz'),
+('8717', 'Szenyér'),
+('8717', 'Nemeskisfalud'),
+('8718', 'Tapsony'),
+('8719', 'Böhönye'),
+('8721', 'Vése'),
+('8722', 'Nemesdéd'),
+('8723', 'Varászló'),
+('8724', 'Inke'),
+('8725', 'Iharosberény'),
+('8726', 'Iharos'),
+('8726', 'Somogycsicsó'),
+('8728', 'Pogányszentpéter'),
+('8731', 'Hollád'),
+('8731', 'Tikos'),
+('8732', 'Sávoly'),
+('8732', 'Főnyed'),
+('8732', 'Szegerdő'),
+('8733', 'Somogysámson'),
+('8734', 'Somogyzsitfa'),
+('8735', 'Csákány'),
+('8736', 'Szőkedencs'),
+('8737', 'Somogysimonyi'),
+('8738', 'Nemesvid'),
+('8739', 'Nagyszakácsi'),
+('8741', 'Zalaapáti'),
+('8741', 'Bókaháza'),
+('8742', 'Esztergályhorváti'),
+('8743', 'Zalaszabar'),
+('8744', 'Orosztony'),
+('8745', 'Kerecseny'),
+('8746', 'Nagyrada'),
+('8747', 'Garabonc'),
+('8747', 'Zalamerenye'),
+('8749', 'Zalakaros'),
+('8751', 'Zalakomár'),
+('8752', 'Zalakomár'),
+('8753', 'Balatonmagyaród'),
+('8754', 'Galambok'),
+('8756', 'Nagyrécse'),
+('8756', 'Csapi'),
+('8756', 'Kisrécse'),
+('8756', 'Zalasárszeg'),
+('8761', 'Pacsa'),
+('8761', 'Zalaigrice'),
+('8762', 'Szentpéterúr'),
+('8762', 'Gétye'),
+('8764', 'Dióskál'),
+('8764', 'Zalaszentmárton'),
+('8765', 'Egeraracsa'),
+('8767', 'Felsőrajk'),
+('8767', 'Alsórajk'),
+('8767', 'Pötréte'),
+('8771', 'Hahót'),
+('8772', 'Zalaszentbalázs'),
+('8772', 'Börzönce'),
+('8773', 'Pölöskefő'),
+('8773', 'Kacorlak'),
+('8774', 'Gelse'),
+('8774', 'Gelsesziget'),
+('8774', 'Kilimán'),
+('8776', 'Magyarszerdahely'),
+('8776', 'Bocska'),
+('8776', 'Magyarszentmiklós'),
+('8777', 'Hosszúvölgy'),
+('8777', 'Fűzvölgy'),
+('8777', 'Homokkomárom'),
+('8778', 'Újudvar'),
+('8782', 'Zalacsány'),
+('8782', 'Ligetfalva'),
+('8782', 'Tilaj'),
+('8784', 'Kehidakustány'),
+('8785', 'Zalaszentgrót'),
+('8785', 'Kallósd'),
+('8788', 'Zalaszentlászló'),
+('8788', 'Sénye'),
+('8789', 'Zalaszentgrót'),
+('8790', 'Zalaszentgrót'),
+('8792', 'Zalavég'),
+('8793', 'Tekenye'),
+('8795', 'Zalaszentgrót'),
+('8796', 'Türje'),
+('8797', 'Batyk'),
+('8798', 'Zalabér'),
+('8799', 'Pakod'),
+('8799', 'Dötk'),
+('8800', 'Nagykanizsa'),
+('8808', 'Nagykanizsa'),
+('8809', 'Nagykanizsa'),
+('8821', 'Nagybakónak'),
+('8822', 'Zalaújlak'),
+('8824', 'Sand'),
+('8825', 'Miháld'),
+('8825', 'Pat'),
+('8827', 'Zalaszentjakab'),
+('8831', 'Nagykanizsa'),
+('8832', 'Liszó'),
+('8834', 'Murakeresztúr'),
+('8835', 'Fityeház'),
+('8840', 'Csurgó'),
+('8840', 'Csurgónagymarton'),
+('8849', 'Szenta'),
+('8851', 'Gyékényes'),
+('8852', 'Zákány'),
+('8853', 'Zákányfalu'),
+('8854', 'Őrtilos'),
+('8855', 'Belezna'),
+('8856', 'Surd'),
+('8857', 'Nemespátró'),
+('8858', 'Porrog'),
+('8858', 'Porrogszentkirály'),
+('8858', 'Porrogszentpál'),
+('8858', 'Somogybükkösd'),
+('8861', 'Szepetnek'),
+('8862', 'Semjénháza'),
+('8863', 'Molnári'),
+('8864', 'Tótszerdahely'),
+('8865', 'Tótszentmárton'),
+('8866', 'Becsehely'),
+('8866', 'Petrivente'),
+('8868', 'Letenye'),
+('8868', 'Kistolmács'),
+('8868', 'Murarátka'),
+('8868', 'Zajk'),
+('8872', 'Muraszemenye'),
+('8872', 'Szentmargitfalva'),
+('8873', 'Csörnyeföld'),
+('8874', 'Dobri'),
+('8874', 'Kerkaszentkirály'),
+('8876', 'Tormafölde'),
+('8877', 'Tornyiszentmiklós'),
+('8878', 'Lovászi'),
+('8879', 'Szécsisziget'),
+('8879', 'Kerkateskánd'),
+('8881', 'Sormás'),
+('8882', 'Eszteregnye'),
+('8883', 'Rigyác'),
+('8885', 'Borsfa'),
+('8885', 'Valkonya'),
+('8886', 'Oltárc'),
+('8887', 'Bázakerettye'),
+('8887', 'Lasztonya'),
+('8888', 'Lispeszentadorján'),
+('8888', 'Kiscsehi'),
+('8888', 'Maróc'),
+('8891', 'Bánokszentgyörgy'),
+('8891', 'Várfölde'),
+('8893', 'Szentliszló'),
+('8893', 'Bucsuta'),
+('8895', 'Pusztamagyaród'),
+('8896', 'Pusztaszentlászló'),
+('8897', 'Söjtör'),
+('8900', 'Zalaegerszeg'),
+('8904', 'Zalaegerszeg'),
+('8911', 'Nagykutas'),
+('8911', 'Kiskutas'),
+('8912', 'Kispáli'),
+('8912', 'Nagypáli'),
+('8913', 'Egervár'),
+('8913', 'Gősfa'),
+('8913', 'Lakhegy'),
+('8914', 'Vasboldogasszony'),
+('8915', 'Nemesrádó'),
+('8917', 'Milejszeg'),
+('8918', 'Csonkahegyhát'),
+('8918', 'Németfalu'),
+('8919', 'Kustánszeg'),
+('8921', 'Zalaszentiván'),
+('8921', 'Alibánfa'),
+('8921', 'Pethőhenye'),
+('8921', 'Zalaszentlőrinc'),
+('8923', 'Nemesapáti'),
+('8924', 'Alsónemesapáti'),
+('8925', 'Búcsúszentlászló'),
+('8925', 'Nemessándorháza'),
+('8925', 'Nemesszentandrás'),
+('8926', 'Kisbucsa'),
+('8928', 'Nemeshetés'),
+('8929', 'Pölöske'),
+('8931', 'Kemendollár'),
+('8931', 'Vöckönd'),
+('8932', 'Pókaszepetk'),
+('8932', 'Gyűrűs'),
+('8932', 'Zalaistvánd'),
+('8934', 'Bezeréd'),
+('8935', 'Nagykapornak'),
+('8935', 'Almásháza'),
+('8935', 'Misefa'),
+('8935', 'Orbányosfa'),
+('8935', 'Padár'),
+('8936', 'Zalaszentmihály'),
+('8943', 'Bocfölde'),
+('8943', 'Csatár'),
+('8944', 'Sárhida'),
+('8945', 'Bak'),
+('8946', 'Tófej'),
+('8946', 'Baktüttös'),
+('8946', 'Pusztaederics'),
+('8947', 'Zalatárnok'),
+('8947', 'Szentkozmadombja'),
+('8948', 'Nova'),
+('8948', 'Barlahida'),
+('8949', 'Mikekarácsonyfa'),
+('8951', 'Gutorfölde'),
+('8951', 'Csertalakos'),
+('8953', 'Szentpéterfölde'),
+('8954', 'Ortaháza'),
+('8956', 'Páka'),
+('8956', 'Kányavár'),
+('8956', 'Pördefölde'),
+('8957', 'Csömödér'),
+('8957', 'Hernyék'),
+('8957', 'Kissziget'),
+('8957', 'Zebecke'),
+('8958', 'Iklódbördőce'),
+('8960', 'Lenti'),
+('8960', 'Gosztola'),
+('8966', 'Lenti'),
+('8969', 'Gáborjánháza'),
+('8969', 'Bödeháza'),
+('8969', 'Szijártóháza'),
+('8969', 'Zalaszombatfa'),
+('8971', 'Zalabaksa'),
+('8971', 'Kerkabarabás'),
+('8973', 'Csesztreg'),
+('8973', 'Alsószenterzsébet'),
+('8973', 'Felsőszenterzsébet'),
+('8973', 'Kerkafalva'),
+('8973', 'Kerkakutas'),
+('8973', 'Magyarföld'),
+('8973', 'Ramocsa'),
+('8975', 'Szentgyörgyvölgy'),
+('8976', 'Nemesnép'),
+('8976', 'Márokföld'),
+('8977', 'Resznek'),
+('8977', 'Baglad'),
+('8977', 'Lendvajakabfa'),
+('8978', 'Rédics'),
+('8978', 'Belsősárd'),
+('8978', 'Külsősárd'),
+('8978', 'Lendvadedes'),
+('8981', 'Gellénháza'),
+('8981', 'Lickóvadamos'),
+('8983', 'Nagylengyel'),
+('8983', 'Babosdöbréte'),
+('8983', 'Ormándlak'),
+('8984', 'Petrikeresztúr'),
+('8984', 'Gombosszeg'),
+('8984', 'Iborfia'),
+('8985', 'Becsvölgye'),
+('8986', 'Pórszombat'),
+('8986', 'Pusztaapáti'),
+('8986', 'Szilvágy'),
+('8988', 'Kálócfa'),
+('8988', 'Kozmadombja'),
+('8989', 'Dobronhegy'),
+('8990', 'Pálfiszeg'),
+('8991', 'Teskánd'),
+('8991', 'Böde'),
+('8991', 'Hottó'),
+('8992', 'Bagod'),
+('8992', 'Boncodfölde'),
+('8992', 'Hagyárosbörönd'),
+('8992', 'Zalaboldogfa'),
+('8994', 'Zalaszentgyörgy'),
+('8994', 'Kávás'),
+('8995', 'Salomvár'),
+('8995', 'Keménfa'),
+('8996', 'Zalacséb'),
+('8997', 'Zalaháshágy'),
+('8998', 'Vaspör'),
+('8998', 'Ozmánbük'),
+('8999', 'Zalalövő'),
+('8999', 'Csöde'),
+('9000', 'Győr*'),
+('9061', 'Vámosszabadi'),
+('9062', 'Kisbajcs'),
+('9062', 'Vének'),
+('9063', 'Nagybajcs'),
+('9064', 'Vámosszabadi'),
+('9071', 'Gönyű'),
+('9072', 'Nagyszentjános'),
+('9073', 'Bőny'),
+('9074', 'Rétalap'),
+('9081', 'Győrújbarát'),
+('9082', 'Nyúl'),
+('9083', 'Écs'),
+('9084', 'Győrság'),
+('9085', 'Pázmándfalu'),
+('9086', 'Töltéstava'),
+('9088', 'Bakonypéterd'),
+('9089', 'Lázi'),
+('9090', 'Pannonhalma'),
+('9091', 'Ravazd'),
+('9092', 'Tarjánpuszta'),
+('9093', 'Győrasszonyfa'),
+('9094', 'Tápszentmiklós'),
+('9095', 'Táp'),
+('9096', 'Nyalka'),
+('9097', 'Mezőörs'),
+('9098', 'Pér'),
+('9099', 'Pér'),
+('9100', 'Tét'),
+('9111', 'Tényő'),
+('9112', 'Sokorópátka'),
+('9113', 'Koroncó'),
+('9121', 'Győrszemere'),
+('9122', 'Felpéc'),
+('9123', 'Kajárpéc'),
+('9124', 'Gyömöre'),
+('9125', 'Szerecseny'),
+('9126', 'Gyarmat'),
+('9127', 'Csikvánd'),
+('9131', 'Mórichida'),
+('9132', 'Árpás'),
+('9133', 'Kisbabot'),
+('9133', 'Rábaszentmiklós'),
+('9134', 'Bodonhely'),
+('9135', 'Rábaszentmihály'),
+('9136', 'Rábacsécsény'),
+('9136', 'Mérges'),
+('9141', 'Ikrény'),
+('9142', 'Rábapatona'),
+('9143', 'Enese'),
+('9144', 'Kóny'),
+('9145', 'Bágyogszovát'),
+('9146', 'Rábapordány'),
+('9147', 'Dör'),
+('9151', 'Abda'),
+('9152', 'Börcs'),
+('9153', 'Öttevény'),
+('9154', 'Mosonszentmiklós'),
+('9155', 'Lébény'),
+('9161', 'Győrsövényház'),
+('9162', 'Bezi'),
+('9163', 'Fehértó'),
+('9164', 'Markotabödöge'),
+('9165', 'Rábcakapi'),
+('9165', 'Cakóháza'),
+('9165', 'Tárnokréti'),
+('9167', 'Bősárkány'),
+('9167', 'Jánossomorja    '),
+('9168', 'Acsalag'),
+('9168', 'Csorna'),
+('9169', 'Barbacs'),
+('9169', 'Maglóca'),
+('9171', 'Győrújfalu'),
+('9172', 'Győrzámoly'),
+('9173', 'Győrladamér'),
+('9174', 'Dunaszeg'),
+('9175', 'Dunaszentpál'),
+('9176', 'Mecsér'),
+('9177', 'Ásványráró'),
+('9178', 'Hédervár'),
+('9181', 'Kimle'),
+('9182', 'Károlyháza'),
+('9183', 'Mosonszentmiklós'),
+('9183', 'Mosonszentmiklós'),
+('9184', 'Kunsziget'),
+('9200', 'Mosonmagyaróvár'),
+('9211', 'Feketeerdő'),
+('9221', 'Levél'),
+('9222', 'Hegyeshalom'),
+('9223', 'Bezenye'),
+('9224', 'Rajka'),
+('9225', 'Dunakiliti'),
+('9226', 'Dunasziget'),
+('9228', 'Halászi'),
+('9231', 'Máriakálnok'),
+('9232', 'Darnózseli'),
+('9233', 'Lipót'),
+('9234', 'Kisbodak'),
+('9235', 'Püski'),
+('9235', 'Dunaremete'),
+('9241', 'Jánossomorja    '),
+('9242', 'Jánossomorja    '),
+('9243', 'Jánossomorja'),
+('9243', 'Várbalog'),
+('9244', 'Újrónafő'),
+('9245', 'Mosonszolnok'),
+('9246', 'Mosonudvar'),
+('9300', 'Csorna'),
+('9311', 'Pásztori'),
+('9312', 'Szilsárkány'),
+('9313', 'Rábacsanak'),
+('9314', 'Egyed'),
+('9315', 'Sobor'),
+('9316', 'Rábaszentandrás'),
+('9317', 'Szany'),
+('9321', 'Farád'),
+('9322', 'Rábatamási'),
+('9323', 'Jobaháza'),
+('9324', 'Bogyoszló'),
+('9324', 'Potyond'),
+('9325', 'Sopronnémeti'),
+('9326', 'Szil'),
+('9327', 'Vág'),
+('9327', 'Rábasebes'),
+('9330', 'Kapuvár'),
+('9339', 'Kapuvár'),
+('9341', 'Kisfalud'),
+('9342', 'Mihályi'),
+('9343', 'Beled'),
+('9343', 'Edve'),
+('9343', 'Vásárosfalu'),
+('9344', 'Rábakecöl'),
+('9345', 'Páli'),
+('9346', 'Magyarkeresztúr'),
+('9346', 'Vadosfa'),
+('9346', 'Zsebeháza'),
+('9351', 'Babót'),
+('9352', 'Veszkény'),
+('9353', 'Szárföld'),
+('9354', 'Osli'),
+('9361', 'Hövej'),
+('9362', 'Himod'),
+('9363', 'Gyóró'),
+('9364', 'Cirák'),
+('9365', 'Dénesfa'),
+('9371', 'Vitnyéd'),
+('9372', 'Csapod'),
+('9373', 'Pusztacsalád'),
+('9374', 'Iván'),
+('9375', 'Répceszemere'),
+('9375', 'Csáfordjánosfa'),
+('9375', 'Csér'),
+('9400', 'Sopron'),
+('9407', 'Sopron'),
+('9408', 'Sopron'),
+('9421', 'Fertőrákos'),
+('9422', 'Harka'),
+('9423', 'Ágfalva'),
+('9431', 'Fertőd'),
+('9433', 'Fertőd'),
+('9434', 'Sarród'),
+('9435', 'Sarród'),
+('9436', 'Fertőszéplak'),
+('9437', 'Hegykő'),
+('9438', 'Sarród'),
+('9441', 'Agyagosszergény'),
+('9442', 'Fertőendréd'),
+('9443', 'Petőháza'),
+('9444', 'Fertőszentmiklós'),
+('9451', 'Röjtökmuzsaj'),
+('9451', 'Ebergőc'),
+('9461', 'Lövő'),
+('9462', 'Völcsej'),
+('9463', 'Sopronhorpács'),
+('9464', 'Und'),
+('9471', 'Nemeskér'),
+('9472', 'Újkér'),
+('9473', 'Egyházasfalu'),
+('9474', 'Szakony'),
+('9474', 'Gyalóka'),
+('9475', 'Répcevis'),
+('9476', 'Zsira'),
+('9481', 'Pinnye'),
+('9482', 'Nagylózs'),
+('9483', 'Sopronkövesd'),
+('9484', 'Pereszteg'),
+('9485', 'Nagycenk'),
+('9491', 'Hidegség'),
+('9492', 'Fertőhomok'),
+('9493', 'Fertőboz'),
+('9494', 'Sopron'),
+('9495', 'Kópháza'),
+('9500', 'Celldömölk'),
+('9511', 'Kemenesmihályfa'),
+('9512', 'Ostffyasszonyfa'),
+('9513', 'Csönge'),
+('9514', 'Kenyeri'),
+('9515', 'Pápoc'),
+('9516', 'Vönöck'),
+('9517', 'Kemenessömjén'),
+('9521', 'Kemenesszentmárton'),
+('9522', 'Kemenesmagasi'),
+('9523', 'Szergény'),
+('9531', 'Mersevát'),
+('9532', 'Külsővat'),
+('9533', 'Nemesszalók'),
+('9534', 'Marcalgergelyi'),
+('9534', 'Vinár'),
+('9541', 'Celldömölk'),
+('9542', 'Boba'),
+('9542', 'Nemeskocs'),
+('9544', 'Kemenespálfa'),
+('9545', 'Jánosháza'),
+('9547', 'Karakó'),
+('9548', 'Nemeskeresztúr'),
+('9549', 'Keléd'),
+('9551', 'Mesteri'),
+('9552', 'Vásárosmiske'),
+('9553', 'Köcsk'),
+('9553', 'Kemeneskápolna'),
+('9554', 'Egyházashetye'),
+('9554', 'Borgáta'),
+('9555', 'Kissomlyó'),
+('9556', 'Duka'),
+('9561', 'Nagysimonyi'),
+('9561', 'Tokorcs'),
+('9600', 'Sárvár'),
+('9608', 'Sárvár'),
+('9609', 'Sárvár'),
+('9611', 'Csénye'),
+('9612', 'Bögöt'),
+('9612', 'Porpác'),
+('9621', 'Ölbő'),
+('9622', 'Szeleste'),
+('9623', 'Répceszentgyörgy'),
+('9624', 'Chernelházadamonya'),
+('9625', 'Bő'),
+('9625', 'Gór'),
+('9631', 'Hegyfalu'),
+('9632', 'Sajtoskál'),
+('9633', 'Simaság'),
+('9634', 'Lócs'),
+('9634', 'Iklanberény'),
+('9635', 'Zsédeny'),
+('9636', 'Pósfa'),
+('9641', 'Rábapaty'),
+('9643', 'Jákfa'),
+('9651', 'Uraiújfalu'),
+('9652', 'Nick'),
+('9653', 'Répcelak'),
+('9654', 'Csánig'),
+('9661', 'Vasegerszeg'),
+('9662', 'Tompaládony'),
+('9662', 'Mesterháza'),
+('9663', 'Nemesládony'),
+('9664', 'Nagygeresd'),
+('9665', 'Vámoscsalád'),
+('9671', 'Sitke'),
+('9672', 'Gérce'),
+('9673', 'Káld'),
+('9674', 'Vashosszúfalu'),
+('9675', 'Bögöte'),
+('9676', 'Hosszúpereszteg'),
+('9681', 'Sótony'),
+('9682', 'Nyőgér'),
+('9683', 'Bejcgyertyános'),
+('9684', 'Egervölgy'),
+('9685', 'Szemenye'),
+('9700', 'Szombathely'),
+('9707', 'Szombathely'),
+('9721', 'Gencsapáti'),
+('9722', 'Perenye'),
+('9723', 'Gyöngyösfalu'),
+('9724', 'Lukácsháza '),
+('9725', 'Kőszegszerdahely'),
+('9725', 'Cák'),
+('9725', 'Kőszegdoroszló'),
+('9726', 'Velem'),
+('9727', 'Bozsok'),
+('9730', 'Kőszeg'),
+('9733', 'Horvátzsidány'),
+('9733', 'Kiszsidány'),
+('9733', 'Ólmod'),
+('9734', 'Peresznye'),
+('9735', 'Csepreg'),
+('9736', 'Tormásliget'),
+('9737', 'Bük'),
+('9738', 'Tömörd'),
+('9739', 'Nemescsó'),
+('9739', 'Kőszegpaty'),
+('9739', 'Pusztacsó'),
+('9740', 'Bük'),
+('9741', 'Vassurány'),
+('9742', 'Salköveskút'),
+('9743', 'Söpte'),
+('9744', 'Vasasszonyfa'),
+('9745', 'Meszlen'),
+('9746', 'Acsád'),
+('9747', 'Vasszilvágy'),
+('9748', 'Vát'),
+('9749', 'Nemesbőd'),
+('9751', 'Vép'),
+('9752', 'Bozzai'),
+('9752', 'Kenéz'),
+('9754', 'Pecöl'),
+('9754', 'Megyehíd'),
+('9756', 'Ikervár'),
+('9757', 'Meggyeskovácsi'),
+('9761', 'Táplánszentkereszt'),
+('9762', 'Tanakajd'),
+('9763', 'Vasszécseny'),
+('9764', 'Csempeszkopács'),
+('9764', 'Meggyeskovácsi'),
+('9766', 'Rum'),
+('9766', 'Rábatöttös'),
+('9766', 'Zsennye'),
+('9771', 'Balogunyom'),
+('9772', 'Kisunyom'),
+('9773', 'Sorokpolány'),
+('9774', 'Sorkifalud'),
+('9774', 'Gyanógeregye'),
+('9774', 'Sorkikápolna'),
+('9775', 'Nemeskolta'),
+('9776', 'Püspökmolnári'),
+('9777', 'Rábahídvég'),
+('9781', 'Egyházashollós'),
+('9782', 'Nemesrempehollós'),
+('9783', 'Egyházasrádóc'),
+('9784', 'Rádóckölked'),
+('9784', 'Harasztifalu'),
+('9784', 'Nagykölked'),
+('9789', 'Sé'),
+('9791', 'Torony'),
+('9791', 'Dozmat'),
+('9792', 'Bucsu'),
+('9793', 'Narda'),
+('9794', 'Felsőcsatár'),
+('9795', 'Vaskeresztes'),
+('9796', 'Pornóapáti'),
+('9796', 'Horvátlövő'),
+('9797', 'Nárai'),
+('9798', 'Ják'),
+('9799', 'Szentpéterfa'),
+('9800', 'Vasvár'),
+('9811', 'Andrásfa'),
+('9812', 'Telekes'),
+('9813', 'Gersekarát'),
+('9813', 'Sárfimizdó'),
+('9814', 'Halastó'),
+('9821', 'Győrvár'),
+('9821', 'Hegyhátszentpéter'),
+('9823', 'Pácsony'),
+('9824', 'Olaszfa'),
+('9825', 'Oszkó'),
+('9826', 'Petőmihályfa'),
+('9831', 'Bérbaltavár'),
+('9832', 'Nagytilaj'),
+('9833', 'Csehi'),
+('9834', 'Csehimindszent'),
+('9835', 'Mikosszéplak'),
+('9836', 'Csipkerek'),
+('9841', 'Kám'),
+('9842', 'Alsóújlak'),
+('9900', 'Körmend'),
+('9909', 'Körmend'),
+('9909', 'Magyarnádalja'),
+('9912', 'Molnaszecsőd'),
+('9912', 'Magyarszecsőd'),
+('9913', 'Szarvaskend'),
+('9913', 'Döröske'),
+('9913', 'Nagymizdó'),
+('9914', 'Döbörhegy'),
+('9915', 'Nádasd'),
+('9915', 'Hegyháthodász'),
+('9915', 'Hegyhátsál'),
+('9915', 'Katafa'),
+('9917', 'Halogy'),
+('9917', 'Daraboshegy'),
+('9918', 'Felsőmarác'),
+('9919', 'Csákánydoroszló'),
+('9921', 'Vasalja'),
+('9922', 'Pinkamindszent'),
+('9923', 'Kemestaródfa'),
+('9931', 'Ivánc'),
+('9931', 'Hegyhátszentmárton'),
+('9932', 'Viszák'),
+('9933', 'Őrimagyarósd'),
+('9934', 'Hegyhátszentjakab'),
+('9934', 'Felsőjánosfa'),
+('9934', 'Szaknyér'),
+('9935', 'Szőce'),
+('9936', 'Kisrákos'),
+('9937', 'Pankasz'),
+('9938', 'Nagyrákos'),
+('9938', 'Szatta'),
+('9941', 'Őriszentpéter'),
+('9941', 'Ispánk'),
+('9942', 'Szalafő'),
+('9943', 'Kondorfa'),
+('9944', 'Bajánsenye'),
+('9944', 'Kerkáskápolna'),
+('9945', 'Kercaszomor'),
+('9946', 'Magyarszombatfa'),
+('9946', 'Velemér'),
+('9951', 'Rátót'),
+('9952', 'Gasztony'),
+('9953', 'Vasszentmihály'),
+('9953', 'Nemesmedves'),
+('9954', 'Rönök'),
+('9955', 'Szentgotthárd'),
+('9961', 'Rábagyarmat'),
+('9962', 'Csörötnek'),
+('9962', 'Magyarlak'),
+('9970', 'Szentgotthárd'),
+('9981', 'Szentgotthárd'),
+('9982', 'Apátistvánfalva'),
+('9982', 'Kétvölgy'),
+('9982', 'Orfalu'),
+('9983', 'Alsószölnök'),
+('9983', 'Szakonyfalu'),
+('9985', 'Felsőszölnök'),
+('1007', 'Budapest'),
+('1011', 'Budapest'),
+('1012', 'Budapest'),
+('1013', 'Budapest'),
+('1014', 'Budapest'),
+('1015', 'Budapest'),
+('1016', 'Budapest'),
+('1021', 'Budapest'),
+('1022', 'Budapest'),
+('1023', 'Budapest'),
+('1024', 'Budapest'),
+('1025', 'Budapest'),
+('1026', 'Budapest'),
+('1027', 'Budapest'),
+('1028', 'Budapest'),
+('1029', 'Budapest'),
+('1031', 'Budapest'),
+('1032', 'Budapest'),
+('1033', 'Budapest'),
+('1034', 'Budapest'),
+('1035', 'Budapest'),
+('1036', 'Budapest'),
+('1037', 'Budapest'),
+('1038', 'Budapest'),
+('1039', 'Budapest'),
+('1041', 'Budapest'),
+('1042', 'Budapest'),
+('1043', 'Budapest'),
+('1044', 'Budapest'),
+('1045', 'Budapest'),
+('1046', 'Budapest'),
+('1047', 'Budapest'),
+('1048', 'Budapest'),
+('1051', 'Budapest'),
+('1052', 'Budapest'),
+('1053', 'Budapest'),
+('1054', 'Budapest'),
+('1055', 'Budapest'),
+('1056', 'Budapest'),
+('1061', 'Budapest'),
+('1062', 'Budapest'),
+('1063', 'Budapest'),
+('1064', 'Budapest'),
+('1065', 'Budapest'),
+('1066', 'Budapest'),
+('1067', 'Budapest'),
+('1068', 'Budapest'),
+('1071', 'Budapest'),
+('1072', 'Budapest'),
+('1073', 'Budapest'),
+('1074', 'Budapest'),
+('1075', 'Budapest'),
+('1076', 'Budapest'),
+('1077', 'Budapest'),
+('1078', 'Budapest'),
+('1081', 'Budapest'),
+('1082', 'Budapest'),
+('1083', 'Budapest'),
+('1084', 'Budapest'),
+('1085', 'Budapest'),
+('1086', 'Budapest'),
+('1087', 'Budapest'),
+('1088', 'Budapest'),
+('1089', 'Budapest'),
+('1091', 'Budapest'),
+('1092', 'Budapest'),
+('1093', 'Budapest'),
+('1094', 'Budapest'),
+('1095', 'Budapest'),
+('1096', 'Budapest'),
+('1097', 'Budapest'),
+('1098', 'Budapest'),
+('1101', 'Budapest'),
+('1102', 'Budapest'),
+('1103', 'Budapest'),
+('1104', 'Budapest'),
+('1105', 'Budapest'),
+('1106', 'Budapest'),
+('1107', 'Budapest'),
+('1108', 'Budapest'),
+('1111', 'Budapest'),
+('1112', 'Budapest'),
+('1113', 'Budapest'),
+('1114', 'Budapest'),
+('1115', 'Budapest'),
+('1116', 'Budapest'),
+('1117', 'Budapest'),
+('1118', 'Budapest'),
+('1119', 'Budapest'),
+('1121', 'Budapest'),
+('1122', 'Budapest'),
+('1123', 'Budapest'),
+('1124', 'Budapest'),
+('1125', 'Budapest'),
+('1126', 'Budapest'),
+('1131', 'Budapest'),
+('1132', 'Budapest'),
+('1133', 'Budapest'),
+('1134', 'Budapest'),
+('1135', 'Budapest'),
+('1136', 'Budapest'),
+('1137', 'Budapest'),
+('1138', 'Budapest'),
+('1139', 'Budapest'),
+('1141', 'Budapest'),
+('1142', 'Budapest'),
+('1143', 'Budapest'),
+('1144', 'Budapest'),
+('1145', 'Budapest'),
+('1146', 'Budapest'),
+('1147', 'Budapest'),
+('1148', 'Budapest'),
+('1149', 'Budapest'),
+('1151', 'Budapest'),
+('1152', 'Budapest'),
+('1153', 'Budapest'),
+('1154', 'Budapest'),
+('1155', 'Budapest'),
+('1156', 'Budapest'),
+('1157', 'Budapest'),
+('1158', 'Budapest'),
+('1161', 'Budapest'),
+('1162', 'Budapest'),
+('1163', 'Budapest'),
+('1164', 'Budapest'),
+('1165', 'Budapest'),
+('1171', 'Budapest'),
+('1172', 'Budapest'),
+('1173', 'Budapest'),
+('1174', 'Budapest'),
+('1181', 'Budapest'),
+('1182', 'Budapest'),
+('1183', 'Budapest'),
+('1184', 'Budapest'),
+('1185', 'Budapest'),
+('1186', 'Budapest'),
+('1188', 'Budapest'),
+('1191', 'Budapest'),
+('1192', 'Budapest'),
+('1193', 'Budapest'),
+('1194', 'Budapest'),
+('1195', 'Budapest'),
+('1196', 'Budapest'),
+('1201', 'Budapest'),
+('1202', 'Budapest'),
+('1203', 'Budapest'),
+('1204', 'Budapest'),
+('1205', 'Budapest'),
+('1211', 'Budapest'),
+('1212', 'Budapest'),
+('1213', 'Budapest'),
+('1214', 'Budapest'),
+('1215', 'Budapest'),
+('1221', 'Budapest'),
+('1222', 'Budapest'),
+('1223', 'Budapest'),
+('1224', 'Budapest'),
+('1225', 'Budapest'),
+('1237', 'Budapest'),
+('1238', 'Budapest'),
+('1239', 'Budapest'),
+('3501', 'Miskolc'),
+('3508', 'Miskolc'),
+('3515', 'Miskolc'),
+('3516', 'Miskolc'),
+('3517', 'Miskolc'),
+('3518', 'Miskolc'),
+('3519', 'Miskolc'),
+('3521', 'Miskolc'),
+('3524', 'Miskolc'),
+('3525', 'Miskolc'),
+('3526', 'Miskolc'),
+('3527', 'Miskolc'),
+('3528', 'Miskolc'),
+('3529', 'Miskolc'),
+('3530', 'Miskolc'),
+('3531', 'Miskolc'),
+('3532', 'Miskolc'),
+('3533', 'Miskolc'),
+('3534', 'Miskolc'),
+('3535', 'Miskolc'),
+('3558', 'Miskolc'),
+('4002', 'Debrecen'),
+('4024', 'Debrecen'),
+('4025', 'Debrecen'),
+('4026', 'Debrecen'),
+('4027', 'Debrecen'),
+('4028', 'Debrecen'),
+('4029', 'Debrecen'),
+('4030', 'Debrecen'),
+('4031', 'Debrecen'),
+('4032', 'Debrecen'),
+('4033', 'Debrecen'),
+('4034', 'Debrecen'),
+('4042', 'Debrecen'),
+('4063', 'Debrecen'),
+('4078', 'Debrecen'),
+('4079', 'Debrecen'),
+('4225', 'Debrecen'),
+('6710', 'Szeged'),
+('6720', 'Szeged'),
+('6721', 'Szeged'),
+('6722', 'Szeged'),
+('6723', 'Szeged'),
+('6724', 'Szeged'),
+('6725', 'Szeged'),
+('6726', 'Szeged'),
+('6727', 'Szeged'),
+('6728', 'Szeged'),
+('6729', 'Szeged'),
+('6753', 'Szeged'),
+('6757', 'Szeged'),
+('6771', 'Szeged'),
+('6791', 'Szeged'),
+('7621', 'Pécs'),
+('7622', 'Pécs'),
+('7623', 'Pécs'),
+('7624', 'Pécs'),
+('7625', 'Pécs'),
+('7626', 'Pécs'),
+('7627', 'Pécs'),
+('7628', 'Pécs'),
+('7629', 'Pécs'),
+('7630', 'Pécs'),
+('7631', 'Pécs'),
+('7632', 'Pécs'),
+('7633', 'Pécs'),
+('7634', 'Pécs'),
+('7635', 'Pécs'),
+('7636', 'Pécs'),
+('7639', 'Pécs'),
+('7668', 'Pécs'),
+('7691', 'Pécs'),
+('7693', 'Pécs'),
+('9011', 'Győr'),
+('9012', 'Győr'),
+('9019', 'Győr'),
+('9021', 'Győr'),
+('9022', 'Győr'),
+('9023', 'Győr'),
+('9024', 'Győr'),
+('9025', 'Győr'),
+('9026', 'Győr'),
+('9027', 'Győr'),
+('9028', 'Győr'),
+('9029', 'Győr'),
+('9030', 'Győr ');
 
 
 -- STORED PROCEDURES ---
@@ -4629,8 +4609,6 @@ Insert into emails
 Insert into phones 
     ( to_table, to_id, phone, memo, `defaulted`, created_by) Values
     ( 'U', @ID, '+36703300860', 'phone memo nothing', true, @ID);
-
-
 
 DROP PROCEDURE IF EXISTS update_user;
 DELIMITER //
