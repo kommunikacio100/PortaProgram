@@ -103,7 +103,7 @@ function Table(serial_no,partner_name,owner_name,carrier_name,created_at,status,
 
 let uj=document.getElementById("gomb_uj_letrehozasa");
 
-uj.addEventListener("click", ()=>{
+uj.addEventListener("click", (event)=>{
 
     
     /*
@@ -120,8 +120,8 @@ uj.addEventListener("click", ()=>{
     });
 
 */
-    window.location.href = `deliveryNote_edit.html` 
-})
+    window.location.href = "deliveryNote_edit.html"; 
+});
 
 
 
