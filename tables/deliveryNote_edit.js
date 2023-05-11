@@ -233,7 +233,7 @@ close_deliverynote_edit.addEventListener("click", (event) => {
 
 const delete_deliveryNote_button = document.getElementById("delete_button");
 
-delete_owner_button.addEventListener("click", (event) => {
+delete_deliveryNote_button.addEventListener("click", (event) => {
     event.preventDefault();
     delete_delivery_note();
 });
