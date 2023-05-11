@@ -64,18 +64,22 @@
         <form class="w-75 m-auto d-flex flex-column">
             <div class="form-group mb-3">
                 <label for="input_plate_number" style="font-weight: bold;">Rendszám</label>
-                <input type="text" class="form-control" id="input_plate_number" placeholder="Jármű rendszáma">
+                <input type="text" class="form-control" id="input_plate_number" placeholder="Jármű rendszáma" list="plateList">
+                <datalist id="plateList">
+                </datalist>
             </div>
-            <div>
-                <label for="input_input_product" style="font-weight: bold;">Termék</label>
-                <select id="input_input_product" class="form-select mb-3">
-                    <option style="font-weight: bold;">Termék</option>
-                    <option>Példatermék</option>
+            <div class="form-group mb-3">
+                <label for="product" style="font-weight: bold;">Termék</label>
+                <select id="product" class="form-select mb-3">
                 </select>
             </div>
             <div class="form-group mb-3">
-                <label for="input_weight_inbound" style="font-weight: bold;">Bemérés</label>
-                <input type="number" class="form-control" id="input_weight_inbound" placeholder="Bemért tömeg">
+                <label for="weight_inbound" style="font-weight: bold;">Bemérés</label>
+                <input type="number" class="form-control" id="weight_inbound" placeholder="bemért tömeg" readonly>
+            </div>
+            <div class="form-group mb-3">
+                <label for="weight_time_inbound" style="font-weight: bold;">Időpont</label>
+                <input type="datetime-local" class="form-control" id="weight_time" placeholder="mérés időpont" readonly>
             </div>
         </form>
         <br>
@@ -83,8 +87,8 @@
             <h3 class="text-center oldalcim">Bemérés kézzel megadásához, írja be a tömeget, avagy válasszon az alábbiak közül:</h3>
             <br>
             <div class="btns text-center">
-                <button type="submit" class="btn mx-4 gomb_merlegeles" id="submit_button"><i class="fa-sharp fa-solid fa-scale-balanced"></i>Tömeg mérlegről</button>
-                <button type="submit" class="btn mx-4 gomb_tomeg_adatbazisbol" id="delete_button"><i class="fa-solid fa-database"></i>Tárolt járműtömeg</button>
+                <button type="submit" class="btn mx-4 gomb_merlegeles" id="scaleWeight"><i class="fa-sharp fa-solid fa-scale-balanced"></i>Tömeg mérlegről</button>
+                <button type="submit" class="btn mx-4 gomb_tomeg_adatbazisbol" id="emptyWeight"><i class="fa-solid fa-database"></i>Tárolt járműtömeg</button>
             </div>
             <br>
         </div>    

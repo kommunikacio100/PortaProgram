@@ -3,7 +3,7 @@ const router = express.Router();
 const con = require("../dbConfig");
 
 router.get('/', (req, res)=>{
-    var sql = `select scaleWeight;`;
+    var sql = `select * from scaleWeight LIMIT 1;`;
     try{
         con.query(sql, function (err, result) {
             if (err){
@@ -12,14 +12,10 @@ router.get('/', (req, res)=>{
                 throw err;
             }
             else{
-                console.log("get weight successfull");
-                let rows = [];
                 console.log( result);
-                for(let row of result){
-                    rows.push( JSON.parse( JSON.stringify(row)));
-                }
+                console.log("get weight successfull ", result[0].scaleWeight);
                 res.status(200);
-                res.json(rows);
+                res.json(result);
             }
         });
     }catch(e){
@@ -34,7 +30,8 @@ router.get('/', (req, res)=>{
 // PUT a mérleg adat módosítása
 router.put('/', (req, res)=>{
 //    CREATE DEFINER= 'root'@'localhost' FUNCTION 'scaleWeight'() RETURNS int(11)
-    var sql = `update scaleWeight set scaleWeight = ?;`;
+    var sql = `DELETE FROM scaleWeight;
+    INSERT INTO scaleWeight (scaleWeight) VALUES (?);`;
     //console.log( req.body);
     let scaleWeight = req.body.weight;
     try{
