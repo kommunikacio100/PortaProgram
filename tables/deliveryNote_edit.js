@@ -102,30 +102,12 @@ if (cached_delivery_id) {
 }
 
 
-
-
-
-
 fetch('http://localhost:3001/owners')
     .then(response => response.json())
     .then(datas => {
-        // console.log(datas);
+       
         datas.map(data => {
-            //console.log(data);
-            // OwnerNameFunction(data.name, data.id, data.vat_number)
-        })
-    })
-
-
-
-
-
-fetch('http://localhost:3001/owners')
-    .then(response => response.json())
-    .then(datas => {
-        // console.log(datas);
-        datas.map(data => {
-            //console.log(data);
+           
             OwnerNameFunction(data.name, data.id, data.vat_number)
            
         })
@@ -134,9 +116,9 @@ fetch('http://localhost:3001/owners')
 fetch("http://localhost:3001/addresses")
     .then(response => response.json())
     .then(datas => {
-        // console.log(datas);
+        
         datas.map(data => {
-            // console.log(data);
+            
             if (data.to_table == "O") {
                 OwnerAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id);
             }
@@ -146,9 +128,9 @@ fetch("http://localhost:3001/addresses")
 fetch('http://localhost:3001/partners')
     .then(response => response.json())
     .then(datas => {
-        // console.log(datas);
+        
         datas.map(data => {
-            // console.log(data);
+           
             PartnerNameFunction(data.name, data.id, data.vat_number);
         })
     });
@@ -156,9 +138,9 @@ fetch('http://localhost:3001/partners')
 fetch(`http://localhost:3001/addresses`)
     .then(response => response.json())
     .then(datas => {
-        // console.log(datas);
+        
         datas.map(data => {
-            // console.log(data);
+           
             if (data.to_table == "P") {
                 PartnerAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
             }
@@ -168,9 +150,9 @@ fetch(`http://localhost:3001/addresses`)
 fetch('http://localhost:3001/carriers')
     .then(response => response.json())
     .then(datas => {
-        // console.log(datas);
+        
         datas.map(data => {
-            // console.log(data);
+            
             CarrierNameFunction(data.name, data.id)
         })
     })
@@ -178,9 +160,9 @@ fetch('http://localhost:3001/carriers')
 fetch(`http://localhost:3001/addresses`)
     .then(response => response.json())
     .then(datas => {
-        // console.log(datas);
+       
         datas.map(data => {
-            // console.log(data);
+            
             if (data.to_table == "C") {
                 CarrierAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
             }
@@ -190,9 +172,9 @@ fetch(`http://localhost:3001/addresses`)
 fetch('http://localhost:3001/movements')
     .then(response => response.json())
     .then(datas => {
-        // console.log(datas);
+       
         datas.map(data => {
-            // console.log(data);
+            
             Movements(data.name, data.id)
         })
     })
@@ -349,7 +331,7 @@ function create_and_update_delivery_note(status = "Nyitott") {
     })
 }
 
-//át kell írni a html-ben az id-t h ne submit legyen
+
 const close_deliverynote_edit = document.getElementById("close_button");
 
 close_deliverynote_edit.addEventListener("click", (event) => {
