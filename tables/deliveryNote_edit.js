@@ -1,3 +1,124 @@
+const cached_delivery_id = localStorage.getItem('deliveryNote_id');
+console.log(cached_delivery_id);
+
+if (cached_delivery_id) {
+    fetch('http://localhost:3001/delivery_notes/' + cached_delivery_id)
+        .then(response => response.json())
+        .then(datas => {
+            
+            datas.map(data => {
+                
+
+                fetch('http://localhost:3001/owners/' + data.owner_id)
+                    .then(response => response.json())
+                    .then(datas => {
+                        console.log(datas);
+                        datas.map(data => {
+                            
+                            document.getElementById('input_owner_name').value = data.name + " " + data.vat_number;
+                            
+
+
+                        })
+                    })
+
+                fetch('http://localhost:3001/addresses/' + data.owner_address_id)
+                    .then(response => response.json())
+                    .then(datas => {
+                        console.log(datas);
+                        datas.map(data => {
+                            
+                            document.getElementById('input_owner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+                            document.getElementById('input_loadlocation_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+
+
+                        })
+                    })
+
+                fetch('http://localhost:3001/partners/' + data.partner_id)
+                    .then(response => response.json())
+                    .then(datas => {
+                        console.log(datas);
+                        datas.map(data => {
+                            
+                            document.getElementById('input_partner').value = data.name + " " + data.vat_number;
+                            
+
+
+                        })
+                    })
+
+                fetch('http://localhost:3001/addresses/' + data.partner_address_id)
+                    .then(response => response.json())
+                    .then(datas => {
+                        console.log(datas);
+                        datas.map(data => {
+                            
+                            document.getElementById('input_partner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+                            document.getElementById('input_unloadlocation_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+
+
+                        })
+                    })
+
+                fetch('http://localhost:3001/carriers/' + data.carrier_id)
+                    .then(response => response.json())
+                    .then(datas => {
+                        console.log(datas);
+                        datas.map(data => {
+                            
+                            document.getElementById('input_carrier').value = data.name;
+                            
+
+
+                        })
+                    })
+
+                fetch('http://localhost:3001/addresses/' + data.carrier_address_id)
+                    .then(response => response.json())
+                    .then(datas => {
+                        console.log(datas);
+                        datas.map(data => {
+                            //console.log(data.owner_id);
+                            document.getElementById('input_carrier_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+
+
+
+                        })
+                    })
+
+                    console.log(data.movement_id+"asasas");
+                    let move=data.movement_id;
+                fetch('http://localhost:3001/movements')
+                    .then(response => response.json())
+                    .then(datas => {
+                        console.log(datas);
+                        datas.map(data => {
+                            console.log(data.id);
+                            if(data.id==move){
+                                document.getElementById('input_movement').value = data.name;
+                            }
+
+
+
+                        })
+                    })
+
+
+                document.getElementById('input_status').value = data.status;
+                document.getElementById('input_deliveryNote_id').value = data.id;
+
+
+            })
+        })
+    localStorage.clear();
+}
+
+
+
+
+
+
 fetch('http://localhost:3001/owners')
     .then(response => response.json())
     .then(datas => {
@@ -74,7 +195,7 @@ fetch(`http://localhost:3001/addresses`)
         datas.map(data => {
             // console.log(data);
             if (data.to_table == "C") {
-            CarrierAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
+                CarrierAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
             }
         })
     })
