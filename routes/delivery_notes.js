@@ -78,14 +78,16 @@ router.get('/:delivery_note_id', (req, res) => {
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy delivery_notehez több cím is tartozhat.
 router.post('/', (req, res) => {
-    var sql = `insert into delivery_notes ( `+
+    var insert_sql = `insert into delivery_notes ( `+
     `serial_no, owner_id, owner_address_id, `+
     `loadlocation_address_id, partner_id, `+
     `partner_address_id, unloadlocation_address_id, `+
     `carrier_id, carrier_address_id, movement_id, `+
     `status, created_by) `+
     ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let serial_no = req.body.serial_no;
+
+    var sql = `call new_delivery_notes ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
     let owner_id = req.body.owner_id;
     let owner_address_id = req.body.owner_address_id;
     let loadlocation_address_id = req.body.loadlocation_address_id;

@@ -1,4 +1,4 @@
--- Active: 1679420639513@@127.0.0.1@3306@weighing_db
+-- Active: 1678652479984@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;
@@ -34,6 +34,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `modified_by` bigint
 );
 
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` bigint PRIMARY KEY AUTO_INCREMENT,
+  `serno_prefix` varchar(10) not null,
+  `serno_suffix` varchar(10) not null,
+  `created_at` timestamp,
+  `created_by` bigint,
+  `modified` datetime,
+  `modified_by` bigint
+);
 
 
 -- Ezek a címek, a userekhez, a partnerekhez, a tulajdonosokhoz, a szállítókhoz.
@@ -4686,3 +4695,55 @@ VALUES ('23456789-2-23', 'Vasbeton szerelő kft.', '', ''),
 INSERT INTO owners ( vat_number, name, bank_account, `memo` )
 VALUES ('13456789-2-23', 'Új remény Kft.', '', ''),  
        ('23346778-2-12', 'Új világok ZRt.', '', '');  
+
+INSERT INTO settings ( serno_prefix, serno_suffix )
+VALUES ('RAD-VR/', '');
+
+
+
+DROP PROCEDURE IF EXISTS new_delivery_notes;
+DELIMITER //
+CREATE PROCEDURE new_delivery_notes( 
+    in _owner_id BIGINT,
+    in _owner_address_id BIGINT, 
+    in _loadlocation_address_id BIGINT, 
+    in _partner_id BIGINT,
+    in _partner_address_id BIGINT, 
+    in _unloadlocation_address_id BIGINT, 
+    in _carrier_id BIGINT,
+    in _carrier_address_id BIGINT, 
+    in _movement_id BIGINT,
+    in _status VARCHAR( 20),
+    in _created_by BIGINT,
+    out new_delivery_note_id BIGINT,
+    out error_text varchar(128))
+BEGIN
+  DECLARE prefix_length INT;
+  DECLARE suffix_length INT;
+  DECLARE prefix VARCHAR(20);
+  DECLARE suffix VARCHAR(20);
+  DECLARE last_ser_no VARCHAR(20);
+  DECLARE cur_year INT;
+  DECLARE new_no VARCHAR(20);
+  DECLARE numberz VARCHAR(20);
+  
+  SET prefix_length = length( settings.serno_prefix);
+  SET prefix = settings.serno_prefix;
+  SET suffix_length= length( settings.serno_suffix);
+  SET suffix = settings.serno_suffix;
+  SET last_ser_no = (SELECT delivery_notes.serial_no from delivery_notes WHERE 
+    substring( delivery_notes.serial_no, 1, prefix_length) = prefix
+    order by delivery_notes.id desc limit 1);
+  SET cur_year = (SELECT YEAR(curdate()));
+  SET new_no = settings.prefix + @cur_year+ "000001"+ settings.suffix;
+  if (last_ser_no) THEN
+    SET year = substring( @last_ser_no, @prefix_length+ 1, 4);
+    SET number = substring( @last_ser_no, @prefix_length+ 6, 6);
+    SET number = number + 1;
+    SET numberz = SubString( "000000"+ CONVERT( number, char), -6, 6);
+    SET new_no = prefix + CONVERT( cur_year, CHAR) + "/"+ numberz+ suffix;  
+  END IF
+  
+END//
+DELIMITER ;
+
