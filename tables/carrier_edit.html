@@ -62,22 +62,26 @@
         <h1 class="text-center oldalcim">Szállítmányozók kezelése</h1>
         <br>
         <form class="w-75 m-auto d-flex flex-column keretezett">
-            <div class="form-group mb-3">
-                <label for="name" style="font-weight: bold;">Szállítmányozó neve</label>
-                <input type="text" class="form-control" id="name" placeholder="Szállítmányozó neve">
-            </div>
-            <div class="form-group mb-3">
-                <label for="ekaer_id" style="font-weight: bold;">Szállítmányozó EKAER-száma</label>
-                <input type="text" class="form-control" id="ekaer_id" placeholder="Szállítmányozó EKAER-száma">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-3 form-group mb-3">
+                    <label for="name" style="font-weight: bold;">Szállítmányozó neve</label>
+                    <input type="text" class="form-control" id="name" placeholder="Szállítmányozó neve">
+                </div>
+                <div class="col-sm-12 col-lg-3 form-group mb-3">
+                    <label for="ekaer_id" style="font-weight: bold;">Szállítmányozó EKAER-száma</label>
+                    <input type="text" class="form-control" id="ekaer_id" placeholder="Szállítmányozó EKAER-száma">
+                </div>
             </div>
             <div class="form-group mb-3">
                 <label for="memo" style="font-weight: bold;">Megjegyzés</label>
                 <!-- <input type="text" class="form-control" id="memo" placeholder="Megjegyzés"> -->
                 <textarea class="form-control" id="memo" placeholder="Megjegyzés"></textarea>
             </div>
-            <div class="form-group mb-3">
-                <label for="id" style="font-weight: bold;">ID</label>
-                <input type="number" class="form-control" id="id" placeholder="Szállítmányozó azonosítója (ID)" readonly>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="id" style="font-weight: bold;">ID</label>
+                    <input type="number" class="form-control" id="id" placeholder="Szállítmányozó azonosítója (ID)" readonly>
+                </div>
             </div>
         </form>
         <div class="btns text-center">
