@@ -62,81 +62,85 @@
         <h1 class="text-center oldalcim">Szállítólevél szerkesztése</h1>
         <br>
         <form class="row col-2 w-75 m-auto d-flex flex-column keretezett">
-            <div class="form-group mb-3">
-                <label for="input_serial_no" style="font-weight: bold;">Sorszám</label>
-                <input type="text" class="form-control" id="input_serial_no" placeholder="Adjon sorszámot a szállítólevélnek!" readonly>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-3 form-group mb-3">
+                    <label for="input_serial_no" style="font-weight: bold;">Sorszám</label>
+                    <input type="text" class="form-control" id="input_serial_no" placeholder="Adjon sorszámot a szállítólevélnek!" readonly>
+                </div>
             </div>
-            <div class="row ms-1">
-                <div class="col-sm-12 col-lg-6 form-group mb-3">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
                     <label for="input_owner_name" style="font-weight: bold;">Tulajdonos neve</label>
                     <select id="input_owner_name" class="form-select mb-3">
                         <option style="font-weight: bold;">Válassza ki a tulajdonos nevét!</option>
                     </select>
                 </div>
-                <div class="col-sm-12 col-lg-6 form-group mb-3">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
                     <label for="input_owner_address" style="font-weight: bold;">Tulajdonos címe</label>
                     <select id="input_owner_address" class="form-select mb-3">
                         <option style="font-weight: bold;">Válassza ki a tulajdonos címét!</option>
                     </select>
                 </div>
+                <div class="col-sm-12 col-lg-4">
+                    <label for="input_loadlocation_address" style="font-weight: bold;">Rakodás helyszíne</label>
+                    <select id="input_loadlocation_address" class="form-select mb-3">
+                        <option style="font-weight: bold;">Válassza ki a rakodás helyszínét!</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label for="input_loadlocation_address" style="font-weight: bold;">Rakodás helyszíne</label>
-                <select id="input_loadlocation_address" class="form-select mb-3">
-                    <option style="font-weight: bold;">Válassza ki a rakodás helyszínét!</option>
-                </select>
-            </div>
-            <div class="row ms-1">
-                <div class="col-sm-12 col-lg-6 form-group mb-3">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
                     <label for="input_partner" style="font-weight: bold;">Partner neve</label>
                     <select id="input_partner" class="form-select mb-3">
                         <option style="font-weight: bold;">Válassza ki a partner nevét!</option>
                     </select>
                 </div>
-                <div class="col-sm-12 col-lg-6 form-group mb-3">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
                     <label for="input_partner_address" style="font-weight: bold;">Partner címe</label>
                     <select id="input_partner_address" class="form-select mb-3">
                         <option style="font-weight: bold;">Válassza ki a partner címét!</option>
                     </select>
                 </div>
+                <div class="col-sm-12 col-lg-4">
+                    <label for="input_unloadlocation_address" style="font-weight: bold;">Lerakodás helyszíne</label>
+                    <select id="input_unloadlocation_address" class="form-select mb-3">
+                        <option style="font-weight: bold;">Válassza ki a lerakodás helyszínét!</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label for="input_unloadlocation_address" style="font-weight: bold;">Lerakodás helyszíne</label>
-                <select id="input_unloadlocation_address" class="form-select mb-3">
-                    <option style="font-weight: bold;">Válassza ki a lerakodás helyszínét!</option>
-                </select>
-            </div>
-            <div class="row ms-1">
-                <div class="col-sm-12 col-lg-6 form-group mb-3">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
                     <label for="input_carrier" style="font-weight: bold;">Szállítmányozó neve</label>
                     <select id="input_carrier" class="form-select mb-3">
                         <option style="font-weight: bold;">Válassza ki a szállítmányozó nevét!</option>
                     </select>
                 </div>
-                <div class="col-sm-12 col-lg-6 form-group mb-3">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
                     <label for="input_carrier_address" style="font-weight: bold;">Szállítmányozó címe</label>
                     <select id="input_carrier_address" class="form-select mb-3">
                         <option style="font-weight: bold;">Válassza ki a szállítmányozó címét!</option>
                     </select>
                 </div>
             </div>
-            <div class="row ms-1">
-                <div class="col-sm-12 col-lg-6 form-group mb-3">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
                     <label for="input_movement" style="font-weight: bold;">Művelet</label>
                     <select id="input_movement" class="form-select mb-3">
                         <option style="font-weight: bold;">Válassza ki a műveletet!</option>
                     </select>
                 </div>
-                <div class="col-sm-12 col-lg-6 form-group mb-3">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
                     <div class="form-group mb-3">
                         <label for="input_status" style="font-weight: bold;">Státusz</label>
                         <input type="text" class="form-control" id="input_status" placeholder="Szállítólevél státusza" readonly>
                     </div>
                 </div>
             </div>
-            <div class="form-group mb-3">
-                <label for="input_deliveryNote_id" style="font-weight: bold;">ID</label>
-                <input type="number" class="form-control" id="input_deliveryNote_id" placeholder="Szállítólevél azonosítója (ID)" readonly>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="input_deliveryNote_id" style="font-weight: bold;">ID</label>
+                    <input type="number" class="form-control" id="input_deliveryNote_id" placeholder="Szállítólevél azonosítója (ID)" readonly>
+                </div>
             </div>
         </form>
         <br>

@@ -13,6 +13,9 @@
 .felirat_bejelentkezik {
     color:rgb(17, 140, 79)
 }
+.form-label {
+    font-size: 20px;
+}
 .fa-solid {
     margin-right: 25px;
 }
