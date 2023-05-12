@@ -3,8 +3,8 @@ fetch('http://localhost:3001/owners')
     .then(datas => {
         // console.log(datas);
         datas.map(data => {
-             //console.log(data);
-           // OwnerNameFunction(data.name, data.id, data.vat_number)
+            //console.log(data);
+            // OwnerNameFunction(data.name, data.id, data.vat_number)
         })
     })
 
@@ -17,9 +17,21 @@ fetch('http://localhost:3001/owners')
     .then(datas => {
         // console.log(datas);
         datas.map(data => {
-             //console.log(data);
-            OwnerNameFunction(data.name, data.id)
+            //console.log(data);
+            OwnerNameFunction(data.name, data.id, data.vat_number)
             console.log(data.name, data.id);
+        })
+    })
+
+fetch("http://localhost:3001/addresses")
+    .then(response => response.json())
+    .then(datas => {
+        // console.log(datas);
+        datas.map(data => {
+            // console.log(data);
+            if (data.to_table == "O") {
+                OwnerAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id);
+            }
         })
     })
 
@@ -29,9 +41,21 @@ fetch('http://localhost:3001/partners')
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            PartnerNameFunction(data.name, data.id);
+            PartnerNameFunction(data.name, data.id, data.vat_number);
         })
     });
+
+fetch(`http://localhost:3001/addresses`)
+    .then(response => response.json())
+    .then(datas => {
+        // console.log(datas);
+        datas.map(data => {
+            // console.log(data);
+            if (data.to_table == "P") {
+                PartnerAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
+            }
+        })
+    })
 
 fetch('http://localhost:3001/carriers')
     .then(response => response.json())
@@ -40,6 +64,18 @@ fetch('http://localhost:3001/carriers')
         datas.map(data => {
             // console.log(data);
             CarrierNameFunction(data.name, data.id)
+        })
+    })
+
+fetch(`http://localhost:3001/addresses`)
+    .then(response => response.json())
+    .then(datas => {
+        // console.log(datas);
+        datas.map(data => {
+            // console.log(data);
+            if (data.to_table == "C") {
+            CarrierAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
+            }
         })
     })
 
@@ -53,24 +89,20 @@ fetch('http://localhost:3001/movements')
         })
     })
 
-function OwnerNameFunction(name, id) {
+function OwnerNameFunction(name, id, vat_number) {
 
-   
-   
-    fetch(`http://localhost:3001/addresses/O&/${id}`)
-        .then(response => response.json())
-        .then(datas => {
-            // console.log(datas);
-            datas.map(data => {
-                // console.log(data);
-                OwnerAddressFunction(name, id, data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id);
-            
-            })
-        })
+    var input_owner_name = document.getElementById("input_owner_name");
+    var option2 = document.createElement("option");
+    option2.text = name + " " + vat_number;
+    option2.id = id;
+    console.log(name + "x " + id);
+    //console.log(option.id);
+    input_owner_name.append(option2);
+
 
 }
 
-function OwnerAddressFunction(name, id, zip_code, city, street_name, street_type, street_number, dataid) {
+function OwnerAddressFunction(zip_code, city, street_name, street_type, street_number, dataid) {
 
     var input_owner_address = document.getElementById("input_owner_address");
     var input_loadlocation_address = document.getElementById("input_loadlocation_address");
@@ -83,31 +115,19 @@ function OwnerAddressFunction(name, id, zip_code, city, street_name, street_type
     input_owner_address.append(option);
     input_loadlocation_address.append(address_option);
 
-    var input_owner_name = document.getElementById("input_owner_name");
-    var option2 = document.createElement("option");
-    option2.text = name + " " + zip_code + " " + city + " " + street_name + " " + street_type + " " + street_number;
-    option2.id = id;
-    console.log(name+"x "+id);
-    //console.log(option.id);
-    input_owner_name.append(option2);
+}
+
+function PartnerNameFunction(name, id, vat_number) {
+
+    var input_partner = document.getElementById("input_partner");
+    var option = document.createElement("option");
+    option.text = name + " " + vat_number;
+    option.id = id;
+    input_partner.add(option);
 
 }
 
-function PartnerNameFunction(name, id) {
-    
-    fetch(`http://localhost:3001/addresses/P&/${id}`)
-        .then(response => response.json())
-        .then(datas => {
-            // console.log(datas);
-            datas.map(data => {
-                // console.log(data);
-                PartnerAddressFunction(name, id, data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
-            })
-        })
-
-}
-
-function PartnerAddressFunction(name, id, zip_code, city, street_name, street_type, street_number, dataid) {
+function PartnerAddressFunction(zip_code, city, street_name, street_type, street_number, dataid) {
 
     var input_partner_address = document.getElementById("input_partner_address");
     var input_unloadlocation_address = document.getElementById("input_unloadlocation_address");
@@ -120,38 +140,10 @@ function PartnerAddressFunction(name, id, zip_code, city, street_name, street_ty
     input_partner_address.add(option);
     input_unloadlocation_address.add(address_option);
 
-
-    var input_partner = document.getElementById("input_partner");
-    var option = document.createElement("option");
-    option.text = name + " " + zip_code + " " + city + " " + street_name + " " + street_type + " " + street_number;
-    option.id = id;
-    input_partner.add(option);
-
 }
 
 
 function CarrierNameFunction(name, id) {
-    
-    fetch(`http://localhost:3001/addresses/C&/${id}`)
-        .then(response => response.json())
-        .then(datas => {
-            // console.log(datas);
-            datas.map(data => {
-                // console.log(data);
-                CarrierAddressFunction(name, id, data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
-            })
-        })
-
-}
-
-
-function CarrierAddressFunction(name, id, zip_code, city, street_name, street_type, street_number, dataid) {
-
-    var input_carrier_address = document.getElementById("input_carrier_address");
-    var option = document.createElement("option");
-    option.id = dataid;
-    option.text = zip_code + " " + city + " " + street_name + " " + street_type + " " + street_number;
-    input_carrier_address.add(option);
 
     var input_carrier = document.getElementById("input_carrier");
     var option = document.createElement("option");
@@ -161,9 +153,21 @@ function CarrierAddressFunction(name, id, zip_code, city, street_name, street_ty
 
 }
 
+
+function CarrierAddressFunction(zip_code, city, street_name, street_type, street_number, dataid) {
+
+    var input_carrier_address = document.getElementById("input_carrier_address");
+    var option = document.createElement("option");
+    option.id = dataid;
+    option.text = zip_code + " " + city + " " + street_name + " " + street_type + " " + street_number;
+    input_carrier_address.add(option);
+
+
+}
+
 function Movements(name, id) {
 
-    var input_movement= document.getElementById("input_movement");
+    var input_movement = document.getElementById("input_movement");
     var option = document.createElement("option");
     option.id = id;
     option.text = name;
@@ -178,7 +182,7 @@ submit_button_deliverynote_edit.addEventListener("click", (event) => {
     create_and_update_delivery_note();
 });
 
-function create_and_update_delivery_note(status="Nyitott") {
+function create_and_update_delivery_note(status = "Nyitott") {
     var serial_no = document.getElementById('input_serial_no').value;
 
     var owner_id = document.getElementById('input_owner_name');
@@ -258,7 +262,7 @@ delete_deliveryNote_button.addEventListener("click", (event) => {
 
 function delete_delivery_note() {
     var id = document.getElementById('input_deliveryNote_id').value;
-    if ( confirm( 'Biztos benne? Töröljük a sorszámú szállítólevelet? '+ document.getElementById('input_serial_no').value)) {
+    if (confirm('Biztos benne? Töröljük a sorszámú szállítólevelet? ' + document.getElementById('input_serial_no').value)) {
         fetch(`http://localhost:3001/delivery_notes/${id}`, {
             method: "DELETE"
         }).then(redirectToOpenDeliveryNotesTable());
