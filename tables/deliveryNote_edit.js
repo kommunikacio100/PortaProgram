@@ -1,11 +1,25 @@
+fetch('http://localhost:3001/owners')
+    .then(response => response.json())
+    .then(datas => {
+        // console.log(datas);
+        datas.map(data => {
+             //console.log(data);
+           // OwnerNameFunction(data.name, data.id, data.vat_number)
+        })
+    })
+
+
+
+
 
 fetch('http://localhost:3001/owners')
     .then(response => response.json())
     .then(datas => {
         // console.log(datas);
         datas.map(data => {
-            // console.log(data);
-            OwnerNameFunction(data.name, data.id, data.vat_number)
+             //console.log(data);
+            OwnerNameFunction(data.name, data.id)
+            console.log(data.name, data.id);
         })
     })
 
@@ -15,9 +29,9 @@ fetch('http://localhost:3001/partners')
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            PartnerNameFunction(data.name, data.id)
+            PartnerNameFunction(data.name, data.id);
         })
-    })
+    });
 
 fetch('http://localhost:3001/carriers')
     .then(response => response.json())
@@ -39,7 +53,9 @@ fetch('http://localhost:3001/movements')
         })
     })
 
-function OwnerNameFunction(name, id, vat_number) {
+function OwnerNameFunction(name, id) {
+
+   
    
     fetch(`http://localhost:3001/addresses/O&/${id}`)
         .then(response => response.json())
@@ -47,7 +63,8 @@ function OwnerNameFunction(name, id, vat_number) {
             // console.log(datas);
             datas.map(data => {
                 // console.log(data);
-                OwnerAddressFunction(name, id, data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
+                OwnerAddressFunction(name, id, data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id);
+            
             })
         })
 
@@ -63,15 +80,16 @@ function OwnerAddressFunction(name, id, zip_code, city, street_name, street_type
     address_option.text = zip_code + " " + city + " " + street_name + " " + street_type + " " + street_number;
     option.id = dataid;
     address_option.id = dataid;
-    input_owner_address.add(option);
-    input_loadlocation_address.add(address_option);
+    input_owner_address.append(option);
+    input_loadlocation_address.append(address_option);
 
     var input_owner_name = document.getElementById("input_owner_name");
-    var option = document.createElement("option");
-    option.text = name + " " + zip_code + " " + city + " " + street_name + " " + street_type + " " + street_number;
-    option.id = id;
-    console.log(option.id);
-    input_owner_name.add(option);
+    var option2 = document.createElement("option");
+    option2.text = name + " " + zip_code + " " + city + " " + street_name + " " + street_type + " " + street_number;
+    option2.id = id;
+    console.log(name+"x "+id);
+    //console.log(option.id);
+    input_owner_name.append(option2);
 
 }
 
