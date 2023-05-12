@@ -56,7 +56,7 @@ router.put('/', (req, res)=>{
     }
 });
 
-var sql = `drop table if exists scaleWeight; create table scaleWeight (scaleWeight INT) ENGINE = MEMORY;`;
+var sql = `drop table if exists scaleWeight; create table scaleWeight (scaleWeight INT) ENGINE = MEMORY; insert into scaleWeight VALUES (0);`;
 try{
     con.query( sql); 
     console.log( 'scaleWeight table created;');
