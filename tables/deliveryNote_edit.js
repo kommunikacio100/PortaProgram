@@ -1,5 +1,4 @@
 const cached_delivery_id = localStorage.getItem('deliveryNote_id');
-console.log(cached_delivery_id);
 
 if (cached_delivery_id) {
     fetch('http://localhost:3001/delivery_notes/' + cached_delivery_id)
@@ -12,25 +11,22 @@ if (cached_delivery_id) {
                 fetch('http://localhost:3001/owners/' + data.owner_id)
                     .then(response => response.json())
                     .then(datas => {
-                        console.log(datas);
+                        
                         datas.map(data => {
                             
                             document.getElementById('input_owner_name').value = data.name + " " + data.vat_number;
                             
-
-
                         })
                     })
 
                 fetch('http://localhost:3001/addresses/' + data.owner_address_id)
                     .then(response => response.json())
                     .then(datas => {
-                        console.log(datas);
+                        
                         datas.map(data => {
                             
                             document.getElementById('input_owner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
                             document.getElementById('input_loadlocation_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
-
 
                         })
                     })
@@ -38,25 +34,22 @@ if (cached_delivery_id) {
                 fetch('http://localhost:3001/partners/' + data.partner_id)
                     .then(response => response.json())
                     .then(datas => {
-                        console.log(datas);
+                       
                         datas.map(data => {
                             
                             document.getElementById('input_partner').value = data.name + " " + data.vat_number;
                             
-
-
                         })
                     })
 
                 fetch('http://localhost:3001/addresses/' + data.partner_address_id)
                     .then(response => response.json())
                     .then(datas => {
-                        console.log(datas);
+                        
                         datas.map(data => {
                             
                             document.getElementById('input_partner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
                             document.getElementById('input_unloadlocation_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
-
 
                         })
                     })
@@ -64,42 +57,36 @@ if (cached_delivery_id) {
                 fetch('http://localhost:3001/carriers/' + data.carrier_id)
                     .then(response => response.json())
                     .then(datas => {
-                        console.log(datas);
+                        
                         datas.map(data => {
                             
                             document.getElementById('input_carrier').value = data.name;
                             
-
-
                         })
                     })
 
                 fetch('http://localhost:3001/addresses/' + data.carrier_address_id)
                     .then(response => response.json())
                     .then(datas => {
-                        console.log(datas);
+                       
                         datas.map(data => {
-                            //console.log(data.owner_id);
+                            
                             document.getElementById('input_carrier_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
-
-
 
                         })
                     })
 
-                    console.log(data.movement_id+"asasas");
+                   
                     let move=data.movement_id;
                 fetch('http://localhost:3001/movements')
                     .then(response => response.json())
                     .then(datas => {
-                        console.log(datas);
+                       
                         datas.map(data => {
-                            console.log(data.id);
+                            
                             if(data.id==move){
                                 document.getElementById('input_movement').value = data.name;
                             }
-
-
 
                         })
                     })
@@ -140,7 +127,7 @@ fetch('http://localhost:3001/owners')
         datas.map(data => {
             //console.log(data);
             OwnerNameFunction(data.name, data.id, data.vat_number)
-            console.log(data.name, data.id);
+           
         })
     })
 
@@ -216,8 +203,7 @@ function OwnerNameFunction(name, id, vat_number) {
     var option2 = document.createElement("option");
     option2.text = name + " " + vat_number;
     option2.id = id;
-    console.log(name + "x " + id);
-    //console.log(option.id);
+    
     input_owner_name.append(option2);
 
 
@@ -329,7 +315,6 @@ function create_and_update_delivery_note(status = "Nyitott") {
     movement_id = movement_id[movement_id.selectedIndex].id;
     var id = document.getElementById('input_deliveryNote_id').value;
 
-    //console.log(movement_id);
 
     let data_to_send = {
         "serial_no": serial_no,
@@ -360,7 +345,7 @@ function create_and_update_delivery_note(status = "Nyitott") {
         console.log('fetch result', res);
         console.log('id: ', id);
         localStorage.setItem('back_id', id);
-        // redirectToProductTable();
+        redirectToOpenDeliveryNotesTable();
     })
 }
 
@@ -383,7 +368,7 @@ delete_deliveryNote_button.addEventListener("click", (event) => {
 
 function delete_delivery_note() {
     var id = document.getElementById('input_deliveryNote_id').value;
-    if (confirm('Biztos benne? Töröljük a sorszámú szállítólevelet? ' + document.getElementById('input_serial_no').value)) {
+    if (confirm('Biztos benne? Töröljük a szállítólevelet?')) {
         fetch(`http://localhost:3001/delivery_notes/${id}`, {
             method: "DELETE"
         }).then(redirectToOpenDeliveryNotesTable());
