@@ -62,61 +62,67 @@
         <h1 class="text-center oldalcim">Felhasználók kezelése</h1>
         <br>
         <form class="w-75 m-auto d-flex flex-column keretezett">
-            <div class="form-group mb-3">
-                <label for="input_user_name" style="font-weight: bold;">Felhasználó neve</label>
-                <input type="text" class="form-control" id="input_user_name" placeholder="Felhasználó neve">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-3 form-group mb-3">
+                    <label for="input_user_name" style="font-weight: bold;">Felhasználó neve</label>
+                    <input type="text" class="form-control" id="input_user_name" placeholder="Felhasználó neve">
+                </div>
+                <div class="col-sm-12 col-lg-3 form-group mb-3">
+                    <label for="input_user_email" style="font-weight: bold;">Felhasználó e-mail címe</label>
+                    <input type="email" class="form-control" id="input_user_email" placeholder="Felhasználó e-mail címe">
+                </div>
             </div>
             <div class="form-group mb-3">
-                <label for="input_user_email" style="font-weight: bold;">Felhasználó e-mail címe</label>
-                <input type="email" class="form-control" id="input_user_email" placeholder="Felhasználó e-mail címe">
-            </div>
-            <div class="form-group mb-3">
-                <label for="input_user_password" style="font-weight: bold;">Felhasználó jelszó</label>
+                <label for="input_user_password" style="font-weight: bold;">Felhasználó jelszó (A jelszónak legalább 8 karakter hosszúnak kell lennie, és tarlmaznia kell kis- és nagybetűket, számot és írásjelet is!)</label>
                 <input type="password" class="form-control" id="input_user_password" placeholder="Felhasználó jelszó">
             </div>
-            <div>
-                <label for="input_user_can_look_data" style="font-weight: bold;">Adatok megtekintése</label>
-                <select id="input_user_can_look_data" class="form-select mb-3">
-                    <option style="font-weight: bold;">Adatok megtekintése</option>
-                    <option>IGEN</option>
-                    <option>NEM</option>
-                </select>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2">
+                    <label for="input_user_can_look_data" style="font-weight: bold;">Adatok megtekintése</label>
+                    <select id="input_user_can_look_data" class="form-select mb-3">
+                        <option style="font-weight: bold;">Adatok megtekintése</option>
+                        <option>IGEN</option>
+                        <option>NEM</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-lg-2">
+                    <label for="input_user_can_edit_data" style="font-weight: bold;">Adatok módosítása</label>
+                    <select id="input_user_can_edit_data" class="form-select mb-3">
+                        <option style="font-weight: bold;">Adatok módosítása</option>
+                        <option>IGEN</option>
+                        <option>NEM</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-lg-2">
+                    <label for="input_user_can_weighing" style="font-weight: bold;">Mérhet-e?</label>
+                    <select id="input_user_can_weighing" class="form-select mb-3">
+                        <option style="font-weight: bold;">Mérhet-e?</option>
+                        <option>IGEN</option>
+                        <option>NEM</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-lg-2">
+                    <label for="input_user_can_edit_users" style="font-weight: bold;">Felhasználók módosítása</label>
+                    <select id="input_user_can_edit_users" class="form-select mb-3">
+                        <option style="font-weight: bold;">Felhasználók módosítása</option>
+                        <option>IGEN</option>
+                        <option>NEM</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-lg-2">
+                    <label for="input_user_can_settings" style="font-weight: bold;">Beállítások módosítása</label>
+                    <select id="input_user_can_settings" class="form-select mb-3">
+                        <option style="font-weight: bold;">Beállítások módosítása</option>
+                        <option>IGEN</option>
+                        <option>NEM</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label for="input_user_can_edit_data" style="font-weight: bold;">Adatok módosítása</label>
-                <select id="input_user_can_edit_data" class="form-select mb-3">
-                    <option style="font-weight: bold;">Adatok módosítása</option>
-                    <option>IGEN</option>
-                    <option>NEM</option>
-                </select>
-            </div>
-            <div>
-                <label for="input_user_can_weighing" style="font-weight: bold;">Mérhet-e?</label>
-                <select id="input_user_can_weighing" class="form-select mb-3">
-                    <option style="font-weight: bold;">Mérhet-e?</option>
-                    <option>IGEN</option>
-                    <option>NEM</option>
-                </select>
-            </div>
-            <div>
-                <label for="input_user_can_edit_users" style="font-weight: bold;">Felhasználók módosítása</label>
-                <select id="input_user_can_edit_users" class="form-select mb-3">
-                    <option style="font-weight: bold;">Felhasználók módosítása</option>
-                    <option>IGEN</option>
-                    <option>NEM</option>
-                </select>
-            </div>
-            <div>
-                <label for="input_user_can_settings" style="font-weight: bold;">Beállítások módosítása</label>
-                <select id="input_user_can_settings" class="form-select mb-3">
-                    <option style="font-weight: bold;">Beállítások módosítása</option>
-                    <option>IGEN</option>
-                    <option>NEM</option>
-                </select>
-            </div>
-            <div class="form-group mb-3">
-                <label for="input_user_id" style="font-weight: bold;">ID</label>
-                <input type="number" class="form-control" id="input_user_id" placeholder="Felhasználó azonosítója (ID)" readonly>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="input_user_id" style="font-weight: bold;">ID</label>
+                    <input type="number" class="form-control" id="input_user_id" placeholder="Felhasználó azonosítója (ID)" readonly>
+                </div>
             </div>
         </form>
         <div class="btns text-center">

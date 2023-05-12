@@ -62,24 +62,40 @@
         <h1 class="text-center oldalcim">VISSZAMÉRÉS</h1>
         <br>
         <form class="w-75 m-auto d-flex flex-column">
-            <div class="form-group mb-3">
-                <label for="input_plate_number" style="font-weight: bold;">Rendszám</label>
-                <input type="text" class="form-control" id="input_plate_number" placeholder="Jármű rendszáma">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="input_plate_number" style="font-weight: bold;">Rendszám</label>
+                    <input type="text" class="form-control" id="input_plate_number" placeholder="Jármű rendszáma">
+                </div>
             </div>
-            <div>
-                <label for="input_input_product" style="font-weight: bold;">Termék</label>
-                <select id="input_input_product" class="form-select mb-3">
-                    <option style="font-weight: bold;">Termék</option>
-                    <option>Példatermék</option>
-                </select>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-6">
+                    <label for="input_input_product" style="font-weight: bold;">Termék</label>
+                    <select id="input_input_product" class="form-select mb-3">
+                        <option style="font-weight: bold;">Termék</option>
+                        <option>Példatermék</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group mb-3">
-                <label for="input_weight_inbound" style="font-weight: bold;">Bemérés</label>
-                <input type="number" class="form-control" id="input_weight_inbound" placeholder="Bemért tömeg">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="input_weight_inbound" style="font-weight: bold;">Bemérés</label>
+                    <input type="number" class="form-control" id="input_weight_inbound" placeholder="Bemért tömeg">
+                </div>
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="weight_time_inbound" style="font-weight: bold;">Időpont</label>
+                    <input type="datetime-local" class="form-control" id="weight_time" placeholder="mérés időpont" readonly>
+                </div>
             </div>
-            <div class="form-group mb-3">
-                <label for="input_weight_outbound" style="font-weight: bold;">Visszamérés</label>
-                <input type="number" class="form-control" id="input_weight_outbound" placeholder="Visszamért tömeg">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="input_weight_outbound" style="font-weight: bold;">Visszamérés</label>
+                    <input type="number" class="form-control" id="input_weight_outbound" placeholder="Visszamért tömeg">
+                </div>
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="weight_time_inbound" style="font-weight: bold;">Időpont</label>
+                    <input type="datetime-local" class="form-control" id="weight_time" placeholder="mérés időpont" readonly>
+                </div>
             </div>
         </form>
         <br>

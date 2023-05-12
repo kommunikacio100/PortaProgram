@@ -23,7 +23,7 @@ OK - Létrehozandó HTML-ek:
     OK - Bejelentkezés után kell egy menü, a megfelelő jogosultságok alapján aktivált menüpontokkal.
 
 
->>> 2023-04-26 - Lacza
+# >>> 2023-04-26 - Lacza
 ----------------------
 ----------------------
 
@@ -43,7 +43,7 @@ OK - Törzsadat:
 	OK - Users (Név, e-mail cím, Jogosultságok, Id)
 
 
->>> 2023-05-01 és 2023-05-06 - Lacza
+# >>> 2023-05-01 és 2023-05-06 - Lacza
 ------------------------------------
 ------------------------------------
 
@@ -133,7 +133,7 @@ A KETTŐ MÉRÉS AD KI EGYETLEN 'MEASUREMENT'-ET, AMI A DELIVERY NOTES-on SZEREP
 -----------------------
 -----------------------
 
-OK ÁTRENDEZÉS:
+OK - ÁTRENDEZÉS:
 -------------
 
 1. Menüből eltűnik:
@@ -144,3 +144,17 @@ OK ÁTRENDEZÉS:
 2. Minden oldalból kell egy-egy:
 xxx_table.html (csak a táblázat)
 xxx_edit.html (szerkesztéshez)
+
+# >>> 2023-05-12 - HÁTRA LÉVŐ FELADATOK:
+--------------------------------------
+--------------------------------------
+
+1. LOGIN - JWT token
+2. Backend adjon sorszámot az új szállítólevélnek!
+3. ADATBÁZIS MODELDIAGRAMJA (ER diagram)
+4. VISSZAMÉRÉS oldalon: mindkét időpontot feltüntetni!!! (Lacza)
+5. MÉRÉSEK listájánál feltüntetni a hordozó szállítólevél adatait (Sorszám, partner, Owner, Szállító, Művelet) (Lacza)
+6. DOKUMENTÁCIÓ (Lacza)
+
+7. (Összesítések: napi árumozgás össztömege, napi mozgások száma)
+
