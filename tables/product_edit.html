@@ -62,50 +62,56 @@
         <h1 class="text-center oldalcim">Termékek kezelése</h1>
         <br>
         <form class="w-75 m-auto d-flex flex-column keretezett">
-            <div class="form-group mb-3">
-                <label for="item_number" style="font-weight: bold;">Cikkszám</label>
-                <input type="text" class="form-control" id="item_number" placeholder="Termék cikkszáma">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
+                    <label for="item_number" style="font-weight: bold;">Cikkszám</label>
+                    <input type="text" class="form-control" id="item_number" placeholder="Termék cikkszáma">
+                </div>
+                <div class="col-sm-12 col-lg-4 form-group mb-3">
+                    <label for="name" style="font-weight: bold;">Megnevezés</label>
+                    <input type="text" class="form-control" id="name" placeholder="Termék megnevezése">
+                </div>
             </div>
-            <div class="form-group mb-3">
-                <label for="name" style="font-weight: bold;">Megnevezés</label>
-                <input type="text" class="form-control" id="name" placeholder="Termék megnevezése">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2">
+                    <label for="units" style="font-weight: bold;">Mennyiségi egység</label>
+                    <select id="units" class="form-select mb-3">
+                        <option style="font-weight: bold;">Válasszon m. egységet!</option>
+                        <option>db</option>
+                        <option>kg</option>
+                        <option>q</option>
+                        <option>t</option>
+                        <option>m</option>
+                        <option>m²</option>
+                        <option>m³</option>
+                        <option>l</option>
+                        <option>hl</option>
+                        <option>raklap</option>
+                        <option>zsák</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="unit_price" style="font-weight: bold;">Egységár</label>
+                    <input type="number" class="form-control" id="unit_price" placeholder="Egységár">
+                </div>
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="stock" style="font-weight: bold;">Készlet</label>
+                    <input type="number" class="form-control" id="stock" placeholder="Készleten lévő mennyiség">
+                </div>
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="kg_per_unit" style="font-weight: bold;">kg/egység</label>
+                    <input type="number" class="form-control" id="kg_per_unit" placeholder="1 egység tömege kg-ban">
+                </div>
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="vat_key" style="font-weight: bold;">ÁFA-kulcs</label>
+                    <input type="text" class="form-control" id="vat_key" placeholder="Alkalmazandó ÁFA-kulcs">
+                </div>
             </div>
-            <div>
-                <label for="units" style="font-weight: bold;">Mennyiségi egység</label>
-                <select id="units" class="form-select mb-3">
-                    <option style="font-weight: bold;">Válasszon mennyiségi egységet!</option>
-                    <option>db</option>
-                    <option>kg</option>
-                    <option>q</option>
-                    <option>t</option>
-                    <option>m</option>
-                    <option>m²</option>
-                    <option>m³</option>
-                    <option>l</option>
-                    <option>hl</option>
-                    <option>raklap</option>
-                    <option>zsák</option>
-                </select>
-            </div>
-            <div class="form-group mb-3">
-                <label for="unit_price" style="font-weight: bold;">Egységár</label>
-                <input type="number" class="form-control" id="unit_price" placeholder="Egységár">
-            </div>
-            <div class="form-group mb-3">
-                <label for="stock" style="font-weight: bold;">Készlet</label>
-                <input type="number" class="form-control" id="stock" placeholder="Készleten lévő mennyiség">
-            </div>
-            <div class="form-group mb-3">
-                <label for="kg_per_unit" style="font-weight: bold;">kg/egység</label>
-                <input type="number" class="form-control" id="kg_per_unit" placeholder="1 egység tömege kg-ban">
-            </div>
-            <div class="form-group mb-3">
-                <label for="vat_key" style="font-weight: bold;">ÁFA-kulcs</label>
-                <input type="text" class="form-control" id="vat_key" placeholder="Alkalmazandó ÁFA-kulcs">
-            </div>
-            <div class="form-group mb-3">
-                <label for="id" style="font-weight: bold;">ID</label>
-                <input type="number" class="form-control" id="id" placeholder="Termék azonosítója (ID)" readonly>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-2 form-group mb-3">
+                    <label for="id" style="font-weight: bold;">ID</label>
+                    <input type="number" class="form-control" id="id" placeholder="Termék azonosítója (ID)" readonly>
+                </div>
             </div>
         </form>
         <div class="btns text-center">
