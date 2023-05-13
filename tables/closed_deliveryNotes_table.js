@@ -6,7 +6,7 @@ fetch('http://localhost:3001/delivery_notes')
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            if (data.status == "NYITVA") {
+            if (data.status != "NYITVA") {
             closed_delivery_tbody.append(trFunction(data.serial_no, data.partner_id, data.owner_id, data.carrier_id, data.created_at, data.status, data.id))
             }
         });
