@@ -7,7 +7,7 @@ if (cached_delivery_id) {
             
             datas.map(data => {
                 
-
+                if(data.owner_id!=null){
                 fetch('http://localhost:3001/owners/' + data.owner_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -18,7 +18,8 @@ if (cached_delivery_id) {
                             
                         })
                     })
-
+                }
+                if(data.owner_address_id!=null){
                 fetch('http://localhost:3001/addresses/' + data.owner_address_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -30,7 +31,8 @@ if (cached_delivery_id) {
 
                         })
                     })
-
+                }
+                if(data.partner_id!=null){
                 fetch('http://localhost:3001/partners/' + data.partner_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -41,7 +43,8 @@ if (cached_delivery_id) {
                             
                         })
                     })
-
+                }
+                if(data.partner_address_id!=null){
                 fetch('http://localhost:3001/addresses/' + data.partner_address_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -53,7 +56,8 @@ if (cached_delivery_id) {
 
                         })
                     })
-
+                }
+                if(data.carrier_id!=null){
                 fetch('http://localhost:3001/carriers/' + data.carrier_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -64,7 +68,8 @@ if (cached_delivery_id) {
                             
                         })
                     })
-
+                }
+                if(data.carrier_address_id!=null){
                 fetch('http://localhost:3001/addresses/' + data.carrier_address_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -75,8 +80,9 @@ if (cached_delivery_id) {
 
                         })
                     })
+                }
 
-                   
+                if(data.movement_id!=null){
                     let move=data.movement_id;
                 fetch('http://localhost:3001/movements')
                     .then(response => response.json())
@@ -90,10 +96,12 @@ if (cached_delivery_id) {
 
                         })
                     })
+                }
 
 
                 document.getElementById('input_status').value = data.status;
                 document.getElementById('input_deliveryNote_id').value = data.id;
+                document.getElementById('input_serial_no').value = data.serial_no;
 
 
             })
@@ -271,8 +279,8 @@ submit_button_deliverynote_edit.addEventListener("click", (event) => {
     create_and_update_delivery_note();
 });
 
-function create_and_update_delivery_note(status = "Nyitott") {
-    var serial_no = document.getElementById('input_serial_no').value;
+function create_and_update_delivery_note(status = "NYITVA") {
+    //var serial_no = document.getElementById('input_serial_no').value;
 
     var owner_id = document.getElementById('input_owner_name');
     owner_id = owner_id[owner_id.selectedIndex].id;
@@ -295,11 +303,11 @@ function create_and_update_delivery_note(status = "Nyitott") {
 
     var movement_id = document.getElementById('input_movement');
     movement_id = movement_id[movement_id.selectedIndex].id;
-    var id = document.getElementById('input_deliveryNote_id').value;
+    //var id = document.getElementById('input_deliveryNote_id').value;
 
 
     let data_to_send = {
-        "serial_no": serial_no,
+        //"serial_no": serial_no,
         "owner_id": owner_id,
         "owner_address_id": owner_address_id,
         "loadlocation_address_id": loadlocation_address_id,
@@ -309,14 +317,16 @@ function create_and_update_delivery_note(status = "Nyitott") {
         "carrier_id": carrier_id,
         "carrier_address_id": carrier_address_id,
         "movement_id": movement_id,
-        "status": status,
-        "id": id,
+        //"status": status,
+        //"id": id,
 
     }
-
-    let amethod = '';
+    
+    let amethod = 'PUT';
+    /*
     if (id === '') { amethod = 'POST' }
     else { amethod = 'PUT' };
+    */
     fetch(`http://localhost:3001/delivery_notes`, {
         method: amethod,
         body: JSON.stringify(data_to_send),
@@ -325,8 +335,8 @@ function create_and_update_delivery_note(status = "Nyitott") {
         }
     }).then(res => {
         console.log('fetch result', res);
-        console.log('id: ', id);
-        localStorage.setItem('back_id', id);
+        //console.log('id: ', id);
+        //localStorage.setItem('back_id', id);
         redirectToOpenDeliveryNotesTable();
     })
 }
@@ -336,7 +346,7 @@ const close_deliverynote_edit = document.getElementById("close_button");
 
 close_deliverynote_edit.addEventListener("click", (event) => {
     event.preventDefault();
-    create_and_update_delivery_note("Lezárt");
+    create_and_update_delivery_note("LEZÁRVA");
 });
 
 
