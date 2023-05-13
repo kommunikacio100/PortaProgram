@@ -6,7 +6,7 @@ fetch('http://localhost:3001/delivery_notes')
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            if (data.status == "Nyitott") {
+            if (data.status == "NYITVA") {
                trFunction(data.serial_no, data.partner_id, data.owner_id, data.carrier_id, data.created_at, data.status, data.id)
             }
         });
@@ -106,10 +106,9 @@ let uj=document.getElementById("gomb_uj_letrehozasa");
 uj.addEventListener("click", (event)=>{
 
     
-    /*
+
     fetch("http://localhost:3001/delivery_notes", {
         method: "POST",
-        body: JSON.stringify(data_to_send),
         headers: {
             "Content-type": "application/json"
         }
@@ -117,10 +116,12 @@ uj.addEventListener("click", (event)=>{
         console.log( result)
         //localStorage.setItem('back_id', id);
         //redirectToOwnerTable();
+    }).catch(error => {
+        console.error(error);
     });
 
-*/
-    window.location.href = "deliveryNote_edit.html"; 
+
+    //window.location.href = "deliveryNote_edit.html"; 
 });
 
 
