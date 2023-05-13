@@ -7,23 +7,66 @@ fetch('http://localhost:3001/delivery_notes')
         datas.map(data => {
             // console.log(data);
             if (data.status == "NYITVA") {
-               trFunction(data.serial_no, data.partner_id, data.owner_id, data.carrier_id, data.created_at, data.status, data.id)
+            open_delivery_tbody.append(trFunction(data.serial_no, data.partner_id, data.owner_id, data.carrier_id, data.created_at, data.status, data.id))
             }
         });
         jumpToRow();
     })
 
 function trFunction(serial_no, partner_id, owner_id, carrier_id, created_at, status, id) {
-    
+
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+    <td class="serial_no" style="font-weight: bold;">${serial_no}</td>
+    <td class="partner_name"></td>
+    <td class="owner_name"></td>
+    <td class="carrier_name"></td>
+    <td class="creation_date">${created_at}</td>
+    <td class="status">${status}</td>
+    <td class="deliveryNotes_id">${id}</td>
+        `
+    if(partner_id!=null){
     fetch(`http://localhost:3001/partners/${partner_id}`)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {
              //console.log(data.name);
-            GetOwnerName(serial_no,data.name,owner_id,carrier_id,created_at,status, id)
+             tr.querySelector('.partner_name').textContent = data.name;
         })
        
     })
+    }
+    if(owner_id!=null){
+    fetch(`http://localhost:3001/owners/${owner_id}`)
+    .then(response => response.json())
+    .then(datas => {
+        datas.map(data => {
+             //console.log(data.name);
+             tr.querySelector('.owner_name').textContent = data.name;
+        })
+       
+    })
+    }
+    if(carrier_id!=null){
+    fetch(`http://localhost:3001/carriers/${carrier_id}`)
+    .then(response => response.json())
+    .then(datas => {
+        datas.map(data => {
+             //console.log(data.name);
+             tr.querySelector('.carrier_name').textContent = data.name;
+            
+        })
+       
+    })
+    }
+
+    tr.ondblclick = function (event) {
+        myEditFunction(event, id);
+    }
+    tr.setAttribute("id", id);
+   
+
+    return tr;
     
     
 }
@@ -51,55 +94,7 @@ function jumpToRow() {
     }
 }
 
-function  GetOwnerName(serial_no,partner_name,owner_id,carrier_id,created_at,status, id) {
 
-   
-    fetch(`http://localhost:3001/owners/${owner_id}`)
-    .then(response => response.json())
-    .then(datas => {
-        datas.map(data => {
-             //console.log(data.name);
-            GetCarrierName(serial_no,partner_name,data.name,carrier_id,created_at,status, id)
-        })
-       
-    })
-}
-
-function  GetCarrierName(serial_no,partner_name,owner_name,carrier_id,created_at,status, id) {
-
-   
-    fetch(`http://localhost:3001/carriers/${carrier_id}`)
-    .then(response => response.json())
-    .then(datas => {
-        datas.map(data => {
-             //console.log(data.name);
-            Table(serial_no,partner_name,owner_name,data.name,created_at,status, id)
-        })
-       
-    })
-}
-
-function Table(serial_no,partner_name,owner_name,carrier_name,created_at,status, id) {
-
-    //console.log(serial_no,partner_name,owner_name,carrier_name,created_at,status, id);
-    let tr = document.createElement('tr');
-    tr.innerHTML =
-        `
-    <td class="serial_no"style="font-weight: bold;">${serial_no}</td>
-    <td class="partner_name" >${partner_name}</td>
-    <td class="owner_name">${owner_name}</td>
-    <td class="carrier_name">${carrier_name}</td>
-    <td class="creation_date">${created_at}</td>
-    <td class="status">${status}</td>
-    <td class="deliveryNotes_id">${id}</td>
-    `
-    tr.ondblclick = function (event) {
-        myEditFunction(event, id);
-    }
-    tr.setAttribute("id", id);
-    open_delivery_tbody.append(tr);
-    
-}
 
 let uj=document.getElementById("gomb_uj_letrehozasa");
 
