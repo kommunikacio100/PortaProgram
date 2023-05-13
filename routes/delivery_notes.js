@@ -78,34 +78,35 @@ router.get('/:delivery_note_id', (req, res) => {
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy delivery_notehez több cím is tartozhat.
 router.post('/', (req, res) => {
-    var insert_sql = `insert into delivery_notes ( `+
-    `serial_no, owner_id, owner_address_id, `+
-    `loadlocation_address_id, partner_id, `+
-    `partner_address_id, unloadlocation_address_id, `+
-    `carrier_id, carrier_address_id, movement_id, `+
-    `status, created_by) `+
-    ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    // var insert_sql = `insert into delivery_notes ( `+
+    // `serial_no, owner_id, owner_address_id, `+
+    // `loadlocation_address_id, partner_id, `+
+    // `partner_address_id, unloadlocation_address_id, `+
+    // `carrier_id, carrier_address_id, movement_id, `+
+    // `status, created_by) `+
+    // ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
-    var sql = `call new_delivery_notes ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    var sql = `call new_delivery_note( @id, @serial_no); select @id, @serial_no;`;
 
-    let owner_id = req.body.owner_id;
-    let owner_address_id = req.body.owner_address_id;
-    let loadlocation_address_id = req.body.loadlocation_address_id;
-    let partner_id = req.body.partner_id;
-    let partner_address_id = req.body.partner_address_id;
-    let unloadlocation_address_id = req.body.unloadlocation_address_id;
-    let carrier_id = req.body.carrier_id;
-    let carrier_address_id = req.body.carrier_address_id;
-    let movement_id = req.body.movement_id;
-    let status = req.body.status;
-    let created_by = req.body.created_by;
+    // let owner_id = req.body.owner_id;
+    // let owner_address_id = req.body.owner_address_id;
+    // let loadlocation_address_id = req.body.loadlocation_address_id;
+    // let partner_id = req.body.partner_id;
+    // let partner_address_id = req.body.partner_address_id;
+    // let unloadlocation_address_id = req.body.unloadlocation_address_id;
+    // let carrier_id = req.body.carrier_id;
+    // let carrier_address_id = req.body.carrier_address_id;
+    // let movement_id = req.body.movement_id;
+    // let status = req.body.status;
+    // let created_by = req.body.created_by;
     try {
-        con.query(sql, [serial_no, owner_id, 
-            owner_address_id, loadlocation_address_id,
-            partner_id, partner_address_id,
-            unloadlocation_address_id, carrier_id,
-            carrier_address_id, movement_id, status,
-            created_by],
+        // con.query(sql, [serial_no, owner_id, 
+        //     owner_address_id, loadlocation_address_id,
+        //     partner_id, partner_address_id,
+        //     unloadlocation_address_id, carrier_id,
+        //     carrier_address_id, movement_id, status,
+        //     created_by],
+        con.query( sql, [],
             function (err, result) {
                 if (err) {
                     res.status(500)
@@ -115,8 +116,8 @@ router.post('/', (req, res) => {
                 else {
                     res.status(200);
                     console.log("POST RESULT: ", result);
-                    if (result.insertId > 0) {
-                        console.log("post new delivery_note successfull. delivery_note_id: " + result.insertId);
+                    if (result["@id"] > 0) {
+                        console.log("post new delivery_note successfull. delivery_note_id: " + result["@id"]);
                         res.json(result);
                     } else {
                         res.status(200);

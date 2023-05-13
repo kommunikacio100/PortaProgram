@@ -4736,7 +4736,7 @@ BEGIN
     SET @number = SubString( Concat( "000000", CONVERT( snumber, char)), -6, 6);
     SET new_no = CONCAT( prefix , CONVERT( @cur_year, CHAR) , "/", @number, suffix);  
   END IF;
-  insert into delivery_notes (serial_no) values (new_no);
+  insert into delivery_notes (serial_no, `status`) values (new_no, "NYITVA");
   SET new_delivery_note_id = LAST_INSERT_ID();
   SET new_serial_no = new_no;
   
