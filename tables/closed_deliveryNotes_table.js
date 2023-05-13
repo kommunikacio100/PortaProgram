@@ -10,7 +10,7 @@ fetch('http://localhost:3001/delivery_notes')
             closed_delivery_tbody.append(trFunction(data.serial_no, data.partner_id, data.owner_id, data.carrier_id, data.created_at, data.status, data.id))
             }
         });
-        //jumpToRow();
+        jumpToRow();
     })
 
 function trFunction(serial_no, partner_id, owner_id, carrier_id, created_at, status, id) {
@@ -79,4 +79,17 @@ function myEditFunction(event, id) {
 
     localStorage.setItem('deliveryNote_id', id);
     window.location.href = `deliveryNote_view.html`;
+}
+
+// ha volt új, vagy szerkesztett sor, odaugrik
+function jumpToRow() {
+    let back_id = localStorage.getItem('back_id');
+    if (back_id) {
+        console.log('back_id: ', back_id)
+        let row = document.getElementById(back_id);
+        if (row) {
+            row.scrollIntoView(true);
+        }
+        localStorage.clear();
+    }
 }
