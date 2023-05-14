@@ -1,4 +1,4 @@
-//window.print();
+
 
 const cached_deliveryView_id = localStorage.getItem('deliveryNote_id');
 
@@ -13,7 +13,7 @@ if (cached_deliveryView_id) {
 
                 console.log(data.owner_id);
                 
-                if(data.owner_id!=null){
+                if(data.owner_id!=null && data.owner_id!=0){
                 fetch('http://localhost:3001/owners/' + data.owner_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -25,7 +25,7 @@ if (cached_deliveryView_id) {
                         })
                     })
                 }
-                if(data.owner_address_id!=null){
+                if(data.owner_address_id!=null && data.owner_address_id!=0){
                 fetch('http://localhost:3001/addresses/' + data.owner_address_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -38,7 +38,7 @@ if (cached_deliveryView_id) {
                         })
                     })
                 }
-                if(data.partner_id!=null){
+                if(data.partner_id!=null && data.partner_id!=0){
                 fetch('http://localhost:3001/partners/' + data.partner_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -50,7 +50,7 @@ if (cached_deliveryView_id) {
                         })
                     })
                 }
-                if(data.partner_address_id!=null){
+                if(data.partner_address_id!=null && data.partner_address_id!=0){
                 fetch('http://localhost:3001/addresses/' + data.partner_address_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -63,7 +63,7 @@ if (cached_deliveryView_id) {
                         })
                     })
                 }
-                if(data.carrier_id!=null){
+                if(data.carrier_id!=null && data.carrier_id!=null){
                 fetch('http://localhost:3001/carriers/' + data.carrier_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -75,7 +75,7 @@ if (cached_deliveryView_id) {
                         })
                     })
                 }
-                if(data.carrier_address_id!=null){
+                if(data.carrier_address_id!=null && data.carrier_address_id!=0){
                 fetch('http://localhost:3001/addresses/' + data.carrier_address_id)
                     .then(response => response.json())
                     .then(datas => {
@@ -88,7 +88,7 @@ if (cached_deliveryView_id) {
                     })
                 }
 
-                if(data.movement_id!=null){
+                if(data.movement_id!=null && data.movement_id!=0){
                     let move=data.movement_id;
                 fetch('http://localhost:3001/movements')
                     .then(response => response.json())
@@ -115,3 +115,8 @@ if (cached_deliveryView_id) {
         })
     localStorage.clear();
 }
+
+setTimeout(() => {
+    window.print();
+  }, 2000);
+  
