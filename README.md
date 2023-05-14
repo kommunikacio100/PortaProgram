@@ -166,9 +166,9 @@ xxx_edit.html (szerkesztéshez)
 2. OK - LÉTREHOZNI: 
     addresses_table.html
     addresses_edit.html
-3. parntner_edit.html, carrier_edit.html, owner_edit.html:
+3. OK - parntner_edit.html, carrier_edit.html, owner_edit.html:
     - címek táblázat
     - 'Új cím hozzáadása' gomb
-4. Mérlegjegy a mérlegelésről (egyetlen mérés adatai, szállító, partner, tulajdonos) + mérési időpontok.
+4. OK - Mérlegjegy a mérlegelésről (egyetlen mérés adatai, szállító, partner, tulajdonos) + mérési időpontok.
 5. // closed_deliveryNotes_table.html-ről a 'Megtekintés' gomb levétele ---> duplakatt veszi át a helyét!!!
 

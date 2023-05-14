@@ -91,6 +91,39 @@
                 </div>
             </div>
         </form>
+        <br>
+        <h3 class="text-center oldalcim">A tulajdonoshoz tartozó címek:</h3>
+        <div class="text-center">
+            <a href="addresses_edit.html" class="btn gomb_uj_letrehozasa"><i class="fa-solid fa-pen"></i>Új cím hozzáadása</a>
+        </div>
+        <div class="table-responsive keretezett">
+            <table class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th>ALAPÉRTELMEZETT?</th>
+                        <th>ORSZÁGKÓD</th>
+                        <th>IRÁNYÍTÓSZÁM</th>
+                        <th>TELEPÜLÉS</th>
+                        <th>KÖZTERÜLET NEVE</th>
+                        <th>KÖZTERÜLET JELLEGE</th>
+                        <th>HÁZSZÁM</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr>
+                        <td class="defaulted" style="font-style: italic;"></td>
+                        <td class="country_code" style="font-style: italic;"></td>
+                        <td class="zip_code" style="font-style: italic;"></td>
+                        <td class="city" style="font-style: italic;"></td>
+                        <td class="street_name" style="font-style: italic;"></td>
+                        <td class="street_type" style="font-style: italic;"></td>
+                        <td class="street_number" style="font-style: italic;"></td>
+                        <td class="id" style="font-style: italic;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="btns text-center">
             <button type="submit" class="btn mx-5 gomb_elfogad" id="submit_button"><i class="fa-sharp fa-solid fa-check"></i>MENTÉS</button>
             <button type="submit" class="btn mx-5 gomb_torol" id="delete_button"><i class="fa-solid fa-trash-can"></i>TÖRLÉS</button>
