@@ -116,14 +116,14 @@ router.post('/', (req, res) => {
                 else {
                     res.status(200);
                     console.log("POST RESULT: ", result);
-                    if (result["@id"] > 0) {
-                        console.log("post new delivery_note successfull. delivery_note_id: " + result["@id"]);
+                    if (result[0]["@id"] > 0) {
+                        console.log("post new delivery_note successfull. delivery_note_id: " + result[0]["@id"]);
                         res.json(result);
                     } else {
                         res.status(200);
                         res.json({
                             "status": "error", "text": "The POST delivery_note is unsuccessfully",
-                            "serial_no": serial_no,
+                            "serial_no": result[0]["@serial_no"],
                             "insertId": result.insertId
                         });
                     }
@@ -150,16 +150,23 @@ router.put('/', (req, res) => {
         `carrier_id, carrier_address_id, movement_id, `+
         `status, modified, modified_by) ` +
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    //console.log( 'req.body', req.body);
     let id = req.body.id;
     let serial_no = req.body.serial_no;
     let owner_id = req.body.owner_id;
     let owner_address_id = req.body.owner_address_id;
+    if (owner_address_id ==='') owner_address_id = null;
+    //console.log( 'owner_address_id', owner_address_id);
     let loadlocation_address_id = req.body.loadlocation_address_id;
+    if (loadlocation_address_id ==='') loadlocation_address_id = null;
     let partner_id = req.body.partner_id;
     let partner_address_id = req.body.partner_address_id;
+    if (partner_address_id ==='') partner_address_id = null;
     let unloadlocation_address_id = req.body.unloadlocation_address_id;
+    if (unloadlocation_address_id ==='') unloadlocation_address_id = null;
     let carrier_id = req.body.carrier_id;
     let carrier_address_id = req.body.carrier_address_id;
+    if (carrier_address_id ==='') carrier_address_id = null;
     let movement_id = req.body.movement_id;
     let status = req.body.status;
     let modified = new Date().toISOString();

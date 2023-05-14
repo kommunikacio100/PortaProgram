@@ -18,9 +18,9 @@
             <form class="w-90 m-auto d-flex flex-column justify-content-center">
                 <div class="row">
                     <div class="input-group mb-2">
-                        <span class="input-group-text focimke" id="serial_no">Sorszám:</span>
+                        <span class="input-group-text focimke" for="serial_no">Sorszám:</span>
                         <input type="text" class="form-control focimke" id="serial_no" readonly>
-                        <span class="input-group-text focimke" id="date">Dátum:</span>
+                        <span class="input-group-text focimke" forid="date">Dátum:</span>
                         <input type="datetime-local" class="form-control focimke" id="date" readonly>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             <form class="w-90 m-auto d-flex flex-column justify-content-center">
                 <div class="row">
                     <div class="input-group mb-2">
-                        <span class="input-group-text cimke" id="input_owner_name">Tulajdonos:</span>
+                        <span class="input-group-text cimke" for="input_owner_name">Tulajdonos:</span>
                         <input type="text" class="form-control" id="input_owner_name" readonly>
                         <span class="input-group-text cimke" id="input_owner_address">Tul. címe:</span>
                         <input type="text" class="form-control" id="input_owner_address" readonly>
@@ -45,13 +45,13 @@
             <form class="w-90 m-auto d-flex flex-column justify-content-center">
                 <div class="row">
                     <div class="input-group mb-2">
-                        <span class="input-group-text cimke" id="input_partner_name">Partner:</span>
+                        <span class="input-group-text cimke" for="input_partner_name">Partner:</span>
                         <input type="text" class="form-control" id="input_partner_name" readonly>
-                        <span class="input-group-text cimke" id="input_partner_address">Part. címe:</span>
+                        <span class="input-group-text cimke" for="input_partner_address">Part. címe:</span>
                         <input type="text" class="form-control" id="input_partner_address" readonly>
                     </div>
                     <div class="input-group mb-2">
-                        <span class="input-group-text cimke" id="input_unloadlocation_address">Lerakodási cím:</span>
+                        <span class="input-group-text cimke" for="input_unloadlocation_address">Lerakodási cím:</span>
                         <input type="text" class="form-control" id="input_unloadlocation_address" readonly>
                     </div>
                 </div>
@@ -61,9 +61,9 @@
             <form class="w-90 m-auto d-flex flex-column justify-content-center">
                 <div class="row">
                     <div class="input-group mb-2">
-                        <span class="input-group-text cimke" id="input_carrier_name">Szállítmányozó:</span>
+                        <span class="input-group-text cimke" for="input_carrier_name">Szállítmányozó:</span>
                         <input type="text" class="form-control" id="input_carrier_name" readonly>
-                        <span class="input-group-text cimke" id="input_carrier_address">Száll. címe:</span>
+                        <span class="input-group-text cimke" for="input_carrier_address">Száll. címe:</span>
                         <input type="text" class="form-control" id="input_carrier_address" readonly>
                     </div>
                 </div>
@@ -73,9 +73,9 @@
             <form class="w-90 m-auto d-flex flex-column justify-content-center">
                 <div class="row">
                     <div class="input-group mb-2">
-                        <span class="input-group-text cimke" id="input_movement">Művelet:</span>
+                        <span class="input-group-text cimke" for="input_movement">Művelet:</span>
                         <input type="text" class="form-control" id="input_movement" readonly>
-                        <span class="input-group-text cimke" id="input_status">Státusz:</span>
+                        <span class="input-group-text cimke" for="input_status">Státusz:</span>
                         <input type="text" class="form-control" id="input_status" readonly>
                     </div>
                 </div>
@@ -96,14 +96,6 @@
                     </tr>
                 </thead>
                 <tbody id="tbody">
-                    <tr>
-                        <td class="plate_number1" style="font-weight: bold; font-style: italic;"></td>
-                        <td class="product_name" style="font-style: italic;"></td>
-                        <td class="weight_inbound" style="font-style: italic;"></td>
-                        <td class="weight_outbound" style="font-style: italic;"></td>
-                        <td class="weight_calculated" style="font-style: italic;"></td>
-                        <td class="measurement_id" style="font-style: italic;"></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
