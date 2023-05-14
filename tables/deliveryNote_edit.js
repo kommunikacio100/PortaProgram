@@ -19,11 +19,12 @@ if (cached_delivery_id) {
                         })
                     })
                 }
+                console.log( 'data.owner_address_id ', data.owner_address_id);
                 if(data.owner_address_id!=null){
                 fetch('http://localhost:3001/addresses/' + data.owner_address_id)
                     .then(response => response.json())
                     .then(datas => {
-                        
+                        console.log(datas);
                         datas.map(data => {
                             
                             document.getElementById('input_owner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
@@ -280,12 +281,13 @@ submit_button_deliverynote_edit.addEventListener("click", (event) => {
 });
 
 function create_and_update_delivery_note(status = "NYITVA") {
-    //var serial_no = document.getElementById('input_serial_no').value;
+    var serial_no = document.getElementById('input_serial_no').value;
 
     var owner_id = document.getElementById('input_owner_name');
     owner_id = owner_id[owner_id.selectedIndex].id;
     var owner_address_id = document.getElementById('input_owner_address');
     owner_address_id = owner_address_id[owner_address_id.selectedIndex].id;
+    console.log( 'owner_address_id ', owner_address_id, ' index ', owner_address_id.selectedIndex);
     var loadlocation_address_id = document.getElementById('input_loadlocation_address');
     loadlocation_address_id = loadlocation_address_id[loadlocation_address_id.selectedIndex].id;
 
@@ -303,11 +305,11 @@ function create_and_update_delivery_note(status = "NYITVA") {
 
     var movement_id = document.getElementById('input_movement');
     movement_id = movement_id[movement_id.selectedIndex].id;
-    //var id = document.getElementById('input_deliveryNote_id').value;
+    var id = document.getElementById('input_deliveryNote_id').value;
 
 
     let data_to_send = {
-        //"serial_no": serial_no,
+        "serial_no": serial_no,
         "owner_id": owner_id,
         "owner_address_id": owner_address_id,
         "loadlocation_address_id": loadlocation_address_id,
@@ -317,16 +319,13 @@ function create_and_update_delivery_note(status = "NYITVA") {
         "carrier_id": carrier_id,
         "carrier_address_id": carrier_address_id,
         "movement_id": movement_id,
-        //"status": status,
-        //"id": id,
+        "status": status,
+        "id": id,
 
     }
     
+    console.log( 'data_to_send ', data_to_send);
     let amethod = 'PUT';
-    /*
-    if (id === '') { amethod = 'POST' }
-    else { amethod = 'PUT' };
-    */
     fetch(`http://localhost:3001/delivery_notes`, {
         method: amethod,
         body: JSON.stringify(data_to_send),
@@ -337,7 +336,7 @@ function create_and_update_delivery_note(status = "NYITVA") {
         console.log('fetch result', res);
         //console.log('id: ', id);
         //localStorage.setItem('back_id', id);
-        redirectToOpenDeliveryNotesTable();
+        //redirectToOpenDeliveryNotesTable();
     })
 }
 
