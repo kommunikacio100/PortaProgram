@@ -158,3 +158,17 @@ xxx_edit.html (szerkesztéshez)
 
 7. (Összesítések: napi árumozgás össztömege, napi mozgások száma)
 
+# >>> 2023-05-14:
+-----------------
+-----------------
+
+1. deliveryNote_edit.html-re 'Új mérés' gomb (ne vigyen sehova, Balázs intézi - measurement_1) - duplakatt: measurement_2
+2. OK - LÉTREHOZNI: 
+    addresses_table.html
+    addresses_edit.html
+3. parntner_edit.html, carrier_edit.html, owner_edit.html:
+    - címek táblázat
+    - 'Új cím hozzáadása' gomb
+4. Mérlegjegy a mérlegelésről (egyetlen mérés adatai, szállító, partner, tulajdonos) + mérési időpontok.
+5. // closed_deliveryNotes_table.html-ről a 'Megtekintés' gomb levétele ---> duplakatt veszi át a helyét!!!
+
