@@ -162,7 +162,7 @@ xxx_edit.html (szerkesztéshez)
 -----------------
 -----------------
 
-1. deliveryNote_edit.html-re 'Új mérés' gomb (ne vigyen sehova, Balázs intézi - measurement_1) - duplakatt: measurement_2
+1. OK - deliveryNote_edit.html-re 'Új mérés' gomb (ne vigyen sehova, Balázs intézi - measurement_1) - duplakatt: measurement_2
 2. OK - LÉTREHOZNI: 
     addresses_table.html
     addresses_edit.html
