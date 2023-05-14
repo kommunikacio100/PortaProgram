@@ -115,11 +115,18 @@ router.post('/', (req, res) => {
                 }
                 else {
                     res.status(200);
-                    console.log("POST RESULT: ", result);
-                    if (result[0]["@id"] > 0) {
-                        console.log("post new delivery_note successfull. delivery_note_id: " + result[0]["@id"]);
-                        res.json(result);
+                    //console.log("POST RESULT: ", result);
+                    if (result[1][0]["@id"] > 0) {
+                        console.log("post new delivery_note successfull. delivery_note_id: " + result[1][0]["@id"]);
+                        res.json({
+                            "status": "ok", "text": "The POST delivery_note successfully",
+                            "serial_no": result[1][0]["@serial_no"],
+                            "insertId": result[1][0]["@id"]
+                        } );
+                        console.log( 'res ', res );
                     } else {
+                        //console.log( 'result[0] ', result[0]);
+                        //console.log( 'result[1] ', result[1]);
                         res.status(200);
                         res.json({
                             "status": "error", "text": "The POST delivery_note is unsuccessfully",

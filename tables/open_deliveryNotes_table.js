@@ -107,16 +107,17 @@ uj.addEventListener("click", (event)=>{
         headers: {
             "Content-type": "application/json"
         }
-    }).then( result => {
+    })
+    .then( response => response.json())
+    .then( result => {
         console.log( result)
-        //localStorage.setItem('back_id', id);
-        //redirectToOwnerTable();
+        if (result.insertId != null){
+            localStorage.setItem('deliveryNote_id', result.insertId);
+            window.location.href = "deliveryNote_edit.html";
+        }
     }).catch(error => {
         console.error(error);
     });
-
-
-    //window.location.href = "deliveryNote_edit.html"; 
 });
 
 
