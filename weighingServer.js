@@ -32,6 +32,7 @@ app.get('/', (req, res) => {
     res.send( content);
 });
 
+const loginRouter = require('./routes/login.js');
 const addressesRouter = require('./routes/addresses.js');
 const carriersRouter = require('./routes/carriers.js');
 const countriesRouter = require('./routes/countries.js');
@@ -51,6 +52,7 @@ const vehiclesRouter = require('./routes/vehicles.js');
 const zip_codesRouter = require('./routes/zip_codes.js');
 const scaleRouter = require('./routes/scale.js');
 
+app.use('/login', loginRouter);
 app.use('/addresses', addressesRouter);
 app.use('/carriers', carriersRouter);
 app.use('/countries', countriesRouter);
