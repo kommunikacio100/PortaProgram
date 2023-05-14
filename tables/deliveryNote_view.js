@@ -8,7 +8,7 @@ if (cached_deliveryView_id) {
     fetch('http://localhost:3001/delivery_notes/' + cached_deliveryView_id)
         .then(response => response.json())
         .then(datas => {
-            
+            console.log( 'view delivery note: ', cached_deliveryView_id, '  datas: ',  datas);
             datas.map(data => {
 
                 console.log(data.owner_id);
@@ -108,6 +108,7 @@ if (cached_deliveryView_id) {
                 document.getElementById('input_status').value = data.status;
                 //document.getElementById('input_deliveryNote_id').value = data.id;
                 document.getElementById('serial_no').value = data.serial_no;
+                document.getElementById('date').value = data.created_at.substring(0, data.created_at.length-5);
 
 
             })
