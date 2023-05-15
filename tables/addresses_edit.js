@@ -1,4 +1,15 @@
-fetch('http://localhost:3001/owners')
+
+const authToken = localStorage.getItem( 'jwt');
+const requestOptions = {
+    method: 'GET', // vagy POST, PUT, DELETE, stb.
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
+    }
+  };
+
+
+fetch('http://localhost:3001/owners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -21,7 +32,7 @@ function OwnerNameFunction(name, id, vat_number) {
 
 }
 
-fetch('http://localhost:3001/partners')
+fetch('http://localhost:3001/partners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -41,7 +52,7 @@ function PartnerNameFunction(name, id, vat_number) {
 
 }
 
-fetch('http://localhost:3001/carriers')
+fetch('http://localhost:3001/carriers', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -61,7 +72,7 @@ function CarrierNameFunction(name, id) {
 
 }
 
-fetch('http://localhost:3001/street_types')
+fetch('http://localhost:3001/street_types', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -81,7 +92,7 @@ function StreetNameFunction(street_type, id) {
 
 }
 
-fetch('http://localhost:3001/countries')
+fetch('http://localhost:3001/countries', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -101,8 +112,7 @@ function CountryNameFunction(name, code) {
 
 }
 
-
-fetch('http://localhost:3001/zip_codes')
+fetch('http://localhost:3001/zip_codes', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -129,7 +139,7 @@ function updateCity() {
 
     console.log(input_zip_code);
 
-    fetch('http://localhost:3001/zip_codes')
+    fetch('http://localhost:3001/zip_codes', requestOptions)
         .then(response => response.json())
         .then(datas => {
 
@@ -230,7 +240,8 @@ function create_and_update_addresses() {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }
     }).then(result => {
         console.log(result)

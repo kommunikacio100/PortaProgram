@@ -1,3 +1,11 @@
+const authToken = localStorage.getItem( 'jwt');
+const requestOptions = {
+    method: 'GET', // vagy POST, PUT, DELETE, stb.
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
+    }
+  };
 
 const cachedData = localStorage.getItem('data');
 
@@ -61,7 +69,8 @@ function create_and_update_user() {
             body: JSON.stringify(data_to_send),
             headers: {
                 "Content-type": "application/json; charset = UTF-8",
-                "Access-Control-Allow-Origin":"*"
+                "Access-Control-Allow-Origin":"*",
+                'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
             }
         }).then( res=> {console.log(); return res.json();} ).then( json => console.log( json));
         
@@ -72,7 +81,8 @@ function create_and_update_user() {
             body: JSON.stringify(data_to_send),
             headers: {
                 "Content-type": "application/json; charset = UTF-8",
-                "Access-Control-Allow-Origin":"*"
+                "Access-Control-Allow-Origin":"*",
+                'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
             }
         }).then( res=> res.json() ).then( json => console.log( json));
     }
@@ -93,7 +103,8 @@ function delete_user() {
     var input_user_id = document.getElementById('input_user_id').value;
 
     fetch(`http://localhost:3001/users/${input_user_id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
     })
  
       setTimeout(redirectToUserTable, 300);

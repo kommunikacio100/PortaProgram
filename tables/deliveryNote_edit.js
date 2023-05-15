@@ -1,7 +1,16 @@
+const authToken = localStorage.getItem( 'jwt');
+const requestOptions = {
+    method: 'GET', // vagy POST, PUT, DELETE, stb.
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
+    }
+  };
+
 const cached_delivery_id = localStorage.getItem('deliveryNote_id');
 
 if (cached_delivery_id) {
-    fetch('http://localhost:3001/delivery_notes/' + cached_delivery_id)
+    fetch('http://localhost:3001/delivery_notes/' + cached_delivery_id, requestOptions)
         .then(response => response.json())
         .then(datas => {
 

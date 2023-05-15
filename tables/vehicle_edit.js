@@ -1,9 +1,17 @@
+const authToken = localStorage.getItem( 'jwt');
+const requestOptions = {
+    method: 'GET', // vagy POST, PUT, DELETE, stb.
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
+    }
+  };
 
 const cached_vehicle_id = localStorage.getItem('vehicle_edit_id');
 
 if (cached_vehicle_id) {
     localStorage.clear();
-    fetch('http://localhost:3001/vehicles/'+ cached_vehicle_id)
+    fetch('http://localhost:3001/vehicles/'+ cached_vehicle_id, requestOptions)
     .then(response => response.json())
     .then( vehicle_data => {
         document.getElementById('plate_number1').value = vehicle_data[0].plate_number1;
@@ -46,7 +54,8 @@ function create_and_update_vehicle() {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }
     }).then( res => {
         console.log( 'fetch result', res);
@@ -67,7 +76,8 @@ function delete_vehicle() {
 
     if (confirm("Biztos benne? Törli a rendszámot? "+ document.getElementById('plate_number1').value)) {
         fetch(`http://localhost:3001/vehicles/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }).then( res=> { 
             console.log( res); 
             redirectToVehicleTable()

@@ -1,11 +1,19 @@
 
+const authToken = localStorage.getItem( 'jwt');
+const requestOptions = {
+    method: 'GET', // vagy POST, PUT, DELETE, stb.
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
+    }
+  };
 
 const cached_deliveryView_id = localStorage.getItem('deliveryNote_id');
 
 console.log(cached_deliveryView_id);
 
 if (cached_deliveryView_id) {
-    fetch('http://localhost:3001/delivery_notes/' + cached_deliveryView_id)
+    fetch('http://localhost:3001/delivery_notes/' + cached_deliveryView_id, requestOptions)
         .then(response => response.json())
         .then(datas => {
             console.log( 'view delivery note: ', cached_deliveryView_id, '  datas: ',  datas);
@@ -14,7 +22,7 @@ if (cached_deliveryView_id) {
                 console.log(data.owner_id);
                 
                 if(data.owner_id!=null && data.owner_id!=0){
-                fetch('http://localhost:3001/owners/' + data.owner_id)
+                fetch('http://localhost:3001/owners/' + data.owner_id, requestOptions)
                     .then(response => response.json())
                     .then(datas => {
                         
@@ -26,7 +34,7 @@ if (cached_deliveryView_id) {
                     })
                 }
                 if(data.owner_address_id!=null && data.owner_address_id!=0){
-                fetch('http://localhost:3001/addresses/' + data.owner_address_id)
+                fetch('http://localhost:3001/addresses/' + data.owner_address_id, requestOptions)
                     .then(response => response.json())
                     .then(datas => {
                         
@@ -39,7 +47,7 @@ if (cached_deliveryView_id) {
                     })
                 }
                 if(data.partner_id!=null && data.partner_id!=0){
-                fetch('http://localhost:3001/partners/' + data.partner_id)
+                fetch('http://localhost:3001/partners/' + data.partner_id, requestOptions)
                     .then(response => response.json())
                     .then(datas => {
                        
@@ -51,7 +59,7 @@ if (cached_deliveryView_id) {
                     })
                 }
                 if(data.partner_address_id!=null && data.partner_address_id!=0){
-                fetch('http://localhost:3001/addresses/' + data.partner_address_id)
+                fetch('http://localhost:3001/addresses/' + data.partner_address_id, requestOptions)
                     .then(response => response.json())
                     .then(datas => {
                         
@@ -64,7 +72,7 @@ if (cached_deliveryView_id) {
                     })
                 }
                 if(data.carrier_id!=null && data.carrier_id!=null){
-                fetch('http://localhost:3001/carriers/' + data.carrier_id)
+                fetch('http://localhost:3001/carriers/' + data.carrier_id, requestOptions)
                     .then(response => response.json())
                     .then(datas => {
                         
@@ -76,7 +84,7 @@ if (cached_deliveryView_id) {
                     })
                 }
                 if(data.carrier_address_id!=null && data.carrier_address_id!=0){
-                fetch('http://localhost:3001/addresses/' + data.carrier_address_id)
+                fetch('http://localhost:3001/addresses/' + data.carrier_address_id, requestOptions)
                     .then(response => response.json())
                     .then(datas => {
                        
@@ -90,7 +98,7 @@ if (cached_deliveryView_id) {
 
                 if(data.movement_id!=null && data.movement_id!=0){
                     let move=data.movement_id;
-                fetch('http://localhost:3001/movements')
+                fetch('http://localhost:3001/movements', requestOptions)
                     .then(response => response.json())
                     .then(datas => {
                        

@@ -1,7 +1,16 @@
+const authToken = localStorage.getItem( 'jwt');
+const requestOptions = {
+    method: 'GET', // vagy POST, PUT, DELETE, stb.
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
+    }
+  };
+
 const cached_product_id = localStorage.getItem('product_id');
 
 if (cached_product_id) {
-    fetch('http://localhost:3001/products/'+ cached_product_id)
+    fetch('http://localhost:3001/products/'+ cached_product_id, requestOptions)
     .then(response => response.json())
     .then( datas => {
         // console.log(datas);
@@ -54,7 +63,8 @@ function create_and_update_product() {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }
     }).then( res => { 
         console.log( 'fetch result', res);
@@ -76,7 +86,8 @@ function delete_product() {
 
     if ( confirm( 'Biztos benne? Töröljük a terméket? '+ document.getElementById('name').value)) {
         fetch(`http://localhost:3001/products/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }).then( res => {
             console.log( res);
             redirectToProductTable();

@@ -1,3 +1,12 @@
+const authToken = localStorage.getItem( 'jwt');
+const requestOptions = {
+    method: 'GET', // vagy POST, PUT, DELETE, stb.
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
+    }
+  };
+
 const cached_delivery = localStorage.getItem('deliveryNote_id_for_measure');
 console.log(cached_delivery);
 
@@ -5,7 +14,7 @@ console.log(cached_delivery);
 
 // betölti a rendszámokat a plateList listába
 plateList = document.getElementById('plateList');
-fetch('http://localhost:3001/vehicles')
+fetch('http://localhost:3001/vehicles', requestOptions)
     .then(response => response.json())
     .then(datas => {
         //console.log(datas);
@@ -19,7 +28,7 @@ fetch('http://localhost:3001/vehicles')
 
 
 // betölti a termékeket a product selectbe
-fetch('http://localhost:3001/products')
+fetch('http://localhost:3001/products', requestOptions)
     .then(response => response.json())
     .then(datas => {
         //console.log(datas);
@@ -42,7 +51,7 @@ weightInbound = document.getElementById("weight_inbound");
 weightTime = document.getElementById("weight_time");
 
 scaleWeightBtn.addEventListener("click", (event) => {
-    fetch('http://localhost:3001/scaleWeight')
+    fetch('http://localhost:3001/scaleWeight', requestOptions)
         .then(response => response.json())
         .then(json => {
             console.log('JSON', json);
@@ -92,7 +101,8 @@ function create_and_update_measure() {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }
     }).then(result => {
         console.log(result)

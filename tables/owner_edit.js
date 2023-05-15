@@ -1,7 +1,16 @@
+const authToken = localStorage.getItem( 'jwt');
+const requestOptions = {
+    method: 'GET', // vagy POST, PUT, DELETE, stb.
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
+    }
+  };
+
 const cached_owner_id = localStorage.getItem('owner_id');
 
 if (cached_owner_id) {
-    fetch('http://localhost:3001/owners/'+ cached_owner_id)
+    fetch('http://localhost:3001/owners/'+ cached_owner_id, requestOptions)
     .then(response => response.json())
     .then( data => {
         document.getElementById('vat_number').value = data[0].vat_number;
@@ -44,7 +53,8 @@ function create_and_update_owner() {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }
     }).then( result => {
         console.log( result)
@@ -65,7 +75,8 @@ function delete_owner() {
     var id = document.getElementById('id').value;
     if ( confirm( 'Biztos benne? Töröljük a tulajdonost? '+ document.getElementById('name').value)) {
         fetch(`http://localhost:3001/owners/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }).then(redirectToOwnerTable());
     }
 }

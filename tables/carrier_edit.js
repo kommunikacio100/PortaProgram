@@ -1,7 +1,18 @@
+fetch('http://localhost:3001/owners', requestOptions)
+    .then(response => response.json())
+    .then(datas => {
+
+        datas.map(data => {
+
+            OwnerNameFunction(data.name, data.id, data.vat_number)
+
+        })
+    })
+
 const cached_carrier_id = localStorage.getItem('carrier_id');
 
 if (cached_carrier_id) {
-    fetch('http://localhost:3001/carriers/'+ cached_carrier_id)
+    fetch('http://localhost:3001/carriers/'+ cached_carrier_id, requestOptions)
     .then(response => response.json())
     .then( datas => {
         // console.log(datas);
