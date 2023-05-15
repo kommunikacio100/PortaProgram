@@ -170,6 +170,6 @@ xxx_edit.html (szerkesztéshez)
     - címek táblázat
     - 'Új cím hozzáadása' gomb
 4. OK - Mérlegjegy a mérlegelésről (egyetlen mérés adatai, szállító, partner, tulajdonos) + mérési időpontok.
-5. A measurement2.html-re kellene egy nyomtatás gomb. És a gombról lenne a ticket_view.
-5. // closed_deliveryNotes_table.html-ről a 'Megtekintés' gomb levétele ---> duplakatt veszi át a helyét!!!
+5. OK - A measurement2.html-re kellene egy nyomtatás gomb. És a gombról lenne a ticket_view.
+6. // closed_deliveryNotes_table.html-ről a 'Megtekintés' gomb levétele ---> duplakatt veszi át a helyét!!!
 
