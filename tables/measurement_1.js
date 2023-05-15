@@ -1,3 +1,7 @@
+const cached_delivery = localStorage.getItem('deliveryNote_id_for_measure');
+console.log(cached_delivery);
+
+
 
 // betölti a rendszámokat a plateList listába
 plateList= document.getElementById( 'plateList');
@@ -48,3 +52,46 @@ scaleWeightBtn.addEventListener( "click", (event)=>{
         weightTime.value = dateTime;
     })
 })
+
+const submit_button_measure = document.getElementById("submit_button");
+
+submit_button_measure.addEventListener("click", (event) => {
+    event.preventDefault();
+    create_and_update_owner();
+})
+
+function create_and_update_owner() {
+    var delivery_note_id= cached_delivery;
+    console.log(delivery_note_id);
+    var vehicle_id  = document.getElementById('input_plate_number').value;
+    var product_id = document.getElementById('product').value;
+    var first_weight = document.getElementById('weight_inbound').value;
+    var first_time = document.getElementById('weight_time').value;
+    var first_type= "M";
+    
+       let data_to_send = {
+           "delivery_note_id":  delivery_note_id,
+           "vehicle_id": vehicle_id,
+           "product_id": product_id,
+           "first_weight": first_weight,
+           "first_time": first_time,
+           "first_type": "M",
+           
+       }
+       /*
+       let amethod = "POST"
+       if (id === '') amethod = "POST"
+       else amethod = "PUT";
+        */
+       fetch("http://localhost:3001/measurements", {
+           method: "POST",
+           body: JSON.stringify(data_to_send),
+           headers: {
+               "Content-type": "application/json"
+           }
+       }).then( result => {
+           console.log( result)
+           //localStorage.setItem('back_id', id);
+           //redirectToOwnerTable();
+       });
+   }

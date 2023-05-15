@@ -370,3 +370,18 @@ function redirectToOpenDeliveryNotesTable() {
     window.location.href = "open_deliveryNotes_table.html";
 }
 
+
+const uj_meres=document.getElementById("gomb_uj_letrehozasa");
+
+uj_meres.addEventListener("click",(event)=>{
+
+    var id = document.getElementById('input_deliveryNote_id').value;
+
+    localStorage.setItem('deliveryNote_id_for_measure', id);
+    window.location.href = "measurement_1.html";
+
+
+
+
+})
+
