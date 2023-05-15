@@ -41,3 +41,208 @@ function PartnerNameFunction(name, id, vat_number) {
 
 }
 
+fetch('http://localhost:3001/carriers')
+    .then(response => response.json())
+    .then(datas => {
+
+        datas.map(data => {
+
+            CarrierNameFunction(data.name, data.id)
+        })
+    })
+
+function CarrierNameFunction(name, id) {
+
+    var input_to_id = document.getElementById("input_to_id");
+    var option = document.createElement("option");
+    option.text = name;
+    option.id = id;
+    input_to_id.add(option);
+
+}
+
+fetch('http://localhost:3001/street_types')
+    .then(response => response.json())
+    .then(datas => {
+
+        datas.map(data => {
+
+            StreetNameFunction(data.street_type, data.id)
+        })
+    })
+
+function StreetNameFunction(street_type, id) {
+
+    var input_street_type = document.getElementById("input_street_type");
+    var option = document.createElement("option");
+    option.text = street_type;
+    option.id = id;
+    input_street_type.add(option);
+
+}
+
+fetch('http://localhost:3001/countries')
+    .then(response => response.json())
+    .then(datas => {
+
+        datas.map(data => {
+
+            CountryNameFunction(data.name, data.code)
+        })
+    })
+
+function CountryNameFunction(name, code) {
+
+    var input_country_code = document.getElementById("input_country_code");
+    var option = document.createElement("option");
+    option.text = name;
+    option.id = code;
+    input_country_code.add(option);
+
+}
+
+
+fetch('http://localhost:3001/zip_codes')
+    .then(response => response.json())
+    .then(datas => {
+
+        datas.map(data => {
+
+            ZipFunction(data.zip_code, data.city, data.id)
+        })
+    })
+
+function ZipFunction(zip_code, city, id) {
+
+    var input_zip_code = document.getElementById("input_zip_code");
+    var option = document.createElement("option");
+    option.text = zip_code;
+    option.id = id;
+    input_zip_code.add(option);
+
+}
+
+function updateCity() {
+
+    var input_zip_code = document.getElementById("input_zip_code");
+    input_zip_code = input_zip_code[input_zip_code.selectedIndex].id;
+
+    console.log(input_zip_code);
+
+    fetch('http://localhost:3001/zip_codes')
+        .then(response => response.json())
+        .then(datas => {
+
+            datas.map(data => {
+
+                if (data.id == input_zip_code) {
+                    document.getElementById("input_city").value = data.city;
+
+                }
+            })
+        })
+
+}
+
+const submit_button_addresses = document.getElementById("submit_button");
+
+submit_button_addresses.addEventListener("click", (event) => {
+    event.preventDefault();
+    create_and_update_addresses();
+})
+
+function create_and_update_addresses() {
+
+    var to_table=document.getElementById("input_to_table").value;
+
+
+    if(to_table=="Tulajdonosok"){
+        to_table="O";
+    }else if(to_table=="Partnerek"){
+        to_table="P";
+    }else{
+        to_table="C";
+    }
+
+    var to_id = document.getElementById("input_to_id");
+    to_id = to_id[to_id.selectedIndex].id;
+
+    var defaulted=document.getElementById("input_defaulted").value;
+
+    if(defaulted=="IGEN"){
+        defaulted="1";
+    }else{
+        defaulted="0";
+    }
+
+    var country_code = document.getElementById("input_country_code");
+    country_code = country_code[country_code.selectedIndex].id;
+
+    console.log(country_code);
+
+    var zip_code=document.getElementById("input_zip_code").value;
+    
+
+    console.log(zip_code);
+
+    var city=document.getElementById("input_city").value;
+
+    console.log(city);
+
+    var street_name=document.getElementById("input_street_name").value;
+
+    console.log(street_name);
+
+    var street_type=document.getElementById("input_street_type").value;
+
+    console.log(street_type);
+
+    var street_number=document.getElementById("input_street_number").value;
+
+    console.log(street_number);
+
+    var id=document.getElementById("input_id").value;
+
+
+
+    let data_to_send = {
+        "id": id,
+        "to_table": to_table,
+        "to_id":  to_id,
+        "defaulted": defaulted,
+        "country_code": country_code,
+        "zip_code": zip_code,
+        "city": city,
+        "street_name": street_name,
+        "street_type": street_type,
+        "street_number": street_number,
+    
+
+
+    }
+
+    let amethod = "POST"
+    if (id === '') amethod = "POST"
+    else amethod = "PUT";
+
+    console.log('data_to_send ', data_to_send);
+    fetch("http://localhost:3001/addresses", {
+        method: amethod,
+        body: JSON.stringify(data_to_send),
+        headers: {
+            "Content-type": "application/json"
+        }
+    }).then(result => {
+        console.log(result)
+        //localStorage.setItem('back_id', id);
+        //redirectToOwnerTable();
+    });
+
+}
+        
+
+
+
+
+
+

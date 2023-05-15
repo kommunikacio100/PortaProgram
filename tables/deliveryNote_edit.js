@@ -484,7 +484,7 @@ function Measurements() {
         // let tr = td.parentNode;
         // let adatok = tr.outerText.split("\t");
 
-        localStorage.setItem('deliveryNote_id', id);
+        localStorage.setItem('measurement_id', id);
         window.location.href = `measurement_2.html`;
     }
 
