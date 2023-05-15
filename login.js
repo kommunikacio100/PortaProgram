@@ -22,7 +22,7 @@ loginBtn.addEventListener( 'click', (event)=> {
             localStorage.setItem('user_id', json.id);
             localStorage.setItem('email', json.email);
             localStorage.setItem('jwt', json.jwt);
-            window.location.href = "openDeliveryNotesTable.html";
+            window.location.href = "tables/open_deliveryNotes_table.html";
         }else{
             console.log("jwt not found!");
         }
