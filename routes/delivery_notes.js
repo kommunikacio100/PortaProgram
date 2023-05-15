@@ -175,6 +175,7 @@ router.put('/', (req, res) => {
     let carrier_address_id = req.body.carrier_address_id;
     if (carrier_address_id ==='') carrier_address_id = null;
     let movement_id = req.body.movement_id;
+    if (movement_id ==='') movement_id = null;
     let status = req.body.status;
     let modified = new Date().toISOString();
     let modified_by = req.body.modified_by;
