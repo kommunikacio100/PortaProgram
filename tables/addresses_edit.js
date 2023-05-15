@@ -60,7 +60,7 @@ function CarrierNameFunction(name, id) {
     input_to_id.add(option);
 
 }
-/*
+
 fetch('http://localhost:3001/street_types')
     .then(response => response.json())
     .then(datas => {
@@ -73,11 +73,58 @@ fetch('http://localhost:3001/street_types')
 
 function StreetNameFunction(street_type, id) {
 
-    var input_street_name = document.getElementById("input_street_name");
+    var input_street_type = document.getElementById("input_street_type");
     var option = document.createElement("option");
     option.text = street_type;
     option.id = id;
-    input_street_name.add(option);
+    input_street_type.add(option);
 
 }
-*/
+
+
+fetch('http://localhost:3001/zip_codes')
+    .then(response => response.json())
+    .then(datas => {
+
+        datas.map(data => {
+
+            ZipFunction(data.zip_code,data.city,data.id)
+        })
+    })
+
+function ZipFunction(zip_code,city, id) {
+
+    var input_zip_code = document.getElementById("input_zip_code");
+    var option = document.createElement("option");
+    option.text = zip_code;
+    option.id = id;
+    input_zip_code.add(option);
+
+}
+
+function updateCity(){
+
+    var input_zip_code = document.getElementById("input_zip_code");
+    input_zip_code=input_zip_code[input_zip_code.selectedIndex].id;
+
+    console.log(input_zip_code);
+
+    fetch('http://localhost:3001/zip_codes')
+    .then(response => response.json())
+    .then(datas => {
+
+        datas.map(data => {
+
+            if(data.id==input_zip_code){
+                document.getElementById("input_city").value=data.city;
+                
+            }
+        })
+    })
+
+
+
+}
+
+
+
