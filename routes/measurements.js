@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const con = require("../dbConfig");
 const crypto = require('crypto');
+const { isNumber } = require("util");
 
 // use: GET command with this link http://127.0.0.1:3001/measurements ahol az összes mérlegelést akarjuk visszakapni.
 router.get('/', (req, res)=>{
@@ -112,6 +113,54 @@ router.get('/:select_delivery_note&/:delivery_note_id', (req, res)=>{
     }
 })
 
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+function saveVehicle( p1, p2){
+        let saveSql = 'insert into vehicles (plate_number1, plate_number2) VALUES ( ?, ?); select last_insert_id();';
+        try{
+            con.query(saveSql, [ p1, p2], function (err, result) {
+                if (err){
+                    console.log("The vehicle data save not properly. ", err);
+                    return null;
+                }
+                else{
+                    console.log("New vehicle data save ok. ", result);
+                    return result.id;
+                }
+            });
+        }catch{
+            console.log("The vehicle data sql command not properly. ", err);
+            return null;
+        }
+}
+
+function getVehicleId( plateNumbers){
+    let splitted= plateNumbers.split( ',');
+    let p1= splitted[ 0];
+    let p2= splitted[ 1];
+    if (p1!=null) p1=p1.trim();
+    if (p2!=null) p2=p2.trim();
+    if (p1===null) p1= '';
+    if (p2===null) p2= '';
+    let getIdSql = 'select id from vehicles where plate_number1 = ? and plate_number2 = ?;';
+    try{
+        con.query( getIdSql, [ p1, p2], function (err, result) {
+            if (err) {
+                console.log( "The vehicle date sql query fail. "+ getIdSql);
+                return saveVehicle( p1, p2);
+            }else{
+                console.log( "The vehicle date id is ok. ", result.id);
+                return result.id;
+            }
+        });
+    }catch{
+        console.log( "The vehicle date sql query fail. "+ getIdSql);
+        return null;
+    }
+}
+
 // use: POST command http://127.0.0.1:3001/measurements 
 // a body egy json, ami tartalmazza a szükséges mezőket.
 // Egy partnerhez több cím is tartozhat.
@@ -130,7 +179,10 @@ router.post('/', (req, res)=>{
             created_by) 
             VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     let delivery_note_id = req.body.delivery_note_id;
-    let delivery_note_vehicle_id = req.body.delivery_note_vehicle_id;
+    let vehicle_id = req.body.vehicle_id;
+    if (!isNumeric( vehicle_id)) {
+        vehicle_id= getVehicleId( vehicle_id);
+    }
     let product_id = req.body.product_id;
     let first_weight = req.body.first_weight;
     let second_weight = req.body.second_weight;
@@ -143,7 +195,7 @@ router.post('/', (req, res)=>{
     try{
         con.query(sql, [
             delivery_note_id, 
-            delivery_note_vehicle_id, 
+            vehicle_id, 
             product_id, 
             first_weight, 
             second_weight, 

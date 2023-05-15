@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const verifyToken = require('../verifyToken');
 const con = require("../dbConfig");
 const crypto = require('crypto');
+
+router.use( verifyToken);
 
 // use: GET command with this link http://127.0.0.1:3001/carriers ahol az összes címet akarjuk visszakapni.
 router.get('/', (req, res)=>{
