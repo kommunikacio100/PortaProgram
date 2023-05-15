@@ -4,105 +4,107 @@ if (cached_delivery_id) {
     fetch('http://localhost:3001/delivery_notes/' + cached_delivery_id)
         .then(response => response.json())
         .then(datas => {
-            
+
             datas.map(data => {
-                
-                if(data.owner_id!=null){
-                fetch('http://localhost:3001/owners/' + data.owner_id)
-                    .then(response => response.json())
-                    .then(datas => {
-                        
-                        datas.map(data => {
-                            
-                            document.getElementById('input_owner_name').value = data.name + " " + data.vat_number;
-                            
-                        })
-                    })
-                }
-                console.log( 'data.owner_address_id ', data.owner_address_id);
-                if(data.owner_address_id!=null){
-                fetch('http://localhost:3001/addresses/' + data.owner_address_id)
-                    .then(response => response.json())
-                    .then(datas => {
-                        console.log(datas);
-                        datas.map(data => {
-                            
-                            document.getElementById('input_owner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
-                            document.getElementById('input_loadlocation_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
 
-                        })
-                    })
-                }
-                if(data.partner_id!=null){
-                fetch('http://localhost:3001/partners/' + data.partner_id)
-                    .then(response => response.json())
-                    .then(datas => {
-                       
-                        datas.map(data => {
-                            
-                            document.getElementById('input_partner').value = data.name + " " + data.vat_number;
-                            
-                        })
-                    })
-                }
-                if(data.partner_address_id!=null){
-                fetch('http://localhost:3001/addresses/' + data.partner_address_id)
-                    .then(response => response.json())
-                    .then(datas => {
-                        
-                        datas.map(data => {
-                            
-                            document.getElementById('input_partner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
-                            document.getElementById('input_unloadlocation_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+                if (data.owner_id != null) {
+                    fetch('http://localhost:3001/owners/' + data.owner_id)
+                        .then(response => response.json())
+                        .then(datas => {
 
-                        })
-                    })
-                }
-                if(data.carrier_id!=null){
-                fetch('http://localhost:3001/carriers/' + data.carrier_id)
-                    .then(response => response.json())
-                    .then(datas => {
-                        
-                        datas.map(data => {
-                            
-                            document.getElementById('input_carrier').value = data.name;
-                            
-                        })
-                    })
-                }
-                if(data.carrier_address_id!=null){
-                fetch('http://localhost:3001/addresses/' + data.carrier_address_id)
-                    .then(response => response.json())
-                    .then(datas => {
-                       
-                        datas.map(data => {
-                            
-                            document.getElementById('input_carrier_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+                            datas.map(data => {
 
+                                document.getElementById('input_owner_name').value = data.name + " " + data.vat_number;
+
+                            })
                         })
-                    })
+                }
+                console.log('data.owner_address_id ', data.owner_address_id);
+                if (data.owner_address_id != null) {
+                    fetch('http://localhost:3001/addresses/' + data.owner_address_id)
+                        .then(response => response.json())
+                        .then(datas => {
+                            console.log(datas);
+                            datas.map(data => {
+
+                                document.getElementById('input_owner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+                                document.getElementById('input_loadlocation_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+
+                            })
+                        })
+                }
+                if (data.partner_id != null) {
+                    fetch('http://localhost:3001/partners/' + data.partner_id)
+                        .then(response => response.json())
+                        .then(datas => {
+
+                            datas.map(data => {
+
+                                document.getElementById('input_partner').value = data.name + " " + data.vat_number;
+
+                            })
+                        })
+                }
+                if (data.partner_address_id != null) {
+                    fetch('http://localhost:3001/addresses/' + data.partner_address_id)
+                        .then(response => response.json())
+                        .then(datas => {
+
+                            datas.map(data => {
+
+                                document.getElementById('input_partner_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+                                document.getElementById('input_unloadlocation_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+
+                            })
+                        })
+                }
+                if (data.carrier_id != null) {
+                    fetch('http://localhost:3001/carriers/' + data.carrier_id)
+                        .then(response => response.json())
+                        .then(datas => {
+
+                            datas.map(data => {
+
+                                document.getElementById('input_carrier').value = data.name;
+
+                            })
+                        })
+                }
+                if (data.carrier_address_id != null) {
+                    fetch('http://localhost:3001/addresses/' + data.carrier_address_id)
+                        .then(response => response.json())
+                        .then(datas => {
+
+                            datas.map(data => {
+
+                                document.getElementById('input_carrier_address').value = data.zip_code + " " + data.city + " " + data.street_name + " " + data.street_type + " " + data.street_number;
+
+                            })
+                        })
                 }
 
-                if(data.movement_id!=null){
-                    let move=data.movement_id;
-                fetch('http://localhost:3001/movements')
-                    .then(response => response.json())
-                    .then(datas => {
-                       
-                        datas.map(data => {
-                            
-                            if(data.id==move){
-                                document.getElementById('input_movement').value = data.name;
-                            }
+                if (data.movement_id != null) {
+                    let move = data.movement_id;
+                    fetch('http://localhost:3001/movements')
+                        .then(response => response.json())
+                        .then(datas => {
 
+                            datas.map(data => {
+
+                                if (data.id == move) {
+                                    document.getElementById('input_movement').value = data.name;
+                                }
+
+                            })
                         })
-                    })
                 }
 
 
                 document.getElementById('input_status').value = data.status;
                 document.getElementById('input_deliveryNote_id').value = data.id;
                 document.getElementById('input_serial_no').value = data.serial_no;
+
+                
 
 
             })
@@ -111,23 +113,24 @@ if (cached_delivery_id) {
 }
 
 
+
 fetch('http://localhost:3001/owners')
     .then(response => response.json())
     .then(datas => {
-       
+
         datas.map(data => {
-           
+
             OwnerNameFunction(data.name, data.id, data.vat_number)
-           
+
         })
     })
 
 fetch("http://localhost:3001/addresses")
     .then(response => response.json())
     .then(datas => {
-        
+
         datas.map(data => {
-            
+
             if (data.to_table == "O") {
                 OwnerAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id);
             }
@@ -137,9 +140,9 @@ fetch("http://localhost:3001/addresses")
 fetch('http://localhost:3001/partners')
     .then(response => response.json())
     .then(datas => {
-        
+
         datas.map(data => {
-           
+
             PartnerNameFunction(data.name, data.id, data.vat_number);
         })
     });
@@ -147,9 +150,9 @@ fetch('http://localhost:3001/partners')
 fetch(`http://localhost:3001/addresses`)
     .then(response => response.json())
     .then(datas => {
-        
+
         datas.map(data => {
-           
+
             if (data.to_table == "P") {
                 PartnerAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
             }
@@ -159,9 +162,9 @@ fetch(`http://localhost:3001/addresses`)
 fetch('http://localhost:3001/carriers')
     .then(response => response.json())
     .then(datas => {
-        
+
         datas.map(data => {
-            
+
             CarrierNameFunction(data.name, data.id)
         })
     })
@@ -169,9 +172,9 @@ fetch('http://localhost:3001/carriers')
 fetch(`http://localhost:3001/addresses`)
     .then(response => response.json())
     .then(datas => {
-       
+
         datas.map(data => {
-            
+
             if (data.to_table == "C") {
                 CarrierAddressFunction(data.zip_code, data.city, data.street_name, data.street_type, data.street_number, data.id)
             }
@@ -181,9 +184,9 @@ fetch(`http://localhost:3001/addresses`)
 fetch('http://localhost:3001/movements')
     .then(response => response.json())
     .then(datas => {
-       
+
         datas.map(data => {
-            
+
             Movements(data.name, data.id)
         })
     })
@@ -194,7 +197,7 @@ function OwnerNameFunction(name, id, vat_number) {
     var option2 = document.createElement("option");
     option2.text = name + " " + vat_number;
     option2.id = id;
-    
+
     input_owner_name.append(option2);
 
 
@@ -287,7 +290,7 @@ function create_and_update_delivery_note(status = "NYITVA") {
     owner_id = owner_id[owner_id.selectedIndex].id;
     var owner_address_id = document.getElementById('input_owner_address');
     owner_address_id = owner_address_id[owner_address_id.selectedIndex].id;
-    console.log( 'owner_address_id ', owner_address_id, ' index ', owner_address_id.selectedIndex);
+    console.log('owner_address_id ', owner_address_id, ' index ', owner_address_id.selectedIndex);
     var loadlocation_address_id = document.getElementById('input_loadlocation_address');
     loadlocation_address_id = loadlocation_address_id[loadlocation_address_id.selectedIndex].id;
 
@@ -323,8 +326,8 @@ function create_and_update_delivery_note(status = "NYITVA") {
         "id": id,
 
     }
-    
-    console.log( 'data_to_send ', data_to_send);
+
+    console.log('data_to_send ', data_to_send);
     let amethod = 'PUT';
     fetch(`http://localhost:3001/delivery_notes`, {
         method: amethod,
@@ -371,9 +374,9 @@ function redirectToOpenDeliveryNotesTable() {
 }
 
 
-const uj_meres=document.getElementById("gomb_uj_letrehozasa");
+const uj_meres = document.getElementById("gomb_uj_letrehozasa");
 
-uj_meres.addEventListener("click",(event)=>{
+uj_meres.addEventListener("click", (event) => {
 
     var id = document.getElementById('input_deliveryNote_id').value;
 
@@ -385,3 +388,104 @@ uj_meres.addEventListener("click",(event)=>{
 
 })
 
+setTimeout(() => {
+    Measurements();
+  }, 400);
+
+
+function Measurements() {
+
+    let measures_tbody = document.getElementById('tbody');
+    var id_for = document.getElementById('input_deliveryNote_id').value;
+
+    console.log(id_for);
+
+    fetch('http://localhost:3001/measurements')
+        .then(response => response.json())
+        .then(datas => {
+            // console.log(datas);
+            datas.map(data => {
+                // console.log(data);
+                if (data.delivery_note_id == id_for) {
+                    measures_tbody.append(trFunction(data.vehicle_id, data.product_id, data.first_weight, data.second_weight, data.net_weight, data.id))
+                }
+            });
+            jumpToRow();
+        })
+
+    function trFunction(vehicle_id, product_id, first_weight, second_weight, net_weight, id) {
+
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+    <td class="plate_number1" style="font-weight: bold;"></td>
+    <td class="product_name"></td>
+    <td class="owner_name">${first_weight}</td>
+    <td class="carrier_name">${second_weight}</td>
+    <td class="creation_date">${net_weight}</td>
+    <td class="deliveryNotes_id">${id}</td>
+        `
+
+        if (vehicle_id != null) {
+            fetch(`http://localhost:3001/vehicles/${vehicle_id}`)
+                .then(response => response.json())
+                .then(datas => {
+                    datas.map(data => {
+                        //console.log(data.name);
+                        tr.querySelector('.plate_number1').textContent = data.plate_number1;
+                    })
+
+                })
+        }
+        if (product_id != null) {
+            fetch(`http://localhost:3001/products`)
+                .then(response => response.json())
+                .then(datas => {
+                    datas.map(data => {
+                        //console.log(data.name);
+                        tr.querySelector('.product_name').textContent = data.name;
+                    })
+
+                })
+
+        }
+        /*
+        if(carrier_id!=null){
+        
+        }
+        */
+        tr.ondblclick = function (event) {
+            myEditFunction(event, id);
+        }
+        tr.setAttribute("id", id);
+
+
+        return tr;
+
+
+    }
+
+
+    // ha volt új, vagy szerkesztett sor, odaugrik
+    function jumpToRow() {
+        let back_id = localStorage.getItem('back_id');
+        if (back_id) {
+            console.log('back_id: ', back_id)
+            let row = document.getElementById(back_id);
+            if (row) {
+                row.scrollIntoView(true);
+            }
+            localStorage.clear();
+        }
+    }
+
+    function myEditFunction(event, id) {
+
+        // let td = event.target;
+        // let tr = td.parentNode;
+        // let adatok = tr.outerText.split("\t");
+
+        localStorage.setItem('deliveryNote_id', id);
+        window.location.href = `measurement_2.html`;
+    }
+
+}
