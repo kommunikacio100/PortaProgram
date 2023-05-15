@@ -34,7 +34,8 @@ fetch(`http://localhost:3001/measurements/${measurement_id}`)
 
 
             //ezt javítnai kell
-            document.getElementById("weight_time_inbound").value = data.first_time;
+            console.log(data.first_time);
+            document.getElementById("weight_time_inbound").value = data.first_time.substring(0, data.first_time.length-5);;
 
 
         });
