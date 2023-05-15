@@ -113,10 +113,87 @@ if (cached_deliveryView_id) {
 
             })
         })
-    localStorage.clear();
+    
 }
 
 setTimeout(() => {
     window.print();
   }, 2000);
+
+  Measurements();
+
+  function Measurements() {
+
+    let measures_tbody = document.getElementById('tbody');
+    var id_for = cached_deliveryView_id;
+
+    console.log(id_for);
+
+    fetch('http://localhost:3001/measurements')
+        .then(response => response.json())
+        .then(datas => {
+            // console.log(datas);
+            datas.map(data => {
+                // console.log(data);
+                if (data.delivery_note_id == id_for) {
+                    measures_tbody.append(trFunction(data.vehicle_id, data.product_id, data.first_weight, data.second_weight, data.net_weight, data.id))
+                }
+            });
+            //jumpToRow();
+        })
+
+    function trFunction(vehicle_id, product_id, first_weight, second_weight, net_weight, id) {
+
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+    <td class="plate_number1" style="font-weight: bold;"></td>
+    <td class="product_name"></td>
+    <td class="owner_name">${first_weight}</td>
+    <td class="carrier_name">${second_weight}</td>
+    <td class="creation_date">${net_weight}</td>
+    <td class="deliveryNotes_id">${id}</td>
+        `
+
+        if (vehicle_id != null) {
+            fetch(`http://localhost:3001/vehicles/${vehicle_id}`)
+                .then(response => response.json())
+                .then(datas => {
+                    datas.map(data => {
+                        //console.log(data.name);
+                        tr.querySelector('.plate_number1').textContent = data.plate_number1;
+                    })
+
+                })
+        }
+        if (product_id != null) {
+            fetch(`http://localhost:3001/products`)
+                .then(response => response.json())
+                .then(datas => {
+                    datas.map(data => {
+                        //console.log(data.name);
+                        tr.querySelector('.product_name').textContent = data.name;
+                    })
+
+                })
+
+        }
+        /*
+        if(carrier_id!=null){
+        
+        }
+        */
+        tr.ondblclick = function (event) {
+            myEditFunction(event, id);
+        }
+        tr.setAttribute("id", id);
+
+
+        return tr;
+
+
+    }
+
+}
+
+localStorage.clear();
   
