@@ -36,7 +36,7 @@ router.post('/', (req, res)=>{
                     if (result[0].password_hash == SHA512( password).toString()){
                         console.log("login ok user ", email, ' ', result[0].id );
                         const jwt= generateAccessToken( email);
-                        response = {jwt, data: result[0]};
+                        response = { jwt:jwt, data: result[0]};
                         console.log( response);
                         res.json(response);
                     }else{

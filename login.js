@@ -15,14 +15,16 @@ loginBtn.addEventListener( 'click', (event)=> {
             "Content-type": "application/json"
     }
     })
-    //.then(response => response.json())
+    .then(response => response.json())
     .then( json => {
         console.log( "json> ", json);
         if (json.jwt!=null){
             localStorage.setItem('user_id', json.id);
             localStorage.setItem('email', json.email);
             localStorage.setItem('jwt', json.jwt);
-            window.location.href = "selector.html";
+            window.location.href = "openDeliveryNotesTable.html";
+        }else{
+            console.log("jwt not found!");
         }
     });
 });
