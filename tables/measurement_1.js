@@ -57,10 +57,10 @@ const submit_button_measure = document.getElementById("submit_button");
 
 submit_button_measure.addEventListener("click", (event) => {
     event.preventDefault();
-    create_and_update_owner();
+    create_and_update_measure();
 })
 
-function create_and_update_owner() {
+function create_and_update_measure() {
     var delivery_note_id= cached_delivery;
     console.log(delivery_note_id);
     var vehicle_id  = document.getElementById('input_plate_number').value;
@@ -83,6 +83,7 @@ function create_and_update_owner() {
        if (id === '') amethod = "POST"
        else amethod = "PUT";
         */
+       console.log( 'data_to_send ', data_to_send);
        fetch("http://localhost:3001/measurements", {
            method: "POST",
            body: JSON.stringify(data_to_send),

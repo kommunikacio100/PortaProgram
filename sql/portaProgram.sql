@@ -1,4 +1,4 @@
--- Active: 1679420639513@@127.0.0.1@3306@weighing_db
+-- Active: 1677906231590@@127.0.0.1@3306@weighing_db
 
 -- !!! Törli az adatbázist !!!
 DROP DATABASE IF EXISTS WEIGHING_DB;

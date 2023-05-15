@@ -129,30 +129,30 @@ router.post('/', (req, res)=>{
             second_type, 
             created_by) 
             VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let measurement_delivery_note_id = req.body.measurement_delivery_note_id;
+    let delivery_note_id = req.body.delivery_note_id;
     let delivery_note_vehicle_id = req.body.delivery_note_vehicle_id;
-    let measurement_product_id = req.body.measurement_product_id;
-    let measurement_first_weight = req.body.measurement_first_weight;
-    let measurement_second_weight = req.body.measurement_second_weight;
-    let measurement_first_time = req.body.measurement_first_time;
-    let measurement_second_time = req.body.measurement_second_time;
-    let measurement_net_weight = req.body.measurement_net_weight;
-    let measurement_first_type = req.body.measurement_first_type;
-    let measurement_second_type = req.body.measurement_second_type;
-    let measurement_created_by = req.body.measurement_created_by;
+    let product_id = req.body.product_id;
+    let first_weight = req.body.first_weight;
+    let second_weight = req.body.second_weight;
+    let first_time = req.body.first_time;
+    let second_time = req.body.second_time;
+    let net_weight = req.body.net_weight;
+    let first_type = req.body.first_type;
+    let second_type = req.body.second_type;
+    let created_by = req.body.created_by;
     try{
         con.query(sql, [
-            measurement_delivery_note_id, 
+            delivery_note_id, 
             delivery_note_vehicle_id, 
-            measurement_product_id, 
-            measurement_first_weight, 
-            measurement_second_weight, 
-            measurement_first_time, 
-            measurement_second_time, 
-            measurement_net_weight, 
-            measurement_first_type, 
-            measurement_second_type, 
-            measurement_created_by], 
+            product_id, 
+            first_weight, 
+            second_weight, 
+            first_time, 
+            second_time, 
+            net_weight, 
+            first_type, 
+            second_type, 
+            created_by], 
             function (err, result) {
                 if (err){
                     res.status(500)
