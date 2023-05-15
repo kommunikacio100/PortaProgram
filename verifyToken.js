@@ -10,13 +10,15 @@ function verifyToken(req, res, next) {
   }
 
   // Megpróbáljuk ellenőrizni a tokent
-  jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+  jwt.verify(token, process.env.TOKEN_SECRET, function(err, decoded) {
     if (err) {
       // Ha a token érvénytelen, akkor hibát dobunk
+      console.log( err);
       return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
     }
 
     // Ha a token érvényes, akkor eltároljuk a token payload-ját a request objektumon belül
+    console.log( decoded);
     req.userId = decoded.id;
     next();
   });

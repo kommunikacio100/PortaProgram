@@ -12,8 +12,8 @@ dotenv.config();
 process.env.TOKEN_SECRET;
 //console.log( 'process.env.TOKEN_SECRET ', process.env.TOKEN_SECRET);
 
-function generateAccessToken(username) {
-    return jwt.sign( username, process.env.TOKEN_SECRET);//, { expiresIn: '1h' });
+function generateAccessToken(email) {
+    return jwt.sign( email, process.env.TOKEN_SECRET);//, { expiresIn: '1h' });
   }
 
 
@@ -31,13 +31,14 @@ router.post('/', (req, res)=>{
                 }
                 else{
                     res.status(200);
-                    console.log( "POST RESULT: ", result[0]);
+                    console.log( "POST RESULT[0]: ", result[0]);
                     console.log( "SHA512: ", SHA512( password).toString());
                     if (result[0].password_hash == SHA512( password).toString()){
                         console.log("login ok user ", email, ' ', result[0].id );
-                        let jwt= generateAccessToken( email);
-                        result[0].jwt= jwt;
-                        res.json(result[0]);
+                        const jwt= generateAccessToken( email);
+                        response = {jwt, data: result[0]};
+                        console.log( response);
+                        res.json(response);
                     }else{
                         res.status(200);
                         res.json({"status":"error", "text": "user not found "+ email});
