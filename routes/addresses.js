@@ -75,22 +75,22 @@ router.get('/:address_id', (req, res)=>{
 // use: GET command with this link http://127.0.0.1:3001/addresses/P&/2&/true 
 // ahol P a Partner táblát választja ki, és a 2-es partner_id-jű partnert, és csak a default címeket.
 // Egy partnerhez több cím is tartozhat.
-router.get('/:address_to_table&/:address_to_id&/:default_address', (req, res)=>{
+router.get('/:to_table&/:to_id&/:default_address', (req, res)=>{
     var sql = `select * from addresses where to_table = ? and to_id = ?`;
-    let address_to_table = req.params.address_to_table;
-    let address_to_id = req.params.address_to_id;
+    let to_table = req.params.to_table;
+    let to_id = req.params.to_id;
     let default_address = req.params.default_address;
     if (default_address!=null) sql+= ` and defaulted = ` + default_address;
     try{
-        con.query(sql, [address_to_table, address_to_id, default_address], function (err, result) {
+        con.query(sql, [to_table, to_id, default_address], function (err, result) {
             if (err){
                 res.status(500)
-                res.json({error: "Cannot get address_to_table = "+ address_to_table+ " addres_to_id: "+ address_to_id})
+                res.json({error: "Cannot get to_table = "+ to_table+ " addres_to_id: "+ to_id})
                 throw err;
             }
             else{
                 if (result.length>0){
-                    console.log("get address successfull. address_to_table = "+ address_to_table+ " addres_to_id: "+ address_to_id);
+                    console.log("get address successfull. to_table = "+ to_table+ " addres_to_id: "+ to_id);
 
                     let rows = [];
                     console.log( result);
@@ -102,8 +102,8 @@ router.get('/:address_to_table&/:address_to_id&/:default_address', (req, res)=>{
                 }else{
                     res.status(200);
                     res.json({"status":"No address", "text": "There is no address with this parameters", 
-                    "address_to_table": address_to_table, 
-                    "addres_to_id:": address_to_id, 
+                    "to_table": to_table, 
+                    "addres_to_id:": to_id, 
                     "default_address:": default_address,
                     "length":0});
                 }
@@ -113,7 +113,7 @@ router.get('/:address_to_table&/:address_to_id&/:default_address', (req, res)=>{
     }catch(e){
         console.error(e);
         res.status(500);
-        res.json({error: "Cannot get addresses with this parameters", "address_to_table": address_to_table, 
+        res.json({error: "Cannot get addresses with this parameters", "to_table": to_table, 
         "addres_to_id:": address_to_id, "length":0});
     }
 })
@@ -171,9 +171,9 @@ router.post('/', (req, res)=>{
         `lot_number, gps_latitude, gps_longitude,`+
         ` created_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let address_to_table = req.body.address_to_table;
-    let address_to_id = req.body.address_to_id;
-    let default_address = req.body.default_address;
+    let to_table = req.body.to_table;
+    let to_id = req.body.to_id;
+    let defaulted = req.body.defaulted;
     let country_code = req.body.country_code;
     let zip_code = req.body.zip_code;
     let city = req.body.city;
@@ -183,11 +183,11 @@ router.post('/', (req, res)=>{
     let lot_number = req.body.lot_number;
     let gps_latitude = req.body.dps_latitude;
     let gps_longitude = req.body.gps_longitude;
-    let address_created_by = req.body.address_created_by;
+    let created_by = req.body.created_by;
     try{
-        con.query(sql, [address_to_table, address_to_id, default_address, 
+        con.query(sql, [to_table, to_id, defaulted, 
             country_code, zip_code, city, street_name, street_type, street_number, 
-            lot_number, gps_latitude, gps_longitude, address_created_by], 
+            lot_number, gps_latitude, gps_longitude, created_by], 
             function (err, result) {
                 if (err){
                     res.status(500)
@@ -198,13 +198,13 @@ router.post('/', (req, res)=>{
                     res.status(200);
                     console.log( "POST RESULT: ", result);
                     if (result.insertId>0){
-                        console.log("post new address successfull. address_id: " + result.insertId );
+                        console.log("post new address successfull. id: " + result.insertId );
                         res.json(result);
                     }else{
                         res.status(200);
                         res.json({"status":"error", "text": "The POST address is unsuccessfully", 
-                        "address_to_table": address_to_table, 
-                        "addres_to_id:": address_to_id, 
+                        "to_table": to_table, 
+                        "addres_to_id:": to_id, 
                         "insertId": result.insertId});
                     }
                 }
@@ -214,8 +214,8 @@ router.post('/', (req, res)=>{
     }catch(e){
         console.error(e);
         res.status(500);
-        res.json({error: "Cannot get addresses with this parameters", "address_to_table": address_to_table, 
-        "address_to_id:": address_to_id, "length":0});
+        res.json({error: "Cannot get addresses with this parameters", "to_table": to_table, 
+        "to_id:": to_id, "length":0});
     }
 })
 
@@ -229,10 +229,10 @@ router.put('/', (req, res)=>{
         `lot_number, gps_latitude, gps_longitude,`+
         ` modified, modified_by) `+
         ` VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-    let address_id = req.body.address_id;
-    let address_to_table = req.body.address_to_table;
-    let address_to_id = req.body.address_to_id;
-    let default_address = req.body.default_address;
+    let id = req.body.id;
+    let to_table = req.body.to_table;
+    let to_id = req.body.to_id;
+    let defaulted = req.body.defaulted;
     let country_code = req.body.country_code;
     let zip_code = req.body.zip_code;
     let city = req.body.city;
@@ -242,12 +242,12 @@ router.put('/', (req, res)=>{
     let lot_number = req.body.lot_number;
     let gps_latitude = req.body.dps_latitude;
     let gps_longitude = req.body.gps_longitude;
-    let address_modified_by = req.body.address_modified_by;
-    let address_modified = new Date().toISOString();
+    let modified_by = req.body.modified_by;
+    let modified = new Date().toISOString();
     try{
-        con.query(sql, [address_id, address_to_table, address_to_id, default_address, 
+        con.query(sql, [id, to_table, to_id, defaulted, 
             country_code, zip_code, city, street_name, street_type, street_number, 
-            lot_number, gps_latitude, gps_longitude, address_modified, address_modified_by], 
+            lot_number, gps_latitude, gps_longitude, modified, modified_by], 
             function (err, result) {
             if (err){
                 res.status(500)
@@ -257,7 +257,7 @@ router.put('/', (req, res)=>{
             else{
                 console.log( 'PUT RESULT', result);
                 if (result.insertId>0){
-                    console.log("put address successfull. address_id: " + result.insertId );
+                    console.log("put address successfull. id: " + result.insertId );
                     res.status(200);
                     result.status= "OK";
                     res.json( result);
@@ -265,7 +265,7 @@ router.put('/', (req, res)=>{
                     res.status(200);
                     result.status= "error";
                     result.errorText = "PUT insertId not found in result.";
-                    result.address_id = address_id;
+                    result.id = id;
                     res.json(result);
                 }
             }
