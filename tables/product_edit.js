@@ -45,7 +45,7 @@ function create_and_update_product() {
         "name": name,
         "units": units,
         "unit_price": unit_price,
-        "unit_stock": stock,
+        "stock": stock,
         "kg_per_unit": kg_per_unit,
         "vat_key": vat_key,
         "id": id,

@@ -58,7 +58,8 @@ function create_and_update_carrier() {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            'Authorization': `Bearer ${authToken}`
         }
     }).then( res => {
         console.log( res)
