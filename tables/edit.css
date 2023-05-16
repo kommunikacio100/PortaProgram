@@ -172,9 +172,11 @@ header {
     text-align: center;
     margin-top: 30px;
 }
-.footer {
-    height: 80px;
+footer {
     font-size: 18px;
     text-align: center;
     background-color: rgb(17, 140, 79);
+}
+.bejelentkezve {
+    background: rgb(146, 197, 154);
 }
