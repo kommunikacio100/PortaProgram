@@ -8,21 +8,38 @@ fetch(  serverUrl+ '/addresses', requestOptions)
         // console.log(datas);
         datas.map(data => {
             // console.log(data);
-            
-            addresses_tbody.append(trFunction(data.to_table, data.to_id, data.defaulted, data.country_code, data.zip_code, data.city,data.steet_name,data.street_type,data.street_number,data.id))
-            
+            if(data.to_table!="U"){
+            addresses_tbody.append(trFunction(data.to_table, data.to_id, data.defaulted, data.country_code, data.zip_code, data.city,data.street_name,data.street_type,data.street_number,data.id))
+            }
         });
        // jumpToRow();
     })
 
 function trFunction(to_table, to_id,defaulted, country_code, zip_code,city,street_name, street_type,street_number, id) {
+    var table="owners";
+    if(to_table=="O"){
+        to_table="Tulajdonosok"
+    }else if(to_table=="C"){
+        to_table="Szállítmányozók"
+        table="carriers"
+    }else{
+        to_table="Partnerek"
+        table="partners"
+    }
+
+    if(defaulted=="1"){
+        defaulted="IGEN";
+
+    }else{
+        defaulted="NEM";
+    }
 
     let tr = document.createElement('tr');
     tr.innerHTML = `
     <td class="to_table" style="font-weight: bold;">${to_table}</td>
     <td class="to_id"></td>
-    <td class="defaulted"></td>
-    <td class="country_code"></td>
+    <td class="defaulted">${defaulted}</td>
+    <td class="country_code">${country_code}</td>
     <td class="zip_code">${zip_code}</td>
     <td class="city">${city}</td>
     <td class="street_name">${street_name}</td>
@@ -30,17 +47,18 @@ function trFunction(to_table, to_id,defaulted, country_code, zip_code,city,stree
     <td class="street_number">${street_number}</td>
     <td class="id">${id}</td>
         `
-    if(partner_id!=null){
-    fetch( serverUrl+ `/partners/${partner_id}`)
+    if(to_id!=null){
+    fetch( serverUrl+ `/${table}/${to_id}`,requestOptions)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {
              //console.log(data.name);
-             tr.querySelector('.partner_name').textContent = data.name;
+             tr.querySelector('.to_id').textContent = data.name;
         })
        
     })
     }
+    /*
     if(owner_id!=null){
     fetch( serverUrl+ `/owners/${owner_id}`)
     .then(response => response.json())
@@ -64,7 +82,7 @@ function trFunction(to_table, to_id,defaulted, country_code, zip_code,city,stree
        
     })
     }
-
+        */
     tr.ondblclick = function (event) {
         myEditFunction(event, id);
     }
@@ -82,6 +100,6 @@ function myEditFunction(event, id) {
     // let tr = td.parentNode;
     // let adatok = tr.outerText.split("\t");
 
-    localStorage.setItem('deliveryNote_id', id);
-    window.location.href = `deliveryNote_view.html`;
+    localStorage.setItem('address_id', id);
+    window.location.href = `addresses_edit.html`;
 }
