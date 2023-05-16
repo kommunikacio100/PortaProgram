@@ -18,13 +18,13 @@ fetch(  serverUrl+ '/addresses', requestOptions)
 function trFunction(to_table, to_id,defaulted, country_code, zip_code,city,street_name, street_type,street_number, id) {
     var table="owners";
     if(to_table=="O"){
-        to_table="Tulajdonosok"
+        to_table="Tulajdonosok";
     }else if(to_table=="C"){
-        to_table="Szállítmányozók"
-        table="carriers"
+        to_table="Szállítmányozók";
+        table="carriers";
     }else{
-        to_table="Partnerek"
-        table="partners"
+        to_table="Partnerek";
+        table="partners";
     }
 
     if(defaulted=="1"){
