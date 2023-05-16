@@ -1,16 +1,10 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 const cached_product_id = localStorage.getItem('product_id');
 
 if (cached_product_id) {
-    fetch('http://localhost:3001/products/'+ cached_product_id, requestOptions)
+    fetch( serverUrl+ '/products/'+ cached_product_id, requestOptions)
     .then(response => response.json())
     .then( datas => {
         // console.log(datas);
@@ -59,7 +53,7 @@ function create_and_update_product() {
     let amethod = '';
     if (id === '') {  amethod= 'POST'}
     else {amethod = 'PUT'};
-    fetch(`http://localhost:3001/products`, {
+    fetch( serverUrl+ `/products`, {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
@@ -85,7 +79,7 @@ function delete_product() {
     var id = document.getElementById('id').value;
 
     if ( confirm( 'Biztos benne? Töröljük a terméket? '+ document.getElementById('name').value)) {
-        fetch(`http://localhost:3001/products/${id}`, {
+        fetch( serverUrl+ `/products/${id}`, {
             method: "DELETE",
             'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }).then( res => {

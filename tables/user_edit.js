@@ -1,11 +1,5 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 const cachedData = localStorage.getItem('data');
 
@@ -64,7 +58,7 @@ function create_and_update_user() {
             alert('A jelszó nincs kitöltve!');
         }
         console.log( 'POST', data_to_send);
-        fetch("http://localhost:3001/users", {
+        fetch( serverUrl+ "/users", {
             method: "POST",
             body: JSON.stringify(data_to_send),
             headers: {
@@ -102,7 +96,7 @@ delete_button.addEventListener("click", (event) => {
 function delete_user() {
     var input_user_id = document.getElementById('input_user_id').value;
 
-    fetch(`http://localhost:3001/users/${input_user_id}`, {
+    fetch( serverUrl+ `/users/${input_user_id}`, {
         method: "DELETE",
         'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
     })

@@ -1,17 +1,11 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 const measurement_id = localStorage.getItem('measurement_id');
 console.log(measurement_id);
 
 
-fetch(`http://localhost:3001/measurements/${measurement_id}`, requestOptions)
+fetch( serverUrl + `/measurements/${measurement_id}`, requestOptions)
     .then(response => response.json())
     .then(datas => {
         // console.log(datas);
@@ -19,7 +13,7 @@ fetch(`http://localhost:3001/measurements/${measurement_id}`, requestOptions)
             // console.log(data);
             //document.getElementById("input_plate_number").value=data.vehicle_id;
 
-            fetch(`http://localhost:3001/vehicles/${data.vehicle_id}`, requestOptions)
+            fetch( serverUrl + `/vehicles/${data.vehicle_id}`, requestOptions)
                 .then(response => response.json())
                 .then(datas => {
                     //console.log(datas);
@@ -29,7 +23,7 @@ fetch(`http://localhost:3001/measurements/${measurement_id}`, requestOptions)
                     });
                 })
 
-            fetch(`http://localhost:3001/products/${data.product_id}`, requestOptions)
+            fetch( serverUrl + `/products/${data.product_id}`, requestOptions)
                 .then(response => response.json())
                 .then(datas => {
                     //console.log(datas);
@@ -51,7 +45,7 @@ fetch(`http://localhost:3001/measurements/${measurement_id}`, requestOptions)
 
     })
 
-fetch('http://localhost:3001/products', requestOptions)
+fetch( serverUrl + '/products', requestOptions)
     .then(response => response.json())
     .then(datas => {
         //console.log(datas);
@@ -79,7 +73,7 @@ weight_time_outbound = document.getElementById("weight_time_outbound");
 
 
 scaleWeightBtn.addEventListener("click", (event) => {
-    fetch('http://localhost:3001/scaleWeight', requestOptions)
+    fetch( serverUrl + '/scaleWeight', requestOptions)
         .then(response => response.json())
         .then(json => {
             console.log('JSON', json);
@@ -100,7 +94,7 @@ submit_button_visszameres.addEventListener("click", (event) => {
 
 function create_and_update_measure() {
 
-    fetch(`http://localhost:3001/measurements/${measurement_id}`, requestOptions)
+    fetch( serverUrl + `/measurements/${measurement_id}`, requestOptions)
         .then(response => response.json())
         .then(datas => {
             // console.log(datas);
@@ -149,7 +143,7 @@ function create_and_update_measure() {
                 else amethod = "PUT";
 
                 console.log('data_to_send ', data_to_send);
-                fetch("http://localhost:3001/measurements", {
+                fetch( serverUrl + "/measurements", {
                     method: amethod,
                     body: JSON.stringify(data_to_send),
                     headers: {

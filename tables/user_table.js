@@ -1,15 +1,9 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 let tbody = document.getElementById('tbody');
 
-fetch('http://localhost:3001/users', requestOptions)
+fetch( serverUrl+ '/users', requestOptions)
     .then(response => response.json())
     .then(datas => {
         // console.log(datas);
@@ -73,7 +67,7 @@ function create_and_update_user() {
     }
 
     if (input_user_id === '') {
-        fetch("http://localhost:3000/user", {
+        fetch( serverUrl+ "/user", {
             method: "POST",
             body: JSON.stringify(data_to_send),
             headers: {
@@ -82,7 +76,7 @@ function create_and_update_user() {
             }
         }).then( res => console.log( res))
     } else {
-        fetch(`http://localhost:3000/user/${input_user_id}`, {
+        fetch( serverUrl+ `/user/${input_user_id}`, {
             method: "PUT",
             body: JSON.stringify(data_to_send),
             headers: {
@@ -96,7 +90,7 @@ function create_and_update_user() {
 function delete_user() {
     var input_user_id = document.getElementById('input_user_id').value;
 
-    fetch(`http://localhost:3000/user/${input_user_id}`, {
+    fetch( serverUrl+ `/user/${input_user_id}`, {
         method: "DELETE",
         'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
     })

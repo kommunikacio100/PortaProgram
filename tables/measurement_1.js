@@ -1,11 +1,4 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 const cached_delivery = localStorage.getItem('deliveryNote_id_for_measure');
 console.log(cached_delivery);
@@ -14,7 +7,7 @@ console.log(cached_delivery);
 
 // betölti a rendszámokat a plateList listába
 plateList = document.getElementById('plateList');
-fetch('http://localhost:3001/vehicles', requestOptions)
+fetch( serverUrl+ '/vehicles', requestOptions)
     .then(response => response.json())
     .then(datas => {
         //console.log(datas);
@@ -28,7 +21,7 @@ fetch('http://localhost:3001/vehicles', requestOptions)
 
 
 // betölti a termékeket a product selectbe
-fetch('http://localhost:3001/products', requestOptions)
+fetch( serverUrl+ '/products', requestOptions)
     .then(response => response.json())
     .then(datas => {
         //console.log(datas);
@@ -51,7 +44,7 @@ weightInbound = document.getElementById("weight_inbound");
 weightTime = document.getElementById("weight_time");
 
 scaleWeightBtn.addEventListener("click", (event) => {
-    fetch('http://localhost:3001/scaleWeight', requestOptions)
+    fetch( serverUrl+ '/scaleWeight', requestOptions)
         .then(response => response.json())
         .then(json => {
             console.log('JSON', json);
@@ -97,7 +90,7 @@ function create_and_update_measure() {
     else amethod = "PUT";
      
     console.log('data_to_send ', data_to_send);
-    fetch("http://localhost:3001/measurements", {
+    fetch( serverUrl+ "/measurements", {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {

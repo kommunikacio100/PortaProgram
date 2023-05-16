@@ -1,16 +1,10 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 const cached_partner_id = localStorage.getItem('partner_id');
 
 if (cached_partner_id) {
-    fetch('http://localhost:3001/partners/'+ cached_partner_id, requestOptions)
+    fetch( serverUrl+ '/partners/'+ cached_partner_id, requestOptions)
     .then(response => response.json())
     .then( data => {
             //console.log(data);
@@ -47,7 +41,7 @@ function create_and_update_partner() {
     let amethod = '';
     if (id === '') amethod = 'POST'
     else amethod = 'PUT';
-    fetch("http://localhost:3001/partners", {
+    fetch( serverUrl+ "/partners", {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
@@ -72,7 +66,7 @@ function delete_partner() {
     var id = document.getElementById('id').value;
 
     if ( confirm( 'Biztos benne? Töröljük a terméket? '+ document.getElementById('name').value)) {
-        fetch(`http://localhost:3001/partners/${id}`, {
+        fetch( serverUrl+ `/partners/${id}`, {
             method: "DELETE",
             'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }).then( result=>{

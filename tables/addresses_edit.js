@@ -1,15 +1,8 @@
 
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+import { serverUrl, authToken, requestOptions } from './requestOptions.js';
 
 
-fetch('http://localhost:3001/owners', requestOptions)
+fetch( serverUrl+ '/owners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -32,7 +25,7 @@ function OwnerNameFunction(name, id, vat_number) {
 
 }
 
-fetch('http://localhost:3001/partners', requestOptions)
+fetch( serverUrl + '/partners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -52,7 +45,7 @@ function PartnerNameFunction(name, id, vat_number) {
 
 }
 
-fetch('http://localhost:3001/carriers', requestOptions)
+fetch( serverUrl + '/carriers', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -72,7 +65,7 @@ function CarrierNameFunction(name, id) {
 
 }
 
-fetch('http://localhost:3001/street_types', requestOptions)
+fetch( serverUrl + '/street_types', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -92,7 +85,7 @@ function StreetNameFunction(street_type, id) {
 
 }
 
-fetch('http://localhost:3001/countries', requestOptions)
+fetch( serverUrl + '/countries', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -112,7 +105,7 @@ function CountryNameFunction(name, code) {
 
 }
 
-fetch('http://localhost:3001/zip_codes', requestOptions)
+fetch( serverUrl + '/zip_codes', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -139,7 +132,7 @@ function updateCity() {
 
     console.log(input_zip_code);
 
-    fetch('http://localhost:3001/zip_codes', requestOptions)
+    fetch( serverUrl + '/zip_codes', requestOptions)
         .then(response => response.json())
         .then(datas => {
 
@@ -236,7 +229,7 @@ function create_and_update_addresses() {
     else amethod = "PUT";
 
     console.log('data_to_send ', data_to_send);
-    fetch("http://localhost:3001/addresses", {
+    fetch( serverUrl + "/addresses", {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {

@@ -1,16 +1,10 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 const cached_owner_id = localStorage.getItem('owner_id');
 
 if (cached_owner_id) {
-    fetch('http://localhost:3001/owners/'+ cached_owner_id, requestOptions)
+    fetch( serverUrl+ '/owners/'+ cached_owner_id, requestOptions)
     .then(response => response.json())
     .then( data => {
         document.getElementById('vat_number').value = data[0].vat_number;
@@ -49,7 +43,7 @@ function create_and_update_owner() {
     if (id === '') amethod = "POST"
     else amethod = "PUT";
 
-    fetch("http://localhost:3001/owners", {
+    fetch( serverUrl+ "/owners", {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
@@ -74,7 +68,7 @@ delete_owner_button.addEventListener("click", (event) => {
 function delete_owner() {
     var id = document.getElementById('id').value;
     if ( confirm( 'Biztos benne? Töröljük a tulajdonost? '+ document.getElementById('name').value)) {
-        fetch(`http://localhost:3001/owners/${id}`, {
+        fetch( serverUrl+ `/owners/${id}`, {
             method: "DELETE",
             'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
         }).then(redirectToOwnerTable());

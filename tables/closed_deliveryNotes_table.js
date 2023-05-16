@@ -1,15 +1,8 @@
 let closed_delivery_tbody = document.getElementById('tbody');
 
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
-fetch('http://localhost:3001/delivery_notes', requestOptions)
+fetch(  serverUrl+ '/delivery_notes', requestOptions)
     .then(response => response.json())
     .then(datas => {
         // console.log(datas);
@@ -35,7 +28,7 @@ function trFunction(serial_no, partner_id, owner_id, carrier_id, created_at, sta
     <td class="deliveryNotes_id">${id}</td>
         `
     if(partner_id!=null){
-    fetch(`http://localhost:3001/partners/${partner_id}`)
+    fetch( serverUrl+ `/partners/${partner_id}`)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {
@@ -46,7 +39,7 @@ function trFunction(serial_no, partner_id, owner_id, carrier_id, created_at, sta
     })
     }
     if(owner_id!=null){
-    fetch(`http://localhost:3001/owners/${owner_id}`)
+    fetch( serverUrl+ `/owners/${owner_id}`)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {
@@ -57,7 +50,7 @@ function trFunction(serial_no, partner_id, owner_id, carrier_id, created_at, sta
     })
     }
     if(carrier_id!=null){
-    fetch(`http://localhost:3001/carriers/${carrier_id}`)
+    fetch( serverUrl+ `/carriers/${carrier_id}`)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {

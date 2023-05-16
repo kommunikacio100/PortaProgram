@@ -1,4 +1,6 @@
-fetch('http://localhost:3001/owners', requestOptions)
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
+
+fetch( serverUrl+ '/owners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -12,7 +14,7 @@ fetch('http://localhost:3001/owners', requestOptions)
 const cached_carrier_id = localStorage.getItem('carrier_id');
 
 if (cached_carrier_id) {
-    fetch('http://localhost:3001/carriers/'+ cached_carrier_id, requestOptions)
+    fetch( serverUrl, '/carriers/'+ cached_carrier_id, requestOptions)
     .then(response => response.json())
     .then( datas => {
         // console.log(datas);
@@ -52,7 +54,7 @@ function create_and_update_carrier() {
     let amethod;
     if (id === '') amethod = "POST"
     else amethod= "PUT";
-    fetch("http://localhost:3001/carriers", {
+    fetch( serverUrl+ "/carriers", {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
@@ -77,8 +79,9 @@ function delete_carrier() {
     var id = document.getElementById('id').value;
 
     if ( confirm( 'Biztos benne? Töröljük a szállítmányozót? '+ document.getElementById('name').value)) {
-        fetch(`http://localhost:3001/carriers/${id}`, {
-            method: "DELETE"
+        fetch( serverUrl + `/carriers/${id}`, {
+            method: "DELETE",
+            'Authorization': `Bearer ${authToken}`
         }).then( result => {
             console.log( result);
             redirectToCarrierTable();

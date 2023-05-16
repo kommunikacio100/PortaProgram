@@ -1,15 +1,8 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+import { serverUrl, authToken, requestOptions } from './requestOptions.js';
 
 let tbody = document.getElementById('tbody');
 
-fetch('http://localhost:3001/products', requestOptions)
+fetch( serverUrl+ '/products', requestOptions)
     .then(response => response.json())
     .then(datas => {
         // console.log(datas);

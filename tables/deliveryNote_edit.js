@@ -1,23 +1,16 @@
-const authToken = localStorage.getItem( 'jwt');
-const requestOptions = {
-    method: 'GET', // vagy POST, PUT, DELETE, stb.
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
-    }
-  };
+import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 const cached_delivery_id = localStorage.getItem('deliveryNote_id');
 
 if (cached_delivery_id) {
-    fetch('http://localhost:3001/delivery_notes/' + cached_delivery_id, requestOptions)
+    fetch( serverUrl+ '/delivery_notes/' + cached_delivery_id, requestOptions)
         .then(response => response.json())
         .then(datas => {
 
             datas.map(data => {
 
                 if (data.owner_id != null) {
-                    fetch('http://localhost:3001/owners/' + data.owner_id)
+                    fetch( serverUrl+ '/owners/' + data.owner_id, requestOptions)
                         .then(response => response.json())
                         .then(datas => {
 
@@ -30,7 +23,7 @@ if (cached_delivery_id) {
                 }
                 console.log('data.owner_address_id ', data.owner_address_id);
                 if (data.owner_address_id != null) {
-                    fetch('http://localhost:3001/addresses/' + data.owner_address_id)
+                    fetch( serverUrl+ '/addresses/' + data.owner_address_id, requestOptions)
                         .then(response => response.json())
                         .then(datas => {
                             console.log(datas);
@@ -43,7 +36,7 @@ if (cached_delivery_id) {
                         })
                 }
                 if (data.partner_id != null) {
-                    fetch('http://localhost:3001/partners/' + data.partner_id)
+                    fetch( serverUrl+ '/partners/' + data.partner_id, requestOptions)
                         .then(response => response.json())
                         .then(datas => {
 
@@ -55,7 +48,7 @@ if (cached_delivery_id) {
                         })
                 }
                 if (data.partner_address_id != null) {
-                    fetch('http://localhost:3001/addresses/' + data.partner_address_id)
+                    fetch( serverUrl+ '/addresses/' + data.partner_address_id, requestOptions)
                         .then(response => response.json())
                         .then(datas => {
 
@@ -68,7 +61,7 @@ if (cached_delivery_id) {
                         })
                 }
                 if (data.carrier_id != null) {
-                    fetch('http://localhost:3001/carriers/' + data.carrier_id)
+                    fetch( serverUrl+ '/carriers/' + data.carrier_id, requestOptions)
                         .then(response => response.json())
                         .then(datas => {
 
@@ -80,7 +73,7 @@ if (cached_delivery_id) {
                         })
                 }
                 if (data.carrier_address_id != null) {
-                    fetch('http://localhost:3001/addresses/' + data.carrier_address_id)
+                    fetch( serverUrl+ '/addresses/' + data.carrier_address_id, requestOptions)
                         .then(response => response.json())
                         .then(datas => {
 
@@ -94,7 +87,7 @@ if (cached_delivery_id) {
 
                 if (data.movement_id != null) {
                     let move = data.movement_id;
-                    fetch('http://localhost:3001/movements')
+                    fetch( serverUrl+ '/movements', requestOptions)
                         .then(response => response.json())
                         .then(datas => {
 
@@ -123,7 +116,7 @@ if (cached_delivery_id) {
 
 
 
-fetch('http://localhost:3001/owners')
+fetch( serverUrl+ '/owners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -134,7 +127,7 @@ fetch('http://localhost:3001/owners')
         })
     })
 
-fetch("http://localhost:3001/addresses")
+fetch( serverUrl+ "/addresses", requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -146,7 +139,7 @@ fetch("http://localhost:3001/addresses")
         })
     })
 
-fetch('http://localhost:3001/partners')
+fetch( serverUrl+ '/partners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -156,7 +149,7 @@ fetch('http://localhost:3001/partners')
         })
     });
 
-fetch(`http://localhost:3001/addresses`)
+fetch( serverUrl+ `/addresses`, requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -168,7 +161,7 @@ fetch(`http://localhost:3001/addresses`)
         })
     })
 
-fetch('http://localhost:3001/carriers')
+fetch( serverUrl+ '/carriers', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -178,7 +171,7 @@ fetch('http://localhost:3001/carriers')
         })
     })
 
-fetch(`http://localhost:3001/addresses`)
+fetch( serverUrl+ `/addresses`, requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -190,7 +183,7 @@ fetch(`http://localhost:3001/addresses`)
         })
     })
 
-fetch('http://localhost:3001/movements')
+fetch( serverUrl+ '/movements', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -338,11 +331,12 @@ function create_and_update_delivery_note(status = "NYITVA") {
 
     console.log('data_to_send ', data_to_send);
     let amethod = 'PUT';
-    fetch(`http://localhost:3001/delivery_notes`, {
+    fetch( serverUrl+ `/delivery_notes`, {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            'Authorization': `Bearer ${authToken}`
         }
     }).then(res => {
         console.log('fetch result', res);
@@ -372,8 +366,9 @@ delete_deliveryNote_button.addEventListener("click", (event) => {
 function delete_delivery_note() {
     var id = document.getElementById('input_deliveryNote_id').value;
     if (confirm('Biztos benne? Töröljük a szállítólevelet?')) {
-        fetch(`http://localhost:3001/delivery_notes/${id}`, {
-            method: "DELETE"
+        fetch( serverUrl+ `/delivery_notes/${id}`, {
+            method: "DELETE",
+            'Authorization': `Bearer ${authToken}`
         }).then(redirectToOpenDeliveryNotesTable());
     }
 }
@@ -409,7 +404,7 @@ function Measurements() {
 
     console.log(id_for);
 
-    fetch('http://localhost:3001/measurements')
+    fetch( serverUrl+ '/measurements', requestOptions)
         .then(response => response.json())
         .then(datas => {
             // console.log(datas);
@@ -435,7 +430,7 @@ function Measurements() {
         `
 
         if (vehicle_id != null) {
-            fetch(`http://localhost:3001/vehicles/${vehicle_id}`)
+            fetch( serverUrl+ `/vehicles/${vehicle_id}`, requestOptions)
                 .then(response => response.json())
                 .then(datas => {
                     datas.map(data => {
@@ -446,7 +441,7 @@ function Measurements() {
                 })
         }
         if (product_id != null) {
-            fetch(`http://localhost:3001/products`)
+            fetch( serverUrl+ `/products`, requestOptions)
                 .then(response => response.json())
                 .then(datas => {
                     datas.map(data => {
