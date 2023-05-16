@@ -10,9 +10,13 @@ if (cached_address_id) {
         .then(datas => {
             // console.log(datas);
             datas.map(data => {
-                console.log(data.to_table);
+                console.log(data.zip_code);
                 if (data.to_table == "O") {
                     document.getElementById("input_to_table").value = "Tulajdonosok";
+                }else if(data.to_table == "P"){
+                    document.getElementById("input_to_table").value = "Partnerek";
+                }else{
+                    document.getElementById("input_to_table").value = "Szállítmányozók";
                 }
                 var table;
                 if (data.to_table == "O") {
@@ -28,7 +32,13 @@ if (cached_address_id) {
                     .then(datas => {
                         datas.map(data => {
                             //console.log(data.name);
-                            document.getElementById("input_to_id").value = data.name + " " + data.vat_number
+                            if(table=="owners"){
+                                document.getElementById("input_to_id").value = data.name + " " + data.vat_number;
+                            }else if(table=="carriers"){
+                                document.getElementById("input_to_id").value = data.name;
+                            }else{
+                                document.getElementById("input_to_id").value = data.name + " " + data.vat_number;
+                            }
                         })
 
                     })
@@ -56,6 +66,13 @@ if (cached_address_id) {
                             }
                         })
                     })
+                    console.log(data.zip_code);
+                    document.getElementById("input_zip_code").value=data.zip_code;
+                    document.getElementById("input_city").value=data.city;
+                    document.getElementById("input_street_name").value=data.street_name;
+                    document.getElementById("input_street_type").value=data.street_type;
+                    document.getElementById("input_street_number").value=data.street_number;
+                    document.getElementById("input_id").value=data.id;
 
             });
             // jumpToRow();
@@ -63,7 +80,7 @@ if (cached_address_id) {
 
 
 
-
+        localStorage.clear();
 
 
 }
