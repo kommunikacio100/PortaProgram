@@ -1,4 +1,6 @@
-import { serverUrl } from './requestOptions.js';
+//import { serverUrl } from './tables/requestOptions.js';
+
+const serverUrl= 'http://127.0.0.1:3001';
 
 loginBtn = document.getElementById('loginBtn');
 emailInput = document.getElementById('email');
