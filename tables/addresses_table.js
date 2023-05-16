@@ -100,6 +100,6 @@ function myEditFunction(event, id) {
     // let tr = td.parentNode;
     // let adatok = tr.outerText.split("\t");
 
-    localStorage.setItem('deliveryNote_id', id);
-    window.location.href = `deliveryNote_view.html`;
+    localStorage.setItem('address_id', id);
+    window.location.href = `addresses_edit.html`;
 }
