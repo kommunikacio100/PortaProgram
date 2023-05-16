@@ -28,7 +28,7 @@ function trFunction(serial_no, partner_id, owner_id, carrier_id, created_at, sta
     <td class="deliveryNotes_id">${id}</td>
         `
     if(partner_id!=null){
-    fetch( serverUrl+ `/partners/${partner_id}`)
+    fetch( serverUrl+ `/partners/${partner_id}`, requestOptions)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {
@@ -39,7 +39,7 @@ function trFunction(serial_no, partner_id, owner_id, carrier_id, created_at, sta
     })
     }
     if(owner_id!=null){
-    fetch( serverUrl+ `/owners/${owner_id}`)
+    fetch( serverUrl+ `/owners/${owner_id}`, requestOptions)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {
@@ -50,7 +50,7 @@ function trFunction(serial_no, partner_id, owner_id, carrier_id, created_at, sta
     })
     }
     if(carrier_id!=null){
-    fetch( serverUrl+ `/carriers/${carrier_id}`)
+    fetch( serverUrl+ `/carriers/${carrier_id}`, requestOptions)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {

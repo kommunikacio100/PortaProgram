@@ -167,11 +167,13 @@ router.put('/', (req, res) => {
     let loadlocation_address_id = req.body.loadlocation_address_id;
     if (loadlocation_address_id ==='') loadlocation_address_id = null;
     let partner_id = req.body.partner_id;
+    if (partner_id ==='') partner_id = null;
     let partner_address_id = req.body.partner_address_id;
     if (partner_address_id ==='') partner_address_id = null;
     let unloadlocation_address_id = req.body.unloadlocation_address_id;
     if (unloadlocation_address_id ==='') unloadlocation_address_id = null;
     let carrier_id = req.body.carrier_id;
+    if (carrier_id ==='') carrier_id = null;
     let carrier_address_id = req.body.carrier_address_id;
     if (carrier_address_id ==='') carrier_address_id = null;
     let movement_id = req.body.movement_id;
