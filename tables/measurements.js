@@ -40,7 +40,7 @@ function trFunction(vehicle_id, product_id,first_weight, second_weight, net_weig
     }
     
     if(product_id!=null){
-    fetch( serverUrl+ `/products/${product_id}`)
+    fetch( serverUrl+ `/products/${product_id}`, requestOptions)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {
