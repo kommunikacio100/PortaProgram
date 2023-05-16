@@ -1,6 +1,9 @@
+import { serverUrl } from './requestOptions.js';
+
 loginBtn = document.getElementById('loginBtn');
 emailInput = document.getElementById('email');
 passwordInput = document.getElementById('password');
+
 
 loginBtn.addEventListener( 'click', (event)=> {
     event.preventDefault();
@@ -8,7 +11,7 @@ loginBtn.addEventListener( 'click', (event)=> {
     password= passwordInput.value;
     const data_to_send= {email:email, password:password};
     console.log( "datatosend ", data_to_send );
-    fetch("http://localhost:3001/login", {
+    fetch( serverUrl + "/login", {
         method: "POST",
         body: JSON.stringify(data_to_send),
         headers: {
