@@ -1,4 +1,5 @@
 
+
 import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 let open_delivery_tbody = document.getElementById('tbody');

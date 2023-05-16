@@ -1,8 +1,6 @@
 
-const serverUrl = "http://127.0.0.1/3001";
-
-const authToken = localStorage.getItem( 'jwt');
-
+var authToken = localStorage.getItem( 'jwt');
+const serverUrl = "http://127.0.0.1:3001";
 const requestOptions = {
     method: 'GET', // vagy POST, PUT, DELETE, stb.
     headers: {
@@ -10,3 +8,5 @@ const requestOptions = {
       'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
     }
   };
+
+  export {authToken, serverUrl, requestOptions};
