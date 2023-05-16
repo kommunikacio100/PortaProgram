@@ -1,8 +1,74 @@
 
 import { serverUrl, authToken, requestOptions } from './requestOptions.js';
 
+const cached_address_id = localStorage.getItem('address_id');
 
-fetch( serverUrl+ '/owners', requestOptions)
+if (cached_address_id) {
+
+    fetch(serverUrl + '/addresses/' + cached_address_id, requestOptions)
+        .then(response => response.json())
+        .then(datas => {
+            // console.log(datas);
+            datas.map(data => {
+                console.log(data.to_table);
+                if (data.to_table == "O") {
+                    document.getElementById("input_to_table").value = "Tulajdonosok";
+                }
+                var table;
+                if (data.to_table == "O") {
+                    table = "owners";
+                } else if (data.to_table == "C") {
+                    table = "carriers";
+                } else {
+                    table = "partners";
+                }
+
+                fetch(serverUrl + `/${table}/${data.to_id}`, requestOptions)
+                    .then(response => response.json())
+                    .then(datas => {
+                        datas.map(data => {
+                            //console.log(data.name);
+                            document.getElementById("input_to_id").value = data.name + " " + data.vat_number
+                        })
+
+                    })
+                if (data.defaulted == "1") {
+                    document.getElementById("input_defaulted").value = "IGEN";
+                } else {
+                    document.getElementById("input_defaulted").value = "NEM";
+
+                }
+
+               
+                var countrycode = data.country_code;
+
+                //console.log(input_zip_code);
+
+                fetch(serverUrl + '/countries', requestOptions)
+                    .then(response => response.json())
+                    .then(datas => {
+
+                        datas.map(data => {
+
+                            if (data.code == countrycode) {
+                                document.getElementById("input_country_code").value = data.name;
+
+                            }
+                        })
+                    })
+
+            });
+            // jumpToRow();
+        })
+
+
+
+
+
+
+}
+
+fetch(serverUrl + '/owners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -25,7 +91,7 @@ function OwnerNameFunction(name, id, vat_number) {
 
 }
 
-fetch( serverUrl + '/partners', requestOptions)
+fetch(serverUrl + '/partners', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -45,7 +111,7 @@ function PartnerNameFunction(name, id, vat_number) {
 
 }
 
-fetch( serverUrl + '/carriers', requestOptions)
+fetch(serverUrl + '/carriers', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -65,7 +131,7 @@ function CarrierNameFunction(name, id) {
 
 }
 
-fetch( serverUrl + '/street_types', requestOptions)
+fetch(serverUrl + '/street_types', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -85,7 +151,7 @@ function StreetNameFunction(street_type, id) {
 
 }
 
-fetch( serverUrl + '/countries', requestOptions)
+fetch(serverUrl + '/countries', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -105,7 +171,7 @@ function CountryNameFunction(name, code) {
 
 }
 
-fetch( serverUrl + '/zip_codes', requestOptions)
+fetch(serverUrl + '/zip_codes', requestOptions)
     .then(response => response.json())
     .then(datas => {
 
@@ -132,7 +198,7 @@ function updateCity() {
 
     console.log(input_zip_code);
 
-    fetch( serverUrl + '/zip_codes', requestOptions)
+    fetch(serverUrl + '/zip_codes', requestOptions)
         .then(response => response.json())
         .then(datas => {
 
@@ -156,26 +222,26 @@ submit_button_addresses.addEventListener("click", (event) => {
 
 function create_and_update_addresses() {
 
-    var to_table=document.getElementById("input_to_table").value;
+    var to_table = document.getElementById("input_to_table").value;
 
 
-    if(to_table=="Tulajdonosok"){
-        to_table="O";
-    }else if(to_table=="Partnerek"){
-        to_table="P";
-    }else{
-        to_table="C";
+    if (to_table == "Tulajdonosok") {
+        to_table = "O";
+    } else if (to_table == "Partnerek") {
+        to_table = "P";
+    } else {
+        to_table = "C";
     }
 
     var to_id = document.getElementById("input_to_id");
     to_id = to_id[to_id.selectedIndex].id;
 
-    var defaulted=document.getElementById("input_defaulted").value;
+    var defaulted = document.getElementById("input_defaulted").value;
 
-    if(defaulted=="IGEN"){
-        defaulted="1";
-    }else{
-        defaulted="0";
+    if (defaulted == "IGEN") {
+        defaulted = "1";
+    } else {
+        defaulted = "0";
     }
 
     var country_code = document.getElementById("input_country_code");
@@ -183,35 +249,35 @@ function create_and_update_addresses() {
 
     console.log(country_code);
 
-    var zip_code=document.getElementById("input_zip_code").value;
-    
+    var zip_code = document.getElementById("input_zip_code").value;
+
 
     console.log(zip_code);
 
-    var city=document.getElementById("input_city").value;
+    var city = document.getElementById("input_city").value;
 
     console.log(city);
 
-    var street_name=document.getElementById("input_street_name").value;
+    var street_name = document.getElementById("input_street_name").value;
 
     console.log(street_name);
 
-    var street_type=document.getElementById("input_street_type").value;
+    var street_type = document.getElementById("input_street_type").value;
 
     console.log(street_type);
 
-    var street_number=document.getElementById("input_street_number").value;
+    var street_number = document.getElementById("input_street_number").value;
 
     console.log(street_number);
 
-    var id=document.getElementById("input_id").value;
+    var id = document.getElementById("input_id").value;
 
 
 
     let data_to_send = {
         "id": id,
         "to_table": to_table,
-        "to_id":  to_id,
+        "to_id": to_id,
         "defaulted": defaulted,
         "country_code": country_code,
         "zip_code": zip_code,
@@ -219,7 +285,7 @@ function create_and_update_addresses() {
         "street_name": street_name,
         "street_type": street_type,
         "street_number": street_number,
-    
+
 
 
     }
@@ -229,7 +295,7 @@ function create_and_update_addresses() {
     else amethod = "PUT";
 
     console.log('data_to_send ', data_to_send);
-    fetch( serverUrl + "/addresses", {
+    fetch(serverUrl + "/addresses", {
         method: amethod,
         body: JSON.stringify(data_to_send),
         headers: {
@@ -243,7 +309,7 @@ function create_and_update_addresses() {
     });
 
 }
-        
+
 
 
 
