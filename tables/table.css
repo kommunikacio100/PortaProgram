@@ -8,6 +8,10 @@ header {
 .d-inline-block {
     margin-left: 10px;
 }
+.bejelentkezve {
+    background: rgb(146, 197, 154);
+    color: white;
+}
 .oldalcim {
     color: rgb(17, 140, 79);
 }
