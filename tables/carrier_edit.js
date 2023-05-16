@@ -1,5 +1,5 @@
 import { authToken, serverUrl, requestOptions } from './requestOptions.js';
-
+/*
 fetch( serverUrl+ '/owners', requestOptions)
     .then(response => response.json())
     .then(datas => {
@@ -10,11 +10,11 @@ fetch( serverUrl+ '/owners', requestOptions)
 
         })
     })
-
+*/
 const cached_carrier_id = localStorage.getItem('carrier_id');
 
 if (cached_carrier_id) {
-    fetch( serverUrl, '/carriers/'+ cached_carrier_id, requestOptions)
+    fetch( serverUrl+`/carriers/${cached_carrier_id}`, requestOptions)
     .then(response => response.json())
     .then( datas => {
         // console.log(datas);
