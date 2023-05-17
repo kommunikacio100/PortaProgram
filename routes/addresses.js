@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const con = require("../dbConfig");
-const crypto = require('crypto');
 
 
 // use: GET command with this link http://127.0.0.1:3001/addresses ahol az összes címet akarjuk visszakapni.

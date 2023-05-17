@@ -115,7 +115,7 @@ if (cached_deliveryView_id) {
 
             })
         })
-    localStorage.clear();
+    localStorage.removeItem("deliveryNote_id");
 }
 
 setTimeout(() => {

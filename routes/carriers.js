@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const verifyToken = require('../verifyToken');
 const con = require("../dbConfig");
-const crypto = require('crypto');
-
+const verifyToken = require('../verifyToken');
 router.use( verifyToken);
 
 // use: GET command with this link http://127.0.0.1:3001/carriers ahol az összes címet akarjuk visszakapni.
@@ -12,6 +10,7 @@ router.get('/', (req, res)=>{
     try{
         con.query(sql, function (err, result) {
             if (err){
+                console.log(err);
                 res.status(500)
                 res.json({error: "Cannot get carrier"})
                 throw err;
@@ -34,7 +33,6 @@ router.get('/', (req, res)=>{
         res.json({error: "Cannot get carriers"})
     }
 });
-
 
 // use: GET command with this link http://127.0.0.1:3001/carriers/2 ahol a 2-es carrier_id-jű címet akarjuk visszakapni.
 router.get('/:carrier_id', (req, res)=>{

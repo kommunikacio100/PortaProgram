@@ -7,6 +7,7 @@ fetch( serverUrl+ '/users', requestOptions)
     .then(response => response.json())
     .then(datas => {
         // console.log(datas);
+        
         datas.map(data => {
             // console.log(data);
             tbody.append(trFunction(data.name, data.email, data.can_look_data, 

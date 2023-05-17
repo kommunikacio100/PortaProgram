@@ -26,7 +26,7 @@ if (cached_carrier_id) {
             document.getElementById('id').value = data.id;
         })
     })
-    localStorage.clear();
+    localStorage.removeItem("carrier_id");
 }
 
 const submit_button_carrier = document.getElementById("submit_button");
@@ -103,6 +103,6 @@ function jumpToRow(){
         if (row){
             row.scrollIntoView( true);
         }
-        localStorage.clear();
+        localStorage.removeItem("back_id");
     }
 }

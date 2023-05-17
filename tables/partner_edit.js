@@ -14,7 +14,7 @@ if (cached_partner_id) {
             document.getElementById('memo').value = data[0].memo;
             document.getElementById('id').value = data[0].id;
         });
-    localStorage.clear();
+    localStorage.removeItem("partner_id");
 }
 
 const submit_button_partner = document.getElementById("submit_button");

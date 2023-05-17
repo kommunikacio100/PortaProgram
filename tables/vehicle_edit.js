@@ -4,7 +4,7 @@ import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 const cached_vehicle_id = localStorage.getItem('vehicle_edit_id');
 
 if (cached_vehicle_id) {
-    localStorage.clear();
+    //localStorage.clear();
     fetch( serverUrl+ '/vehicles/'+ cached_vehicle_id, requestOptions)
     .then(response => response.json())
     .then( vehicle_data => {

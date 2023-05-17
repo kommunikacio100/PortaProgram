@@ -3,14 +3,14 @@ import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 const cached_delivery = localStorage.getItem('deliveryNote_id_for_measure');
 console.log(cached_delivery);
 
-
-
 // betölti a rendszámokat a plateList listába
-plateList = document.getElementById('plateList');
+let plateList;
+
 fetch( serverUrl+ '/vehicles', requestOptions)
     .then(response => response.json())
     .then(datas => {
         //console.log(datas);
+        plateList = document.getElementById('plateList');
         datas.map(data => {
             //console.log(data);
             let option = document.createElement('option');
@@ -19,13 +19,14 @@ fetch( serverUrl+ '/vehicles', requestOptions)
         });
     })
 
+let option;
 
 // betölti a termékeket a product selectbe
 fetch( serverUrl+ '/products', requestOptions)
     .then(response => response.json())
     .then(datas => {
         //console.log(datas);
-        let option = document.createElement('option');
+        option = document.createElement('option');
         option.innerText = 'válasszon terméket!';
         product.append(option);
         datas.map(data => {
@@ -37,11 +38,11 @@ fetch( serverUrl+ '/products', requestOptions)
         });
     })
 
-scaleWeightBtn = document.getElementById("scaleWeight");
-emptyWeightBtn = document.getElementById("emptyWeight");
+let scaleWeightBtn = document.getElementById("scaleWeight");
+let emptyWeightBtn = document.getElementById("emptyWeight");
 
-weightInbound = document.getElementById("weight_inbound");
-weightTime = document.getElementById("weight_time");
+let weightInbound = document.getElementById("weight_inbound");
+let weightTime = document.getElementById("weight_time");
 
 scaleWeightBtn.addEventListener("click", (event) => {
     fetch( serverUrl+ '/scaleWeight', requestOptions)

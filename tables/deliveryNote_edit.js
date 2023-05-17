@@ -111,7 +111,7 @@ if (cached_delivery_id) {
 
             })
         })
-    localStorage.clear();
+    localStorage.removeItem("deliveryNote_id");
 }
 
 
@@ -478,7 +478,7 @@ function Measurements() {
             if (row) {
                 row.scrollIntoView(true);
             }
-            localStorage.clear();
+            localStorage.removeItem('back_id');
         }
     }
 
