@@ -8,5 +8,7 @@ const requestOptions = {
       'Authorization': `Bearer ${authToken}` // az auth token hozzáadása az Authorization header-hez
     }
   };
+if (authToken==null) window.location.href = `/login.html`;
 
-  export {authToken, serverUrl, requestOptions};
+
+export {authToken, serverUrl, requestOptions};
