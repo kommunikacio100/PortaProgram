@@ -19,20 +19,20 @@
 .fa-solid {
     margin-right: 25px;
 }
-.gomb_bejelentkezik {
+.gomb_bejelentkezeshez {
     background-color: rgb(17, 140, 79);
     height: 50px;
-    width: 220px;
+    width: 240px;
     border-radius: 10px;
     color: white;
     font-size: 20px;
     font-weight: bold;
     text-align: center;
 }
-.gomb_bejelentkezik:hover {
+.gomb_bejelentkezeshez:hover {
     background-color: rgb(17, 140, 79);
     height: 50px;
-    width: 220px;
+    width: 240px;
     border-radius: 10px;
     border: 2px solid black;
     color: black;
