@@ -49,7 +49,7 @@ function jumpToRow(){
         if (row){
             row.scrollIntoView( true);
         }
-        localStorage.clear();
+        localStorage.removeItem("back_id");
     }
 }
 

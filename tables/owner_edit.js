@@ -36,7 +36,7 @@ if (cached_owner_id) {
             tr.setAttribute("id", row.id);
         }
     });
-    localStorage.clear();
+    localStorage.removeItem("owner_id");
 }
 
 const submit_button_owner = document.getElementById("submit_button");

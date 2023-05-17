@@ -14,7 +14,7 @@ if (cachedData) {
     document.getElementById('input_user_can_edit_users').value = felbontva[5];
     document.getElementById('input_user_can_settings').value = felbontva[6];
     document.getElementById('input_user_id').value = felbontva[7];
-    localStorage.clear();
+    localStorage.removeItem("data");
 }
 
 const submit_button = document.getElementById("submit_button");

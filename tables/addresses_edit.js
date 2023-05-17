@@ -147,7 +147,8 @@ Promise.all([loadOwners, loadPartners, loadCarriers, loadStreetTypes, loadCountr
                 });
             })
     
-            localStorage.clear();
+            //localStorage.clear();
+            localStorage.removeItem('address_id');
         }
         
     });

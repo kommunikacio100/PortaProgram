@@ -111,7 +111,7 @@ if (cached_delivery_id) {
 
             })
         })
-    localStorage.clear();
+    localStorage.removeItem("deliveryNote_id");
 }
 
 

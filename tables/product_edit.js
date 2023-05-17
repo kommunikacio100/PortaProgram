@@ -20,7 +20,7 @@ if (cached_product_id) {
             document.getElementById('id').value = data.id;
         })
     })
-    localStorage.clear();
+    localStorage.removeItem("product_id");
 }
 
 const submit_button_product = document.getElementById("submit_button");

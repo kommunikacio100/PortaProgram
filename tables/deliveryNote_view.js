@@ -196,5 +196,5 @@ setTimeout(() => {
 
 }
 
-localStorage.clear();
+localStorage.removeItem("deliveryNote_id");
   
