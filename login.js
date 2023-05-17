@@ -1,7 +1,7 @@
 
-//const serverUrl= 'http://127.0.0.1:3001';
+const serverUrl= 'http://127.0.0.1:3001';
 
-import { authToken, serverUrl, requestOptions } from '/tables/requestOptions.js';
+//import { authToken, serverUrl, requestOptions } from '/tables/requestOptions.js';
 
 document.addEventListener('DOMContentLoaded', (event) => {
     let loginBtn;
