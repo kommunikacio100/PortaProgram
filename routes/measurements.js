@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const con = require("../dbConfig");
-const crypto = require('crypto');
+const verifyToken = require('../verifyToken');
+router.use( verifyToken);
 const { isNumber } = require("util");
 
 // use: GET command with this link http://127.0.0.1:3001/measurements ahol az összes mérlegelést akarjuk visszakapni.

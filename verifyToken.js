@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 function verifyToken(req, res, next) {
   // Az authorization header-ből kiszedjük a token-t
+  
   const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
 
   if (!token) {

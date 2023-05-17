@@ -1,11 +1,12 @@
-let addresses_tbody = document.getElementById('tbody');
-
 import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
+let addresses_tbody; 
+// feltölti a táblázatot a címekkel.
 fetch(  serverUrl+ '/addresses', requestOptions)
     .then(response => response.json())
     .then(datas => {
         // console.log(datas);
+        addresses_tbody = document.getElementById('tbody');
         datas.map(data => {
             // console.log(data);
             if(data.to_table!="U"){
@@ -15,7 +16,7 @@ fetch(  serverUrl+ '/addresses', requestOptions)
        // jumpToRow();
     })
 
-function trFunction(to_table, to_id,defaulted, country_code, zip_code,city,street_name, street_type,street_number, id) {
+function trFunction(to_table, to_id, defaulted, country_code, zip_code, city, street_name, street_type, street_number, id) {
     var table="owners";
     if(to_table=="O"){
         to_table="Tulajdonosok";
@@ -47,8 +48,9 @@ function trFunction(to_table, to_id,defaulted, country_code, zip_code,city,stree
     <td class="street_number">${street_number}</td>
     <td class="id">${id}</td>
         `
+    // betölti a nevét
     if(to_id!=null){
-    fetch( serverUrl+ `/${table}/${to_id}`,requestOptions)
+    fetch( serverUrl+ `/${table}/${to_id}`, requestOptions)
     .then(response => response.json())
     .then(datas => {
         datas.map(data => {
@@ -87,11 +89,7 @@ function trFunction(to_table, to_id,defaulted, country_code, zip_code,city,stree
         myEditFunction(event, id);
     }
     tr.setAttribute("id", id);
-   
-
     return tr;
-    
-    
 }
 
 function myEditFunction(event, id) {

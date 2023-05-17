@@ -2,7 +2,7 @@
 import { authToken, serverUrl, requestOptions } from './requestOptions.js';
 
 const cached_owner_id = localStorage.getItem('owner_id');
-
+let tbody;
 if (cached_owner_id) {
     fetch( serverUrl+ '/owners/'+ cached_owner_id, requestOptions)
     .then(response => response.json())
@@ -12,6 +12,29 @@ if (cached_owner_id) {
         document.getElementById('bank_account').value = data[0].bank_account;
         document.getElementById('memo').value = data[0].memo;
         document.getElementById('id').value = data[0].id;
+    });
+    fetch( serverUrl+ '/addresses/O&/'+ cached_owner_id, requestOptions)
+    .then(response => response.json())
+    .then( data => {
+        console.log( 'címlista ', data);
+        tbody = document.getElementById('tbody');
+        tbody.innerHTML= '';
+        for (let row of data){
+            console.log( 'cím zipcode ', row.zip_code);
+            let tr = document.createElement('tr');
+            tr.innerHtml = `
+            <td class="to_id">${row.defaulted}</td>
+            <td class="to_id">${row.country_code}</td>
+            <td class="to_id">${row.zip_code}</td>
+            <td class="to_id">${row.city}</td>
+            <td class="to_id">${row.street_name}</td>
+            <td class="to_id">${row.street_type}</td>
+            <td class="to_id">${row.street_number}</td>
+            <td class="to_id">${row.id}</td>
+            ` 
+            tbody.append( tr);
+            tr.setAttribute("id", row.id);
+        }
     });
     localStorage.clear();
 }

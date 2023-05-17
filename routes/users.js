@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const con = require("../dbConfig");
-const crypto = require('crypto');
+const verifyToken = require('../verifyToken');
+router.use( verifyToken);
 
 router.get('/', (req, res)=>{
     var sql = `select * from users`;
